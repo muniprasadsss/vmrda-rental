@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../material.module';
 
 @Component({
@@ -8,6 +8,5 @@ import { MaterialModule } from '../../material.module';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
-
+export class DashboardComponent  {
 }
