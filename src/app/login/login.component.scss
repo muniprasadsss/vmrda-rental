@@ -1,9 +1,78 @@
-  .label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-  }
-  .inputStyles{
-    width: fit-content;
-  }
-  
+.loginContainer {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.backgroundWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/9/95/VMRDA_office_building_%28February_2019%29.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(3px); /* Apply blur to the background */
+  z-index: 1; /* position of blurred image*/
+}
+
+.titleDiv, .formDiv {
+  position: relative;
+  z-index: 2; /* Make sure content is above the blurred background */
+}
+
+.formDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputStyles {
+  width: fit-content;
+}
+
+.logoStyles {
+  width: 100%;
+}
+
+.titleDiv {
+  display: flex;
+  justify-content: center;
+  padding: 6%;
+  color: white;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.buttonClass {
+  border: none;
+  background-color: #2b7187;
+  color: white;
+  padding: 10px 14px;
+}
+
+.card {
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 28%;
+  padding: 35px;
+  z-index: 2; /* Ensure the card is on top of the blurred background */
+  position: relative; /* Position relative to place above the background */
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}

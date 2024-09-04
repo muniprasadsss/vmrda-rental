@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { ComplexDetailsComponent } from './complex-details/complex-details.component';
 
 export const routes: Routes = [
+    {path: '',component:LoginComponent},
     {path: 'dashboard',component:DashboardComponent},
     {path: '',component:LoginComponent},
     {path: 'complex',component:ComplexDetailsComponent}
