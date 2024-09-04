@@ -13,8 +13,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { ComplexServiceService } from '../services/complexservice/complex-service.service';
-import { Table } from 'primeng/table';
-
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 
 @NgModule({
@@ -22,10 +21,11 @@ import { Table } from 'primeng/table';
   imports: [
     CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
-     DropdownModule, HttpClientModule,
+     DropdownModule, HttpClientModule,FloatLabelModule
   ],
   exports: [CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
-    TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule, DropdownModule, HttpClientModule
+    TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
+     DropdownModule, HttpClientModule,FloatLabelModule
    ],
   providers:[ComplexServiceService]
 })

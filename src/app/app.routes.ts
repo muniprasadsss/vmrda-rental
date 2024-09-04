@@ -6,6 +6,5 @@ import { ComplexDetailsComponent } from './complex-details/complex-details.compo
 export const routes: Routes = [
     {path: '',component:LoginComponent},
     {path: 'dashboard',component:DashboardComponent},
-    {path: '',component:LoginComponent},
     {path: 'complex',component:ComplexDetailsComponent}
 ];
