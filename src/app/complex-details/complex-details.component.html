@@ -1,7 +1,7 @@
 <div class="card">
     <p-table #dt2 [value]="complex" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading"
         [paginator]="true" [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-        [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
+        [tableStyle]="{ 'min-width': '75rem', }" styleClass="p-datatable-striped">
         <ng-template pTemplate="caption">
             <div class="flex">
                 <p-iconField iconPosition="left" class="ml-auto">
@@ -13,28 +13,28 @@
             </div>
         </ng-template>
         <ng-template pTemplate="header">
-            <tr style="font-size: xx-small;">
+            <tr style="font-size: 12px;">
                 <th pSortableColumn="S_No">S.No <p-sortIcon field="S_No" /></th>
-                <th pSortableColumn="country.name">Complex Code <p-sortIcon field="country.name" /></th>
-                <th pSortableColumn="representative.name">Complex Name <p-sortIcon field="representative.name" /></th>
-                <th pSortableColumn="status">District <p-sortIcon field="status" /></th>
-                <th pSortableColumn="country.code">Map Location<p-sortIcon field="country.code" /></th>
-                <th pSortableColumn="country.code">Place<p-sortIcon field="country.code" /></th>
-                <th pSortableColumn="country.code">RI_Name<p-sortIcon field="country.code" /></th>
-                <th pSortableColumn="country.code">Revenue_Division<p-sortIcon field="country.code" /></th>
+                <th pSortableColumn="Complex_Code">Complex Code<p-sortIcon field="Complex_Code" /></th>
+                <th pSortableColumn="Complex_Name">Complex Name<p-sortIcon field="Complex_Name" /></th>
+                <th pSortableColumn="District">District <p-sortIcon field="District" /></th>
+                <th pSortableColumn="Map_Location">Map Location<p-sortIcon field="Map_Location" /></th>
+                <th pSortableColumn="Place">Place<p-sortIcon field="Place" /></th>
+                <th pSortableColumn="RI_Name">RI_Name<p-sortIcon field="RI_Name" /></th>
+                <th pSortableColumn="Revenue_Division">Revenue_Division<p-sortIcon field="Revenue_Division" /></th>
 
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-customer>
-            <tr>
-                <td>{{ customer.S_No }}</td>
-                <td>{{ customer.Complex_Code }}</td>
-                <td>{{ customer.Complex_Name }}</td>
-                <td>{{ customer.District }}</td>
-                <td>{{ customer.Map_Location }}</td>
-                <td>{{ customer.Place }}</td>
-                <td>{{ customer.RI_Name }}</td>
-                <td>{{ customer.Revenue_Division }}</td>
+        <ng-template pTemplate="body" let-customer >
+            <tr style="font-size: 12px;">
+                <td style="width: 6%;">{{ customer.S_No }}</td>
+                <td style="width: 10%;">{{ customer.Complex_Code }}</td>
+                <td style="width: 15%;">{{ customer.Complex_Name }}</td>
+                <td style="width: 10%;">{{ customer.District }}</td>
+                <td style="width: 10%;">{{ customer.Map_Location }}</td>
+                <td style="width: 10%;">{{ customer.Place }}</td>
+                <td style="width: 10%;">{{ customer.RI_Name }}</td>
+                <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
