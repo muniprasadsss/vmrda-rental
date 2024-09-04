@@ -15,15 +15,19 @@ export class LoginComponent {
   constructor(private router:Router){}
   username: string = '';
   password: string = '';
+  otp: string=';'
   formError: string = '';
+  otpDiv:boolean=false;
   Login(form: any) {
-    if (form.valid) {
-      this.router.navigateByUrl("/dashboard")
-      this.formError = '';
+    this.otpDiv=true;
+  }
+  submitOtp() {
+    console.log(this.otp,"after click")
+    if (this.otp.length > 0) {
+      alert("Please enter a valid OTP.");
     } else {
-      this.formError = 'Please fill out both username and password.';
-      form.controls.username.markAsTouched();
-      form.controls.password.markAsTouched();
+      this.router.navigateByUrl("/dashboard");
     }
+  
   }
 }
