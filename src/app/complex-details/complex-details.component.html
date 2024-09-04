@@ -13,37 +13,28 @@
             </div>
         </ng-template>
         <ng-template pTemplate="header">
-            <tr>
-                <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
-                <th pSortableColumn="country.name">Country <p-sortIcon field="country.name" /></th>
-                <th pSortableColumn="representative.name">Agent <p-sortIcon field="representative.name" /></th>
-                <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
-                <th pSortableColumn="country.code">Code <p-sortIcon field="country.code" /></th>
+            <tr style="font-size: xx-small;">
+                <th pSortableColumn="S_No">S.No <p-sortIcon field="S_No" /></th>
+                <th pSortableColumn="country.name">Complex Code <p-sortIcon field="country.name" /></th>
+                <th pSortableColumn="representative.name">Complex Name <p-sortIcon field="representative.name" /></th>
+                <th pSortableColumn="status">District <p-sortIcon field="status" /></th>
+                <th pSortableColumn="country.code">Map Location<p-sortIcon field="country.code" /></th>
+                <th pSortableColumn="country.code">Place<p-sortIcon field="country.code" /></th>
+                <th pSortableColumn="country.code">RI_Name<p-sortIcon field="country.code" /></th>
+                <th pSortableColumn="country.code">Revenue_Division<p-sortIcon field="country.code" /></th>
 
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer>
             <tr>
-                <td>
-                    {{ customer.name }}
-                </td>
-                <td>
-
-                    <span class="ml-1 vertical-align-middle">
-                        {{ customer.country.name }}
-                    </span>
-                </td>
-                <td>
-                    <span class="ml-1 vertical-align-middle">
-                        {{ customer.representative.name }}
-                    </span>
-                </td>
-                <td>
-                    {{ customer.name }}
-                </td>
-                <td>
-                    {{ customer.country.code }}
-                </td>
+                <td>{{ customer.S_No }}</td>
+                <td>{{ customer.Complex_Code }}</td>
+                <td>{{ customer.Complex_Name }}</td>
+                <td>{{ customer.District }}</td>
+                <td>{{ customer.Map_Location }}</td>
+                <td>{{ customer.Place }}</td>
+                <td>{{ customer.RI_Name }}</td>
+                <td>{{ customer.Revenue_Division }}</td>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">

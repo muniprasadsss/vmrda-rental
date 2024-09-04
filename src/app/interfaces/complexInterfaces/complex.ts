@@ -1,23 +1,13 @@
 
-export interface Country {
-    name?: string;
-    code?: string;
-}
 
-export interface Representative {
-    name?: string;
-    image?: string;
-}
 
 export interface complex {
-    id?: number;
-    name?: string;
-    country?: Country;
-    company?: string;
-    date?: string | Date;
-    status?: string;
-    activity?: number;
-    representative?: Representative;
-    verified?: boolean;
-    balance?: number;
+    city?:string;
+    Complex_Code?:string;
+    Complex_Name?:string;
+    Map_Location?:string;
+    Place?:string;
+    RI_Name?:string;
+    Revenue_Division?:string;
+    S_No?:number;
 }
