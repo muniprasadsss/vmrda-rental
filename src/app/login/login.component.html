@@ -61,6 +61,7 @@
             <!-- <button pButton type="submit" label="Login" icon="pi pi-sign-in" class="p-mt-2" size="small"></button> -->
             <button class="buttonClass" type="submit" *ngIf="!otpDiv">Login</button>
             <button class="buttonClass" (click)="submitOtp()" *ngIf="otpDiv">Submit</button>
+            <p-inputOtp *ngIf="otpDiv"  />
           </div>
         
           <!-- <div *ngIf="formError" class="error">

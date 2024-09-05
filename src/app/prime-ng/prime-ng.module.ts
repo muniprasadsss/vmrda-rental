@@ -14,6 +14,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { ComplexServiceService } from '../services/complexservice/complex-service.service';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { ToastModule } from 'primeng/toast';
+import { InputOtpModule } from 'primeng/inputotp';
 
 
 @NgModule({
@@ -21,11 +23,11 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   imports: [
     CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
-     DropdownModule, HttpClientModule,FloatLabelModule
+     DropdownModule, HttpClientModule,FloatLabelModule,ToastModule,InputOtpModule
   ],
   exports: [CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
-     DropdownModule, HttpClientModule,FloatLabelModule
+     DropdownModule, HttpClientModule,FloatLabelModule,ToastModule ,InputOtpModule
    ],
   providers:[ComplexServiceService]
 })
