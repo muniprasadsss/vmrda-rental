@@ -1,1 +1,49 @@
-<p>transaction-tracking works!</p>
+<div class="card custom-table">
+    <p-table>
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <p-iconField iconPosition="left" class="ml-auto">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input pInputText type="text"  placeholder="Search keyword" />
+                </p-iconField>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr style="font-size: 12px; padding: 0;">
+                <th pSortableColumn="S_No" >S No<p-sortIcon field="S_No" /></th>
+                <th pSortableColumn="order_id">Order Id<p-sortIcon field="order_id" /></th>
+                <th pSortableColumn="tracking_id">Tracking Id<p-sortIcon field="tracking_id" /></th>
+                <th pSortableColumn="bank_ref_no">Bank Ref No<p-sortIcon field="bank_ref_no" /></th>
+                <th pSortableColumn="order_Status">Order Status<p-sortIcon field="order_Status" /></th>
+                <th pSortableColumn="payment_mode">Payment Mode<p-sortIcon field="payment_mode" /></th>
+                <th pSortableColumn="card_name">Card Name<p-sortIcon field="card_name" /></th>
+                <th pSortableColumn="status_code">Status Code<p-sortIcon field="status_code" /></th>
+                <th pSortableColumn="status_message">Status Message<p-sortIcon field="status_message" /></th>
+                <th pSortableColumn="currency">Currency<p-sortIcon field="currency" /></th>
+                <th pSortableColumn="Amount">Amount<p-sortIcon field="Amount" /></th>
+            </tr>
+        </ng-template>
+        <!-- <ng-template pTemplate="body" let-customer >
+            <tr style="font-size: 12px;">
+                <td style="width: 6%;">{{ customer.S_No }}</td>
+                <td style="width: 10%;">{{ customer.Complex_Code }}</td>
+                <td style="width: 15%;">{{ customer.Complex_Name }}</td>
+                <td style="width: 10%;">{{ customer.District }}</td>
+                <td style="width: 10%;">{{ customer.Map_Location }}</td>
+                <td style="width: 10%;">{{ customer.Place }}</td>
+                <td style="width: 10%;">{{ customer.RI_Name }}</td>
+                <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
+                
+            </tr>
+        </ng-template> -->
+    
+        <ng-template pTemplate="emptymessage">
+            <tr style="margin-bottom: 1rem;">
+                <td colspan="8">No data found.</td>
+            </tr>
+        </ng-template>
+  
+    </p-table>
+</div>

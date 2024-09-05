@@ -1,1 +1,52 @@
-<p>propertys works!</p>
+<div class="card custom-table">
+    <p-table>
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <p-iconField iconPosition="left" class="ml-auto">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input pInputText type="text"  placeholder="Search keyword" />
+                </p-iconField>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr style="font-size: 12px; padding: 0;">
+                <th pSortableColumn="S_No" >S No<p-sortIcon field="S_No" /></th>
+                <th pSortableColumn="location_code">Location Code<p-sortIcon field="location_code" /></th>
+                <th pSortableColumn="property_code">Property code<p-sortIcon field="property_code" /></th>
+                <th pSortableColumn="property_no">Property No<p-sortIcon field="property_no" /></th>
+                <th pSortableColumn="type_of_property">Type Of Property<p-sortIcon field="type_of_property" /></th>
+                <th pSortableColumn="floor">Floor<p-sortIcon field="floor" /></th>
+                <th pSortableColumn="complex_name">Complex Name<p-sortIcon field="complex_name" /></th>
+                <th pSortableColumn="complex_code">Complex Code<p-sortIcon field="complex_code" /></th>
+                <th pSortableColumn="revenue_division">Revenue Division<p-sortIcon field="revenue_division" /></th>
+                <th pSortableColumn="ri_name">RI Name<p-sortIcon field="ri_name" /></th>
+                <th pSortableColumn="extent">Extent<p-sortIcon field="extent" /></th>
+                <th pSortableColumn="power_meter_number">Power Meter Number<p-sortIcon field="power_meter_number" /></th>
+                <th pSortableColumn="water_meter_number">Water Meter Number<p-sortIcon field="water_meter_number" /></th>
+                <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
+            </tr>
+        </ng-template>
+        <!-- <ng-template pTemplate="body" let-customer >
+            <tr style="font-size: 12px;">
+                <td style="width: 6%;">{{ customer.S_No }}</td>
+                <td style="width: 10%;">{{ customer.Complex_Code }}</td>
+                <td style="width: 15%;">{{ customer.Complex_Name }}</td>
+                <td style="width: 10%;">{{ customer.District }}</td>
+                <td style="width: 10%;">{{ customer.Map_Location }}</td>
+                <td style="width: 10%;">{{ customer.Place }}</td>
+                <td style="width: 10%;">{{ customer.RI_Name }}</td>
+                <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
+                
+            </tr>
+        </ng-template> -->
+    
+        <ng-template pTemplate="emptymessage">
+            <tr style="margin-bottom: 1rem;">
+                <td colspan="8">No data found.</td>
+            </tr>
+        </ng-template>
+  
+    </p-table>
+</div>

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 
 @Component({
   selector: 'app-propertys',
   standalone: true,
-  imports: [],
+  imports: [PrimeNgModule],
   templateUrl: './propertys.component.html',
   styleUrl: './propertys.component.scss'
 })
