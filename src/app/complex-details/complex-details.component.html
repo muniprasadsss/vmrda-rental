@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card custom-table">
     <p-table #dt2 [value]="complex" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading"
         [paginator]="true" [globalFilterFields]="['Revenue_Division', 'Complex_Code', 'Complex_Name', 'RI_Name','Place']"
         [tableStyle]="{ 'min-width': '75rem', }" styleClass="p-datatable-striped">
@@ -35,10 +35,11 @@
                 <td style="width: 10%;">{{ customer.Place }}</td>
                 <td style="width: 10%;">{{ customer.RI_Name }}</td>
                 <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
+                <td></td>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
-            <tr>
+            <tr style="margin-bottom: 1rem;">
                 <td colspan="5">No customers found.</td>
             </tr>
         </ng-template>
