@@ -16,19 +16,24 @@ export class LoginComponent {
   constructor(private router:Router,private toasterservice:ToastrService){}
   username: string = '';
   password: string = '';
-  otp: string=';'
+  otp: string=''
   formError: string = '';
   otpDiv:boolean=false;
   Login(form: any) {
-    this.otpDiv=true;
+    if((this.username==="admin1" && this.username.length>0 || this.username==="admin2" && this.username.length>0) && this.password==="password"){
+      this.otpDiv=true;  
+    }
+    else{
+      this.toasterservice.warning("Please enter valid username and password")
+    }
   }
   submitOtp() {
     console.log(this.otp,"after click")
-    if (this.otp.length > 0) {
+    if (this.otp.length < 0) {
       this.toasterservice.warning("Please enter valid otp")
     } else {
       this.toasterservice.success("login successful")
-      this.router.navigateByUrl("/dashboard");
+      this.router.navigateByUrl("/dashboard")
     }
   
   }

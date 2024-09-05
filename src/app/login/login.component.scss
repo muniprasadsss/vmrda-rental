@@ -18,7 +18,7 @@
 }
 
 .titleDiv, .formDiv {
-  position: relative;
+  // position: relative;
   z-index: 2; /* Make sure content is above the blurred background */
 }
 
@@ -71,6 +71,10 @@
   padding: 35px;
   z-index: 2; /* Ensure the card is on top of the blurred background */
   position: relative; /* Position relative to place above the background */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .card:hover {

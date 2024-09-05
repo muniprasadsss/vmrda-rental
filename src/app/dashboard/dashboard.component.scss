@@ -52,6 +52,15 @@
         margin: 0;
         font-size: 14px; // Adjust font size as needed
       }
+      a {
+        color: #ffffff; // Link color
+        margin-left: 20px;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline; // Underline links on hover
+        }
+      }
     }
 
     .footer-right {

@@ -10,7 +10,7 @@
   </div>
   <div class="formDiv">
       <form class="card" #loginForm="ngForm" (ngSubmit)="Login(loginForm)" novalidate>
-          <div class="formDiv">
+          <div>
             <p-floatLabel>
               <input 
                 id="username" 
@@ -27,8 +27,7 @@
               Username is required.
             </div> -->
           </div>
-        
-          <div class="formDiv" style="margin-top: 30px;">
+          <div style="margin-top: 30px;">
             <p-floatLabel>
               <input 
                 id="password" 
@@ -45,23 +44,22 @@
               Username and Password is required.
             </div>
           </div>
-          <div class="otpdiv" *ngIf="otpDiv"> 
-            <input 
-            id="otp" 
-            type="number" 
-            placeholder="Enter Otp"
-            pInputText 
-            [(ngModel)]="otp" 
-            name="otp" 
-            required 
-          />
+          <div *ngIf="otpDiv" style="margin-top: 30px;">
+          <p-inputOtp  
+          id="otp" 
+          type="number" 
+          placeholder="Enter Otp"
+          pInputText 
+          [(ngModel)]="otp" 
+          name="otp" 
+          required  />
+          
           </div>
         
           <div class="buttonDiv">
             <!-- <button pButton type="submit" label="Login" icon="pi pi-sign-in" class="p-mt-2" size="small"></button> -->
             <button class="buttonClass" type="submit" *ngIf="!otpDiv">Login</button>
             <button class="buttonClass" (click)="submitOtp()" *ngIf="otpDiv">Submit</button>
-            <p-inputOtp *ngIf="otpDiv"  />
           </div>
         
           <!-- <div *ngIf="formError" class="error">
