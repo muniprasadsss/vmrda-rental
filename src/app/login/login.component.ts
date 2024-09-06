@@ -29,12 +29,11 @@ export class LoginComponent {
   }
   submitOtp() {
     console.log(this.otp,"after click")
-    if (this.otp.length < 0) {
+    if (this.otp.length < 0 || this.otp.length===0) {
       this.toasterservice.warning("Please enter valid otp")
     } else {
-      localStorage.setItem('token',this.username);
       this.toasterservice.success("login successful")
-      this.router.navigateByUrl("dashboard")
+      this.router.navigateByUrl("/dashboard")
     }
   
   }
