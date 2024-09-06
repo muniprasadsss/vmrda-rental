@@ -1,0 +1,27 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 20px;
+    background-color: #2b7187;
+  
+    .logo {
+      img {
+        height: 50px;  // Adjust the height as needed
+      }
+    }
+  
+    .title {
+      flex: 1;
+      text-align: center;
+      margin-top: 0.5rem;
+      color: #ffffff;
+  
+      h4 {
+        margin: 0;
+        font-size: 24px;  // Adjust the font size as needed
+        font-weight: bold;
+        color: #333;  // Adjust the text color as needed
+      }
+    }
+  }

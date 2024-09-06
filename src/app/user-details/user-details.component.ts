@@ -3,11 +3,14 @@ import { Router } from '@angular/router';
 import { UserServiceService } from '../services/userService/user-service.service';
 import { userdetails } from '../interfaces/userdetailsInterfaces/userdetailinterfaces';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { HeaderComponent } from "../header/header.component";
+import { DashboardComponent } from "../dashboard/dashboard.component";
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [PrimeNgModule],
+  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })

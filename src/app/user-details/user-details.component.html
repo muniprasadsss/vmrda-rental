@@ -1,3 +1,5 @@
+<app-header></app-header>
+<app-dashboard></app-dashboard>
 <div class="card">
     <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
         [paginator]="true" [globalFilterFields]="['S_No','User_ID','User_Name','Mobile_No','Nature_of_Business','Aadhaar_No','PAN_No','Email_Id','GSTIN','Revenue_Dvision']"
@@ -50,3 +52,4 @@
         </ng-template>
     </p-table>
 </div>
+<app-footer></app-footer>

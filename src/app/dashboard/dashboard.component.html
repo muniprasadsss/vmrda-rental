@@ -1,44 +1,18 @@
-<div class="">
-    <header class="header">
-        <div class="logo">
-            <img src="http://vmrda.gov.in/gallery/flowershow/1(1).JPG" alt="Logo" style="border-radius: 50%;">
-        </div>
-        <div class="title">
-            <h3>Visakhapatnam Metropolitan Region Development Authority</h3>
-        </div>
-    </header>
-    
-</div>
 
-<div class="card" style="padding: 0.5rem;">
-    <p-tabView>
-    <p-tabPanel header="User Details" > <app-user-details></app-user-details> </p-tabPanel>
-    <p-tabPanel header="Complex Details"><app-complex-details></app-complex-details></p-tabPanel>
-    <p-tabPanel header="Location Details"><app-locations></app-locations></p-tabPanel>
-    <p-tabPanel header="Property Details"><app-propertys></app-propertys> </p-tabPanel>
-    <p-tabPanel header="User Tagging"><app-user-taggings></app-user-taggings></p-tabPanel>
-    <p-tabPanel header="Bill Details"><app-bill-details></app-bill-details></p-tabPanel>
-    <p-tabPanel header="Reciept Details"><app-receipt-details></app-receipt-details> </p-tabPanel>
-    <p-tabPanel header="Transaction Tracking"><app-transaction-tracking></app-transaction-tracking></p-tabPanel>
-    <p-tabPanel header="Change Request"></p-tabPanel>
+<div class="card" >
+    <p-tabView (onChange)="onTabChange($event)">
+    <p-tabPanel header="User Details" >  </p-tabPanel>
+    <p-tabPanel header="Complex Details"></p-tabPanel>
+    <p-tabPanel header="Location Details"></p-tabPanel>
+    <p-tabPanel header="Property Details"> </p-tabPanel>
+    <p-tabPanel header="User Tagging"></p-tabPanel>
+    <p-tabPanel header="Bill Details"></p-tabPanel>
+    <p-tabPanel header="Reciept Details"> </p-tabPanel>
+    <p-tabPanel header="Transaction Tracking"></p-tabPanel>
+    <p-tabPanel header="Change Request"> </p-tabPanel>
     
     </p-tabView>
 </div>
 
-<!-- <router-outlet></router-outlet> -->
 
-<div class="">
-    <footer class="footer">
-        <div class="footer-content">
-          <div class="footer-left">
-            <a href="https://srinivasansoftwaresolutions.com/" target="_blank"><p>&copy; 2024 Srinivasan Software Solutions Pvt. Ltd. All rights reserved.</p></a>
-          </div>
-          <div class="footer-right">
-            <a href="https://srinivasansoftwaresolutions.com/privacy-policy" target="_blank">Privacy Policy</a>
-            <a href="https://srinivasansoftwaresolutions.com/terms-of-use" target="_blank">Terms of Service</a>
-            <a href="https://srinivasansoftwaresolutions.com/contact" target="_blank">Contact Us</a>
-          </div>
-        </div>
-      </footer>
-      
-</div>
+

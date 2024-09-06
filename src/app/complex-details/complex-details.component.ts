@@ -5,11 +5,14 @@ import { ComplexServiceService } from '../services/complexservice/complex-servic
 import { Table } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
 import { SortEvent } from 'primeng/api';
+import { FooterComponent } from "../footer/footer.component";
+import { HeaderComponent } from "../header/header.component";
+import { DashboardComponent } from "../dashboard/dashboard.component";
 
 @Component({
   selector: 'app-complex-details',
   standalone: true,
-  imports: [PrimeNgModule,FormsModule],
+  imports: [PrimeNgModule, FormsModule, FooterComponent, HeaderComponent, DashboardComponent],
   templateUrl: './complex-details.component.html',
   styleUrl: './complex-details.component.scss'
 })
