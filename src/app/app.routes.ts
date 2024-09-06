@@ -10,6 +10,7 @@ import { TransactionTrackingComponent } from './transaction-tracking/transaction
 import { ChangeRequestComponent } from './change-request/change-request.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { LocationsComponent } from './locations/locations.component';
+import { ReportsComponent } from './reports/reports.component';
 
 export const routes: Routes = [
     {path: '',component:LoginComponent},
@@ -22,5 +23,6 @@ export const routes: Routes = [
     {path: 'billDetails',component:BillDetailsComponent},
     {path: 'receptDetails',component:ReceiptDetailsComponent},
     {path: 'transactionTracking',component:TransactionTrackingComponent},
-    {path: 'changeRequest',component:ChangeRequestComponent}
+    {path: 'changeRequest',component:ChangeRequestComponent},
+    {path: 'reports',component:ReportsComponent}
 ];

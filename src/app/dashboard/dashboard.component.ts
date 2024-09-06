@@ -52,6 +52,9 @@ export class DashboardComponent implements OnInit {
             case '/changeRequest':
                 this.activeTabIndex = 8;
                 break;
+            case '/reports':
+                this.activeTabIndex = 9;
+                break;
             default:
                 this.activeTabIndex = 0;
         }
@@ -86,6 +89,9 @@ export class DashboardComponent implements OnInit {
                 break;
             case 8:
                 this.route.navigateByUrl('/changeRequest');
+                break;
+            case 9:
+                this.route.navigateByUrl('/reports');
                 break;
         }
     }

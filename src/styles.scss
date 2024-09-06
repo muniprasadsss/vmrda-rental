@@ -30,3 +30,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 0;
 }
 
+::ng-deep .p-tabview-panels {
+    height: 38vh;
+    // overflow-y: auto;
+    overflow-x: auto;
+    padding: 0px;
+}
+
