@@ -18,8 +18,11 @@ export class ChangeRequestComponent {
   isApprovedClicked:boolean = true;
   isRejectClicked:boolean = false;
   isPendingClicked:boolean = false;
-
+  activeButton: string = '';
   constructor(private router: Router) {}
+  setActiveButton(button: string) {
+    this.activeButton = button;
+  }
   ngOnInit() {
     
     
@@ -27,6 +30,7 @@ export class ChangeRequestComponent {
 
 
 navigateTo(status: string) {
+  this.activeButton = status;
   switch (status) {
     case 'approved':
       this.isApprovedClicked = true;

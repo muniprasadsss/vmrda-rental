@@ -1,9 +1,9 @@
 <app-header></app-header>
 <app-dashboard></app-dashboard>
 <div class="button-container">
-    <button class="btn approved" (click)="navigateTo('approved')">Approved</button>
-    <button class="btn pending" (click)="navigateTo('pending')">Pending</button>
-    <button class="btn rejected" (click)="navigateTo('rejected')">Rejected</button>
+  <button class="btn approved" [ngClass]="{'active': activeButton === 'approved'}" (click)="navigateTo('approved')">Approved</button>
+  <button class="btn pending" [ngClass]="{'active': activeButton === 'pending'}" (click)="navigateTo('pending')">Pending</button>
+  <button class="btn rejected"[ngClass]="{'active': activeButton === 'rejected'}"(click)="navigateTo('rejected')">Rejected</button>
   </div>
   <div class="card custom-table" *ngIf="isApprovedClicked">
    <p-table>

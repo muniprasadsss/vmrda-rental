@@ -5,15 +5,58 @@
         [paginator]="true" [globalFilterFields]="['S_No','User_ID','User_Name','Mobile_No','Nature_of_Business','Aadhaar_No','PAN_No','Email_Id','GSTIN','Revenue_Dvision']"
         [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
         <ng-template pTemplate="caption">
-            <div class="flex">
-                <p-iconField iconPosition="left" class="ml-auto">
-                    <p-inputIcon>
-                        <i class="pi pi-search"></i>
-                    </p-inputIcon>
-                    <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
-                </p-iconField>
+            <div class="searchbar">
+                <div class="search">
+                    <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+                    </p-iconField>
+                </div>
+                <div class="dialog">
+                    <div >
+                        <div >
+                            <p-button 
+                                (onClick)="showDialog()" 
+                                icon="pi pi-add" 
+                                label="Left" 
+                                severity="secondary" />>
+                        </div>
+                    
+                     
+                        <p-dialog 
+                            header="Edit Details" 
+                            [modal]="true"
+                            [(visible)]="visible" 
+                            position="center" 
+                            [style]="{ width: '25rem' }">
+                                <span class="p-text-secondary block mb-5">
+                                    Update your information.
+                                </span>
+                                <div class="flex align-items-center gap-3 mb-3">
+                                    <label for="username" class="font-semibold w-6rem">
+                                        Username
+                                    </label>
+                                    <input pInputText id="username" class="flex-auto" autocomplete="off" />
+                                </div>
+                                <div class="flex align-items-center gap-3 mb-5">
+                                    <label for="email" class="font-semibold w-6rem">
+                                        Email
+                                    </label>
+                                    <input pInputText id="email" class="flex-auto" autocomplete="off" />
+                                </div>
+                                <div class="flex justify-content-end gap-2">
+                                    <p-button label="Cancel" severity="secondary" (onClick)="visible = false" />
+                                    <p-button label="Save" (onClick)="visible = false" />
+                                </div>
+                        </p-dialog>
+                    </div>
+                </div>
+
             </div>
         </ng-template>
+       
         <ng-template pTemplate="header">
             <tr style="font-size: 12px;">
                 <th pSortableColumn="S_No">S.No <p-sortIcon field="S_No" /></th>
@@ -52,4 +95,6 @@
         </ng-template>
     </p-table>
 </div>
-<app-footer></app-footer>
+
+
+<!-- <app-footer></app-footer> -->

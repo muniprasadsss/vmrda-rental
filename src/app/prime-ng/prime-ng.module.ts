@@ -11,12 +11,12 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
-import { HttpClientModule } from '@angular/common/http';
 import { ComplexServiceService } from '../services/complexservice/complex-service.service';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ToastModule } from 'primeng/toast';
 import { InputOtpModule } from 'primeng/inputotp';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { DialogModule } from 'primeng/dialog';
 
 
 @NgModule({
@@ -24,11 +24,11 @@ import { SelectButtonModule } from 'primeng/selectbutton';
   imports: [
     CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
-     DropdownModule, HttpClientModule,FloatLabelModule,ToastModule,InputOtpModule,SelectButtonModule
+     DropdownModule,FloatLabelModule,ToastModule,InputOtpModule,SelectButtonModule,DialogModule
   ],
   exports: [CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
-     DropdownModule, HttpClientModule,FloatLabelModule,ToastModule ,InputOtpModule,SelectButtonModule
+     DropdownModule,FloatLabelModule,ToastModule ,InputOtpModule,SelectButtonModule,DialogModule
    ],
   providers:[ComplexServiceService]
 })
