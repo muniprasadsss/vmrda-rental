@@ -21,7 +21,7 @@
                                 (onClick)="showDialog()" 
                                 icon="pi pi-add" 
                                 label="Left" 
-                                severity="secondary" />>
+                                severity="secondary" />
                         </div>
                     
                      
@@ -31,21 +31,37 @@
                             [(visible)]="visible" 
                             position="center" 
                             [style]="{ width: '25rem' }">
-                                <span class="p-text-secondary block mb-5">
-                                    Update your information.
-                                </span>
-                                <div class="flex align-items-center gap-3 mb-3">
-                                    <label for="username" class="font-semibold w-6rem">
-                                        Username
-                                    </label>
-                                    <input pInputText id="username" class="flex-auto" autocomplete="off" />
-                                </div>
-                                <div class="flex align-items-center gap-3 mb-5">
-                                    <label for="email" class="font-semibold w-6rem">
-                                        Email
-                                    </label>
-                                    <input pInputText id="email" class="flex-auto" autocomplete="off" />
-                                </div>
+                            <div class="form-container">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="firstName" class="form-label">First Name</label>
+                                        <input type="text" id="firstName" class="form-input" placeholder="Enter your first name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName" class="form-label">Last Name</label>
+                                        <input type="text" id="lastName" class="form-input" placeholder="Enter your last name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" id="email" class="form-input" placeholder="Enter your email" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone" class="form-label">Phone</label>
+                                        <input type="tel" id="phone" class="form-input" placeholder="Enter your phone number" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address" class="form-label">Address</label>
+                                        <input type="text" id="address" class="form-input" placeholder="Enter your address" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="city" class="form-label">City</label>
+                                        <input type="text" id="city" class="form-input" placeholder="Enter your city" />
+                                    </div>
+                                </form>
+                            </div>
+                            
+                               
+                              
                                 <div class="flex justify-content-end gap-2">
                                     <p-button label="Cancel" severity="secondary" (onClick)="visible = false" />
                                     <p-button label="Save" (onClick)="visible = false" />
