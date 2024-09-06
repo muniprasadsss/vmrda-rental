@@ -19,9 +19,9 @@
                         <div >
                             <p-button 
                                 (onClick)="showDialog()" 
-                                icon="pi pi-add" 
-                                label="Left" 
-                                severity="secondary" />
+                                label="Add New" 
+                                severity="success"
+                                size="small" />
                         </div>
                     
                      
@@ -34,45 +34,47 @@
                             <div class="form-container">
                                 <form>
                                     <div class="form-group-row">
-                                        <div class="">
-                                            <label for="firstName" class="form-label">First Name</label>
-                                            <input type="text" id="firstName" class="form-input" placeholder="Enter your first name" />
-                                        </div>
-                                        <div class="">
-                                            <label for="lastName" class="form-label">Last Name</label>
-                                            <input type="text" id="lastName" class="form-input" placeholder="Enter your last name" />
+                                        <div class="form-group">
+                                            <div class="">
+                                                <label for="userName" class="form-label">Name</label>
+                                                <input type="text" id="userName" class="form-input"  />
+                                            </div>
+                                            <div class="">
+                                                <label for="mobileNo" class="form-label">Mobile No</label>
+                                                <input type="number" id="mobileNo" class="form-input" />
+                                            </div>
+                                            <div class="">
+                                                <label for="business" class="form-label">Business</label>
+                                                <input type="text" id="business" class="form-input"  />
+                                            </div>
+                                            <div class="">
+                                                <label for="aadharNo" class="form-label">Aadhar No</label>
+                                                <input type="number" id="aadharNo" class="form-input"  />
+                                            </div>
                                         </div>
                                     </div>
+                                   
                                     <div class="form-group-row">
-                                        <div class="">
-                                            <label for="firstName" class="form-label">First Name</label>
-                                            <input type="text" id="firstName" class="form-input" placeholder="Enter your first name" />
-                                        </div>
-                                        <div class="">
-                                            <label for="lastName" class="form-label">Last Name</label>
-                                            <input type="text" id="lastName" class="form-input" placeholder="Enter your last name" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group-row">
-                                        <div class="">
-                                            <label for="firstName" class="form-label">First Name</label>
-                                            <input type="text" id="firstName" class="form-input" placeholder="Enter your first name" />
-                                        </div>
-                                        <div class="">
-                                            <label for="lastName" class="form-label">Last Name</label>
-                                            <input type="text" id="lastName" class="form-input" placeholder="Enter your last name" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group-row">
-                                        <div class="">
-                                            <label for="firstName" class="form-label">First Name</label>
-                                            <input type="text" id="firstName" class="form-input" placeholder="Enter your first name" />
-                                        </div>
-                                        <div class="">
-                                            <label for="lastName" class="form-label">Last Name</label>
-                                            <input type="text" id="lastName" class="form-input" placeholder="Enter your last name" />
+                                        <div class="form-group">
+                                            <div class="">
+                                                <label for="panNo" class="form-label">PAN No</label>
+                                                <input type="text" id="panNo" class="form-input"  />
+                                            </div>
+                                            <div class="">
+                                                <label for="emailId" class="form-label">Email Id</label>
+                                                <input type="email" id="emailId" class="form-input"  />
+                                            </div>
+                                            <div class="">
+                                                <label for="gstIn" class="form-label">GST In</label>
+                                                <input type="text" id="gstIn" class="form-input"  />
+                                            </div>
+                                            <div class="">
+                                                <label for="revenueDivision" class="form-label">Revenue Division</label>
+                                                <input type="text" id="revenueDivision" class="form-input"  />
+                                            </div>
                                         </div>
                                     </div>
+                                   
                                     
                                     
                                 </form>
@@ -82,10 +84,10 @@
                               
                                 <div class="btn">
                                     <div class="save">
-                                        <p-button label="save"  (onClick)="visible = false"/>
+                                        <p-button label="save"  (onClick)="visible = false" size="small"/>
                                     </div>
                                     <div class="save">
-                                        <p-button label="cancel"  severity="secondary" (onClick)="visible = false"/>
+                                        <p-button label="cancel"  severity="danger" (onClick)="visible = false" size="small"/>
                                     </div>
                                     
                                 </div>
