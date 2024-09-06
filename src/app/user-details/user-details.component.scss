@@ -20,23 +20,35 @@
     margin-bottom: 15px;
 }
 
+.form-group-row{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+    justify-content: start;
+}
+
 /* Styling labels */
 .form-label {
-    margin-bottom: 5px;
-    font-weight: 600;
+    margin: 5px 8px;
+    font-weight: 500;
     color: #333;
 }
 
 /* Styling input fields */
 .form-input {
-    padding: 8px;
+    padding: 0.5rem;
     width: fit-content;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+    margin-right: 1rem;
 }
 
 
-
+.btn{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
 
 
