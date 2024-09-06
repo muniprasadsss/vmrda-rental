@@ -1,71 +1,51 @@
 <div class="loginContainer">
   <div class="backgroundWrapper"></div> <!-- Background wrapper with blur -->
   <div class="titleDiv">
-      <div>
-          <!-- <img src="../../assets/vmrdalogo.jpg" class="logoStyles"/> -->
-      </div>
-      <div>
-          <span style="font-size: 30px;font-weight: 500;">Visakhapatnam Metropolitan Region Development Authority</span> 
-      </div>
+    <div>
+      <!-- <img src="../../assets/vmrdalogo.jpg" class="logoStyles"/> -->
+    </div>
+    <div>
+      <span style="font-size: 30px;font-weight: 500;">Visakhapatnam Metropolitan Region Development Authority</span>
+    </div>
   </div>
   <div class="formDiv">
-      <form class="card" #loginForm="ngForm" (ngSubmit)="Login(loginForm)" novalidate>
-          <div>
-            <p-floatLabel>
-              <input 
-                id="username" 
-                type="text" 
-                pInputText 
-                [(ngModel)]="username" 
-                name="username" 
-                #usernameCtrl="ngModel"
-                required 
-              />
-              <label for="username">Username</label>
-            </p-floatLabel>
-            <!-- <div *ngIf="" class="error">
+    <form class="card" #loginForm="ngForm" (ngSubmit)="Login(loginForm)" novalidate>
+      <div>
+        <p-floatLabel>
+          <input id="username" type="text" pInputText [(ngModel)]="username" name="username" #usernameCtrl="ngModel"
+            required />
+          <label for="username">Username</label>
+        </p-floatLabel>
+        <!-- <div *ngIf="" class="error">
               Username is required.
             </div> -->
-          </div>
-          <div style="margin-top: 30px;">
-            <p-floatLabel>
-              <input 
-                id="password" 
-                type="password" 
-                pInputText 
-                [(ngModel)]="password" 
-                name="password" 
-                #passwordCtrl="ngModel"
-                required 
-              />
-              <label for="password">Password</label>
-            </p-floatLabel>
-            <div *ngIf="passwordCtrl.invalid && passwordCtrl.touched || usernameCtrl.invalid && usernameCtrl.touched" class="error">
-              Username and Password is required.
-            </div>
-          </div>
-          <div *ngIf="otpDiv" style="margin-top: 30px;">
-          <p-inputOtp  
-          id="otp" 
-          type="number" 
-          placeholder="Enter Otp"
-          pInputText 
-          [(ngModel)]="otp" 
-          name="otp" 
-          required  />
-          
-          </div>
-        
-          <div class="buttonDiv">
-            <!-- <button pButton type="submit" label="Login" icon="pi pi-sign-in" class="p-mt-2" size="small"></button> -->
-            <button class="buttonClass" type="submit" *ngIf="!otpDiv">Login</button>
-            <button class="buttonClass" (click)="submitOtp()" *ngIf="otpDiv">Submit</button>
-          </div>
-        
-          <!-- <div *ngIf="formError" class="error">
+      </div>
+      <div style="margin-top: 30px;">
+        <p-floatLabel>
+          <input id="password" type="password" pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
+            required />
+          <label for="password">Password</label>
+        </p-floatLabel>
+        <div *ngIf="passwordCtrl.invalid && passwordCtrl.touched || usernameCtrl.invalid && usernameCtrl.touched"
+          class="error">
+          Username and Password is required.
+        </div>
+      </div>
+      <div *ngIf="otpDiv" style="margin-top: 30px;">
+        <p-inputOtp id="otp" type="number" placeholder="Enter Otp" pInputText [(ngModel)]="otp" name="otp" required />
+
+      </div>
+
+      <div class="buttonDiv">
+        <!-- <button pButton type="submit" label="Login" icon="pi pi-sign-in" class="p-mt-2" size="small"></button> -->
+        <button class="buttonClass" type="submit" *ngIf="!otpDiv">Login</button>
+        <button class="buttonClass"  type="submit" (click)="submitOtp()" *ngIf="otpDiv">Submit</button>
+      </div>
+
+      <!-- <div *ngIf="formError" class="error">
             {{ formError }}
           </div> -->
 
-      </form>    
-  </div>  
+    </form>
+  </div>
 </div>

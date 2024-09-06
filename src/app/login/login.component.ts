@@ -33,7 +33,7 @@ export class LoginComponent {
       this.toasterservice.warning("Please enter valid otp")
     } else {
       this.toasterservice.success("login successful")
-      this.router.navigateByUrl("/dashboard")
+      this.router.navigateByUrl("/user")
     }
   
   }
