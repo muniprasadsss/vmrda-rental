@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-import { RouterOutlet,Router } from '@angular/router';
-import { ComplexDetailsComponent } from '../complex-details/complex-details.component';
-import { UserDetailsComponent } from '../user-details/user-details.component';
-import { ChangeRequestComponent } from '../change-request/change-request.component';
+import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from "../footer/footer.component";
 import { HeaderComponent } from "../header/header.component";
 
@@ -12,44 +10,83 @@ import { HeaderComponent } from "../header/header.component";
   standalone: true,
   imports: [PrimeNgModule, RouterOutlet, FooterComponent, HeaderComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent  {
+export class DashboardComponent implements OnInit {
 
-    constructor(private route:Router){}
-  ngOnInit(){
-    // this.onTabChange(0);
-  }
+    activeTabIndex: number = 0;
 
-  onTabChange(event: any) {
-    // const index = event.index;
-    const index = event && event.index !== undefined ? event.index : event;
-    if (index === 0) { 
-      this.route.navigateByUrl('/user') 
+    constructor(private route: Router) {}
+
+    ngOnInit() {
+        // Determine initial tab based on the current route
+        this.setActiveTabIndex(this.route.url);
     }
-    if (index === 1) { 
-      this.route.navigateByUrl('/complex') 
+
+    setActiveTabIndex(url: string) {
+        switch (url) {
+            case '/user':
+                this.activeTabIndex = 0;
+                break;
+            case '/complex':
+                this.activeTabIndex = 1;
+                break;
+            case '/location':
+                this.activeTabIndex = 2;
+                break;
+            case '/property':
+                this.activeTabIndex = 3;
+                break;
+            case '/userTagging':
+                this.activeTabIndex = 4;
+                break;
+            case '/billDetail':
+                this.activeTabIndex = 5;
+                break;
+            case '/receptDetails':
+                this.activeTabIndex = 6;
+                break;
+            case '/transactionTracking':
+                this.activeTabIndex = 7;
+                break;
+            case '/changeRequest':
+                this.activeTabIndex = 8;
+                break;
+            default:
+                this.activeTabIndex = 0;
+        }
     }
-    if (index === 2) { 
-      this.route.navigateByUrl('/location') 
+
+    onTabChange(event: any) {
+        this.activeTabIndex = event.index;
+        switch (this.activeTabIndex) {
+            case 0:
+                this.route.navigateByUrl('/user');
+                break;
+            case 1:
+                this.route.navigateByUrl('/complex');
+                break;
+            case 2:
+                this.route.navigateByUrl('/location');
+                break;
+            case 3:
+                this.route.navigateByUrl('/property');
+                break;
+            case 4:
+                this.route.navigateByUrl('/userTagging');
+                break;
+            case 5:
+                this.route.navigateByUrl('/billDetail');
+                break;
+            case 6:
+                this.route.navigateByUrl('/receptDetails');
+                break;
+            case 7:
+                this.route.navigateByUrl('/transactionTracking');
+                break;
+            case 8:
+                this.route.navigateByUrl('/changeRequest');
+                break;
+        }
     }
-    if (index === 3) { 
-      this.route.navigateByUrl('/property') 
-    }
-    if (index === 4) { 
-      this.route.navigateByUrl('/userTagging') 
-    }
-    if (index === 5) { 
-      this.route.navigateByUrl('/billDetail') 
-    }
-    if (index === 6) { 
-      this.route.navigateByUrl('/receptDetails') 
-    }
-    if (index === 7) { 
-      this.route.navigateByUrl('/transactionTracking') 
-    }
-    if (index === 8) { 
-      this.route.navigateByUrl('/changeRequest') 
-    }
-}
 }
