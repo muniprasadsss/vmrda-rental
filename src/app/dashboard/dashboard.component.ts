@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { RouterOutlet } from '@angular/router';
@@ -17,9 +17,8 @@ export class DashboardComponent implements OnInit {
     activeTabIndex: number = 0;
 
     constructor(private route: Router) {}
-    @ViewChild('tabViewHeader', { static: true }) tabViewHeader!: ElementRef;
+
     ngOnInit() {
-      
         // Determine initial tab based on the current route
         this.setActiveTabIndex(this.route.url);
     }
@@ -63,7 +62,6 @@ export class DashboardComponent implements OnInit {
 
     onTabChange(event: any) {
         this.activeTabIndex = event.index;
-        this.scrollToActiveTab();
         switch (this.activeTabIndex) {
             case 0:
                 this.route.navigateByUrl('/user');
@@ -98,12 +96,5 @@ export class DashboardComponent implements OnInit {
         }
     }
 
-    scrollToActiveTab() {
-      const tabHeaderElement = this.tabViewHeader.nativeElement.querySelector('.ui-tabview-nav');
-      const activeTab = tabHeaderElement.children[this.activeTabIndex];
-
-      if (activeTab) {
-          activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-      }
-  }
+    
 }

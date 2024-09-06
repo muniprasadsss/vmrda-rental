@@ -1,5 +1,5 @@
 <div class="card">
-    <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)" >
+    <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)" [scrollable]="true">
         <p-tabPanel header="User Details"> </p-tabPanel>
         <p-tabPanel header="Complex Details"> </p-tabPanel>
         <p-tabPanel header="Location Details"> </p-tabPanel>
