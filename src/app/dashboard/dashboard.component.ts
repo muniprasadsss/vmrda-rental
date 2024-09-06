@@ -76,7 +76,7 @@ export class DashboardComponent implements OnInit {
                 this.route.navigateByUrl('/userTagging');
                 break;
             case 5:
-                this.route.navigateByUrl('/billDetail');
+                this.route.navigateByUrl('/billDetails');
                 break;
             case 6:
                 this.route.navigateByUrl('/receptDetails');
