@@ -32,7 +32,7 @@ export class LoginComponent {
     if (this.otp.length < 0 || this.otp.length===0) {
       this.toasterservice.warning("Please enter valid otp")
     } else {
-      localStorage.setItem('token',this.username);
+      localStorage.setItem('userType',this.username);
       this.toasterservice.success("login successful")
       this.router.navigateByUrl("/user")
     }

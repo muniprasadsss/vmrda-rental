@@ -6,6 +6,42 @@
     <button class="btn rejected" (click)="navigateTo('rejected')">Rejected</button>
   </div>
   <div class="card custom-table" *ngIf="isApprovedClicked">
+   <p-table>
+    <ng-template pTemplate="caption">
+        <div class="flex">
+            <p-iconField iconPosition="left" class="ml-auto">
+                <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input pInputText type="text" placeholder="Search keyword" />
+            </p-iconField>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr style="font-size: 12px; padding: 0;">
+            <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
+            <th pSortableColumn="request_type">Request Type<p-sortIcon field="request_type" /></th>
+            <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
+            <th pSortableColumn="user_name">User Name<p-sortIcon field="user_name" /></th>
+            <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
+            <th pSortableColumn="changes_to_be_updated">Changes to be Updated<p-sortIcon field="changes_to_be_updated" /></th>
+            <th pSortableColumn="proof_attached">Proof Attached<p-sortIcon field="proof_attached" /></th>
+            <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
+            <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
+            <th pSortableColumn="remarks">Remarks<p-sortIcon field="remarks" /></th>
+            <th pSortableColumn="history">History<p-sortIcon field="history" /></th>
+        </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="emptymessage">
+        <tr style="margin-bottom: 1rem;">
+            <td colspan="11">No data found.</td>
+        </tr>
+    </ng-template>
+</p-table>
+    approved
+</div>
+<div class="card custom-table" *ngIf="isPendingClicked">
     <p-table>
         <ng-template pTemplate="caption">
             <div class="flex">
@@ -13,158 +49,83 @@
                     <p-inputIcon>
                         <i class="pi pi-search"></i>
                     </p-inputIcon>
-                    <input pInputText type="text"  placeholder="Search keyword" />
+                    <input pInputText type="text" placeholder="Search keyword" />
                 </p-iconField>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="S_No" >S No<p-sortIcon field="S_No" /></th>
-                <th pSortableColumn="bill_no">Bill No<p-sortIcon field="bill_no" /></th>
+                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
+                <th pSortableColumn="request_type">Request Type<p-sortIcon field="request_type" /></th>
+                <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
+                <th pSortableColumn="user_name">User Name<p-sortIcon field="user_name" /></th>
                 <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
-                <th pSortableColumn="property_code">Property code<p-sortIcon field="property_code" /></th>
-                <th pSortableColumn="rental_period">Rental Period<p-sortIcon field="rental_period" /></th>
-                <th pSortableColumn="rental_amount">Rental Amount<p-sortIcon field="rental_amount" /></th>
-                <th pSortableColumn="gst">GST<p-sortIcon field="gst" /></th>
-                <th pSortableColumn="rental_intrest">Rental Intrest<p-sortIcon field="rental_intrest" /></th>
-                <th pSortableColumn="gst_intrest">GST Intrest<p-sortIcon field="gst_intrest" /></th>
-                <th pSortableColumn="power_bill_amount">Power Bill Amount<p-sortIcon field="power_bill_amount" /></th>
-                <th pSortableColumn="water_bill_amount">Water Bill Amount<p-sortIcon field="water_bill_amount" /></th>
-                <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
-                <th pSortableColumn="total_amount">Total Amount<p-sortIcon field="total_amount" /></th>
-                <th pSortableColumn="total_due">Total Due<p-sortIcon field="total_due" /></th>
+                <th pSortableColumn="changes_to_be_updated">Changes to be Updated<p-sortIcon field="changes_to_be_updated" /></th>
+                <th pSortableColumn="proof_attached">Proof Attached<p-sortIcon field="proof_attached" /></th>
+                <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
+                <th pSortableColumn="tat">TAT<p-sortIcon field="tat" /></th>
+                <th pSortableColumn="tat_end_date">TAT End Date<p-sortIcon field="tat_end_date" /></th>
                 <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
             </tr>
         </ng-template>
-        <!-- <ng-template pTemplate="body" let-customer >
+        <!-- <ng-template pTemplate="body" let-customer>
             <tr style="font-size: 12px;">
                 <td style="width: 6%;">{{ customer.S_No }}</td>
-                <td style="width: 10%;">{{ customer.Complex_Code }}</td>
-                <td style="width: 15%;">{{ customer.Complex_Name }}</td>
-                <td style="width: 10%;">{{ customer.District }}</td>
-                <td style="width: 10%;">{{ customer.Map_Location }}</td>
-                <td style="width: 10%;">{{ customer.Place }}</td>
-                <td style="width: 10%;">{{ customer.RI_Name }}</td>
-                <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
-                
+                <td style="width: 10%;">{{ customer.Request_Type }}</td>
+                <td style="width: 10%;">{{ customer.Property_Code }}</td>
+                <td style="width: 10%;">{{ customer.User_Name }}</td>
+                <td style="width: 10%;">{{ customer.User_Id }}</td>
+                <td style="width: 10%;">{{ customer.Changes_to_be_Updated }}</td>
+                <td style="width: 10%;">{{ customer.Proof_Attached }}</td>
+                <td style="width: 12%;">{{ customer.Change_Description }}</td>
+                <td style="width: 12%;">{{ customer.TAT }}</td>
+                <td style="width: 12%;">{{ customer.TAT_End_Date }}</td>
+                <td style="width: 10%;">{{ customer.Status }}</td>
             </tr>
         </ng-template> -->
-    
+      
         <ng-template pTemplate="emptymessage">
             <tr style="margin-bottom: 1rem;">
-                <td colspan="8">No data found.</td>
+                <td colspan="11">No data found.</td>
             </tr>
         </ng-template>
-  
-    </p-table>
-    approved
-</div>
-<div class="card custom-table" *ngIf="isPendingClicked">
-  <p-table>
-      <ng-template pTemplate="caption">
-          <div class="flex">
-              <p-iconField iconPosition="left" class="ml-auto">
-                  <p-inputIcon>
-                      <i class="pi pi-search"></i>
-                  </p-inputIcon>
-                  <input pInputText type="text"  placeholder="Search keyword" />
-              </p-iconField>
-          </div>
-      </ng-template>
-      <ng-template pTemplate="header">
-          <tr style="font-size: 12px; padding: 0;">
-              <th pSortableColumn="S_No" >S No<p-sortIcon field="S_No" /></th>
-              <th pSortableColumn="bill_no">Bill No<p-sortIcon field="bill_no" /></th>
-              <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
-              <th pSortableColumn="property_code">Property code<p-sortIcon field="property_code" /></th>
-              <th pSortableColumn="rental_period">Rental Period<p-sortIcon field="rental_period" /></th>
-              <th pSortableColumn="rental_amount">Rental Amount<p-sortIcon field="rental_amount" /></th>
-              <th pSortableColumn="gst">GST<p-sortIcon field="gst" /></th>
-              <th pSortableColumn="rental_intrest">Rental Intrest<p-sortIcon field="rental_intrest" /></th>
-              <th pSortableColumn="gst_intrest">GST Intrest<p-sortIcon field="gst_intrest" /></th>
-              <th pSortableColumn="power_bill_amount">Power Bill Amount<p-sortIcon field="power_bill_amount" /></th>
-              <th pSortableColumn="water_bill_amount">Water Bill Amount<p-sortIcon field="water_bill_amount" /></th>
-              <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
-              <th pSortableColumn="total_amount">Total Amount<p-sortIcon field="total_amount" /></th>
-              <th pSortableColumn="total_due">Total Due<p-sortIcon field="total_due" /></th>
-              <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
-          </tr>
-      </ng-template>
-      <!-- <ng-template pTemplate="body" let-customer >
-          <tr style="font-size: 12px;">
-              <td style="width: 6%;">{{ customer.S_No }}</td>
-              <td style="width: 10%;">{{ customer.Complex_Code }}</td>
-              <td style="width: 15%;">{{ customer.Complex_Name }}</td>
-              <td style="width: 10%;">{{ customer.District }}</td>
-              <td style="width: 10%;">{{ customer.Map_Location }}</td>
-              <td style="width: 10%;">{{ customer.Place }}</td>
-              <td style="width: 10%;">{{ customer.RI_Name }}</td>
-              <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
-              
-          </tr>
-      </ng-template> -->
-  
-      <ng-template pTemplate="emptymessage">
-          <tr style="margin-bottom: 1rem;">
-              <td colspan="8">No data found.</td>
-          </tr>
-      </ng-template>
-
-  </p-table>
+    </p-table> 
   pending
 </div>
 <div class="card custom-table" *ngIf="isRejectClicked">
-  <p-table>
-      <ng-template pTemplate="caption">
-          <div class="flex">
-              <p-iconField iconPosition="left" class="ml-auto">
-                  <p-inputIcon>
-                      <i class="pi pi-search"></i>
-                  </p-inputIcon>
-                  <input pInputText type="text"  placeholder="Search keyword" />
-              </p-iconField>
-          </div>
-      </ng-template>
-      <ng-template pTemplate="header">
-          <tr style="font-size: 12px; padding: 0;">
-              <th pSortableColumn="S_No" >S No<p-sortIcon field="S_No" /></th>
-              <th pSortableColumn="bill_no">Bill No<p-sortIcon field="bill_no" /></th>
-              <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
-              <th pSortableColumn="property_code">Property code<p-sortIcon field="property_code" /></th>
-              <th pSortableColumn="rental_period">Rental Period<p-sortIcon field="rental_period" /></th>
-              <th pSortableColumn="rental_amount">Rental Amount<p-sortIcon field="rental_amount" /></th>
-              <th pSortableColumn="gst">GST<p-sortIcon field="gst" /></th>
-              <th pSortableColumn="rental_intrest">Rental Intrest<p-sortIcon field="rental_intrest" /></th>
-              <th pSortableColumn="gst_intrest">GST Intrest<p-sortIcon field="gst_intrest" /></th>
-              <th pSortableColumn="power_bill_amount">Power Bill Amount<p-sortIcon field="power_bill_amount" /></th>
-              <th pSortableColumn="water_bill_amount">Water Bill Amount<p-sortIcon field="water_bill_amount" /></th>
-              <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
-              <th pSortableColumn="total_amount">Total Amount<p-sortIcon field="total_amount" /></th>
-              <th pSortableColumn="total_due">Total Due<p-sortIcon field="total_due" /></th>
-              <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
-          </tr>
-      </ng-template>
-      <!-- <ng-template pTemplate="body" let-customer >
-          <tr style="font-size: 12px;">
-              <td style="width: 6%;">{{ customer.S_No }}</td>
-              <td style="width: 10%;">{{ customer.Complex_Code }}</td>
-              <td style="width: 15%;">{{ customer.Complex_Name }}</td>
-              <td style="width: 10%;">{{ customer.District }}</td>
-              <td style="width: 10%;">{{ customer.Map_Location }}</td>
-              <td style="width: 10%;">{{ customer.Place }}</td>
-              <td style="width: 10%;">{{ customer.RI_Name }}</td>
-              <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
-              
-          </tr>
-      </ng-template> -->
-  
-      <ng-template pTemplate="emptymessage">
-          <tr style="margin-bottom: 1rem;">
-              <td colspan="8">No data found.</td>
-          </tr>
-      </ng-template>
-
-  </p-table>
+    <p-table>
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <p-iconField iconPosition="left" class="ml-auto">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input pInputText type="text" placeholder="Search keyword" />
+                </p-iconField>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr style="font-size: 12px; padding: 0;">
+                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
+                <th pSortableColumn="request_type">Request Type<p-sortIcon field="request_type" /></th>
+                <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
+                <th pSortableColumn="user_name">User Name<p-sortIcon field="user_name" /></th>
+                <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
+                <th pSortableColumn="changes_to_be_updated">Changes to be Updated<p-sortIcon field="changes_to_be_updated" /></th>
+                <th pSortableColumn="proof_attached">Proof Attached<p-sortIcon field="proof_attached" /></th>
+                <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
+                <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
+                <th pSortableColumn="remarks">Remarks<p-sortIcon field="remarks" /></th>
+                <th pSortableColumn="history">History<p-sortIcon field="history" /></th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="emptymessage">
+            <tr style="margin-bottom: 1rem;">
+                <td colspan="11">No data found.</td>
+            </tr>
+        </ng-template>
+    </p-table>  
   rejected
 </div>
 <app-footer></app-footer>
