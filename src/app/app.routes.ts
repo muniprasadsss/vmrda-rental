@@ -12,6 +12,7 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { LocationsComponent } from './locations/locations.component';
 import { ReportsComponent } from './reports/reports.component';
 
+
 export const routes: Routes = [
     {path: '',component:LoginComponent},
     {path: 'dashboard',component:DashboardComponent},
@@ -24,5 +25,6 @@ export const routes: Routes = [
     {path: 'receptDetails',component:ReceiptDetailsComponent},
     {path: 'transactionTracking',component:TransactionTrackingComponent},
     {path: 'changeRequest',component:ChangeRequestComponent},
-    {path: 'reports',component:ReportsComponent}
+    {path: 'reports',component:ReportsComponent},
+
 ];

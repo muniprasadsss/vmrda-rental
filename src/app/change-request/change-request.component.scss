@@ -1,7 +1,36 @@
-.card{
+// .card{
+//     display: flex;
+//     justify-content: center;
+//     padding-top: 1rem !important;
+// }
+
+
+.button-container {
     display: flex;
     justify-content: center;
-    padding-top: 1rem !important;
-}
-
-
+    gap: 20px; /* Space between the buttons */
+    margin-top: 20px;
+  
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+  
+      &.approved {
+        background-color: green;
+      }
+  
+      &.pending {
+        background-color: yellow;
+        color: black; /* Yellow background needs black text for better visibility */
+      }
+  
+      &.rejected {
+        background-color: red;
+      }
+    }
+  }
+  
