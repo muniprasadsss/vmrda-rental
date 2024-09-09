@@ -3,7 +3,119 @@
 <div class="card custom-table">
     <p-table>
         <ng-template pTemplate="caption">
-            <div class="flex">
+
+            <div class="searchbar">
+                <div class="search">
+                    <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" placeholder="Search keyword" />
+                    </p-iconField>
+                </div>
+                <div class="dialog">
+                    <p-button 
+                    (onClick)="showDialog()" 
+                    label="Add New Bill" 
+                    severity="success"
+                    size="small" />
+                    <p-dialog 
+    header="Add/Edit Bill" 
+    [modal]="true"
+    [(visible)]="visible" 
+    position="center" 
+    [style]="{ width: '50rem' }">
+    <div class="form-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="bill-no" class="form-label">Bill No</label>
+            <input type="text" id="bill-no" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="user-id" class="form-label">User Id</label>
+            <input type="text" id="user-id" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="property-code" class="form-label">Property Code</label>
+            <input type="text" id="property-code" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="rental-period" class="form-label">Rental Period</label>
+            <input type="text" id="rental-period" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rental-amount" class="form-label">Rental Amount</label>
+            <input type="number" id="rental-amount" class="form-input" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="gst" class="form-label">GST</label>
+            <input type="number" id="gst" class="form-input" step="0.01" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rental-interest" class="form-label">Rental Interest</label>
+            <input type="number" id="rental-interest" class="form-input" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="gst-interest" class="form-label">GST Interest</label>
+            <input type="number" id="gst-interest" class="form-input" step="0.01" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="power-bill-amount" class="form-label">Power Bill Amount</label>
+            <input type="number" id="power-bill-amount" class="form-input" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="water-bill-amount" class="form-label">Water Bill Amount</label>
+            <input type="number" id="water-bill-amount" class="form-input" step="0.01" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="maintenance-amount" class="form-label">Maintenance Amount</label>
+            <input type="number" id="maintenance-amount" class="form-input" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="total-amount" class="form-label">Total Amount</label>
+            <input type="number" id="total-amount" class="form-input" step="0.01" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="total-due" class="form-label">Total Due</label>
+            <input type="number" id="total-due" class="form-input" step="0.01" />
+          </div>
+        </div>
+      </div>
+      
+    <div class="btn">
+        <div class="save">
+            <p-button label="Save" (onClick)="visible = false" size="small"/>
+        </div>
+        <div class="cancel">
+            <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
+        </div>
+    </div>
+                   </p-dialog>
+
+                </div>
+
+            </div>
+
+
+            <!-- <div class="flex">
                 <p-iconField iconPosition="left" class="ml-auto">
                     <p-inputIcon>
                         <i class="pi pi-search"></i>
@@ -15,7 +127,9 @@
                     label="Add New Bill" 
                     severity="success"
                     size="small" />
-            </div>
+            </div> -->
+
+
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
@@ -45,99 +159,6 @@
 </div>
 
 <!-- Modal for Add/Edit -->
-<p-dialog 
-    header="Add/Edit Bill" 
-    [modal]="true"
-    [(visible)]="visible" 
-    position="center" 
-    [style]="{ width: '50rem' }">
-    <div class="form-container">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="billNo" class="form-label">Bill No</label>
-                <input type="text" id="billNo" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="userId" class="form-label">User Id</label>
-                <input type="text" id="userId" class="form-input" />
-            </div>
-        </div>
 
-        <div class="form-row">
-            <div class="form-group">
-                <label for="propertyCode" class="form-label">Property Code</label>
-                <input type="text" id="propertyCode" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="rentalPeriod" class="form-label">Rental Period</label>
-                <input type="text" id="rentalPeriod" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="rentalAmount" class="form-label">Rental Amount</label>
-                <input type="text" id="rentalAmount" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="gst" class="form-label">GST</label>
-                <input type="text" id="gst" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="rentalIntrest" class="form-label">Rental Interest</label>
-                <input type="text" id="rentalIntrest" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="gstIntrest" class="form-label">GST Interest</label>
-                <input type="text" id="gstIntrest" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="powerBillAmount" class="form-label">Power Bill Amount</label>
-                <input type="text" id="powerBillAmount" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="waterBillAmount" class="form-label">Water Bill Amount</label>
-                <input type="text" id="waterBillAmount" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="maintenanceAmount" class="form-label">Maintenance Amount</label>
-                <input type="text" id="maintenanceAmount" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="totalAmount" class="form-label">Total Amount</label>
-                <input type="text" id="totalAmount" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="totalDue" class="form-label">Total Due</label>
-                <input type="text" id="totalDue" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="status" class="form-label">Status</label>
-                <input type="text" id="status" class="form-input" />
-            </div>
-        </div>
-
-        <div class="btn">
-            <div class="save">
-                <p-button label="Save" (onClick)="visible = false" size="small"/>
-            </div>
-            <div class="cancel">
-                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
-            </div>
-        </div>
-    </div>
-</p-dialog>
 
 <app-footer></app-footer>

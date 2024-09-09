@@ -12,9 +12,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class HeaderComponent implements OnInit {
   selectedCity:any
+  userType:any
   constructor(private router:Router){}
   ngOnInit(): void {
-    
+   this.userType=localStorage.getItem("userType")
   }
   logOut(){
     localStorage.removeItem("userType")

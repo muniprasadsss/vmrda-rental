@@ -3,7 +3,100 @@
 <div class="card custom-table">
     <p-table>
         <ng-template pTemplate="caption">
-            <div class="flex">
+            <div class="searchbar">
+                <div class="search">
+                    <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" placeholder="Search keyword" />
+                    </p-iconField>
+                </div>
+                <div class="dialog">
+                    <p-button 
+                    (onClick)="showDialog()" 
+                    label="Add New" 
+                    severity="success"
+                    size="small" />
+                    <p-dialog 
+    header="Edit Details" 
+    [modal]="true"
+    [(visible)]="visible" 
+    position="center" 
+    [style]="{ width: '50rem' }">
+    <div class="form-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="location-code" class="form-label">Location Code</label>
+            <input type="text" id="location-code" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="complexes" class="form-label">No of Complexes</label>
+            <input type="number" id="complexes" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="individual-shops" class="form-label">No of Individual Shops</label>
+            <input type="number" id="individual-shops" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="total-shops" class="form-label">Total No of Shops</label>
+            <input type="number" id="total-shops" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="district" class="form-label">District</label>
+            <input type="text" id="district" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="city" class="form-label">City</label>
+            <input type="text" id="city" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="place" class="form-label">Place</label>
+            <input type="text" id="place" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="map-location" class="form-label">Map Location</label>
+            <input type="text" id="map-location" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="revenue-division" class="form-label">Revenue Division</label>
+            <input type="text" id="revenue-division" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="ri-name" class="form-label">RI Name</label>
+            <input type="text" id="ri-name" class="form-input" />
+          </div>
+        </div>
+     </div>
+      
+    <div class="btn">
+        <div class="save">
+            <p-button label="Save" (onClick)="visible = false" size="small"/>
+        </div>
+        <div class="save">
+            <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
+        </div>
+    </div>
+                    </p-dialog>
+
+                </div>
+
+            </div>
+
+
+            <!-- <div class="flex">
                 <p-iconField iconPosition="left" class="ml-auto">
                     <p-inputIcon>
                         <i class="pi pi-search"></i>
@@ -15,7 +108,7 @@
                     label="Add New" 
                     severity="success"
                     size="small" />
-            </div>
+            </div> -->
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
@@ -41,85 +134,5 @@
     </p-table>
 </div>
 
-<!-- Modal for Add/Edit -->
-<p-dialog 
-    header="Edit Details" 
-    [modal]="true"
-    [(visible)]="visible" 
-    position="center" 
-    [style]="{ width: '50rem' }">
-    <div class="form-container">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="locationName" class="form-label">Location Name</label>
-                <input type="text" id="locationName" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="locationCode" class="form-label">Location Code</label>
-                <input type="text" id="locationCode" class="form-input" />
-            </div>
-        </div>
-      
-        <div class="form-row">
-            <div class="form-group">
-                <label for="noOfComplexes" class="form-label">No of Complexes</label>
-                <input type="number" id="noOfComplexes" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="noOfIndividualShops" class="form-label">No of Individual Shops</label>
-                <input type="number" id="noOfIndividualShops" class="form-input" />
-            </div>
-        </div>
-      
-        <div class="form-row">
-            <div class="form-group">
-                <label for="totalNoOfShops" class="form-label">Total No Of Shops</label>
-                <input type="number" id="totalNoOfShops" class="form-input" />
-            </div>
-        </div>
-      
-        <div class="form-row">
-            <div class="form-group">
-                <label for="district" class="form-label">District</label>
-                <input type="text" id="district" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="city" class="form-label">City</label>
-                <input type="text" id="city" class="form-input" />
-            </div>
-        </div>
-      
-        <div class="form-row">
-            <div class="form-group">
-                <label for="place" class="form-label">Place</label>
-                <input type="text" id="place" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="mapLocation" class="form-label">Map Location</label>
-                <input type="text" id="mapLocation" class="form-input" />
-            </div>
-        </div>
-      
-        <div class="form-row">
-            <div class="form-group">
-                <label for="revenueDivision" class="form-label">Revenue Division</label>
-                <input type="text" id="revenueDivision" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="riName" class="form-label">RI Name</label>
-                <input type="text" id="riName" class="form-input" />
-            </div>
-        </div>
-      
-        <div class="btn">
-            <div class="save">
-                <p-button label="Save" (onClick)="visible = false" size="small"/>
-            </div>
-            <div class="save">
-                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
-            </div>
-        </div>
-    </div>
-</p-dialog>
 
 <app-footer></app-footer>

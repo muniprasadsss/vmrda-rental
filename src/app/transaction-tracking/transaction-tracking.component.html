@@ -3,7 +3,102 @@
 <div class="card custom-table">
     <p-table>
         <ng-template pTemplate="caption">
-            <div class="flex">
+            <div class="searchbar">
+                <div class="search">
+                    <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" placeholder="Search keyword" />
+                    </p-iconField>
+                </div>
+                <div class="dialog">
+                    <p-button 
+                    (onClick)="showDialog()" 
+                    label="Add New Order" 
+                    severity="success"
+                    size="small" />
+                    <p-dialog 
+    header="Add/Edit Order" 
+    [modal]="true"
+    [(visible)]="visible" 
+    position="center" 
+    [style]="{ width: '50rem' }">
+    <div class="form-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="order-id" class="form-label">Order Id</label>
+            <input type="text" id="order-id" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="tracking-id" class="form-label">Tracking Id</label>
+            <input type="text" id="tracking-id" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="bank-ref-no" class="form-label">Bank Ref No</label>
+            <input type="text" id="bank-ref-no" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="order-status" class="form-label">Order Status</label>
+            <input type="text" id="order-status" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="payment-mode" class="form-label">Payment Mode</label>
+            <input type="text" id="payment-mode" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="card-name" class="form-label">Card Name</label>
+            <input type="text" id="card-name" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="status-code" class="form-label">Status Code</label>
+            <input type="text" id="status-code" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="status-message" class="form-label">Status Message</label>
+            <input type="text" id="status-message" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="currency" class="form-label">Currency</label>
+            <input type="text" id="currency" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="number" id="amount" class="form-input" step="0.01" />
+          </div>
+        </div>
+      </div>
+      
+      
+      
+    <div class="btn">
+        <div class="save">
+            <p-button label="Save" (onClick)="visible = false" size="small"/>
+        </div>
+        <div class="cancel">
+            <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
+        </div>
+    </div>
+                    </p-dialog>
+
+                </div>
+
+            </div>
+
+
+            <!-- <div class="flex">
                 <p-iconField iconPosition="left" class="ml-auto">
                     <p-inputIcon>
                         <i class="pi pi-search"></i>
@@ -15,7 +110,10 @@
                     label="Add New Order" 
                     severity="success"
                     size="small" />
-            </div>
+                    
+            </div> -->
+
+
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
@@ -39,79 +137,5 @@
         </ng-template>
     </p-table>
 </div>
-
-<!-- Modal for Add/Edit Order -->
-<p-dialog 
-    header="Add/Edit Order" 
-    [modal]="true"
-    [(visible)]="visible" 
-    position="center" 
-    [style]="{ width: '50rem' }">
-    <div class="form-container">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="orderId" class="form-label">Order Id</label>
-                <input type="text" id="orderId" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="trackingId" class="form-label">Tracking Id</label>
-                <input type="text" id="trackingId" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="bankRefNo" class="form-label">Bank Ref No</label>
-                <input type="text" id="bankRefNo" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="orderStatus" class="form-label">Order Status</label>
-                <input type="text" id="orderStatus" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="paymentMode" class="form-label">Payment Mode</label>
-                <input type="text" id="paymentMode" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="cardName" class="form-label">Card Name</label>
-                <input type="text" id="cardName" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="statusCode" class="form-label">Status Code</label>
-                <input type="text" id="statusCode" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="statusMessage" class="form-label">Status Message</label>
-                <input type="text" id="statusMessage" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="currency" class="form-label">Currency</label>
-                <input type="text" id="currency" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="amount" class="form-label">Amount</label>
-                <input type="text" id="amount" class="form-input" />
-            </div>
-        </div>
-
-        <div class="btn">
-            <div class="save">
-                <p-button label="Save" (onClick)="visible = false" size="small"/>
-            </div>
-            <div class="cancel">
-                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
-            </div>
-        </div>
-    </div>
-</p-dialog>
 
 <app-footer></app-footer>

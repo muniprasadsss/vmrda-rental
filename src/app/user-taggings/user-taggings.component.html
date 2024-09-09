@@ -3,7 +3,120 @@
 <div class="card custom-table">
     <p-table>
         <ng-template pTemplate="caption">
-            <div class="flex">
+
+            <div class="searchbar">
+                <div class="search">
+                    <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" placeholder="Search keyword" />
+                    </p-iconField>
+                </div>
+                <div class="dialog">
+                    <p-button 
+                    (onClick)="showDialog()" 
+                    label="Add New" 
+                    severity="success"
+                    size="small" />
+                    <p-dialog 
+    header="Edit Lease Details" 
+    [modal]="true"
+    [(visible)]="visible" 
+    position="center" 
+    [style]="{ width: '50rem' }">
+    <div class="form-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="user-id" class="form-label">User Id</label>
+            <input type="text" id="user-id" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="property-code" class="form-label">Property Code</label>
+            <input type="text" id="property-code" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="start-date" class="form-label">Start Date</label>
+            <input type="date" id="start-date" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="end-date" class="form-label">End Date</label>
+            <input type="date" id="end-date" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rental-lease" class="form-label">Rental Lease</label>
+            <input type="text" id="rental-lease" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="enhancement-tenure" class="form-label">Enhancement Tenure</label>
+            <input type="text" id="enhancement-tenure" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="enhancement-percentage" class="form-label">Enhancement %</label>
+            <input type="number" id="enhancement-percentage" class="form-input" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="gst-percentage" class="form-label">GST %</label>
+            <input type="number" id="gst-percentage" class="form-input" step="0.01" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rental-interest-percentage" class="form-label">Rental Interest %</label>
+            <input type="number" id="rental-interest-percentage" class="form-input" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="gst-interest-percentage" class="form-label">GST Interest %</label>
+            <input type="number" id="gst-interest-percentage" class="form-input" step="0.01" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="lease-deed-no" class="form-label">Lease Deed Number</label>
+            <input type="text" id="lease-deed-no" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="power-meter-number" class="form-label">Power Meter Number</label>
+            <input type="text" id="power-meter-number" class="form-input" />
+          </div>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="water-meter-number" class="form-label">Water Meter Number</label>
+            <input type="text" id="water-meter-number" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="maintenance-amount" class="form-label">Maintenance Amount</label>
+            <input type="number" id="maintenance-amount" class="form-input" step="0.01" />
+          </div>
+        </div>
+      </div>
+      
+    <div class="btn">
+        <div class="save">
+            <p-button label="Save" (onClick)="visible = false" size="small"/>
+        </div>
+        <div class="cancel">
+            <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
+        </div>
+    </div>
+                    </p-dialog>
+                </div>
+            </div>
+
+            <!-- <div class="flex">
                 <p-iconField iconPosition="left" class="ml-auto">
                     <p-inputIcon>
                         <i class="pi pi-search"></i>
@@ -15,7 +128,9 @@
                     label="Add New" 
                     severity="success"
                     size="small" />
-            </div>
+            </div> -->
+
+
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
@@ -44,100 +159,6 @@
     </p-table>
 </div>
 
-<!-- Modal for Add/Edit -->
-<p-dialog 
-    header="Edit Lease Details" 
-    [modal]="true"
-    [(visible)]="visible" 
-    position="center" 
-    [style]="{ width: '50rem' }">
-    <div class="form-container">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="userId" class="form-label">User Id</label>
-                <input type="text" id="userId" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="propertyCode" class="form-label">Property Code</label>
-                <input type="text" id="propertyCode" class="form-input" />
-            </div>
-        </div>
 
-        <div class="form-row">
-            <div class="form-group">
-                <label for="startDate" class="form-label">Start Date</label>
-                <input type="date" id="startDate" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="endDate" class="form-label">End Date</label>
-                <input type="date" id="endDate" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="rentalLease" class="form-label">Rental Lease</label>
-                <input type="text" id="rentalLease" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="enhancementTenure" class="form-label">Enhancement Tenure</label>
-                <input type="text" id="enhancementTenure" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="enhancementPercentage" class="form-label">Enhancement%</label>
-                <input type="text" id="enhancementPercentage" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="gstPercentage" class="form-label">GST%</label>
-                <input type="text" id="gstPercentage" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="rentalInterestPercentage" class="form-label">Rental Interest%</label>
-                <input type="text" id="rentalInterestPercentage" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="gstInterestPercentage" class="form-label">GST Interest%</label>
-                <input type="text" id="gstInterestPercentage" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="leaseDeedNo" class="form-label">Lease Deed Number</label>
-                <input type="text" id="leaseDeedNo" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="powerMeterNumber" class="form-label">Power Meter Number</label>
-                <input type="text" id="powerMeterNumber" class="form-input" />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="waterMeterNumber" class="form-label">Water Meter Number</label>
-                <input type="text" id="waterMeterNumber" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="maintenanceAmount" class="form-label">Maintenance Amount</label>
-                <input type="text" id="maintenanceAmount" class="form-input" />
-            </div>
-        </div>
-
-        <div class="btn">
-            <div class="save">
-                <p-button label="Save" (onClick)="visible = false" size="small"/>
-            </div>
-            <div class="cancel">
-                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
-            </div>
-        </div>
-    </div>
-</p-dialog>
 
 <app-footer></app-footer>
