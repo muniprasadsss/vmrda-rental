@@ -8,49 +8,136 @@
                     <p-inputIcon>
                         <i class="pi pi-search"></i>
                     </p-inputIcon>
-                    <input pInputText type="text"  placeholder="Search keyword" />
+                    <input pInputText type="text" placeholder="Search keyword" />
                 </p-iconField>
+                <p-button 
+                    (onClick)="showDialog()" 
+                    label="Add New" 
+                    severity="success"
+                    size="small" />
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="S_No" >S No<p-sortIcon field="S_No" /></th>
+                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
                 <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
-                <th pSortableColumn="property_code">Property code<p-sortIcon field="property_code" /></th>
+                <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
                 <th pSortableColumn="start_date">Start Date<p-sortIcon field="start_date" /></th>
-                <th pSortableColumn="end_Date">End Date<p-sortIcon field="end_Date" /></th>
+                <th pSortableColumn="end_date">End Date<p-sortIcon field="end_date" /></th>
                 <th pSortableColumn="rental_lease">Rental Lease<p-sortIcon field="rental_lease" /></th>
                 <th pSortableColumn="enhancement_tenure">Enhancement Tenure<p-sortIcon field="enhancement_tenure" /></th>
                 <th pSortableColumn="enhancement_percentage">Enhancement%<p-sortIcon field="enhancement_percentage" /></th>
                 <th pSortableColumn="gst_percentage">GST%<p-sortIcon field="gst_percentage" /></th>
-                <th pSortableColumn="rental_intrest_percentage">Rental Intrest%<p-sortIcon field="rental_intrest_percentage" /></th>
-                <th pSortableColumn="gst_intrest_percentage">GST Intrest%<p-sortIcon field="gst_intrest_percentage" /></th>
+                <th pSortableColumn="rental_intrest_percentage">Rental Interest%<p-sortIcon field="rental_intrest_percentage" /></th>
+                <th pSortableColumn="gst_intrest_percentage">GST Interest%<p-sortIcon field="gst_intrest_percentage" /></th>
                 <th pSortableColumn="lease_deed_no">Lease Deed Number<p-sortIcon field="lease_deed_no" /></th>
                 <th pSortableColumn="power_meter_number">Power Meter Number<p-sortIcon field="power_meter_number" /></th>
                 <th pSortableColumn="water_meter_number">Water Meter Number<p-sortIcon field="water_meter_number" /></th>
                 <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
             </tr>
         </ng-template>
-        <!-- <ng-template pTemplate="body" let-customer >
-            <tr style="font-size: 12px;">
-                <td style="width: 6%;">{{ customer.S_No }}</td>
-                <td style="width: 10%;">{{ customer.Complex_Code }}</td>
-                <td style="width: 15%;">{{ customer.Complex_Name }}</td>
-                <td style="width: 10%;">{{ customer.District }}</td>
-                <td style="width: 10%;">{{ customer.Map_Location }}</td>
-                <td style="width: 10%;">{{ customer.Place }}</td>
-                <td style="width: 10%;">{{ customer.RI_Name }}</td>
-                <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
-                
-            </tr>
-        </ng-template> -->
-    
         <ng-template pTemplate="emptymessage">
             <tr style="margin-bottom: 1rem;">
-                <td colspan="8">No data found.</td>
+                <td colspan="15">No data found.</td>
             </tr>
         </ng-template>
-  
     </p-table>
 </div>
+
+<!-- Modal for Add/Edit -->
+<p-dialog 
+    header="Edit Lease Details" 
+    [modal]="true"
+    [(visible)]="visible" 
+    position="center" 
+    [style]="{ width: '50rem' }">
+    <div class="form-container">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="userId" class="form-label">User Id</label>
+                <input type="text" id="userId" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="propertyCode" class="form-label">Property Code</label>
+                <input type="text" id="propertyCode" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="startDate" class="form-label">Start Date</label>
+                <input type="date" id="startDate" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="endDate" class="form-label">End Date</label>
+                <input type="date" id="endDate" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="rentalLease" class="form-label">Rental Lease</label>
+                <input type="text" id="rentalLease" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="enhancementTenure" class="form-label">Enhancement Tenure</label>
+                <input type="text" id="enhancementTenure" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="enhancementPercentage" class="form-label">Enhancement%</label>
+                <input type="text" id="enhancementPercentage" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="gstPercentage" class="form-label">GST%</label>
+                <input type="text" id="gstPercentage" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="rentalInterestPercentage" class="form-label">Rental Interest%</label>
+                <input type="text" id="rentalInterestPercentage" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="gstInterestPercentage" class="form-label">GST Interest%</label>
+                <input type="text" id="gstInterestPercentage" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="leaseDeedNo" class="form-label">Lease Deed Number</label>
+                <input type="text" id="leaseDeedNo" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="powerMeterNumber" class="form-label">Power Meter Number</label>
+                <input type="text" id="powerMeterNumber" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="waterMeterNumber" class="form-label">Water Meter Number</label>
+                <input type="text" id="waterMeterNumber" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="maintenanceAmount" class="form-label">Maintenance Amount</label>
+                <input type="text" id="maintenanceAmount" class="form-input" />
+            </div>
+        </div>
+
+        <div class="btn">
+            <div class="save">
+                <p-button label="Save" (onClick)="visible = false" size="small"/>
+            </div>
+            <div class="cancel">
+                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
 <app-footer></app-footer>

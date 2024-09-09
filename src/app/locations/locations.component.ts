@@ -12,5 +12,9 @@ import { HeaderComponent } from "../header/header.component";
   styleUrl: './locations.component.scss'
 })
 export class LocationsComponent {
+  visible: boolean = false;
 
+  showDialog() {
+    this.visible = true;
+}
 }

@@ -23,6 +23,7 @@ export class ComplexDetailsComponent {
   value: string = '';
 
   complex!: complex[];
+  visible: boolean = false;
 
   initialValue!: complex[];
   loading: boolean = true;
@@ -54,6 +55,10 @@ onFilterGlobal(event: Event): void {
   const target = event.target as HTMLInputElement;
   this.value = target.value;
   this.dt.filterGlobal(this.value, 'contains');
+}
+
+showDialog() {
+  this.visible = true;
 }
 
 

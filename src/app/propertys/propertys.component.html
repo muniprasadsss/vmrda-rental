@@ -8,15 +8,20 @@
                     <p-inputIcon>
                         <i class="pi pi-search"></i>
                     </p-inputIcon>
-                    <input pInputText type="text"  placeholder="Search keyword" />
+                    <input pInputText type="text" placeholder="Search keyword" />
                 </p-iconField>
+                <p-button 
+                    (onClick)="showDialog()" 
+                    label="Add New" 
+                    severity="success"
+                    size="small" />
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="S_No" >S No<p-sortIcon field="S_No" /></th>
+                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
                 <th pSortableColumn="location_code">Location Code<p-sortIcon field="location_code" /></th>
-                <th pSortableColumn="property_code">Property code<p-sortIcon field="property_code" /></th>
+                <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
                 <th pSortableColumn="property_no">Property No<p-sortIcon field="property_no" /></th>
                 <th pSortableColumn="type_of_property">Type Of Property<p-sortIcon field="type_of_property" /></th>
                 <th pSortableColumn="floor">Floor<p-sortIcon field="floor" /></th>
@@ -30,26 +35,104 @@
                 <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
             </tr>
         </ng-template>
-        <!-- <ng-template pTemplate="body" let-customer >
-            <tr style="font-size: 12px;">
-                <td style="width: 6%;">{{ customer.S_No }}</td>
-                <td style="width: 10%;">{{ customer.Complex_Code }}</td>
-                <td style="width: 15%;">{{ customer.Complex_Name }}</td>
-                <td style="width: 10%;">{{ customer.District }}</td>
-                <td style="width: 10%;">{{ customer.Map_Location }}</td>
-                <td style="width: 10%;">{{ customer.Place }}</td>
-                <td style="width: 10%;">{{ customer.RI_Name }}</td>
-                <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
-                
-            </tr>
-        </ng-template> -->
-    
         <ng-template pTemplate="emptymessage">
             <tr style="margin-bottom: 1rem;">
-                <td colspan="8">No data found.</td>
+                <td colspan="13">No data found.</td>
             </tr>
         </ng-template>
-  
     </p-table>
 </div>
+
+<!-- Modal for Add/Edit -->
+<p-dialog 
+    header="Edit Details" 
+    [modal]="true"
+    [(visible)]="visible" 
+    position="center" 
+    [style]="{ width: '50rem' }">
+    <div class="form-container">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="locationCode" class="form-label">Location Code</label>
+                <input type="text" id="locationCode" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="propertyCode" class="form-label">Property Code</label>
+                <input type="text" id="propertyCode" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="propertyNo" class="form-label">Property No</label>
+                <input type="text" id="propertyNo" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="typeOfProperty" class="form-label">Type Of Property</label>
+                <input type="text" id="typeOfProperty" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="floor" class="form-label">Floor</label>
+                <input type="text" id="floor" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="complexName" class="form-label">Complex Name</label>
+                <input type="text" id="complexName" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="complexCode" class="form-label">Complex Code</label>
+                <input type="text" id="complexCode" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="revenueDivision" class="form-label">Revenue Division</label>
+                <input type="text" id="revenueDivision" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="riName" class="form-label">RI Name</label>
+                <input type="text" id="riName" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="extent" class="form-label">Extent</label>
+                <input type="text" id="extent" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="powerMeterNumber" class="form-label">Power Meter Number</label>
+                <input type="text" id="powerMeterNumber" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="waterMeterNumber" class="form-label">Water Meter Number</label>
+                <input type="text" id="waterMeterNumber" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="maintenanceAmount" class="form-label">Maintenance Amount</label>
+                <input type="text" id="maintenanceAmount" class="form-input" />
+            </div>
+        </div>
+
+        <div class="btn">
+            <div class="save">
+                <p-button label="Save" (onClick)="visible = false" size="small"/>
+            </div>
+            <div class="save">
+                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
 <app-footer></app-footer>

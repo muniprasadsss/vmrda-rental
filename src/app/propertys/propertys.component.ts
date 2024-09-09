@@ -12,5 +12,10 @@ import { FooterComponent } from '../footer/footer.component';
   styleUrl: './propertys.component.scss'
 })
 export class PropertysComponent {
+  visible: boolean = false;
+
+  showDialog() {
+    this.visible = true;
+}
 
 }

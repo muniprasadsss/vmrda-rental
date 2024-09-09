@@ -12,5 +12,9 @@ import { FooterComponent } from '../footer/footer.component';
   styleUrl: './user-taggings.component.scss'
 })
 export class UserTaggingsComponent {
+  visible: boolean = false;
 
+  showDialog() {
+    this.visible = true;
+}
 }

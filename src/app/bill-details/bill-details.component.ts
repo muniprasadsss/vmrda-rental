@@ -12,5 +12,10 @@ import { FooterComponent } from '../footer/footer.component';
   styleUrl: './bill-details.component.scss'
 })
 export class BillDetailsComponent {
+  visible: boolean = false;
+
+  showDialog() {
+    this.visible = true;
+}
 
 }

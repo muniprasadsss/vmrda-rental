@@ -12,5 +12,9 @@ import { FooterComponent } from '../footer/footer.component';
   styleUrl: './transaction-tracking.component.scss'
 })
 export class TransactionTrackingComponent {
+  visible: boolean = false;
 
+  showDialog() {
+    this.visible = true;
+}
 }

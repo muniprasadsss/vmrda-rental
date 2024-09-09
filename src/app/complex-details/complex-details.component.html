@@ -12,6 +12,11 @@
                     </p-inputIcon>
                     <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
                 </p-iconField>
+                <p-button 
+                    (onClick)="showDialog()" 
+                    label="Add New" 
+                    severity="success"
+                    size="small" />
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -24,7 +29,6 @@
                 <th pSortableColumn="Place">Place<p-sortIcon field="Place" /></th>
                 <th pSortableColumn="RI_Name">RI Name<p-sortIcon field="RI_Name" /></th>
                 <th pSortableColumn="Revenue_Division">Revenue Division<p-sortIcon field="Revenue_Division" /></th>
-
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer >
@@ -37,7 +41,6 @@
                 <td style="width: 10%;">{{ customer.Place }}</td>
                 <td style="width: 10%;">{{ customer.RI_Name }}</td>
                 <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
-                
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
@@ -47,4 +50,64 @@
         </ng-template>
     </p-table>
 </div>
+
+<!-- Modal for Add/Edit -->
+<p-dialog 
+    header="Edit Details" 
+    [modal]="true"
+    [(visible)]="visible" 
+    position="center" 
+    [style]="{ width: '50rem' }">
+    <div class="form-container">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="complexName" class="form-label">Complex Name</label>
+                <input type="text" id="complexName" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="complexCode" class="form-label">Complex Code</label>
+                <input type="text" id="complexCode" class="form-input" />
+            </div>
+        </div>
+      
+        <div class="form-row">
+            <div class="form-group">
+                <label for="district" class="form-label">District</label>
+                <input type="text" id="district" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="mapLocation" class="form-label">Map Location</label>
+                <input type="text" id="mapLocation" class="form-input" />
+            </div>
+        </div>
+      
+        <div class="form-row">
+            <div class="form-group">
+                <label for="place" class="form-label">Place</label>
+                <input type="text" id="place" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="riName" class="form-label">RI Name</label>
+                <input type="text" id="riName" class="form-input" />
+            </div>
+        </div>
+      
+        <div class="form-row">
+            <div class="form-group">
+                <label for="revenueDivision" class="form-label">Revenue Division</label>
+                <input type="text" id="revenueDivision" class="form-input" />
+            </div>
+        </div>
+      
+        <div class="btn">
+            <div class="save">
+                <p-button label="Save" (onClick)="visible = false" size="small"/>
+            </div>
+            <div class="save">
+                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
 <app-footer></app-footer>

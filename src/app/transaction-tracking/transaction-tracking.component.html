@@ -8,13 +8,18 @@
                     <p-inputIcon>
                         <i class="pi pi-search"></i>
                     </p-inputIcon>
-                    <input pInputText type="text"  placeholder="Search keyword" />
+                    <input pInputText type="text" placeholder="Search keyword" />
                 </p-iconField>
+                <p-button 
+                    (onClick)="showDialog()" 
+                    label="Add New Order" 
+                    severity="success"
+                    size="small" />
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="S_No" >S No<p-sortIcon field="S_No" /></th>
+                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
                 <th pSortableColumn="order_id">Order Id<p-sortIcon field="order_id" /></th>
                 <th pSortableColumn="tracking_id">Tracking Id<p-sortIcon field="tracking_id" /></th>
                 <th pSortableColumn="bank_ref_no">Bank Ref No<p-sortIcon field="bank_ref_no" /></th>
@@ -27,26 +32,86 @@
                 <th pSortableColumn="Amount">Amount<p-sortIcon field="Amount" /></th>
             </tr>
         </ng-template>
-        <!-- <ng-template pTemplate="body" let-customer >
-            <tr style="font-size: 12px;">
-                <td style="width: 6%;">{{ customer.S_No }}</td>
-                <td style="width: 10%;">{{ customer.Complex_Code }}</td>
-                <td style="width: 15%;">{{ customer.Complex_Name }}</td>
-                <td style="width: 10%;">{{ customer.District }}</td>
-                <td style="width: 10%;">{{ customer.Map_Location }}</td>
-                <td style="width: 10%;">{{ customer.Place }}</td>
-                <td style="width: 10%;">{{ customer.RI_Name }}</td>
-                <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
-                
-            </tr>
-        </ng-template> -->
-    
         <ng-template pTemplate="emptymessage">
             <tr style="margin-bottom: 1rem;">
-                <td colspan="8">No data found.</td>
+                <td colspan="11">No data found.</td>
             </tr>
         </ng-template>
-  
     </p-table>
 </div>
+
+<!-- Modal for Add/Edit Order -->
+<p-dialog 
+    header="Add/Edit Order" 
+    [modal]="true"
+    [(visible)]="visible" 
+    position="center" 
+    [style]="{ width: '50rem' }">
+    <div class="form-container">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="orderId" class="form-label">Order Id</label>
+                <input type="text" id="orderId" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="trackingId" class="form-label">Tracking Id</label>
+                <input type="text" id="trackingId" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="bankRefNo" class="form-label">Bank Ref No</label>
+                <input type="text" id="bankRefNo" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="orderStatus" class="form-label">Order Status</label>
+                <input type="text" id="orderStatus" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="paymentMode" class="form-label">Payment Mode</label>
+                <input type="text" id="paymentMode" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="cardName" class="form-label">Card Name</label>
+                <input type="text" id="cardName" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="statusCode" class="form-label">Status Code</label>
+                <input type="text" id="statusCode" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="statusMessage" class="form-label">Status Message</label>
+                <input type="text" id="statusMessage" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="currency" class="form-label">Currency</label>
+                <input type="text" id="currency" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="amount" class="form-label">Amount</label>
+                <input type="text" id="amount" class="form-input" />
+            </div>
+        </div>
+
+        <div class="btn">
+            <div class="save">
+                <p-button label="Save" (onClick)="visible = false" size="small"/>
+            </div>
+            <div class="cancel">
+                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
 <app-footer></app-footer>
