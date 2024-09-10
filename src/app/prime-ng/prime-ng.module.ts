@@ -17,6 +17,8 @@ import { ToastModule } from 'primeng/toast';
 import { InputOtpModule } from 'primeng/inputotp';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { DialogModule } from 'primeng/dialog';
+import { SplitButtonModule } from 'primeng/splitbutton';
+
 
 
 @NgModule({
@@ -24,11 +26,11 @@ import { DialogModule } from 'primeng/dialog';
   imports: [
     CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
-     DropdownModule,FloatLabelModule,ToastModule,InputOtpModule,SelectButtonModule,DialogModule
+     DropdownModule,FloatLabelModule,ToastModule,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule
   ],
   exports: [CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
-     DropdownModule,FloatLabelModule,ToastModule ,InputOtpModule,SelectButtonModule,DialogModule
+     DropdownModule,FloatLabelModule,ToastModule ,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule
    ],
   providers:[ComplexServiceService]
 })

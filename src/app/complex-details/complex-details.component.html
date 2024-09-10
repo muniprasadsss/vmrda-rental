@@ -102,6 +102,8 @@
                 <th pSortableColumn="Place">Place<p-sortIcon field="Place" /></th>
                 <th pSortableColumn="RI_Name">RI Name<p-sortIcon field="RI_Name" /></th>
                 <th pSortableColumn="Revenue_Division">Revenue Division<p-sortIcon field="Revenue_Division" /></th>
+                <th ></th>
+
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer >
@@ -114,6 +116,12 @@
                 <td style="width: 10%;">{{ customer.Place }}</td>
                 <td style="width: 10%;">{{ customer.RI_Name }}</td>
                 <td style="width: 12%;">{{ customer.Revenue_Division }}</td>
+                <td>
+                  <div style="display: flex;">
+                    <button class="editButton">Edit</button>
+                    <button class="deleteButton">Delete</button>
+                  </div>
+                   </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">

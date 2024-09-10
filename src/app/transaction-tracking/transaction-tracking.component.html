@@ -128,12 +128,32 @@
                 <th pSortableColumn="status_message">Status Message<p-sortIcon field="status_message" /></th>
                 <th pSortableColumn="currency">Currency<p-sortIcon field="currency" /></th>
                 <th pSortableColumn="Amount">Amount<p-sortIcon field="Amount" /></th>
+                <th ></th>
+
             </tr>
         </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr style="margin-bottom: 1rem;">
-                <td colspan="11">No data found.</td>
-            </tr>
+        <ng-template pTemplate="emptymessage" let-order>
+          <tr style="font-size: 12px;">
+            <td style="width: 6%;">{{ order.S_No }}</td>
+            <td style="width: 10%;">{{ order.order_id }}</td>
+            <td style="width: 10%;">{{ order.tracking_id }}</td>
+            <td style="width: 10%;">{{ order.bank_ref_no }}</td>
+            <td style="width: 10%;">{{ order.order_Status }}</td>
+            <td style="width: 10%;">{{ order.payment_mode }}</td>
+            <td style="width: 10%;">{{ order.card_name }}</td>
+            <td style="width: 8%;">{{ order.status_code }}</td>
+            <td style="width: 12%;">{{ order.status_message }}</td>
+            <td style="width: 8%;">{{ order.currency }}</td>
+            <td style="width: 10%;">{{ order.Amount }}</td>
+                            <td>
+                              <div style="display: flex;">
+                                <button class="editButton">Edit</button>
+                                <button class="deleteButton">Delete</button>
+                              </div>
+                             </td>
+
+        </tr>
+        
         </ng-template>
     </p-table>
 </div>

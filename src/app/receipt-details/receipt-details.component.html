@@ -133,12 +133,35 @@
                 <th pSortableColumn="total_amount">Total Amount<p-sortIcon field="total_amount" /></th>
                 <th pSortableColumn="total_due">Total Due<p-sortIcon field="total_due" /></th>
                 <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
+                <th ></th>
+
             </tr>
         </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr style="margin-bottom: 1rem;">
-                <td colspan="15">No data found.</td>
-            </tr>
+        <ng-template pTemplate="emptymessage" let-bill>
+          <tr style="font-size: 12px;">
+            <td style="width: 6%;">{{ bill.S_No }}</td>
+            <td style="width: 8%;">{{ bill.bill_no }}</td>
+            <td style="width: 8%;">{{ bill.user_id }}</td>
+            <td style="width: 10%;">{{ bill.property }}</td>
+            <td style="width: 10%;">{{ bill.rental_period }}</td>
+            <td style="width: 8%;">{{ bill.rental_amount }}</td>
+            <td style="width: 6%;">{{ bill.gst }}</td>
+            <td style="width: 8%;">{{ bill.rental_intrest }}</td>
+            <td style="width: 8%;">{{ bill.gst_intrest }}</td>
+            <td style="width: 10%;">{{ bill.power_bill_amount }}</td>
+            <td style="width: 10%;">{{ bill.water_bill_amount }}</td>
+            <td style="width: 10%;">{{ bill.maintenance_amount }}</td>
+            <td style="width: 10%;">{{ bill.total_amount }}</td>
+            <td style="width: 8%;">{{ bill.total_due }}</td>
+            <td style="width: 8%;">{{ bill.status }}</td>
+            <td>
+              <div style="display: flex;">
+                <button class="editButton">Edit</button>
+                <button class="deleteButton">Delete</button>
+              </div>
+             </td>
+        </tr>
+        
         </ng-template>
     </p-table>
 </div>
