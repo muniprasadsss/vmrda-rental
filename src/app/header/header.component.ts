@@ -13,9 +13,13 @@ import { FormsModule } from '@angular/forms';
 export class HeaderComponent implements OnInit {
   selectedCity:any
   userType:any
+  dropdownDiv:boolean=false
   constructor(private router:Router){}
   ngOnInit(): void {
    this.userType=localStorage.getItem("userType")
+  }
+  showDropDown(){
+    this.dropdownDiv=true
   }
   logOut(){
     localStorage.removeItem("userType")

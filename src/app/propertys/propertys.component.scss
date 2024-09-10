@@ -50,5 +50,18 @@
     }
   }
  
-  
+  .editButton{
+    border: none;
+    background: none;
+    color: green;
+   }
+  .deleteButton{
+    border: none;
+    background: none;
+    color: red;
+  }
+  .rowbtn{
+    display: flex;
+    gap: 1rem;
+  }
   

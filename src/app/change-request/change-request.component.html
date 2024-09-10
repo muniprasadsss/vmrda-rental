@@ -169,3 +169,17 @@
     No data found.
 </div>
 <app-footer></app-footer>
+
+<!-- <button (click)="showPopupDiv()">Show</button> -->
+ <!-- Confirmation Modal  -->
+<p-dialog header="" [(visible)]="isDialogVisible" modal="modal" [style]="{'width': '50vw'}" [closable]="true" (onHide)="onHide()">
+    <div style="display: flex;flex-direction:column;align-items: center;">
+        <div>
+            <p>Are you Sure</p>
+        </div>
+        <div>
+            <button (click)="SaveToasterMessage()">Save</button>
+            <button (click)="DeleteToasterMessage()">Delete</button>
+        </div>
+    </div>
+  </p-dialog>

@@ -7,6 +7,7 @@ import { DashboardComponent } from "../dashboard/dashboard.component";
 import { FooterComponent } from "../footer/footer.component";
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
 import { ChangedFields } from '../interfaces/changeRequest/changeRequest';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-change-request',
@@ -19,13 +20,14 @@ import { ChangedFields } from '../interfaces/changeRequest/changeRequest';
 export class ChangeRequestComponent {
 
   visible: boolean = false;
+  isDialogVisible: boolean = false; // Renamed variable
   isApprovedClicked:boolean = true;
   isRejectClicked:boolean = false;
   isPendingClicked:boolean = false;
   activeButton: string = '';
   crData!:ChangedFields[];
   
-  constructor(private router: Router,private fb: FormBuilder, private crHttp:ChangeRequestService) {
+  constructor(private router: Router,private fb: FormBuilder, private crHttp:ChangeRequestService,private toasterservice:ToastrService) {
 
 }
 
@@ -45,6 +47,7 @@ export class ChangeRequestComponent {
     }
 
     approveCR(value: number) {
+      this.showModalDiv()
       this.crHttp.setCRequest(value).subscribe({
         next:(res:any)=>{
 
@@ -88,5 +91,30 @@ export class ChangeRequestComponent {
       }
     }
 
+    // Show Modal Method 
+
+    showModalDiv() {
+      this.isDialogVisible = true; // Updated reference
+    }
+
+    // Modal Hide button
+  
+    onHide() {
+      this.isDialogVisible = false; // Updated reference
+    }
+
+    // Save Toaster message method 
+
+    SaveToasterMessage(){
+   this.toasterservice.success("Saved Successfully")
+   this.onHide()
+    }
+
+    // Delete Toaster message method om modal
+
+    DeleteToasterMessage(){
+ this.toasterservice.error("Deleted Successfully")
+ this.onHide()
+    }
 
 }

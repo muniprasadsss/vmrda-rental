@@ -19,7 +19,7 @@ ngOnInit(): void {
   this.userType=localStorage.getItem("userType")
   console.log(this.userType,"usertype check");
   
- if(this.userType==="admin1"){
+ if(this.userType==="RI1"){
   window.open(revenueInspectorReports,'_blank')
  }
  if(this.userType==="admin2"){

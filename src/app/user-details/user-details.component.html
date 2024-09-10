@@ -102,6 +102,7 @@
                 <th pSortableColumn="Email_Id">Email Id<p-sortIcon field="Email_Id" /></th>
                 <th pSortableColumn="GSTIN">GSTIN<p-sortIcon field="GSTIN" /></th>
                 <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th>
+                <th></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer>
@@ -117,14 +118,14 @@
                 <td style="width: 6%;">{{ customer.GSTIN }}</td>
                 <td style="width: 6%;">{{ customer.Revenue_Dvision }}</td>
                 <td style="width: 6%;">
-                  <div style="display: flex;">
-                    <!-- <button class="editButton"> <i class="pi pi-pencil"></i></button> -->
-                    <!-- <button class="deleteButton"><i class="pi pi-trash"></i></button> -->
-                    <p-button icon="pi pi-check" [rounded]="true" [outlined]="true" />
-                    <p-button icon="pi pi-times" [rounded]="true" severity="danger" [outlined]="true" />
+                  <div class="rowbtn">
+                    <button class="editButton"> <i class="pi pi-pencil"></i></button>
+                    <button class="deleteButton"><i class="pi pi-trash"></i></button>
+                    <!-- <p-button icon="pi pi-check" [rounded]="true" [outlined]="true" /> -->
+                    <!-- <p-button icon="pi pi-times" [rounded]="true" severity="danger" [outlined]="true" /> -->
 
-                  <!-- <p-button icon="pi pi-trash" severity="success" size="small"></p-button> -->
-                  <!-- <p-button icon="pi pi-pencil" severity="danger" size="small"></p-button> -->
+                    <!-- <p-button icon="pi pi-pencil" severity="success" size="small"></p-button> -->
+                  <!-- <p-button icon="pi pi-trash" severity="danger" size="small"></p-button> -->
                 </div>
               </td>
             </tr>
