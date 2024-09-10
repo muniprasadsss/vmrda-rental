@@ -13,4 +13,5 @@ export interface ChangedFields {
     PAN_No: boolean;
     GSITN: boolean;
     Email_Id: boolean;
+    cr_no?:number | null;
   }

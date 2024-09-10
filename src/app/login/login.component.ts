@@ -20,7 +20,7 @@ export class LoginComponent {
   formError: string = '';
   otpDiv:boolean=false;
   Login(form: any) {
-    if((this.username==="admin1" && this.username.length>0 || this.username==="admin2" && this.username.length>0) && this.password==="password"){
+    if((this.username==="comissioner" && this.username.length>0 || this.username==="RI1" && this.username.length>0) && this.password==="password"){
       this.otpDiv=true;  
     }
     else{

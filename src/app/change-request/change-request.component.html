@@ -48,10 +48,8 @@
                 <td style="width: 8%;">{{ crdata.request_status}}</td>
                 <td style="width: 10%;">{{ crdata.comments }}</td>
                 <td class="rowbtn"  style="width: 10%;">
-                    <button class="btn"><i class="pi pi-check " style="color: rgb(12, 80, 12);"></i></button>
+                    <button class="btn" (click)="approveCR(crdata.cr_no)"><i class="pi pi-check " style="color: rgb(12, 80, 12);"></i></button>
                     <button class="btn"><i class="pi pi-times"style="color: red;"></i></button>
-                    
-                    
                 </td>
             </tr>
         </ng-template>
@@ -87,7 +85,7 @@
                 <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
                 <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
                 <th pSortableColumn="remarks">Remarks<p-sortIcon field="remarks" /></th>
-                <!-- <th pSortableColumn="history">History<p-sortIcon field="history" /></th> -->
+                <td></td>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-crdata  >
@@ -102,7 +100,10 @@
                 <td style="width: 12%;">{{ crdata.description }}</td>
                 <td style="width: 12%;">{{ crdata.request_status}}</td>
                 <td style="width: 12%;">{{ crdata.comments }}</td>
-                <!-- <td style="width: 12%;">{{ crdata.Total_No_of_Shops }}</td> -->
+                <td class="rowbtn"  style="width: 10%;">
+                    <button class="btn" (click)="approveCR(crdata.cr_no)"><i class="pi pi-check " style="color: rgb(12, 80, 12);"></i></button>
+                    <button class="btn"><i class="pi pi-times"style="color: red;"></i></button>
+                </td>
             </tr>
         </ng-template>
 
@@ -137,7 +138,7 @@
                 <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
                 <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
                 <th pSortableColumn="remarks">Remarks<p-sortIcon field="remarks" /></th>
-                
+                <td></td>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-crdata  >
@@ -152,7 +153,10 @@
                 <td style="width: 12%;">{{ crdata.description }}</td>
                 <td style="width: 12%;">{{ crdata.request_status}}</td>
                 <td style="width: 12%;">{{ crdata.comments }}</td>
-                
+                <td class="rowbtn"  style="width: 10%;">
+                    <button class="btn" (click)="approveCR(crdata.cr_no)"><i class="pi pi-check " style="color: rgb(12, 80, 12);"></i></button>
+                    <button class="btn"><i class="pi pi-times"style="color: red;"></i></button>
+                </td>
             </tr>
         </ng-template>
         

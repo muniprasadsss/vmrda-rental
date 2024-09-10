@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../configuration';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -14,6 +14,13 @@ export class ChangeRequestService {
     
     getChangeRequestData(): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/changeRequest`)
+          
+      }
+
+    setCRequest(cr_no:number): Observable<any> {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const payload = { cr_no };
+        return this.http.put<any>(`${this.apiUrl}/updateChangeRequest`, payload,{headers})
           
       }
 }
