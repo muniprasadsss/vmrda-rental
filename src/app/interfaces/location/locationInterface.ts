@@ -1,5 +1,5 @@
 export interface LocationDetails {
-    S_No: number;
+    S_No?: number;
     Location_Name: string;
     Location_Code: string;
     No_of_Complexes: number;
