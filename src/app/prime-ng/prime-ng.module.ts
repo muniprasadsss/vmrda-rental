@@ -20,6 +20,7 @@ import { DialogModule } from 'primeng/dialog';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SpeedDialModule } from 'primeng/speeddial';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 
 
@@ -30,12 +31,12 @@ import { SpeedDialModule } from 'primeng/speeddial';
     CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
      DropdownModule,FloatLabelModule,ToastModule,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule,ConfirmDialogModule,
-     SpeedDialModule
+     SpeedDialModule,InputTextareaModule
   ],
   exports: [CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
      DropdownModule,FloatLabelModule,ToastModule ,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule,ConfirmDialogModule,
-     SpeedDialModule
+     SpeedDialModule,InputTextareaModule
    ],
   providers:[ComplexServiceService]
 })

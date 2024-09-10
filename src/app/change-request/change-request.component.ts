@@ -26,10 +26,10 @@ export class ChangeRequestComponent {
   isPendingClicked:boolean = false;
   activeButton: string = '';
   crData!:ChangedFields[];
-  
-  constructor(private router: Router,private fb: FormBuilder, private crHttp:ChangeRequestService,private toasterservice:ToastrService) {
+  value!: string;
 
-}
+  
+  constructor(private router: Router,private fb: FormBuilder, private crHttp:ChangeRequestService,private toasterservice:ToastrService) {}
 
       ngOnInit() {
       this.getcrInfo();
@@ -103,18 +103,29 @@ export class ChangeRequestComponent {
       this.isDialogVisible = false; // Updated reference
     }
 
-    // Save Toaster message method 
+    // Save Toaster message method with text areavalidation 
 
     SaveToasterMessage(){
+      if(this.value.length>0){
    this.toasterservice.success("Saved Successfully")
    this.onHide()
+      }
+      else{
+        this.toasterservice.warning("Please Enter Remarks")
+      }
     }
 
-    // Delete Toaster message method om modal
+    // Delete Toaster message method with text area validation
 
     DeleteToasterMessage(){
- this.toasterservice.error("Deleted Successfully")
- this.onHide()
+      if(this.value.length>0){
+        this.toasterservice.error("Deleted Successfully")
+        this.onHide()
+      }
+      else{
+        this.toasterservice.warning("Please Enter Remarks")
+      }
+
     }
 
 }
