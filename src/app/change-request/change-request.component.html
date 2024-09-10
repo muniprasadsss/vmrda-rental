@@ -1,99 +1,15 @@
 <app-header></app-header>
 <app-dashboard></app-dashboard>
 <div class="button-container">
-  <button class="btn approved" [ngClass]="{'active': activeButton === 'approved'}" (click)="navigateTo('approved')">Approved</button>
-  <button class="btn pending" [ngClass]="{'active': activeButton === 'pending'}" (click)="navigateTo('pending')">Pending</button>
-  <button class="btn rejected"[ngClass]="{'active': activeButton === 'rejected'}"(click)="navigateTo('rejected')">Rejected</button>
-  </div>
-  <div class="card custom-table" *ngIf="isApprovedClicked">
-   <p-table>
-    <ng-template pTemplate="caption">
-        <div class="flex">
-            <p-iconField iconPosition="left" class="ml-auto">
-                <p-inputIcon>
-                    <i class="pi pi-search"></i>
-                </p-inputIcon>
-                <input pInputText type="text" placeholder="Search keyword" />
-            </p-iconField>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-        <tr style="font-size: 12px; padding: 0;">
-            <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
-            <th pSortableColumn="request_type">Request Type<p-sortIcon field="request_type" /></th>
-            <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
-            <th pSortableColumn="user_name">User Name<p-sortIcon field="user_name" /></th>
-            <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
-            <th pSortableColumn="changes_to_be_updated">Changes to be Updated<p-sortIcon field="changes_to_be_updated" /></th>
-            <th pSortableColumn="proof_attached">Proof Attached<p-sortIcon field="proof_attached" /></th>
-            <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
-            <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
-            <th pSortableColumn="remarks">Remarks<p-sortIcon field="remarks" /></th>
-            <th pSortableColumn="history">History<p-sortIcon field="history" /></th>
-        </tr>
-    </ng-template>
-    
-    <ng-template pTemplate="emptymessage">
-        <tr style="margin-bottom: 1rem;">
-            <td colspan="11">No data found.</td>
-        </tr>
-    </ng-template>
-</p-table>
-    approved
+        <button class="btn approved" [ngClass]="{'active': activeButton === 'approved'}"
+            (click)="navigateTo('approved')">Approved</button>
+        <button class="btn pending" [ngClass]="{'active': activeButton === 'pending'}"
+            (click)="navigateTo('pending')">Pending</button>
+        <button class="btn rejected" [ngClass]="{'active': activeButton === 'rejected'}"
+            (click)="navigateTo('rejected')">Rejected</button>
 </div>
-<div class="card custom-table" *ngIf="isPendingClicked">
-    <p-table>
-        <ng-template pTemplate="caption">
-            <div class="flex">
-                <p-iconField iconPosition="left" class="ml-auto">
-                    <p-inputIcon>
-                        <i class="pi pi-search"></i>
-                    </p-inputIcon>
-                    <input pInputText type="text" placeholder="Search keyword" />
-                </p-iconField>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
-                <th pSortableColumn="request_type">Request Type<p-sortIcon field="request_type" /></th>
-                <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
-                <th pSortableColumn="user_name">User Name<p-sortIcon field="user_name" /></th>
-                <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
-                <th pSortableColumn="changes_to_be_updated">Changes to be Updated<p-sortIcon field="changes_to_be_updated" /></th>
-                <th pSortableColumn="proof_attached">Proof Attached<p-sortIcon field="proof_attached" /></th>
-                <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
-                <th pSortableColumn="tat">TAT<p-sortIcon field="tat" /></th>
-                <th pSortableColumn="tat_end_date">TAT End Date<p-sortIcon field="tat_end_date" /></th>
-                <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
-            </tr>
-        </ng-template>
-        <!-- <ng-template pTemplate="body" let-customer>
-            <tr style="font-size: 12px;">
-                <td style="width: 6%;">{{ customer.S_No }}</td>
-                <td style="width: 10%;">{{ customer.Request_Type }}</td>
-                <td style="width: 10%;">{{ customer.Property_Code }}</td>
-                <td style="width: 10%;">{{ customer.User_Name }}</td>
-                <td style="width: 10%;">{{ customer.User_Id }}</td>
-                <td style="width: 10%;">{{ customer.Changes_to_be_Updated }}</td>
-                <td style="width: 10%;">{{ customer.Proof_Attached }}</td>
-                <td style="width: 12%;">{{ customer.Change_Description }}</td>
-                <td style="width: 12%;">{{ customer.TAT }}</td>
-                <td style="width: 12%;">{{ customer.TAT_End_Date }}</td>
-                <td style="width: 10%;">{{ customer.Status }}</td>
-            </tr>
-        </ng-template> -->
-      
-        <ng-template pTemplate="emptymessage">
-            <tr style="margin-bottom: 1rem;">
-                <td colspan="11">No data found.</td>
-            </tr>
-        </ng-template>
-    </p-table> 
-  pending
-</div>
-<div class="card custom-table" *ngIf="isRejectClicked">
-    <p-table>
+<div class="card custom-table" *ngIf="isApprovedClicked">
+    <p-table [value]="crData">
         <ng-template pTemplate="caption">
             <div class="flex">
                 <p-iconField iconPosition="left" class="ml-auto">
@@ -116,7 +32,122 @@
                 <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
                 <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
                 <th pSortableColumn="remarks">Remarks<p-sortIcon field="remarks" /></th>
-                <th pSortableColumn="history">History<p-sortIcon field="history" /></th>
+                <!-- <th pSortableColumn="history">History<p-sortIcon field="history" /></th> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-crdata  >
+            <tr style="font-size: 12px;" *ngIf="crdata.request_status === 'Approved'" >
+                <td style="width: 6%;">{{ crdata.s_no }}</td>
+                <td style="width: 10%;">{{ crdata.request_type }}</td>
+                <td style="width: 10%;">{{ crdata.request_type }}</td>
+                <td style="width: 10%;">{{ crdata.requester_name }}</td>
+                <td style="width: 8%;">{{ crdata.user_id }}</td>
+                <td style="width: 10%;">{{ crdata.gstin }}</td>
+                <td style="width: 10%;">{{ crdata.RI_Name }}</td>
+                <td style="width: 12%;">{{ crdata.description }}</td>
+                <td style="width: 12%;">{{ crdata.request_status}}</td>
+                <td style="width: 12%;">{{ crdata.comments }}</td>
+                <!-- <td style="width: 12%;">{{ crdata.Total_No_of_Shops }}</td> -->
+            </tr>
+        </ng-template>
+          
+        <ng-template pTemplate="emptymessage">
+            <tr style="margin-bottom: 1rem;">
+                <td colspan="11">No data found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<div class="card custom-table" *ngIf="isPendingClicked">
+    <p-table [value]="crData">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <p-iconField iconPosition="left" class="ml-auto">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input pInputText type="text" placeholder="Search keyword" />
+                </p-iconField>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr style="font-size: 12px; padding: 0;">
+                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
+                <th pSortableColumn="request_type">Request Type<p-sortIcon field="request_type" /></th>
+                <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
+                <th pSortableColumn="user_name">User Name<p-sortIcon field="user_name" /></th>
+                <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
+                <th pSortableColumn="changes_to_be_updated">Changes to be Updated<p-sortIcon field="changes_to_be_updated" /></th>
+                <th pSortableColumn="proof_attached">Proof Attached<p-sortIcon field="proof_attached" /></th>
+                <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
+                <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
+                <th pSortableColumn="remarks">Remarks<p-sortIcon field="remarks" /></th>
+                <!-- <th pSortableColumn="history">History<p-sortIcon field="history" /></th> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-crdata  >
+            <tr style="font-size: 12px;" *ngIf="crdata.request_status === 'Waiting for Approval'" >
+                <td style="width: 6%;">{{ crdata.s_no }}</td>
+                <td style="width: 10%;">{{ crdata.request_type }}</td>
+                <td style="width: 10%;">{{ crdata.request_type }}</td>
+                <td style="width: 10%;">{{ crdata.requester_name }}</td>
+                <td style="width: 8%;">{{ crdata.user_id }}</td>
+                <td style="width: 10%;">{{ crdata.gstin }}</td>
+                <td style="width: 10%;">{{ crdata.RI_Name }}</td>
+                <td style="width: 12%;">{{ crdata.description }}</td>
+                <td style="width: 12%;">{{ crdata.request_status}}</td>
+                <td style="width: 12%;">{{ crdata.comments }}</td>
+                <!-- <td style="width: 12%;">{{ crdata.Total_No_of_Shops }}</td> -->
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr style="margin-bottom: 1rem;">
+                <td colspan="11">No data found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<div class="card custom-table" *ngIf="isRejectClicked">
+    <p-table [value]="crData">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <p-iconField iconPosition="left" class="ml-auto">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input pInputText type="text" placeholder="Search keyword" />
+                </p-iconField>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr style="font-size: 12px; padding: 0;">
+                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
+                <th pSortableColumn="request_type">Request Type<p-sortIcon field="request_type" /></th>
+                <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
+                <th pSortableColumn="user_name">User Name<p-sortIcon field="user_name" /></th>
+                <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
+                <th pSortableColumn="changes_to_be_updated">Changes to be Updated<p-sortIcon field="changes_to_be_updated" /></th>
+                <th pSortableColumn="proof_attached">Proof Attached<p-sortIcon field="proof_attached" /></th>
+                <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
+                <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
+                <th pSortableColumn="remarks">Remarks<p-sortIcon field="remarks" /></th>
+                <!-- <th pSortableColumn="history">History<p-sortIcon field="history" /></th> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-crdata  >
+            <tr style="font-size: 12px;" *ngIf="crdata.request_status === 'rejected'" >
+                <td style="width: 6%;">{{ crdata.s_no }}</td>
+                <td style="width: 10%;">{{ crdata.request_type }}</td>
+                <td style="width: 10%;">{{ crdata.request_type }}</td>
+                <td style="width: 10%;">{{ crdata.requester_name }}</td>
+                <td style="width: 8%;">{{ crdata.user_id }}</td>
+                <td style="width: 10%;">{{ crdata.gstin }}</td>
+                <td style="width: 10%;">{{ crdata.RI_Name }}</td>
+                <td style="width: 12%;">{{ crdata.description }}</td>
+                <td style="width: 12%;">{{ crdata.request_status}}</td>
+                <td style="width: 12%;">{{ crdata.comments }}</td>
+                <!-- <td style="width: 12%;">{{ crdata.Total_No_of_Shops }}</td> -->
             </tr>
         </ng-template>
         
@@ -125,9 +156,7 @@
                 <td colspan="11">No data found.</td>
             </tr>
         </ng-template>
-    </p-table>  
-  rejected
+    </p-table>
+    No data found.
 </div>
 <app-footer></app-footer>
-
-
