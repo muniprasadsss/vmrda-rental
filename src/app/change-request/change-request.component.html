@@ -155,7 +155,7 @@
     </ng-template>
 
     <ng-template pTemplate="header">
-        <tr>
+            <tr  style="font-size: 12px; padding: 0;">
             <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
             <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
             <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
@@ -194,8 +194,8 @@
               <td *ngIf="shouldShowButton('Close')">
                 <p-button label="Close" severity="primary" size="small" (click)="approveCR(item.id)"></p-button>
               </td> -->
-              <td>
-                <select>
+              <td style="width: 10%;">
+                <select class="custom-select">
                     <option *ngIf="shouldShowButton('Recommend')">Recommend</option>
                     <option *ngIf="shouldShowButton('Approval')">Approval</option>
                     <option *ngIf="shouldShowButton('Close')">Close</option>
