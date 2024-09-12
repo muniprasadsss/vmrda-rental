@@ -157,6 +157,7 @@
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
             <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
             <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
             <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
@@ -175,6 +176,7 @@
     <ng-template pTemplate="body" let-item>
         <tr>
             <td>{{ item.id }}</td>
+            <td>{{ item.cr_number }}</td>
             <td>{{ item.username }}</td>
             <td>{{ item.userId }}</td>
             <td>{{ item.requesttype }}</td>
