@@ -14,8 +14,29 @@ export class HeaderComponent implements OnInit {
   selectedCity:any
   userType:any
   dropdownDiv:boolean=false
+  items: any | undefined;
+
   constructor(private router:Router){}
   ngOnInit(): void {
+
+    this.items = [
+      {
+          // label: 'Options',
+          items: [
+              {
+                  label: 'Edit',
+                  icon: 'pi pi-pencil',
+                  // routerLink: ['/edit'] 
+              },
+              {
+                  label: 'Log Out',
+                  icon: 'pi pi-sign-out',
+                  routerLink: ['/'] 
+
+              }
+          ]
+      }
+  ];
    this.userType=localStorage.getItem("userType")
   }
   showDropDown(){

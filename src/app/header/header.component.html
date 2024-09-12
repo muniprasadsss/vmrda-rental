@@ -21,9 +21,16 @@
                     <button class="buttonClass" (click)="logOut()">LogOut</button>
                 </div> -->
                 <div style="margin-right: 20px;">Welcome, {{userType}}</div>
-                <div><i class="pi pi-question-circle" style="font-size: 1.3rem;"></i></div>
-                <div style="margin-left: 10px;"><i class="pi pi-bell" style="font-size: 1.3rem;"></i></div>
-                <div style="margin-left: 10px;"><i class="pi pi-user" style="font-size: 1.3rem;" (click)="logOut()"></i></div>
+                <div>
+                    <i class="pi pi-question-circle" style="font-size: 1.3rem;"></i>
+                </div>
+                <div style="margin-left: 10px;">
+                    <i class="pi pi-bell" style="font-size: 1.3rem;"></i>
+                </div>
+                <div style="margin-left: 10px;">
+                    <p-menu #menu [model]="items" [popup]="true" />
+                    <i class="pi pi-user" style="font-size: 1.3rem;" (click)="menu.toggle($event)"></i>
+                </div>
                 <!-- pi-question-circle -->
             </div>
         <!-- </div> -->

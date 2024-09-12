@@ -19,10 +19,10 @@ ngOnInit(): void {
   this.userType=localStorage.getItem("userType")
   console.log(this.userType,"usertype check");
   
- if(this.userType==="RI1"){
+ if(this.userType==="RI"){
   window.open(revenueInspectorReports,'_blank')
  }
- if(this.userType==="comissioner"){
+ if(this.userType==="COMISSIONER"){
   window.open(developmentReports,'_blank')
  }
   // window.open(powerBILink, '_blank'); 
