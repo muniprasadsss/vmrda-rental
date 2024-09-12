@@ -185,7 +185,7 @@
             <td>{{ item.description }}</td>
             <td>{{ item.propertycode }}</td>
             <td>{{ item.created_at | date: 'short' }}</td>
-            <td *ngIf="shouldShowButton('Recommend')">
+            <!-- <td *ngIf="shouldShowButton('Recommend')">
                 <p-button label="Recommend" severity="primary" size="small" (click)="approveCR(item.id)"></p-button>
               </td>
               <td *ngIf="shouldShowButton('Approval')">
@@ -193,6 +193,13 @@
               </td>
               <td *ngIf="shouldShowButton('Close')">
                 <p-button label="Close" severity="primary" size="small" (click)="approveCR(item.id)"></p-button>
+              </td> -->
+              <td>
+                <select>
+                    <option *ngIf="shouldShowButton('Recommend')">Recommend</option>
+                    <option *ngIf="shouldShowButton('Approval')">Approval</option>
+                    <option *ngIf="shouldShowButton('Close')">Close</option>
+                </select>
               </td>
         </tr>
     </ng-template>
