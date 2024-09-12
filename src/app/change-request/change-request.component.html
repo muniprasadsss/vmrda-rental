@@ -1,13 +1,41 @@
 <app-header></app-header>
 <app-dashboard></app-dashboard>
 <div class="button-container">
-        <button class="btn approved" [ngClass]="{'active': activeButton === 'approved'}"
-            (click)="navigateTo('approved')">Approved</button>
-        <button class="btn pending" [ngClass]="{'active': activeButton === 'pending'}"
-            (click)="navigateTo('pending')">Pending</button>
-        <button class="btn rejected" [ngClass]="{'active': activeButton === 'rejected'}"
-            (click)="navigateTo('rejected')">Rejected</button>
-</div>
+    <!-- <p-button 
+      label="Approved" 
+      severity="success" 
+      (click)="navigateTo('approved')" 
+      size="small" 
+      class="Button" 
+      [ngClass]="{'active': activeButton === 'approved'}"
+    ></p-button> -->
+    <button class="Button"  (click)="navigateTo('approved')"
+    [ngClass]="{'active': activeButton === 'approved'}" style="background-color: green;">Approved</button>
+  
+    <!-- <p-button 
+      label="Pending" 
+      severity="warning" 
+      (click)="navigateTo('pending')" 
+      size="small" 
+      class="Button" 
+      [ngClass]="{'active': activeButton === 'pending'}"
+    ></p-button> -->
+    <button (click)="navigateTo('pending')" class="Button" 
+    [ngClass]="{'active': activeButton === 'pending'}" style="background-color: orange;">Pending</button>
+  
+    <!-- <p-button 
+      label="Rejected" 
+      severity="danger" 
+      (click)="navigateTo('rejected')" 
+      size="small" 
+      class="Button" 
+      [ngClass]="{'active': activeButton === 'rejected'}"
+    ></p-button> -->
+    <button (click)="navigateTo('rejected')" 
+    class="Button" 
+    [ngClass]="{'active': activeButton === 'rejected'}" style="background-color: red;">Rejected</button>
+  </div>
+  
 <div class="card custom-table" *ngIf="isApprovedClicked">
     <p-table [value]="crData">
         <ng-template pTemplate="caption">
@@ -62,7 +90,7 @@
     </p-table>
 </div>
 <div class="card custom-table" *ngIf="isPendingClicked">
-    <p-table [value]="crData">
+    <!-- <p-table [value]="crData">
         <ng-template pTemplate="caption">
             <div class="flex">
                 <p-iconField iconPosition="left" class="ml-auto">
@@ -112,7 +140,70 @@
                 <td colspan="11">No data found.</td>
             </tr>
         </ng-template>
-    </p-table>
+    </p-table> -->
+<!-- src/app/components/data-table/data-table.component.html -->
+<p-table [value]="data">
+    <ng-template pTemplate="caption">
+        <div class="flex">
+            <p-iconField iconPosition="left" class="ml-auto">
+                <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input pInputText type="text" placeholder="Search keyword" />
+            </p-iconField>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
+            <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
+            <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
+            <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon></th>
+            <th pSortableColumn="attachment">Attachment <p-sortIcon field="attachment"></p-sortIcon></th>
+            <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+            <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
+            <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
+            <th></th>
+            <th></th>
+            <th></th>
+
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-item>
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.username }}</td>
+            <td>{{ item.userId }}</td>
+            <td>{{ item.requesttype }}</td>
+            <td>{{ item.revenuedivision }}</td>
+            <td>{{ item.attachment }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.propertycode }}</td>
+            <td>{{ item.created_at | date: 'short' }}</td>
+            <td *ngIf="shouldShowButton('Recommend')">
+                <p-button label="Recommend" severity="primary" size="small" (click)="approveCR(item.id)"></p-button>
+              </td>
+              <td *ngIf="shouldShowButton('Approval')">
+                <p-button label="Approval" severity="primary" size="small" (click)="approveCR(item.id)"></p-button>
+              </td>
+              <td *ngIf="shouldShowButton('Close')">
+                <p-button label="Close" severity="primary" size="small" (click)="approveCR(item.id)"></p-button>
+              </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="9">No data found.</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+  
+
 </div>
 <div class="card custom-table" *ngIf="isRejectClicked">
     <p-table [value]="crData">
@@ -172,7 +263,7 @@
 
 <!-- <button (click)="showPopupDiv()">Show</button> -->
  <!-- Confirmation Modal  -->
-<p-dialog header="" [(visible)]="isDialogVisible" modal="modal" [style]="{'width': '50vw'}" [closable]="true" (onHide)="onHide()">
+ <p-dialog header="" [(visible)]="isDialogVisible" modal="modal" [style]="{'width': '30vw','height': '60vh'}" [closable]="true" (onHide)="onHide()">
     <div style="display: flex;flex-direction:column;align-items: center;">
         <div>
             <p>Please Enter Remarks</p>
@@ -183,12 +274,13 @@
                 cols="30" 
                 variant="filled"
                 pInputTextarea 
+                required
                 [(ngModel)]="value">
             </textarea>
         </div>
-        <div>
-            <button (click)="SaveToasterMessage()">Save</button>
-            <button (click)="DeleteToasterMessage()">Delete</button>
+        <div style="margin-top: 20px;">
+            <button style="padding: 10px 20px;border: none;background-color: green;color: white;" (click)="SaveToasterMessage()">Save</button>
+            <!-- <button style="padding: 10px 20px;border: none;background-color: red;color: white;" (click)="DeleteToasterMessage()">Delete</button> -->
         </div>
     </div>
-  </p-dialog>
+  </p-dialog> 

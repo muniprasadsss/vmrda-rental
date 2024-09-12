@@ -11,6 +11,7 @@ import { ChangeRequestComponent } from './change-request/change-request.componen
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { LocationsComponent } from './locations/locations.component';
 import { ReportsComponent } from './reports/reports.component';
+import { DummyUserComponent } from './dummy-user/dummy-user.component';
 
 
 export const routes: Routes = [
@@ -26,5 +27,7 @@ export const routes: Routes = [
     {path: 'transactionTracking',component:TransactionTrackingComponent},
     {path: 'changeRequest',component:ChangeRequestComponent},
     {path: 'reports',component:ReportsComponent},
+    {path: 'dummyuser',component:DummyUserComponent},
+
 
 ];

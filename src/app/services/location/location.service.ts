@@ -16,4 +16,9 @@ export class LocationService {
         return this.http.get<any>(`${this.apiUrl}/Locations`)
           
       }
+      saveCR(locationData: any): Observable<any> {
+        console.log(locationData,"data check...");
+        
+        return this.http.post<any>(`${this.apiUrl}/cations`, locationData);
+      }
 }

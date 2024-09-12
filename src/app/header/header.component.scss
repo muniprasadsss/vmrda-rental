@@ -3,7 +3,9 @@
     align-items: center;
     justify-content: space-around;
     padding: 10px 20px;
-    background-color: #2b7187;
+    // background-color: #42b994;
+    background: linear-gradient(to right, #3cb497, #f9f9bb);
+
   
     .logo {
       img {
@@ -15,7 +17,8 @@
       flex: 1;
       text-align: center;
       margin-top: 0.5rem;
-      color: #ffffff;
+      // color: #ffffff;
+      color: black;
   
       h4 {
         margin: 0;
@@ -34,7 +37,3 @@
 }
 .buttonClass:hover {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);}
-.verticalLine{
-  border-left: 6px solid #2b7187;
-  height: 2rem;
-}

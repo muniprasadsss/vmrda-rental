@@ -22,7 +22,7 @@ ngOnInit(): void {
  if(this.userType==="RI1"){
   window.open(revenueInspectorReports,'_blank')
  }
- if(this.userType==="admin2"){
+ if(this.userType==="comissioner"){
   window.open(developmentReports,'_blank')
  }
   // window.open(powerBILink, '_blank'); 

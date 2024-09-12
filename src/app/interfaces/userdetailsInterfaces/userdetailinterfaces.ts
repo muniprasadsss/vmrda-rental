@@ -10,3 +10,7 @@ export interface userdetails {
     GSTIN?:string;
     Revenue_Dvision?:string;
 }
+interface UploadEvent {
+    originalEvent: Event;
+    files: File[];
+}

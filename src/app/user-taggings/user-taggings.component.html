@@ -87,21 +87,34 @@
             <input type="text" id="lease-deed-no" class="form-input" />
           </div>
           <div class="form-group">
-            <label for="power-meter-number" class="form-label">Power Meter Number</label>
-            <input type="text" id="power-meter-number" class="form-input" />
+            <label for="lease-deed-no" class="form-label">Lease Deed</label>
+            <input type="file" id="lease-deed-no" class="form-input" />
           </div>
         </div>
       
         <div class="form-row">
           <div class="form-group">
+            <label for="power-meter-number" class="form-label">Power Meter Number</label>
+            <input type="text" id="power-meter-number" class="form-input" />
+          </div>
+          <div class="form-group">
             <label for="water-meter-number" class="form-label">Water Meter Number</label>
             <input type="text" id="water-meter-number" class="form-input" />
           </div>
+        </div>
+
+
+        <div class="form-row">
           <div class="form-group">
             <label for="maintenance-amount" class="form-label">Maintenance Amount</label>
             <input type="number" id="maintenance-amount" class="form-input" step="0.01" />
           </div>
         </div>
+        
+
+        
+
+
       </div>
       
     <div class="btn">
@@ -146,6 +159,7 @@
                 <th pSortableColumn="rental_intrest_percentage">Rental Interest%<p-sortIcon field="rental_intrest_percentage" /></th>
                 <th pSortableColumn="gst_intrest_percentage">GST Interest%<p-sortIcon field="gst_intrest_percentage" /></th>
                 <th pSortableColumn="lease_deed_no">Lease Deed Number<p-sortIcon field="lease_deed_no" /></th>
+                <th pSortableColumn="lease_deed">Lease Deed<p-sortIcon field="lease_deed" /></th>
                 <th pSortableColumn="power_meter_number">Power Meter Number<p-sortIcon field="power_meter_number" /></th>
                 <th pSortableColumn="water_meter_number">Water Meter Number<p-sortIcon field="water_meter_number" /></th>
                 <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
