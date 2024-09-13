@@ -1,137 +1,147 @@
-<app-header></app-header>
-<app-dashboard></app-dashboard>
-<div class="card">
-    <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
-        [paginator]="true" [globalFilterFields]="['S_No','User_ID','User_Name','Mobile_No','Nature_of_Business','Aadhaar_No','PAN_No','Email_Id','GSTIN','Revenue_Dvision']"
-        [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
-        <ng-template pTemplate="caption">
-            <div class="searchbar">
-                <div class="search">
-                    <p-iconField iconPosition="left" class="ml-auto">
-                        <p-inputIcon>
-                            <i class="pi pi-search"></i>
-                        </p-inputIcon>
-                        <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
-                    </p-iconField>
-                </div>
-                <div class="dialog">
-                            <p-button 
-                                (onClick)="showDialog()" 
-                                label="Add New" 
-                                severity="success"
-                                size="small" />
-                        <p-dialog 
-                            header="Add New" 
-                            [modal]="true"
-                            [(visible)]="visible" 
-                            position="center" 
-                            [style]="{ width: '50rem' }">
-                            <div class="form-container">
-                              <div class="form-row">
-                                <div class="form-group">
-                                  <label for="username" class="form-label">Username</label>
-                                  <input type="text" id="username" class="form-input" />
+<div class="parent">
+  <div class="header"><app-header></app-header></div>
+  <div class="dashboard"><app-dashboard></app-dashboard></div>
+  <div class="content">
+    <div class="card">
+      <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
+          [paginator]="true" [globalFilterFields]="['S_No','User_ID','User_Name','Mobile_No','Nature_of_Business','Aadhaar_No','PAN_No','Email_Id','GSTIN','Revenue_Dvision']"
+          [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
+          <ng-template pTemplate="caption">
+              <div class="searchbar">
+                  <div class="search">
+                      <p-iconField iconPosition="left" class="ml-auto">
+                          <p-inputIcon>
+                              <i class="pi pi-search"></i>
+                          </p-inputIcon>
+                          <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+                      </p-iconField>
+                  </div>
+                  <div class="dialog">
+                              <p-button 
+                                  (onClick)="showDialog()" 
+                                  label="Add New" 
+                                  severity="success"
+                                  size="small" />
+                          <p-dialog 
+                              header="Add New" 
+                              [modal]="true"
+                              [(visible)]="visible" 
+                              position="center" 
+                              [style]="{ width: '50rem' }">
+                              <div class="form-container">
+                                <div class="form-row">
+                                  <div class="form-group">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" id="username" class="form-input" />
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="mobile" class="form-label">Mobile No</label>
+                                    <input type="number" id="mobile" class="form-input" />
+                                  </div>
                                 </div>
-                                <div class="form-group">
-                                  <label for="mobile" class="form-label">Mobile No</label>
-                                  <input type="number" id="mobile" class="form-input" />
-                                </div>
-                              </div>
-                            
-                              <div class="form-row">
-                                <div class="form-group">
-                                  <label for="business" class="form-label">Business</label>
-                                  <input type="text" id="business" class="form-input" />
-                                </div>
-                                <div class="form-group">
-                                  <label for="aadhar" class="form-label">Aadhar No</label>
-                                  <input type="number" id="aadhar" class="form-input" />
-                                </div>
-                              </div>
-                            
-                              <div class="form-row">
-                                <div class="form-group">
-                                  <label for="pan" class="form-label">PAN No</label>
-                                  <input type="text" id="pan" class="form-input" />
-                                </div>
-                                <div class="form-group">
-                                  <label for="email" class="form-label">Email ID</label>
-                                  <input type="email" id="email" class="form-input" />
-                                </div>
-                              </div>
-                            
-                              <div class="form-row">
-                                <div class="form-group">
-                                  <label for="gstin" class="form-label">GST IN</label>
-                                  <input type="text" id="gstin" class="form-input" />
-                                </div>
-                                <div class="form-group">
-                                  <label for="revenue" class="form-label">Revenue Division</label>
-                                  <input type="text" id="revenue" class="form-input" />
-                                </div>
-                              </div>
-                            </div>
-                            
-                                  
-                                  
-                            
-                               
                               
-                                <div class="btn">
-                                    <div class="save">
-                                        <p-button label="save"  (onClick)="visible = false" size="small"/>
-                                    </div>
-                                    <div class="save">
-                                        <p-button label="cancel"  severity="danger" (onClick)="visible = false" size="small"/>
-                                    </div>
-                                    
+                                <div class="form-row">
+                                  <div class="form-group">
+                                    <label for="business" class="form-label">Business</label>
+                                    <input type="text" id="business" class="form-input" />
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="aadhar" class="form-label">Aadhar No</label>
+                                    <input type="number" id="aadhar" class="form-input" />
+                                  </div>
                                 </div>
-                        </p-dialog>
-                </div>
-                 </div>
-        </ng-template>   
-        <ng-template pTemplate="header">
-            <tr style="font-size: 12px;">
-                <th pSortableColumn="S_No">S.No <p-sortIcon field="S_No" /></th>
-                <th pSortableColumn="User_ID">User ID <p-sortIcon field="User_ID" /></th>
-                <th pSortableColumn="User_Name">User Name<p-sortIcon field="User_Name" /></th>
-                <th pSortableColumn="Mobile_No">Mobile No<p-sortIcon field="Mobile_No" /></th>
-                <th pSortableColumn="Nature_of_Business"> Business<p-sortIcon field="Nature_of_Business" /></th>
-                <th pSortableColumn="Aadhaar_No">Aadhar No<p-sortIcon field="Aadhaar_No" /></th>
-                <th pSortableColumn="PAN_No">PAN No<p-sortIcon field="PAN_No" /></th>
-                <th pSortableColumn="Email_Id">Email Id<p-sortIcon field="Email_Id" /></th>
-                <th pSortableColumn="GSTIN">GSTIN<p-sortIcon field="GSTIN" /></th>
-                <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th>
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-customer>
-            <tr style="font-size: 12px;">
-                <td style="width: 6%;">{{ customer.S_No }}</td>
-                <td style="width: 7%;">{{ customer.User_ID }}</td>
-                <td style="width: 6%;">{{ customer.User_Name }}</td>
-                <td style="width: 8%;">{{ customer.Mobile_No }}</td>
-                <td style="width: 6%;">{{ customer.Nature_of_Business }}</td>
-                <td style="width: 8%;">{{ customer.Aadhaar_No }}</td>
-                <td style="width: 6%;">{{ customer.PAN_No }}</td>
-                <td style="width: 6%;">{{ customer.Email_Id }}</td>
-                <td style="width: 6%;">{{ customer.GSTIN }}</td>
-                <td style="width: 6%;">{{ customer.Revenue_Dvision }}</td>
-                <td style="width: 6%;">
-                  <div class="rowbtn">
-                    <button class="editButton"> <i class="pi pi-pencil"></i></button>
-                    <button class="deleteButton"><i class="pi pi-trash"></i></button>
-                    <!-- <p-button icon="pi pi-check" [rounded]="true" [outlined]="true" /> -->
-                    <!-- <p-button icon="pi pi-times" [rounded]="true" severity="danger" [outlined]="true" /> -->
-
-                    <!-- <p-button icon="pi pi-pencil" severity="success" size="small"></p-button> -->
-                  <!-- <p-button icon="pi pi-trash" severity="danger" size="small"></p-button> -->
-                </div>
-              </td>
-            </tr>
-        </ng-template>
-    </p-table>
+                              
+                                <div class="form-row">
+                                  <div class="form-group">
+                                    <label for="pan" class="form-label">PAN No</label>
+                                    <input type="text" id="pan" class="form-input" />
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="email" class="form-label">Email ID</label>
+                                    <input type="email" id="email" class="form-input" />
+                                  </div>
+                                </div>
+                              
+                                <div class="form-row">
+                                  <div class="form-group">
+                                    <label for="gstin" class="form-label">GST IN</label>
+                                    <input type="text" id="gstin" class="form-input" />
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="revenue" class="form-label">Revenue Division</label>
+                                    <input type="text" id="revenue" class="form-input" />
+                                  </div>
+                                </div>
+                              </div>
+                              
+                                    
+                                    
+                              
+                                 
+                                
+                                  <div class="btn">
+                                      <div class="save">
+                                          <p-button label="save"  (onClick)="visible = false" size="small"/>
+                                      </div>
+                                      <div class="save">
+                                          <p-button label="cancel"  severity="danger" (onClick)="visible = false" size="small"/>
+                                      </div>
+                                      
+                                  </div>
+                          </p-dialog>
+                  </div>
+                   </div>
+          </ng-template>   
+          <ng-template pTemplate="header">
+              <tr style="font-size: 12px;">
+                  <th pSortableColumn="S_No">S.No <p-sortIcon field="S_No" /></th>
+                  <th pSortableColumn="User_ID">User ID <p-sortIcon field="User_ID" /></th>
+                  <th pSortableColumn="User_Name">User Name<p-sortIcon field="User_Name" /></th>
+                  <th pSortableColumn="Mobile_No">Mobile No<p-sortIcon field="Mobile_No" /></th>
+                  <th pSortableColumn="Nature_of_Business"> Business<p-sortIcon field="Nature_of_Business" /></th>
+                  <th pSortableColumn="Aadhaar_No">Aadhar No<p-sortIcon field="Aadhaar_No" /></th>
+                  <th pSortableColumn="PAN_No">PAN No<p-sortIcon field="PAN_No" /></th>
+                  <th pSortableColumn="Email_Id">Email Id<p-sortIcon field="Email_Id" /></th>
+                  <th pSortableColumn="GSTIN">GSTIN<p-sortIcon field="GSTIN" /></th>
+                  <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th>
+                  <th></th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-customer>
+              <tr style="font-size: 12px;">
+                  <td style="width: 6%;">{{ customer.S_No }}</td>
+                  <td style="width: 7%;">{{ customer.User_ID }}</td>
+                  <td style="width: 6%;">{{ customer.User_Name }}</td>
+                  <td style="width: 8%;">{{ customer.Mobile_No }}</td>
+                  <td style="width: 6%;">{{ customer.Nature_of_Business }}</td>
+                  <td style="width: 8%;">{{ customer.Aadhaar_No }}</td>
+                  <td style="width: 6%;">{{ customer.PAN_No }}</td>
+                  <td style="width: 6%;">{{ customer.Email_Id }}</td>
+                  <td style="width: 6%;">{{ customer.GSTIN }}</td>
+                  <td style="width: 6%;">{{ customer.Revenue_Dvision }}</td>
+                  <td style="width: 6%;">
+                    <div class="rowbtn">
+                      <button class="editButton"> <i class="pi pi-pencil"></i></button>
+                      <button class="deleteButton"><i class="pi pi-trash"></i></button>
+                      <!-- <p-button icon="pi pi-check" [rounded]="true" [outlined]="true" /> -->
+                      <!-- <p-button icon="pi pi-times" [rounded]="true" severity="danger" [outlined]="true" /> -->
+  
+                      <!-- <p-button icon="pi pi-pencil" severity="success" size="small"></p-button> -->
+                    <!-- <p-button icon="pi pi-trash" severity="danger" size="small"></p-button> -->
+                  </div>
+                </td>
+              </tr>
+          </ng-template>
+      </p-table>
+  </div>
+  </div>
+  <div class="footer-content-dashboard"><app-footer></app-footer></div>
 </div>
 
 
-<app-footer></app-footer>
+
+
+
+
+
+

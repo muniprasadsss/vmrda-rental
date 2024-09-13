@@ -85,6 +85,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     gap: 1rem;
 }
 
-footer{
-  
+.parent{
+  display: flex;
+  flex-direction: column;
+}
+.footer-content-dashboard{
+  margin-top: 4rem;
 }
