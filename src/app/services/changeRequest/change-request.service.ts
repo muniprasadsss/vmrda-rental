@@ -17,10 +17,10 @@ export class ChangeRequestService {
           
       }
 
-    setCRequest(cr_no:number): Observable<any> {
+    setCRequest(payload:any): Observable<any> {
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      const payload = { cr_no };
-        return this.http.put<any>(`${this.apiUrl}/updateChangeRequest`, payload,{headers})
+        console.log(payload)
+        return this.http.post<any>(`${this.apiUrl}/create-cr-event`, payload,{headers})
           
       }
 }

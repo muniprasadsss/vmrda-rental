@@ -6,7 +6,7 @@ import { HeaderComponent } from "../header/header.component";
 import { DashboardComponent } from "../dashboard/dashboard.component";
 import { FooterComponent } from "../footer/footer.component";
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
-import { ChangedFields } from '../interfaces/changeRequest/changeRequest';
+import { ChangedFields, Payload } from '../interfaces/changeRequest/changeRequest';
 import { ToastrService } from 'ngx-toastr';
 import { DummyUserService } from '../services/dummyUser/dummy-user.service';
 
@@ -26,10 +26,12 @@ export class ChangeRequestComponent {
   isPendingClicked: boolean = false;
   activeButton: string = 'approved'; // Track active button
   crData!: ChangedFields[];
-  value!: string;
+  remarks!: string;
   user: any;
   data: any[] = [];
   userType: string | null = null; // Role of the user fetched from localStorage
+  action:string = ''
+  payload!: Payload| Object;
 
   constructor(
     private router: Router,
@@ -57,14 +59,39 @@ export class ChangeRequestComponent {
     });
   }
 
-  approveCR(value: number) {
+  
+
+  changeStatus( crno: any, request_type: any, status: any, stage:any ,action:any) {
+    
     this.showModalDiv();
-    this.crHttp.setCRequest(value).subscribe({
-      next: (res: any) => {},
-      error: (err: any) => {
-        console.log(err);
-      }
-    });
+    // Assuming this.payload is a single Payload object
+this.payload = {
+  crno: crno,  // Corrected to use colon
+  request_type: request_type,
+  status: status,
+  stage: stage,
+  role: localStorage.getItem('userType'),
+  action: action,
+  };
+
+       
+  }
+
+  submitChangeAction() {
+    if (this.remarks.length > 0) {
+      this.payload = {...this.payload,remarks:this.remarks};
+     
+      this.crHttp.setCRequest(this.payload).subscribe({
+        next: (res: any) => {},
+        error: (err: any) => {
+          console.log(err);
+        }
+      });
+      this.onHide();
+      this.toasterservice.success("Saved Successfully");
+    } else {
+      this.toasterservice.warning("Please Enter Remarks");
+    }
   }
 
   navigateTo(status: string) {
@@ -97,17 +124,10 @@ export class ChangeRequestComponent {
     this.isDialogVisible = false;
   }
 
-  SaveToasterMessage() {
-    if (this.value.length > 0) {
-      this.toasterservice.success("Saved Successfully");
-      this.onHide();
-    } else {
-      this.toasterservice.warning("Please Enter Remarks");
-    }
-  }
+  
 
   DeleteToasterMessage() {
-    if (this.value.length > 0) {
+    if (this.remarks.length > 0) {
       this.toasterservice.error("Deleted Successfully");
       this.onHide();
     } else {

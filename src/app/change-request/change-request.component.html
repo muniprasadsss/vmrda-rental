@@ -76,7 +76,7 @@
                 <td style="width: 8%;">{{ crdata.request_status}}</td>
                 <td style="width: 10%;">{{ crdata.comments }}</td>
                 <td class="rowbtn"  style="width: 10%;">
-                    <button class="btn" (click)="approveCR(crdata.cr_no)"><i class="pi pi-check " style="color: rgb(12, 80, 12);"></i></button>
+                    <button class="btn" ><i class="pi pi-check " style="color: rgb(12, 80, 12);"></i></button>
                     <button class="btn"><i class="pi pi-times"style="color: red;"></i></button>
                 </td>
             </tr>
@@ -190,11 +190,13 @@
             <td>{{ item.status}}</td>
             <td style="width: 10%;">{{ item.stage}}</td>
               <td style="width: 10%;">
-                <select class="custom-select">
-                    <option default>Select</option>
-                    <option *ngIf="shouldShowButton('Recommend')">Recommend</option>
-                    <option *ngIf="shouldShowButton('Approval')">Approval</option>
-                    <option *ngIf="shouldShowButton('Close')">Close</option>
+                <select class="custom-select" [(ngModel)]="item.action"
+                 (change)="changeStatus(item.cr_number,item.requesttype,item.status,item.stage,item.action)">
+                 <!-- <option [ngValue]="null">Select</option> -->
+                 <option value="" [defaultSelected]="">select</option>
+                    <option value="Recommend" *ngIf="shouldShowButton('Recommend')">Recommend</option>
+                    <option value="Approval" *ngIf="shouldShowButton('Approval')">Approval</option>
+                    <option value="Close" *ngIf="shouldShowButton('Close')">Close</option>
                 </select>
               </td>
         </tr>
@@ -250,7 +252,7 @@
                 <td style="width: 12%;">{{ crdata.request_status}}</td>
                 <td style="width: 12%;">{{ crdata.comments }}</td>
                 <td class="rowbtn"  style="width: 10%;">
-                    <button class="btn" (click)="approveCR(crdata.cr_no)"><i class="pi pi-check " style="color: rgb(12, 80, 12);"></i></button>
+                    <button class="btn" ><i class="pi pi-check " style="color: rgb(12, 80, 12);"></i></button>
                     <button class="btn"><i class="pi pi-times"style="color: red;"></i></button>
                 </td>
             </tr>
@@ -280,11 +282,11 @@
                 variant="filled"
                 pInputTextarea 
                 required
-                [(ngModel)]="value">
+                [(ngModel)]="remarks">
             </textarea>
         </div>
         <div style="margin-top: 20px;">
-            <button style="padding: 10px 20px;border: none;background-color: green;color: white;" (click)="SaveToasterMessage()">Save</button>
+            <button style="padding: 10px 20px;border: none;background-color: green;color: white;" (click)="submitChangeAction()">Save</button>
             <!-- <button style="padding: 10px 20px;border: none;background-color: red;color: white;" (click)="DeleteToasterMessage()">Delete</button> -->
         </div>
     </div>

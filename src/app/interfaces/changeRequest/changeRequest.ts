@@ -15,3 +15,14 @@ export interface ChangedFields {
     Email_Id: boolean;
     cr_no?:number | null;
   }
+
+  export interface Payload {
+    crno?: number | null ;
+    request_type: string;
+    status: string;
+    stage: string;
+    role: string | null;  // Since `localStorage.getItem` can return null
+    action: string;
+    remarks?: string;
+  }
+  
