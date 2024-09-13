@@ -11,78 +11,122 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-bill-details',
   standalone: true,
-  imports: [PrimeNgModule,HeaderComponent,DashboardComponent,FooterComponent,ReactiveFormsModule],
+  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent, ReactiveFormsModule],
   templateUrl: './bill-details.component.html',
-  styleUrl: './bill-details.component.scss',
-  providers: [DatePipe] // Add DatePipe here
+  styleUrls: ['./bill-details.component.scss'],
+  providers: [DatePipe]
 })
-export class BillDetailsComponent  {
-
+export class BillDetailsComponent implements OnInit {
   emailData = {
-    to: 'srivatsavatsa25@gmail.com', 
+    to: 'srivatsavatsa25@gmail.com',
     subject: 'Test Email from Angular',
     text: 'Hello! This is a test email sent from the Angular frontend using Nodemailer backend.',
   };
-  constructor(private billDetailService:BillDetailsService,private datepipe:DatePipe){}
   visible: boolean = false;
   responseMsg: string | undefined;
   dataSource!: billDetails[];
   form!: FormGroup;
 
+  constructor(private billDetailService: BillDetailsService, private datepipe: DatePipe) {}
 
-ngOnInit(): void {
-  this.getbilldetails()
-  this.form = new FormGroup({
-    s_no: new FormControl({ value: '188', disabled: true }) ,  
-    bill_no: new FormControl('VMRDAB01'),  
-    user_id: new FormControl('9999999999MANA'), 
-    property_code: new FormControl('RN-D1-CS1-GS01') ,
-    lease_Amount: new FormControl('') ,
-    gst: new FormControl('') ,
-    power_bill_amount: new FormControl('') ,
-    water_bill_amount: new FormControl('') ,
-    maintenance_amount: new FormControl('') ,
-    interests: new FormControl('') ,
-    total: new FormControl('') 
-  });
-}
+  ngOnInit(): void {
+    this.getbilldetails();
+    this.form = new FormGroup({
+      s_no: new FormControl({ value: '', disabled: true }),
+      bill_no: new FormControl(''),
+      user_id: new FormControl(''),
+      property_code: new FormControl(''),
+      lease_period: new FormControl(''),
+      lease_Amount: new FormControl(''),
+      gst: new FormControl(''),
+      power_bill_amount: new FormControl(''),
+      water_bill_amount: new FormControl(''),
+      maintenance_amount: new FormControl(''),
+      lease_interests: new FormControl(''),
+      total: new FormControl('')
+    });
+  }
 
-  showDialog() {
-    this.visible = true;
-}
-
-getbilldetails() {
-  this.billDetailService.getBillDetails().subscribe({
-    next: (res: any) => {
-      this.dataSource = Object.keys(res).map(key => ({ ...res[key] }));
-      this.responseMsg = res.message;
-      console.log(this.dataSource, "userservice data...");
-    },
-    error: (err: any) => {
-      if (err.error?.message) {
-        this.responseMsg = err.error?.message;
-      } else {
-        this.responseMsg = "error";
-      }
-    }
-  });
-}
-
-sendEmail() {
-  this.billDetailService.sendEmail(this.emailData).subscribe(
-    (response) => {
-      console.log('Email sent successfully', response);
-    },
-    (error) => {
-      console.error('Error sending email', error);
-    }
-  );
-  console.log("Button clicked...");
+  calculateTotal(): void {
+    const leaseAmount = parseFloat(this.form.get('lease_Amount')?.value) || 0;
+    const gst = parseFloat(this.form.get('gst')?.value) || 0;
+    const powerBillAmount = parseFloat(this.form.get('power_bill_amount')?.value) || 0;
+    const waterBillAmount = parseFloat(this.form.get('water_bill_amount')?.value) || 0;
+    const maintenanceAmount = parseFloat(this.form.get('maintenance_amount')?.value) || 0;
+    const leaseInterests = parseFloat(this.form.get('lease_interests')?.value) || 0;
   
-}
+    // Calculate the total
+    const total = leaseAmount + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests;
+  
+    // Update the total field in the form
+    this.form.get('total')?.setValue(total, { emitEvent: false }); // { emitEvent: false } to avoid circular triggers
+  }
+  
+  // Updated showDialog method to fetch data based on bill_no
+  showDialog(bill_no: string) {
+    console.log(bill_no);
+    this.visible = true;
 
-formatDate(dateString: string): string {
-  return this.datepipe.transform(dateString, 'yyyy-MM-dd') || '';
-}
+    // Fetch details based on bill_no
+    this.billDetailService.getBillDetailsByBillNo(bill_no).subscribe({
+      next: (res: any) => {
+        console.log('Fetched bill details:', res);
+        // Update your form or dataSource as needed
+        if (res.length > 0) {
+          const billDetail = res[0]; // Assuming you get an array and want the first result
+          this.form.patchValue({
+            s_no: billDetail.S_No,
+            bill_no: billDetail.Bill_No,
+            user_id: billDetail.User_ID,
+            property_code: billDetail.Property_Code,
+            lease_period: billDetail.Lease_Period,
+            lease_Amount: billDetail.Lease_Amount,
+            gst: billDetail.GST,
+            // power_bill_amount: billDetail.Power_Bill_Amount,
+            // water_bill_amount: billDetail.Water_Bill_Amount,
+            // maintenance_amount: billDetail.Power_Bill_Amount,
+            lease_interests: billDetail.Lease_Interest,
+            total: billDetail.total
+          });
+        }
+      },
+      error: (err: any) => {
+        console.error('Error fetching bill details by bill_no:', err);
+        this.responseMsg = "Error fetching details";
+      }
+    });
+  }
 
+  getbilldetails() {
+    this.billDetailService.getBillDetails().subscribe({
+      next: (res: any) => {
+        this.dataSource = Object.keys(res).map(key => ({ ...res[key] }));
+        this.responseMsg = res.message;
+        console.log(this.dataSource, "userservice data...");
+      },
+      error: (err: any) => {
+        if (err.error?.message) {
+          this.responseMsg = err.error?.message;
+        } else {
+          this.responseMsg = "error";
+        }
+      }
+    });
+  }
+
+  sendEmail() {
+    this.billDetailService.sendEmail(this.emailData).subscribe(
+      (response) => {
+        console.log('Email sent successfully', response);
+      },
+      (error) => {
+        console.error('Error sending email', error);
+      }
+    );
+    console.log("Button clicked...");
+  }
+
+  formatDate(dateString: string): string {
+    return this.datepipe.transform(dateString, 'yyyy-MM-dd') || '';
+  }
 }

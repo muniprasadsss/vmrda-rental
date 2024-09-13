@@ -1,9 +1,11 @@
-<!-- <app-header></app-header>
+ <!-- <app-header></app-header>
 <app-dashboard></app-dashboard> -->
-<div class="card custom-table">
+<div class="content">
+
+<div class="card">
   <button (click)="sendEmail()">Mail Send</button>
 
-    <p-table [value]="dataSource">
+    <p-table [value]="dataSource" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
         <ng-template pTemplate="caption">
             <div class="searchbar">
                 <div class="search">
@@ -15,11 +17,11 @@
                     </p-iconField>
                 </div>
                 <div class="dialog">
-                    <p-button 
+                    <!-- <p-button 
                     (onClick)="showDialog()" 
                     label="Add New" 
                     severity="success"
-                    size="small" />
+                    size="small" /> -->
                     <p-dialog 
     header="Bill Details" 
     [modal]="true"
@@ -29,46 +31,47 @@
     <div class="form-container">
       <form [formGroup]="form">
         <div class="form-row">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="s_no" class="form-label">S No</label>
               <input type="text" id="s_no" class="form-input" formControlName="s_no"/>
-            </div>
+            </div> -->
           <div class="form-group">
             <label for="bill_no" class="form-label">Bill No</label>
             <input type="text" id="bill_no" class="form-input" formControlName="bill_no" />
           </div>
           <div class="form-group">
             <label for="user_id" class="form-label">User Id</label>
-            <select class="custom-select" style="width: 90%;">
+            <!-- <select class="custom-select" style="width: 90%;">
               <option>9999999999MANA</option>
               <option>9999999999PLAX</option>
               <option>9999999999PANC</option>
-            </select>
-            <!-- <input type="text" id="user_id" class="form-input" formControlName="user_id" /> -->
+            </select> -->
+            <input type="text" id="user_id" class="form-input" formControlName="user_id" />
           </div>
         </div>    
         <div class="form-row">
           <div class="form-group">
             <label for="property_code" class="form-label">Property Code</label>
-            <select class="custom-select" style="width: 90%;">
+            <!-- <select class="custom-select" style="width: 90%;">
               <option>RN-D1-CS1-GS01</option>
               <option>RN-D1-CS1-GS02</option>
               <option>RN-D1-CS1-GS03</option>
-            </select>
+            </select> -->
+            <input type="text" id="user_id" class="form-input" formControlName="property_code" />
           </div>
           <div class="form-group">
             <label for="lease_period" class="form-label">Lease Period</label>
-            <input type="text" id="lease_period" class="form-input" />
+            <input type="text" id="lease_period" class="form-input" formControlName="lease_period"/>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="billing_period" class="form-label">Billing Period</label>
             <input type="text" id="billing_period" class="form-input" />
-          </div>  
+          </div>   -->
         </div>
         <div class="form-row">
           <div class="form-group">
             <label for="lease_amount" class="form-label">Lease Amount</label>
-            <input type="number" id="lease_amount" class="form-input"  formControlName="lease_amount"/>
+            <input type="number" id="lease_amount" class="form-input"  formControlName="lease_Amount"/>
           </div>   
           <div class="form-group">
             <label for="gst" class="form-label">GST</label>
@@ -76,21 +79,21 @@
           </div>
           <div class="form-group">
             <label for="power_bill_amount" class="form-label">Power Bill Amount</label>
-            <input type="number" id="power_bill_amount" class="form-input"  formControlName="power_bill_amount"/>
+            <input type="number" id="power_bill_amount" class="form-input" (change)="calculateTotal()" formControlName="power_bill_amount"/>
           </div> 
         </div>  
         <div class="form-row">
           <div class="form-group">
             <label for="water_bill_amount" class="form-label">Water Bill Amount</label>
-            <input type="number" id="water_bill_amount" class="form-input" formControlName="water_bill_amount" />
+            <input type="number" id="water_bill_amount" class="form-input" (change)="calculateTotal()" formControlName="water_bill_amount" />
           </div>      
           <div class="form-group">
             <label for="maintenance_amount" class="form-label">Maintenance Amount</label>
-            <input type="number" id="maintenance_amount" class="form-input" formControlName="maintenance_amount" />
+            <input type="number" id="maintenance_amount" class="form-input" (change)="calculateTotal()" formControlName="maintenance_amount" />
           </div>
           <div class="form-group">
-            <label for="interests" class="form-label">Interests</label>
-            <input type="number" id="interests" class="form-input"  formControlName="interests"/>
+            <label for="lease_interests" class="form-label">Lease Interest</label>
+            <input type="number" id="lease_interests" class="form-input"  formControlName="lease_interests"/>
           </div>   
         </div>
         <div class="form-row" style="display: flex;justify-content: center;">
@@ -98,10 +101,10 @@
             <label for="total" class="form-label">Total</label>
             <input type="number" id="total" class="form-input" formControlName="total" />
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="adjustments" class="form-label">Adjustments</label>
             <input type="number" id="adjustments" class="form-input"  />
-          </div>
+          </div> -->
         </div>
         </form>
       </div>
@@ -140,8 +143,8 @@
                 <th pSortableColumn="Lease_Period">Lease Period<p-sortIcon field="Lease_Period" /></th>
                 <th pSortableColumn="Lease_Amount">Lease Amount<p-sortIcon field="Lease_Amount" /></th>
                 <th pSortableColumn="gst">GST<p-sortIcon field="gst" /></th>
-                <th pSortableColumn="Lease_Interest">Lease Interest<p-sortIcon field="Lease_Interest" /></th>
-                <th pSortableColumn="gst_intrest">GST Interest<p-sortIcon field="gst_intrest" /></th>
+                <!-- <th pSortableColumn="Lease_Interest">Lease Interest<p-sortIcon field="Lease_Interest" /></th> -->
+                <!-- <th pSortableColumn="gst_intrest">GST Interest<p-sortIcon field="gst_intrest" /></th> -->
                 <th pSortableColumn="power_bill_amount">Power Bill Amount<p-sortIcon field="power_bill_amount" /></th>
                 <th pSortableColumn="water_bill_amount">Water Bill Amount<p-sortIcon field="water_bill_amount" /></th>
                 <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
@@ -151,6 +154,10 @@
                 <th pSortableColumn="Payment_Date">Payment Date<p-sortIcon field="Payment_Date" /></th>
                 <th pSortableColumn="total_due">Total Due<p-sortIcon field="total_due" /></th>
                 <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
+                <!-- <th pSortableColumn="RI_Approval">RI Approval<p-sortIcon field="RI_Approval" /></th>
+                <th pSortableColumn="RI_ASSIGNED">RI Assigned<p-sortIcon field="RI_ASSIGNED" /></th> -->
+                <th></th>
+
 
             </tr>
         </ng-template>
@@ -173,17 +180,20 @@
             <td style="width: 8%;">{{ formatDate(bill.Payment_Date) }}</td>
             <td style="width: 8%;">{{ bill.Total_Due }}</td>
             <td style="width: 8%;">{{ bill.Status }}</td>
-
+            <td style="width: 8%;">{{ bill.RI_Approval }}</td>
+            <td style="width: 8%;">{{ bill.RI_ASSIGNED }}</td>
             <td>
               <div class="rowbtn">
-                <button class="editButton"> <i class="pi pi-pencil"></i></button>
-                <button class="deleteButton"><i class="pi pi-trash"></i></button>
+                <button class="editButton" (click)="showDialog(bill.Bill_No)"> <i class="pi pi-pencil"></i></button>
+                <!-- <button class="deleteButton"><i class="pi pi-trash"></i></button> -->
               </div>
              </td>
         </tr>
       </ng-template>  
     </p-table>
 </div>
+</div>
+
 
  
 

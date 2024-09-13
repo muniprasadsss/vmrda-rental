@@ -16,6 +16,11 @@ export class BillDetailsService {
         return this.http.get<any>(`${this.apiUrl}/billdetails`)
           
       }  
+      
+       // New method to get bill details by bill_no
+  getBillDetailsByBillNo(billNo: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/billdetailsbybillno?billNo=${billNo}`);
+  }
 
 //  sendEmail(emailData: { to: string; subject: string; text: string }): Observable<any> {
 //         return this.http.post(this.apiUrl, emailData); // Post request to backend
