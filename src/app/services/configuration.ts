@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: 'http://localhost:3000'
+    apiUrl: 'http://vmrda-demo.ap-south-1.elasticbeanstalk.com'
 };
