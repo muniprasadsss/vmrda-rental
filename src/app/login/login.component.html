@@ -30,6 +30,10 @@
           class="error">
           Username and Password is required.
         </div>
+        <div *ngIf="otpDiv"
+          class="otp">
+          Please enter the otp.
+        </div>
       </div>
       <div *ngIf="otpDiv" style="margin-top: 30px;">
         <p-inputOtp id="otp" type="number" placeholder="Enter Otp" pInputText [(ngModel)]="otp" name="otp" required />

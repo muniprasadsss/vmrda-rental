@@ -49,6 +49,7 @@ export class ChangeRequestComponent {
   }
 
   getcrInfo() {
+    this.crData = [];
     this.crHttp.getChangeRequestData().subscribe({
       next: (res: any) => {
         this.crData = res;
@@ -89,6 +90,7 @@ this.payload = {
       });
       this.onHide();
       this.toasterservice.success("Saved Successfully");
+      this.getcrInfo();
     } else {
       this.toasterservice.warning("Please Enter Remarks");
     }
