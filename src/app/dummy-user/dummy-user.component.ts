@@ -5,6 +5,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { LocationService } from '../services/location/location.service';
 import { FormsModule } from '@angular/forms';
 import { DummyUserService } from '../services/dummyUser/dummy-user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dummy-user',
@@ -14,7 +15,7 @@ import { DummyUserService } from '../services/dummyUser/dummy-user.service';
   styleUrls: ['./dummy-user.component.scss']
 })
 export class DummyUserComponent {
-  isEditMode = false;
+  // isEditMode = false;
 
   ngOnInit(): void {
   }
@@ -29,16 +30,16 @@ export class DummyUserComponent {
     propertycode: 'PROP123'
   };
 
-  constructor(private dummyUserService: DummyUserService) {}
+  constructor(private dummyUserService: DummyUserService,private toasterservice:ToastrService) {}
 
   // Toggle edit mode
   toggleEditMode() {
-    this.isEditMode = !this.isEditMode;
+    // this.isEditMode = !this.isEditMode;
 
     // If turning off edit mode (saving), send data to API
-    if (!this.isEditMode) {
+    // if (!this.isEditMode) {
       this.saveUserData();
-    }
+    // }
   }
 
 
@@ -47,9 +48,11 @@ export class DummyUserComponent {
     this.dummyUserService.postCR(this.user).subscribe(
       (response) => {
         console.log('Data sent successfully:', response);
+        this.toasterservice.success("Complaint raised successfully")
       },
       (error) => {
         console.error('Error sending data:', error);
+        this.toasterservice.warning("Error raising complaint")
       }
     );
   }
