@@ -3,6 +3,7 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  constructor(private router:Router,private toasterservice:ToastrService){}
+  constructor(private router:Router,private toasterservice:ToastrService,private authService: AuthGuardsService){}
   username: string = '';
   password: string = '';
   otp: string=''
@@ -37,7 +38,9 @@ export class LoginComponent {
       this.toasterservice.warning("Please enter valid otp")
     } else {
       localStorage.setItem('userType',this.username);
+      localStorage.setItem('user',this.username);
       this.toasterservice.success("login successful")
+      this.authService.login();
       this.router.navigateByUrl("/user")
     }
   

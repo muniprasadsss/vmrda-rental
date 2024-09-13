@@ -1,5 +1,5 @@
-<app-header></app-header>
-<app-dashboard></app-dashboard>
+<!-- <app-header></app-header>
+<app-dashboard></app-dashboard> -->
 <div class="button-container">
     <!-- <p-button 
       label="Approved" 
@@ -193,7 +193,7 @@
                 <select class="custom-select" [(ngModel)]="item.action"
                  (change)="changeStatus(item.cr_number,item.requesttype,item.status,item.stage,item.action)">
                  <!-- <option [ngValue]="null">Select</option> -->
-                 <option value="" [defaultSelected]="">select</option>
+                 <option [ngValue]="null">select</option>
                     <option value="Recommend" *ngIf="shouldShowButton('Recommend')">Recommend</option>
                     <option value="Approval" *ngIf="shouldShowButton('Approval')">Approval</option>
                     <option value="Close" *ngIf="shouldShowButton('Close')">Close</option>
@@ -266,7 +266,7 @@
     </p-table>
     No data found.
 </div>
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->
 
 <!-- <button (click)="showPopupDiv()">Show</button> -->
  <!-- Confirmation Modal  -->

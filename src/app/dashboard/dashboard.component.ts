@@ -14,19 +14,19 @@ import { HeaderComponent } from "../header/header.component";
 })
 export class DashboardComponent implements OnInit {
 
-    activeTabIndex: number = 0;
+    activeTabIndex: any
     user_type:any = '';
     constructor(private route: Router) {};
     selectedHeader:string = '';
 
     ngOnInit() {
-        this.user_type = localStorage.getItem('userType')
-        if(this.user_type === 'USER'){
-            this.selectedHeader = 'Bills';
-        }
-        else{
-            this.selectedHeader = 'Tenants';
-        }
+        // this.user_type = localStorage.getItem('userType')
+        // if(this.user_type === 'USER'){
+        //     this.selectedHeader = 'Bills';
+        // }
+        // else{
+        //     this.selectedHeader = 'Tenants';
+        // }
         this.setActiveTabIndex();
     }
 

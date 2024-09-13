@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { FormsModule } from '@angular/forms';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,7 @@ export class HeaderComponent implements OnInit {
   dropdownDiv:boolean=false
   items: any | undefined;
 
-  constructor(private router:Router){}
+  constructor(private router:Router, private authService:AuthGuardsService){}
   ngOnInit(): void {
 
     this.items = [
@@ -31,8 +32,9 @@ export class HeaderComponent implements OnInit {
               {
                   label: 'Log Out',
                   icon: 'pi pi-sign-out',
-                  routerLink: ['/'] ,
-                  // action: () => this.logOut(),
+                  // routerLink: ['/'] ,
+                  
+                  command: () => this.logOut(),
               }
           ]
       }
@@ -43,7 +45,8 @@ export class HeaderComponent implements OnInit {
     this.dropdownDiv=true
   }
   logOut(){
-    localStorage.removeItem("userType")
+    this.authService.logout();
+    // localStorage.setItem("userType",'')
    this.router.navigateByUrl('/')
   }
   

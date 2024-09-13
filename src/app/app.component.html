@@ -1,4 +1,12 @@
 <!-- src/app/app.component.html -->
 <!-- <app-dashboard></app-dashboard> -->
 
-<router-outlet></router-outlet>
+<!-- <router-outlet></router-outlet> -->
+<div class="parent">
+    <div class="header" *ngIf="isAuthenticated"><app-header></app-header></div>
+    <div class="dashboard" *ngIf="isAuthenticated"><app-dashboard></app-dashboard></div>
+    <div class="content">
+        <router-outlet></router-outlet>
+    </div>
+<div class="footer-content-dashboard" *ngIf="isAuthenticated"><app-footer></app-footer></div>
+</div>

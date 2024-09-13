@@ -1,27 +1,36 @@
 
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthServiceService } from '../authService/auth-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardsService  {
-  constructor(private authService: AuthServiceService, private router: Router){}
-  canActivate(route: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      console.log('CanActivate called');
-      let isLoggedIn = this.authService.isAuthenticated();
-      console.log(isLoggedIn)
-      if (isLoggedIn){
-        // alert(isLoggedIn)
-        return true
-      } else {
-        this.router.navigate(['/login']);
-        //alert(isLoggedIn)
-        return false;
-      }
-    
+  private authenticated = new BehaviorSubject<boolean>(false);
+
+  constructor() {
+    this.checkInitialAuth();
+  }
+
+  private checkInitialAuth() {
+    const user = localStorage.getItem('user');
+    this.authenticated.next(!!user);
+  }
+
+  get isAuthenticated$() {
+    return this.authenticated.asObservable();
+  }
+
+  login() {
+    localStorage.setItem('user', 'authenticated');
+    this.authenticated.next(true);
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+    this.authenticated.next(false);
   }
   
 }

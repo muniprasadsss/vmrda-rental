@@ -19,7 +19,6 @@ export const routes: Routes = [
     {path: '',component:LoginComponent},
     {path: 'dashboard',component:DashboardComponent},
     {path: 'assets',component:AssetsComponent},
-
     {path: 'user',component:UserDetailsComponent},
     {path: 'complex',component:ComplexDetailsComponent},
     {path: 'location',component:LocationsComponent},
