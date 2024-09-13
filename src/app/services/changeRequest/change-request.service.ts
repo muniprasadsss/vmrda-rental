@@ -13,7 +13,7 @@ export class ChangeRequestService {
 
     
     getChangeRequestData(): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}/changeRequest`)
+        return this.http.get<any>(`${this.apiUrl}/requestchange`)
           
       }
 

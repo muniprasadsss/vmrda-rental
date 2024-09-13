@@ -156,19 +156,21 @@
 
     <ng-template pTemplate="header">
             <tr  style="font-size: 12px; padding: 0;">
-            <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="id">ID </th>
             <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
             <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
             <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
             <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
             <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon></th>
-            <th pSortableColumn="attachment">Attachment <p-sortIcon field="attachment"></p-sortIcon></th>
+            <th pSortableColumn="attachment">Attachment </th>
             <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
             <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
             <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+            <th pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon></th>
+            <th>Change Status</th>
+            
+            
 
         </tr>
     </ng-template>
@@ -185,15 +187,8 @@
             <td>{{ item.description }}</td>
             <td>{{ item.propertycode }}</td>
             <td>{{ item.created_at | date: 'short' }}</td>
-            <!-- <td *ngIf="shouldShowButton('Recommend')">
-                <p-button label="Recommend" severity="primary" size="small" (click)="approveCR(item.id)"></p-button>
-              </td>
-              <td *ngIf="shouldShowButton('Approval')">
-                <p-button label="Approval" severity="primary" size="small" (click)="approveCR(item.id)"></p-button>
-              </td>
-              <td *ngIf="shouldShowButton('Close')">
-                <p-button label="Close" severity="primary" size="small" (click)="approveCR(item.id)"></p-button>
-              </td> -->
+            <td>{{ item.status}}</td>
+            <td style="width: 10%;">{{ item.stage}}</td>
               <td style="width: 10%;">
                 <select class="custom-select">
                     <option default>Select</option>
