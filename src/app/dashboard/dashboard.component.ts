@@ -15,95 +15,104 @@ import { HeaderComponent } from "../header/header.component";
 export class DashboardComponent implements OnInit {
 
     activeTabIndex: number = 0;
-
-    constructor(private route: Router) {}
+    user_type:any = '';
+    constructor(private route: Router) {};
+    selectedHeader:string = '';
 
     ngOnInit() {
-        // Determine initial tab based on the current route
-        this.setActiveTabIndex(this.route.url);
+        this.user_type = localStorage.getItem('userType')
+        if(this.user_type === 'USER'){
+            this.selectedHeader = 'Bills';
+        }
+        else{
+            this.selectedHeader = 'Tenants';
+        }
+        this.setActiveTabIndex();
     }
 
-    setActiveTabIndex(url: string) {
-        switch (url) {
-            case '/user':
-                this.activeTabIndex = 0;
-                break;
-                case '/assets':
-                this.activeTabIndex = 1;
-                break;
-            // case '/complex':
-            //     this.activeTabIndex = 1;
-            //     break;
-            // case '/location':
-            //     this.activeTabIndex = 2;
-            //     break;
-            // case '/property':
-            //     this.activeTabIndex = 3;
-            //     break;
-            case '/userTagging':
-                this.activeTabIndex = 2;
-                break;
-            case '/billDetail':
-                this.activeTabIndex = 3;
-                break;
-            case '/receptDetails':
-                this.activeTabIndex = 4;
-                break;
-            case '/transactionTracking':
-                this.activeTabIndex = 5;
-                break;
-            case '/changeRequest':
-                this.activeTabIndex = 6;
-                break;
-            case '/reports':
-                this.activeTabIndex = 7;
-                break;
-                case '/dummyuser':
-                    this.activeTabIndex = 8;
-                    break;
-            default:
-                this.activeTabIndex = 0;
-        }
+    setActiveTabIndex() {
+        this.activeTabIndex = 0;
+        this.onTabChange(this.selectedHeader)
     }
+
+
+    // onTabChange(event: any) {
+    //     this.activeTabIndex = event.index;
+    //     switch (this.activeTabIndex) {
+    //         case 0:
+    //             this.route.navigateByUrl('/user');
+    //             break;
+    //         case 1:
+    //             this.route.navigateByUrl('/assets');
+    //             break;
+    //         case 2:
+    //             this.route.navigateByUrl('/userTagging');
+    //             break;
+    //         case 3:
+    //             this.route.navigateByUrl('/billDetails');
+    //             break;
+    //         case 4:
+    //             this.route.navigateByUrl('/receptDetails');
+    //             break;
+    //         case 5:
+    //             this.route.navigateByUrl('/transactionTracking');
+    //             break;
+    //         case 6:
+    //             this.route.navigateByUrl('/changeRequest');
+    //             break;
+    //         case 7:
+    //             this.route.navigateByUrl('/reports');
+    //             break;
+    //             case 8:
+    //                 this.route.navigateByUrl('/dummyuser');
+    //                 break;
+    //     }
+    // }
 
     onTabChange(event: any) {
+        const selectedHeader = event.originalEvent.target.innerText; // Gets the header text
         this.activeTabIndex = event.index;
-        switch (this.activeTabIndex) {
-            case 0:
+        switch (selectedHeader) {
+            case 'Tenants':
                 this.route.navigateByUrl('/user');
                 break;
-            case 1:
+            case 'Assets':
                 this.route.navigateByUrl('/assets');
                 break;
-            // case 2:
-            //     this.route.navigateByUrl('/location');
-            //     break;
-            // case 3:
-            //     this.route.navigateByUrl('/property');
-            //     break;
-            case 2:
+            case 'Tenant Tagging':
                 this.route.navigateByUrl('/userTagging');
                 break;
-            case 3:
+            case 'Bills':
                 this.route.navigateByUrl('/billDetails');
                 break;
-            case 4:
-                this.route.navigateByUrl('/receptDetails');
+            case 'Generate Bills':
+                this.route.navigateByUrl('/genearateBills');
                 break;
-            case 5:
-                this.route.navigateByUrl('/transactionTracking');
-                break;
-            case 6:
+            case 'Grievance':
                 this.route.navigateByUrl('/changeRequest');
                 break;
-            case 7:
+            case 'Receipts':
+                this.route.navigateByUrl('/receptDetails');
+                break;
+            case 'Issue Notice':
+                this.route.navigateByUrl('/issueNotice');
+                break;
+            case 'Track Transactions':
+                this.route.navigateByUrl('/trackTransactions');
+                break;
+            case 'Reports':
                 this.route.navigateByUrl('/reports');
                 break;
-                case 8:
-                    this.route.navigateByUrl('/dummyuser');
-                    break;
+            case 'Grievance Request':
+                this.route.navigateByUrl('/grievanceRequest');
+                break;
+            case 'Department Users':
+                this.route.navigateByUrl('/dummyuser');
+                break;
+            default:
+                break;
         }
     }
-
+    
     
 }

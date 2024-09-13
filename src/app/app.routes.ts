@@ -30,7 +30,7 @@ export const routes: Routes = [
     {path: 'transactionTracking',component:TransactionTrackingComponent},
     {path: 'changeRequest',component:ChangeRequestComponent},
     {path: 'reports',component:ReportsComponent},
-    {path: 'dummyuser',component:DummyUserComponent},
+    {path: 'grievanceRequest',component:DummyUserComponent},
 
 
 ];
