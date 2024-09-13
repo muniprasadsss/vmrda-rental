@@ -12,11 +12,14 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { LocationsComponent } from './locations/locations.component';
 import { ReportsComponent } from './reports/reports.component';
 import { DummyUserComponent } from './dummy-user/dummy-user.component';
+import { AssetsComponent } from './assets/assets.component';
 
 
 export const routes: Routes = [
     {path: '',component:LoginComponent},
     {path: 'dashboard',component:DashboardComponent},
+    {path: 'assets',component:AssetsComponent},
+
     {path: 'user',component:UserDetailsComponent},
     {path: 'complex',component:ComplexDetailsComponent},
     {path: 'location',component:LocationsComponent},

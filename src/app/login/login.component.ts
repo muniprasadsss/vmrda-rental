@@ -21,9 +21,9 @@ export class LoginComponent {
   otpDiv:boolean=false;
   Login(form: any) {
     if((this.username==="COMISSIONER" && this.username.length>0 || 
-      this.username==="RI" && this.username.length>0||
-      this.username==="AO" && this.username.length>0||
       this.username==="SECRETARY" && this.username.length>0||
+      this.username==="AO" && this.username.length>0||
+      this.username==="RI" && this.username.length>0||
        this.username==="USER" && this.username.length>0)  && this.password==="password"){
       this.otpDiv=true;  
     }

@@ -22,6 +22,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MenuModule } from 'primeng/menu';
+import { AccordionModule } from 'primeng/accordion';
 
 
 
@@ -31,12 +32,12 @@ import { MenuModule } from 'primeng/menu';
     CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
      DropdownModule,FloatLabelModule,ToastModule,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule,ConfirmDialogModule,
-     SpeedDialModule,InputTextareaModule,MenuModule
+     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule
   ],
   exports: [CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
      DropdownModule,FloatLabelModule,ToastModule ,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule,ConfirmDialogModule,
-     SpeedDialModule,InputTextareaModule,MenuModule
+     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule
    ],
   providers:[ComplexServiceService]
 })

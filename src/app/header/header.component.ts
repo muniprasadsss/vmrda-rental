@@ -24,15 +24,15 @@ export class HeaderComponent implements OnInit {
           // label: 'Options',
           items: [
               {
-                  label: 'Edit',
+                  label: 'Edit Profile',
                   icon: 'pi pi-pencil',
                   // routerLink: ['/edit'] 
               },
               {
                   label: 'Log Out',
                   icon: 'pi pi-sign-out',
-                  routerLink: ['/'] 
-
+                  routerLink: ['/'] ,
+                  // action: () => this.logOut(),
               }
           ]
       }

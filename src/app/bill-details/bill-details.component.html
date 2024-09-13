@@ -1,9 +1,10 @@
 <app-header></app-header>
 <app-dashboard></app-dashboard>
 <div class="card custom-table">
-    <p-table>
-        <ng-template pTemplate="caption">
+  <button (click)="sendEmail()">Mail Send</button>
 
+    <p-table [value]="dataSource">
+        <ng-template pTemplate="caption">
             <div class="searchbar">
                 <div class="search">
                     <p-iconField iconPosition="left" class="ml-auto">
@@ -20,101 +21,102 @@
                     severity="success"
                     size="small" />
                     <p-dialog 
-    header="Add New" 
+    header="Bill Details" 
     [modal]="true"
     [(visible)]="visible" 
     position="center" 
     [style]="{ width: '50rem' }">
     <div class="form-container">
+      <form [formGroup]="form">
+        <div class="form-row">
+            <div class="form-group">
+              <label for="s_no" class="form-label">S No</label>
+              <input type="text" id="s_no" class="form-input" formControlName="s_no"/>
+            </div>
+          <div class="form-group">
+            <label for="bill_no" class="form-label">Bill No</label>
+            <input type="text" id="bill_no" class="form-input" formControlName="bill_no" />
+          </div>
+          <div class="form-group">
+            <label for="user_id" class="form-label">User Id</label>
+            <select class="custom-select" style="width: 90%;">
+              <option>9999999999MANA</option>
+              <option>9999999999PLAX</option>
+              <option>9999999999PANC</option>
+            </select>
+            <!-- <input type="text" id="user_id" class="form-input" formControlName="user_id" /> -->
+          </div>
+        </div>    
         <div class="form-row">
           <div class="form-group">
-            <label for="bill-no" class="form-label">Bill No</label>
-            <input type="text" id="bill-no" class="form-input" />
+            <label for="property_code" class="form-label">Property Code</label>
+            <select class="custom-select" style="width: 90%;">
+              <option>RN-D1-CS1-GS01</option>
+              <option>RN-D1-CS1-GS02</option>
+              <option>RN-D1-CS1-GS03</option>
+            </select>
           </div>
           <div class="form-group">
-            <label for="user-id" class="form-label">User Id</label>
-            <input type="text" id="user-id" class="form-input" />
+            <label for="lease_period" class="form-label">Lease Period</label>
+            <input type="text" id="lease_period" class="form-input" />
           </div>
+          <div class="form-group">
+            <label for="billing_period" class="form-label">Billing Period</label>
+            <input type="text" id="billing_period" class="form-input" />
+          </div>  
         </div>
-      
         <div class="form-row">
           <div class="form-group">
-            <label for="property-code" class="form-label">Property Code</label>
-            <input type="text" id="property-code" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label for="rental-period" class="form-label">Rental Period</label>
-            <input type="text" id="rental-period" class="form-input" />
-          </div>
-        </div>
-      
-        <div class="form-row">
-          <div class="form-group">
-            <label for="rental-amount" class="form-label">Rental Amount</label>
-            <input type="number" id="rental-amount" class="form-input" step="0.01" />
-          </div>
+            <label for="lease_amount" class="form-label">Lease Amount</label>
+            <input type="number" id="lease_amount" class="form-input"  formControlName="lease_amount"/>
+          </div>   
           <div class="form-group">
             <label for="gst" class="form-label">GST</label>
-            <input type="number" id="gst" class="form-input" step="0.01" />
+            <input type="number" id="gst" class="form-input" formControlName="gst" />
           </div>
-        </div>
-      
+          <div class="form-group">
+            <label for="power_bill_amount" class="form-label">Power Bill Amount</label>
+            <input type="number" id="power_bill_amount" class="form-input"  formControlName="power_bill_amount"/>
+          </div> 
+        </div>  
         <div class="form-row">
           <div class="form-group">
-            <label for="rental-interest" class="form-label">Rental Interest</label>
-            <input type="number" id="rental-interest" class="form-input" step="0.01" />
+            <label for="water_bill_amount" class="form-label">Water Bill Amount</label>
+            <input type="number" id="water_bill_amount" class="form-input" formControlName="water_bill_amount" />
+          </div>      
+          <div class="form-group">
+            <label for="maintenance_amount" class="form-label">Maintenance Amount</label>
+            <input type="number" id="maintenance_amount" class="form-input" formControlName="maintenance_amount" />
           </div>
           <div class="form-group">
-            <label for="gst-interest" class="form-label">GST Interest</label>
-            <input type="number" id="gst-interest" class="form-input" step="0.01" />
+            <label for="interests" class="form-label">Interests</label>
+            <input type="number" id="interests" class="form-input"  formControlName="interests"/>
+          </div>   
+        </div>
+        <div class="form-row" style="display: flex;justify-content: center;">
+          <div class="form-group">
+            <label for="total" class="form-label">Total</label>
+            <input type="number" id="total" class="form-input" formControlName="total" />
+          </div>
+          <div class="form-group">
+            <label for="adjustments" class="form-label">Adjustments</label>
+            <input type="number" id="adjustments" class="form-input"  />
           </div>
         </div>
-      
-        <div class="form-row">
-          <div class="form-group">
-            <label for="power-bill-amount" class="form-label">Power Bill Amount</label>
-            <input type="number" id="power-bill-amount" class="form-input" step="0.01" />
-          </div>
-          <div class="form-group">
-            <label for="water-bill-amount" class="form-label">Water Bill Amount</label>
-            <input type="number" id="water-bill-amount" class="form-input" step="0.01" />
-          </div>
-        </div>
-      
-        <div class="form-row">
-          <div class="form-group">
-            <label for="maintenance-amount" class="form-label">Maintenance Amount</label>
-            <input type="number" id="maintenance-amount" class="form-input" step="0.01" />
-          </div>
-          <div class="form-group">
-            <label for="total-amount" class="form-label">Total Amount</label>
-            <input type="number" id="total-amount" class="form-input" step="0.01" />
-          </div>
-        </div>
-      
-        <div class="form-row">
-          <div class="form-group">
-            <label for="total-due" class="form-label">Total Due</label>
-            <input type="number" id="total-due" class="form-input" step="0.01" />
-          </div>
-        </div>
+        </form>
       </div>
-      
     <div class="btn">
         <div class="save">
-            <p-button label="Save" (onClick)="visible = false" size="small"/>
+            <p-button label="Generate" (onClick)="visible = false" size="small"/>
         </div>
         <div class="cancel">
             <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
         </div>
     </div>
-                   </p-dialog>
+   </p-dialog>
 
                 </div>
-
             </div>
-
-
             <!-- <div class="flex">
                 <p-iconField iconPosition="left" class="ml-auto">
                     <p-inputIcon>
@@ -128,47 +130,50 @@
                     severity="success"
                     size="small" />
             </div> -->
-
-
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
                 <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
-                <th pSortableColumn="bill_no">Bill No<p-sortIcon field="bill_no" /></th>
-                <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
+                <th pSortableColumn="Bill_No">Bill No<p-sortIcon field="Bill_No" /></th>
+                <th pSortableColumn="User_ID">User Id<p-sortIcon field="User_ID" /></th>
                 <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
-                <th pSortableColumn="rental_period">Rental Period<p-sortIcon field="rental_period" /></th>
-                <th pSortableColumn="rental_amount">Rental Amount<p-sortIcon field="rental_amount" /></th>
+                <th pSortableColumn="Lease_Period">Lease Period<p-sortIcon field="Lease_Period" /></th>
+                <th pSortableColumn="Lease_Amount">Lease Amount<p-sortIcon field="Lease_Amount" /></th>
                 <th pSortableColumn="gst">GST<p-sortIcon field="gst" /></th>
-                <th pSortableColumn="rental_intrest">Rental Interest<p-sortIcon field="rental_intrest" /></th>
+                <th pSortableColumn="Lease_Interest">Lease Interest<p-sortIcon field="Lease_Interest" /></th>
                 <th pSortableColumn="gst_intrest">GST Interest<p-sortIcon field="gst_intrest" /></th>
                 <th pSortableColumn="power_bill_amount">Power Bill Amount<p-sortIcon field="power_bill_amount" /></th>
                 <th pSortableColumn="water_bill_amount">Water Bill Amount<p-sortIcon field="water_bill_amount" /></th>
                 <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
+                <th pSortableColumn="Bill_Generate_Date">Bill Generate Date<p-sortIcon field="Bill_Generate_Date" /></th>
+
                 <th pSortableColumn="total_amount">Total Amount<p-sortIcon field="total_amount" /></th>
+                <th pSortableColumn="Payment_Date">Payment Date<p-sortIcon field="Payment_Date" /></th>
                 <th pSortableColumn="total_due">Total Due<p-sortIcon field="total_due" /></th>
                 <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
-                <th ></th>
 
             </tr>
         </ng-template>
-        <ng-template pTemplate="emptymessage" let-bill>
+        <ng-template pTemplate="body" let-bill>
           <tr style="font-size: 12px;">
             <td style="width: 6%;">{{ bill.S_No }}</td>
-            <td style="width: 8%;">{{ bill.bill_no }}</td>
-            <td style="width: 8%;">{{ bill.user_id }}</td>
-            <td style="width: 8%;">{{ bill.property_code }}</td>
-            <td style="width: 10%;">{{ bill.rental_period }}</td>
-            <td style="width: 8%;">{{ bill.rental_amount }}</td>
-            <td style="width: 6%;">{{ bill.gst }}</td>
-            <td style="width: 8%;">{{ bill.rental_intrest }}</td>
-            <td style="width: 8%;">{{ bill.gst_intrest }}</td>
-            <td style="width: 10%;">{{ bill.power_bill_amount }}</td>
-            <td style="width: 10%;">{{ bill.water_bill_amount }}</td>
-            <td style="width: 10%;">{{ bill.maintenance_amount }}</td>
-            <td style="width: 10%;">{{ bill.total_amount }}</td>
-            <td style="width: 8%;">{{ bill.total_due }}</td>
-            <td style="width: 8%;">{{ bill.status }}</td>
+            <td style="width: 8%;">{{ bill.Bill_No }}</td>
+            <td style="width: 8%;">{{ bill.User_ID }}</td>
+            <td style="width: 8%;">{{ bill.Property_Code }}</td>
+            <td style="width: 10%;">{{ bill.Lease_Period }}</td>
+            <td style="width: 8%;">{{ bill.Lease_Amount }}</td>
+            <td style="width: 6%;">{{ bill.GST }}</td>
+            <td style="width: 8%;">{{ bill.Lease_Interest }}</td>
+            <td style="width: 8%;">{{ bill.GST_Interest }}</td>
+            <td style="width: 10%;">{{ bill.Power_Bill_Amount }}</td>
+            <td style="width: 10%;">{{ bill.Water_Bill_Amount }}</td>
+            <td style="width: 10%;">{{ bill.Maintainence_Amount }}</td>
+            <td style="width: 10%;">{{ formatDate(bill.Bill_Generate_Date) }}</td>
+            <td style="width: 8%;">{{ bill.Total_Amount }}</td>
+            <td style="width: 8%;">{{ formatDate(bill.Payment_Date) }}</td>
+            <td style="width: 8%;">{{ bill.Total_Due }}</td>
+            <td style="width: 8%;">{{ bill.Status }}</td>
+
             <td>
               <div class="rowbtn">
                 <button class="editButton"> <i class="pi pi-pencil"></i></button>
@@ -176,12 +181,11 @@
               </div>
              </td>
         </tr>
-        
-        </ng-template>
+      </ng-template>  
     </p-table>
 </div>
 
-<!-- Modal for Add/Edit -->
+ 
 
 
 <app-footer></app-footer>

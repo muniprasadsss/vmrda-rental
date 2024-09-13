@@ -7,19 +7,12 @@
     </div>
 
      <div class="form-group" style="margin-top: 2rem;">
-        <!-- <div style="margin-bottom: 2rem; margin-right: 3rem;">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" id="username" class="form-input" [(ngModel)]="user.username" />
-        </div> -->
+
         <div style="margin-bottom: 2rem; margin-right: 3rem;">
             <label for="userId" class="form-label">User Id</label>
             <input type="text" id="username" class="form-input" [(ngModel)]="user.userId" />
         </div>
-       
-    </div>
 
-
-    <div class="form-group" style="margin-top: 2rem;">
         <div style="margin-bottom: 2rem; margin-right: 3rem;">
             <label for="requesttype" class="form-label">Request Type</label>
             <!-- <input type="text" id="requesttype" class="form-input" [(ngModel)]="user.requesttype" /> -->
@@ -31,10 +24,38 @@
 
              </select>
         </div>
+       
+    </div>
+
+
+    <div class="form-group" style="margin-top: 2rem;">
+       
+
         <div style="margin-bottom: 2rem; margin-right: 3rem;">
+            <label for="propertycode" class="form-label">Property Code</label>
+            <!-- <input type="text" id="propertycode" class="form-input" [(ngModel)]="user.propertycode" /> -->
+            <select  class="custom-select">
+                <option>property 1</option>
+                <option>property 2</option>
+                <option>property 3</option>
+             </select>
+        </div>
+        <div style="margin-bottom: 2rem; margin-right: 3rem;">
+            <label for="attachment" class="form-label">Attachment</label>
+            <input type="file" id="attachment" class="form-input" (change)="onFileChange($event)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+ 
+        <div style="margin-bottom: 2rem;">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" id="description" class="form-input" [(ngModel)]="user.description" />
+        </div>
+        <div style="margin-bottom: 2rem;margin-right: 3rem;">
             <label for="revenuedivision" class="form-label">Revenue Division</label>
             <!-- <input type="text" id="revenuedivision" class="form-input" [(ngModel)]="user.revenuedivision" /> -->
-            <select>
+            <select  class="custom-select">
                 <option>Division 1</option>
                 <option>Division 2</option>
                 <option>Division 3</option>
@@ -42,31 +63,9 @@
                 <option>Division 5</option>
              </select>
         </div>
-        <div style="margin-bottom: 2rem; margin-right: 3rem;">
-            <label for="propertycode" class="form-label">Property Code</label>
-            <!-- <input type="text" id="propertycode" class="form-input" [(ngModel)]="user.propertycode" /> -->
-            <select>
-                <option>property 1</option>
-                <option>property 2</option>
-                <option>property 3</option>
-             </select>
-        </div>
     </div>
 
-    <div class="form-group">
-        <div style="margin-bottom: 2rem; margin-right: 3rem;">
-            <label for="attachment" class="form-label">Attachment</label>
-            <input type="file" id="attachment" class="form-input" (change)="onFileChange($event)" />
-        </div>
-        <div style="margin-bottom: 2rem;">
-            <label for="description" class="form-label">Description</label>
-            <input type="text" id="description" class="form-input" [(ngModel)]="user.description" />
-        </div>
-    </div>
 
-    <div class="form-group">
-       
-    </div>
 </div>
 
 

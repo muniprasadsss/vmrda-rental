@@ -28,35 +28,38 @@ export class DashboardComponent implements OnInit {
             case '/user':
                 this.activeTabIndex = 0;
                 break;
-            case '/complex':
+                case '/assets':
                 this.activeTabIndex = 1;
                 break;
-            case '/location':
+            // case '/complex':
+            //     this.activeTabIndex = 1;
+            //     break;
+            // case '/location':
+            //     this.activeTabIndex = 2;
+            //     break;
+            // case '/property':
+            //     this.activeTabIndex = 3;
+            //     break;
+            case '/userTagging':
                 this.activeTabIndex = 2;
                 break;
-            case '/property':
+            case '/billDetail':
                 this.activeTabIndex = 3;
                 break;
-            case '/userTagging':
+            case '/receptDetails':
                 this.activeTabIndex = 4;
                 break;
-            case '/billDetail':
+            case '/transactionTracking':
                 this.activeTabIndex = 5;
                 break;
-            case '/receptDetails':
+            case '/changeRequest':
                 this.activeTabIndex = 6;
                 break;
-            case '/transactionTracking':
+            case '/reports':
                 this.activeTabIndex = 7;
                 break;
-            case '/changeRequest':
-                this.activeTabIndex = 8;
-                break;
-            case '/reports':
-                this.activeTabIndex = 9;
-                break;
                 case '/dummyuser':
-                    this.activeTabIndex = 10;
+                    this.activeTabIndex = 8;
                     break;
             default:
                 this.activeTabIndex = 0;
@@ -70,33 +73,33 @@ export class DashboardComponent implements OnInit {
                 this.route.navigateByUrl('/user');
                 break;
             case 1:
-                this.route.navigateByUrl('/complex');
+                this.route.navigateByUrl('/assets');
                 break;
+            // case 2:
+            //     this.route.navigateByUrl('/location');
+            //     break;
+            // case 3:
+            //     this.route.navigateByUrl('/property');
+            //     break;
             case 2:
-                this.route.navigateByUrl('/location');
-                break;
-            case 3:
-                this.route.navigateByUrl('/property');
-                break;
-            case 4:
                 this.route.navigateByUrl('/userTagging');
                 break;
-            case 5:
+            case 3:
                 this.route.navigateByUrl('/billDetails');
                 break;
-            case 6:
+            case 4:
                 this.route.navigateByUrl('/receptDetails');
                 break;
-            case 7:
+            case 5:
                 this.route.navigateByUrl('/transactionTracking');
                 break;
-            case 8:
+            case 6:
                 this.route.navigateByUrl('/changeRequest');
                 break;
-            case 9:
+            case 7:
                 this.route.navigateByUrl('/reports');
                 break;
-                case 10:
+                case 8:
                     this.route.navigateByUrl('/dummyuser');
                     break;
         }
