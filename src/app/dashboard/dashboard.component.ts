@@ -21,12 +21,6 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         this.user_type = localStorage.getItem('userType')
-        // if(this.user_type === 'USER'){
-        //     this.selectedHeader = 'Bills';
-        // }
-        // else{
-        //     this.selectedHeader = 'Tenants';
-        // }
         this.setActiveTabIndex();
     }
 
@@ -36,38 +30,6 @@ export class DashboardComponent implements OnInit {
     }
 
 
-    // onTabChange(event: any) {
-    //     this.activeTabIndex = event.index;
-    //     switch (this.activeTabIndex) {
-    //         case 0:
-    //             this.route.navigateByUrl('/user');
-    //             break;
-    //         case 1:
-    //             this.route.navigateByUrl('/assets');
-    //             break;
-    //         case 2:
-    //             this.route.navigateByUrl('/userTagging');
-    //             break;
-    //         case 3:
-    //             this.route.navigateByUrl('/billDetails');
-    //             break;
-    //         case 4:
-    //             this.route.navigateByUrl('/receptDetails');
-    //             break;
-    //         case 5:
-    //             this.route.navigateByUrl('/transactionTracking');
-    //             break;
-    //         case 6:
-    //             this.route.navigateByUrl('/changeRequest');
-    //             break;
-    //         case 7:
-    //             this.route.navigateByUrl('/reports');
-    //             break;
-    //             case 8:
-    //                 this.route.navigateByUrl('/dummyuser');
-    //                 break;
-    //     }
-    // }
 
     onTabChange(event: any) {
         const selectedHeader = event.originalEvent.target.innerText; // Gets the header text
