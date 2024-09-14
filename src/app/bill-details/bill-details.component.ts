@@ -18,7 +18,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class BillDetailsComponent implements OnInit {
   emailData = {
-    to: 'srivatsavatsa25@gmail.com',
+    to: 'srivatsaks@sssbitech.com',
     subject: 'Test Email from Angular',
     text: 'Hello! This is a test email sent from the Angular frontend using Nodemailer backend.',
   };
@@ -150,6 +150,7 @@ export class BillDetailsComponent implements OnInit {
         next: (response) => {
           console.log('Form submitted successfully:', response);
           this.visible = false; // Hide the dialog on success
+          //this.sendEmail();   // after api call successful send mail
         },
         error: (error) => {
           console.error('Error submitting form:', error);

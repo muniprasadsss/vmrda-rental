@@ -92,30 +92,30 @@
           </ng-template>   
           <ng-template pTemplate="header">
               <tr style="font-size: 12px;">
-                  <th pSortableColumn="S_No">S.No <p-sortIcon field="S_No" /></th>
-                  <th pSortableColumn="User_ID">User ID <p-sortIcon field="User_ID" /></th>
-                  <th pSortableColumn="User_Name">User Name<p-sortIcon field="User_Name" /></th>
-                  <th pSortableColumn="Mobile_No">Mobile No<p-sortIcon field="Mobile_No" /></th>
-                  <th pSortableColumn="Nature_of_Business"> Business<p-sortIcon field="Nature_of_Business" /></th>
+                  <th pSortableColumn="SL_NO">S.No <p-sortIcon field="SL_NO" /></th>
+                  <th pSortableColumn="USER_ID">User ID <p-sortIcon field="USER_ID" /></th>
+                  <th pSortableColumn="USER_NAME">User Name<p-sortIcon field="USER_NAME" /></th>
+                  <th pSortableColumn="MOBILE_NUM">Mobile No<p-sortIcon field="MOBILE_NUM" /></th>
+                  <th pSortableColumn="NATURE_OF_BUSINESS"> Business<p-sortIcon field="NATURE_OF_BUSINESS" /></th>
                   <th pSortableColumn="Aadhaar_No">Aadhar No<p-sortIcon field="Aadhaar_No" /></th>
-                  <th pSortableColumn="PAN_No">PAN No<p-sortIcon field="PAN_No" /></th>
-                  <th pSortableColumn="Email_Id">Email Id<p-sortIcon field="Email_Id" /></th>
-                  <th pSortableColumn="GSTIN">GSTIN<p-sortIcon field="GSTIN" /></th>
+                  <th pSortableColumn="PAN">PAN No<p-sortIcon field="PAN" /></th>
+                  <th pSortableColumn="EMAIL_ID">Email Id<p-sortIcon field="EMAIL_ID" /></th>
+                  <th pSortableColumn="GST_IN">GSTIN<p-sortIcon field="GST_IN" /></th>
                   <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th>
                   <th></th>
               </tr>
           </ng-template>
           <ng-template pTemplate="body" let-customer>
               <tr style="font-size: 12px;">
-                  <td style="width: 6%;">{{ customer.S_No }}</td>
-                  <td style="width: 7%;">{{ customer.User_ID }}</td>
-                  <td style="width: 6%;">{{ customer.User_Name }}</td>
-                  <td style="width: 8%;">{{ customer.Mobile_No }}</td>
-                  <td style="width: 6%;">{{ customer.Nature_of_Business }}</td>
+                  <td style="width: 6%;">{{ customer.SL_NO }}</td>
+                  <td style="width: 7%;">{{ customer.USER_ID }}</td>
+                  <td style="width: 6%;">{{ customer.USER_NAME }}</td>
+                  <td style="width: 8%;">{{ customer.MOBILE_NUM }}</td>
+                  <td style="width: 6%;">{{ customer.NATURE_OF_BUSINESS }}</td>
                   <td style="width: 8%;">{{ customer.Aadhaar_No }}</td>
-                  <td style="width: 6%;">{{ customer.PAN_No }}</td>
-                  <td style="width: 6%;">{{ customer.Email_Id }}</td>
-                  <td style="width: 6%;">{{ customer.GSTIN }}</td>
+                  <td style="width: 6%;">{{ customer.PAN }}</td>
+                  <td style="width: 6%;">{{ customer.EMAIL_ID }}</td>
+                  <td style="width: 6%;">{{ customer.GST_IN }}</td>
                   <td style="width: 6%;">{{ customer.Revenue_Dvision }}</td>
                   <td style="width: 6%;">
                     <div class="rowbtn">
