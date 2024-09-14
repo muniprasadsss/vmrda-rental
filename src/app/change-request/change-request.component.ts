@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { ChangeRequestService } from '../services/changeRequest/change-request.s
 import { ChangedFields, Payload } from '../interfaces/changeRequest/changeRequest';
 import { ToastrService } from 'ngx-toastr';
 import { DummyUserService } from '../services/dummyUser/dummy-user.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-change-request',
@@ -32,20 +33,25 @@ export class ChangeRequestComponent {
   userType: string | null = null; // Role of the user fetched from localStorage
   action:string = ''
   payload!: Payload| Object;
-
+  approvedRecordes!:ChangedFields[];
+  pendingRecordes!:ChangedFields[];
+  rejectedRecordes!:ChangedFields[];
+  value: string | undefined;
+  @ViewChild('dt2') dt2!: any;
+  selectedValue: string = '';
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private crHttp: ChangeRequestService,
     private toasterservice: ToastrService,
-    private dummyUserService: DummyUserService
+    private dummyUserService: DummyUserService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.getcrInfo();
     this.getUserData();
     this.userType = localStorage.getItem("userType"); // Fetching userType from localStorage
-    console.log(this.userType, "usertype check...");
   }
 
   getcrInfo() {
@@ -53,6 +59,7 @@ export class ChangeRequestComponent {
     this.crHttp.getChangeRequestData().subscribe({
       next: (res: any) => {
         this.crData = res;
+        this.filterData();
       },
       error: (err: any) => {
         console.log(err);
@@ -60,7 +67,27 @@ export class ChangeRequestComponent {
     });
   }
 
-  
+  filterData(){
+    this.approvedRecordes = [];
+    this.pendingRecordes = [];
+    this.rejectedRecordes = [];
+    this.approvedRecordes = this.crData.filter(item=> {
+      return item.status === 'Approved'
+    })
+    this.pendingRecordes = this.crData.filter(item=> {
+      return item.status === 'Pending'
+    })
+    this.rejectedRecordes = this.crData.filter(item=> {
+      return item.status === 'Closed'
+    })
+  }
+
+  onFilterGlobal(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.value = target.value;
+    this.dt2.filterGlobal(this.value, 'contains');
+  }
+
 
   changeStatus( crno: any, request_type: any, status: any, stage:any ,action:any) {
     
@@ -151,7 +178,7 @@ this.payload = {
   }
 
   // Function to determine if the button should be shown based on the userType
-  shouldShowButton(buttonType: string): boolean {
+  shouldShowButton(buttonType: string) {
     switch (this.userType) {
       case 'RI':
         return buttonType === 'Recommend' || buttonType === 'Close';
@@ -165,5 +192,30 @@ this.payload = {
         return false;
     }
   }
+
+
+  isSelectDisabled(stage: string, status: string): boolean {
+    switch (this.userType) {
+      case 'RI':
+        return !(stage === 'Pending with RI' && status === 'Pending');
+      case 'AO':
+        return !((stage === 'recommended for ao' || stage === 'Waiting for AO Approval' ) &&
+        status === 'Pending');
+      case 'SECRETARY':
+        return !(stage === 'Recommended for Secretray' && status === 'Pending');
+      case 'COMISSIONER':
+        return !(stage === 'Recommended for Comissioner' && status === 'Pending');
+      default:
+        return true; // Disable by default
+    }
+  }
+  
+ onChange(crno: any, request_type: any, status: any, stage:any ,action:any) {
+    this.changeStatus(crno,request_type,status,stage, this.selectedValue);
+  }
+
+  
+  
+
 
 }

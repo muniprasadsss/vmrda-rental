@@ -1,5 +1,4 @@
-<!-- <app-header></app-header>
-<app-dashboard></app-dashboard> -->
+
 <div class="button-container">
     <!-- <p-button 
       label="Approved" 
@@ -35,142 +34,107 @@
     class="Button" 
     [ngClass]="{'active': activeButton === 'rejected'}" style="background-color: red;">Rejected</button>
   </div>
-  
+  <!-- accepted table -->
 <div class="card custom-table" *ngIf="isApprovedClicked">
-    <p-table [value]="crData">
+    <p-table #dt2 [value]="approvedRecordes"  dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
+    [paginator]="true"  [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
+     'attachment', 'description', 'propertycode', 'created_at', 'status', 'stage']">
         <ng-template pTemplate="caption">
             <div class="flex">
                 <p-iconField iconPosition="left" class="ml-auto">
                     <p-inputIcon>
                         <i class="pi pi-search"></i>
                     </p-inputIcon>
-                    <input pInputText type="text" placeholder="Search keyword" />
+                    <input pInputText type="text"  (input)="onFilterGlobal($event)" placeholder="Search keyword" />
                 </p-iconField>
             </div>
         </ng-template>
+    
         <ng-template pTemplate="header">
-            <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
-                <th pSortableColumn="request_type">Request Type<p-sortIcon field="request_type" /></th>
-                <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
-                <th pSortableColumn="user_name">User Name<p-sortIcon field="user_name" /></th>
-                <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
-                <th pSortableColumn="changes_to_be_updated">Changes to be Updated<p-sortIcon field="changes_to_be_updated" /></th>
-                <th pSortableColumn="proof_attached">Proof Attached<p-sortIcon field="proof_attached" /></th>
-                <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
-                <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
-                <th pSortableColumn="remarks">Remarks<p-sortIcon field="remarks" /></th>
-                <th ></th>
+                <tr  style="font-size: 12px; padding: 0;">
+                    <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+                    <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
+                    <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
+                    <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
+                    <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
+                    <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon></th>
+                    <th pSortableColumn="attachment">Attachment <p-sortIcon field="attachment"></p-sortIcon></th>
+                    <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+                    <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
+                    <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
+                    <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                    <th pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon></th>
+                <th>Change Status</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-crdata  >
-            <tr style="font-size: 12px;" *ngIf="crdata.request_status === 'Approved'" >
-                <td style="width: 6%;">{{ crdata.s_no }}</td>
-                <td style="width: 10%;">{{ crdata.request_type }}</td>
-                <td style="width: 10%;">{{ crdata.request_type }}</td>
-                <td style="width: 10%;">{{ crdata.requester_name }}</td>
-                <td style="width: 8%;">{{ crdata.user_id }}</td>
-                <td style="width: 10%;">{{ crdata.gstin }}</td>
-                <td style="width: 10%;">{{ crdata.RI_Name }}</td>
-                <td style="width: 12%;">{{ crdata.description }}</td>
-                <td style="width: 8%;">{{ crdata.request_status}}</td>
-                <td style="width: 10%;">{{ crdata.comments }}</td>
-                <td class="rowbtn"  style="width: 10%;">
-                    <button class="btn" ><i class="pi pi-check " style="color: rgb(12, 80, 12);"></i></button>
-                    <button class="btn"><i class="pi pi-times"style="color: red;"></i></button>
-                </td>
+    
+        <ng-template pTemplate="body" let-item>
+            <tr style="font-size: 12px;">
+                <td>{{ item.id }}</td>
+                <td>{{ item.cr_number }}</td>
+                <td>{{ item.username }}</td>
+                <td>{{ item.userId }}</td>
+                <td>{{ item.requesttype }}</td>
+                <td>{{ item.revenuedivision }}</td>
+                <td>{{ item.attachment }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.propertycode }}</td>
+                <td>{{ item.created_at | date: 'short' }}</td>
+                <td>{{ item.status}}</td>
+                <td style="width: 10%;">{{ item.stage}}</td>
+                <td style="width: 10%;" >
+                    <select class="custom-select" [(ngModel)]="item.action"
+                [disabled]="isSelectDisabled(item.stage, item.status)" 
+                 (change)="changeStatus(item.cr_number,item.requesttype,item.status,item.stage,item.action)">
+                 <!-- <option [ngValue]="null">Select</option> -->
+                 <option [ngValue]="null">select</option>
+                    <option value="Recommend" *ngIf="shouldShowButton('Recommend')">Recommend</option>
+                    <option value="Approval" *ngIf="shouldShowButton('Approval')">Approval</option>
+                    <option value="Close" *ngIf="shouldShowButton('Close')">Close</option>
+                </select>
+                  </td>
+                  
             </tr>
         </ng-template>
-          
+    
         <ng-template pTemplate="emptymessage">
-            <tr style="margin-bottom: 1rem;">
-                <td colspan="11">No data found.</td>
+            <tr>
+                <td colspan="13">No data found.</td>
             </tr>
         </ng-template>
     </p-table>
 </div>
+<!-- pending table -->
 <div class="card custom-table" *ngIf="isPendingClicked">
-    <!-- <p-table [value]="crData">
-        <ng-template pTemplate="caption">
-            <div class="flex">
-                <p-iconField iconPosition="left" class="ml-auto">
-                    <p-inputIcon>
-                        <i class="pi pi-search"></i>
-                    </p-inputIcon>
-                    <input pInputText type="text" placeholder="Search keyword" />
-                </p-iconField>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
-                <th pSortableColumn="request_type">Request Type<p-sortIcon field="request_type" /></th>
-                <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
-                <th pSortableColumn="user_name">User Name<p-sortIcon field="user_name" /></th>
-                <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
-                <th pSortableColumn="changes_to_be_updated">Changes to be Updated<p-sortIcon field="changes_to_be_updated" /></th>
-                <th pSortableColumn="proof_attached">Proof Attached<p-sortIcon field="proof_attached" /></th>
-                <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
-                <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
-                <th pSortableColumn="remarks">Remarks<p-sortIcon field="remarks" /></th>
-                <td></td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-crdata  >
-            <tr style="font-size: 12px;" *ngIf="crdata.request_status === 'Waiting for Approval'" >
-                <td style="width: 6%;">{{ crdata.s_no }}</td>
-                <td style="width: 10%;">{{ crdata.request_type }}</td>
-                <td style="width: 10%;">{{ crdata.request_type }}</td>
-                <td style="width: 10%;">{{ crdata.requester_name }}</td>
-                <td style="width: 8%;">{{ crdata.user_id }}</td>
-                <td style="width: 10%;">{{ crdata.gstin }}</td>
-                <td style="width: 10%;">{{ crdata.RI_Name }}</td>
-                <td style="width: 12%;">{{ crdata.description }}</td>
-                <td style="width: 12%;">{{ crdata.request_status}}</td>
-                <td style="width: 12%;">{{ crdata.comments }}</td>
-                <td class="rowbtn"  style="width: 10%;">
-                    <button class="btn" (click)="approveCR(crdata.cr_no)"><i class="pi pi-check " style="color: rgb(12, 80, 12);"></i></button>
-                    <button class="btn"><i class="pi pi-times"style="color: red;"></i></button>
-                </td>
-            </tr>
-        </ng-template>
-
-        <ng-template pTemplate="emptymessage">
-            <tr style="margin-bottom: 1rem;">
-                <td colspan="11">No data found.</td>
-            </tr>
-        </ng-template>
-    </p-table> -->
-<!-- src/app/components/data-table/data-table.component.html -->
-<p-table [value]="data">
+<p-table #dt2 [value]="pendingRecordes"  dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
+[paginator]="true"  [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
+ 'attachment', 'description', 'propertycode', 'created_at', 'status', 'stage']">
     <ng-template pTemplate="caption">
         <div class="flex">
             <p-iconField iconPosition="left" class="ml-auto">
                 <p-inputIcon>
                     <i class="pi pi-search"></i>
                 </p-inputIcon>
-                <input pInputText type="text" placeholder="Search keyword" />
+                <input pInputText type="text"  (input)="onFilterGlobal($event)" placeholder="Search keyword" />
             </p-iconField>
         </div>
     </ng-template>
 
     <ng-template pTemplate="header">
             <tr  style="font-size: 12px; padding: 0;">
-            <th pSortableColumn="id">ID </th>
-            <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
-            <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
-            <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
-            <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
-            <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon></th>
-            <th pSortableColumn="attachment">Attachment </th>
-            <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
-            <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
-            <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
-            <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
-            <th pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon></th>
+                <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+                <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
+                <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
+                <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
+                <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
+                <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon></th>
+                <th pSortableColumn="attachment">Attachment <p-sortIcon field="attachment"></p-sortIcon></th>
+                <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
+                <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
+                <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                <th pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon></th>
             <th>Change Status</th>
-            
-            
 
         </tr>
     </ng-template>
@@ -190,14 +154,16 @@
             <td>{{ item.status}}</td>
             <td style="width: 10%;">{{ item.stage}}</td>
               <td style="width: 10%;">
-                <select class="custom-select" [(ngModel)]="item.action"
-                 (change)="changeStatus(item.cr_number,item.requesttype,item.status,item.stage,item.action)">
-                 <!-- <option [ngValue]="null">Select</option> -->
-                 <option [ngValue]="null">select</option>
-                    <option value="Recommend" *ngIf="shouldShowButton('Recommend')">Recommend</option>
-                    <option value="Approval" *ngIf="shouldShowButton('Approval')">Approval</option>
-                    <option value="Close" *ngIf="shouldShowButton('Close')">Close</option>
-                </select>
+                <select class="custom-select" [(ngModel)]="selectedValue"
+                [disabled]="isSelectDisabled(item.stage, item.status)" 
+                (change)="onChange(item.cr_number,item.requesttype,item.status,item.stage,item.action)">
+          <option value="" disabled>Select</option>
+          <option value="Recommend" *ngIf="shouldShowButton('Recommend')">Recommend</option>
+          <option value="Approval" *ngIf="shouldShowButton('Approval')">Approval</option>
+          <option value="Close" *ngIf="shouldShowButton('Close')">Close</option>
+        </select>
+        <input type="hidden" [value]="selectedValue" (change)="onChange(item.cr_number,item.requesttype,item.status,item.stage,item.action)">
+        
               </td>
         </tr>
     </ng-template>
@@ -208,12 +174,12 @@
         </tr>
     </ng-template>
 </p-table>
-
-  
-
 </div>
+<!-- rejected table  -->
 <div class="card custom-table" *ngIf="isRejectClicked">
-    <p-table [value]="crData">
+    <p-table #dt2 [value]="rejectedRecordes"  dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
+    [paginator]="true"  [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
+     'attachment', 'description', 'propertycode', 'created_at', 'status', 'stage']">
         <ng-template pTemplate="caption">
             <div class="flex">
                 <p-iconField iconPosition="left" class="ml-auto">
@@ -224,51 +190,62 @@
                 </p-iconField>
             </div>
         </ng-template>
+    
         <ng-template pTemplate="header">
-            <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
-                <th pSortableColumn="request_type">Request Type<p-sortIcon field="request_type" /></th>
-                <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
-                <th pSortableColumn="user_name">User Name<p-sortIcon field="user_name" /></th>
-                <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
-                <th pSortableColumn="changes_to_be_updated">Changes to be Updated<p-sortIcon field="changes_to_be_updated" /></th>
-                <th pSortableColumn="proof_attached">Proof Attached<p-sortIcon field="proof_attached" /></th>
-                <th pSortableColumn="change_description">Change Description<p-sortIcon field="change_description" /></th>
-                <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
-                <th pSortableColumn="remarks">Remarks<p-sortIcon field="remarks" /></th>
-                <td></td>
+                <tr  style="font-size: 12px; padding: 0;">
+                <th pSortableColumn="id">ID </th>
+                <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
+                <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
+                <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
+                <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
+                <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon></th>
+                <th pSortableColumn="attachment">Attachment </th>
+                <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
+                <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
+                <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                <th pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon></th>
+                <th>Change Status</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-crdata  >
-            <tr style="font-size: 12px;" *ngIf="crdata.request_status === 'rejected'" >
-                <td style="width: 6%;">{{ crdata.s_no }}</td>
-                <td style="width: 10%;">{{ crdata.request_type }}</td>
-                <td style="width: 10%;">{{ crdata.request_type }}</td>
-                <td style="width: 10%;">{{ crdata.requester_name }}</td>
-                <td style="width: 8%;">{{ crdata.user_id }}</td>
-                <td style="width: 10%;">{{ crdata.gstin }}</td>
-                <td style="width: 10%;">{{ crdata.RI_Name }}</td>
-                <td style="width: 12%;">{{ crdata.description }}</td>
-                <td style="width: 12%;">{{ crdata.request_status}}</td>
-                <td style="width: 12%;">{{ crdata.comments }}</td>
-                <td class="rowbtn"  style="width: 10%;">
-                    <button class="btn" ><i class="pi pi-check " style="color: rgb(12, 80, 12);"></i></button>
-                    <button class="btn"><i class="pi pi-times"style="color: red;"></i></button>
-                </td>
+    
+        <ng-template pTemplate="body" let-item>
+            <tr style="font-size: 12px;" >
+                <td>{{ item.id }}</td>
+                <td>{{ item.cr_number }}</td>
+                <td>{{ item.username }}</td>
+                <td>{{ item.userId }}</td>
+                <td>{{ item.requesttype }}</td>
+                <td>{{ item.revenuedivision }}</td>
+                <td>{{ item.attachment }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.propertycode }}</td>
+                <td>{{ item.created_at | date: 'short' }}</td>
+                <td>{{ item.status}}</td>
+                <td style="width: 10%;">{{ item.stage}}</td>
+                  <td style="width: 10%;">
+                    <select class="custom-select" [(ngModel)]="item.action"
+                [disabled]="isSelectDisabled(item.stage, item.status)" 
+                 (change)="changeStatus(item.cr_number,item.requesttype,item.status,item.stage,item.action)">
+                 <!-- <option [ngValue]="null">Select</option> -->
+                 <option selected >select</option>
+                    <option value="Recommend" *ngIf="shouldShowButton('Recommend')">Recommend</option>
+                    <option value="Approval" *ngIf="shouldShowButton('Approval')">Approval</option>
+                    <option value="Close" *ngIf="shouldShowButton('Close')">Close</option>
+                </select>
+                  </td>
             </tr>
         </ng-template>
-        
+    
         <ng-template pTemplate="emptymessage">
-            <tr style="margin-bottom: 1rem;">
-                <td colspan="11">No data found.</td>
+            <tr>
+                <td colspan="9">No data found.</td>
             </tr>
         </ng-template>
     </p-table>
-    No data found.
+    
 </div>
-<!-- <app-footer></app-footer> -->
 
-<!-- <button (click)="showPopupDiv()">Show</button> -->
  <!-- Confirmation Modal  -->
  <p-dialog header="" [(visible)]="isDialogVisible" modal="modal" [style]="{'width': '30vw','height': '60vh'}" [closable]="true" (onHide)="onHide()">
     <div style="display: flex;flex-direction:column;align-items: center;">

@@ -95,3 +95,9 @@
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
+.disabled-td {
+  background-color: #f0f0f0; /* Light grey background */
+  color: #a0a0a0; /* Grey text */
+  pointer-events: none; /* Prevent interactions */
+  cursor: not-allowed; /* Show a not-allowed cursor */
+}
