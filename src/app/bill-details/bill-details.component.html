@@ -92,7 +92,7 @@
             <input type="number" id="maintenance_amount" class="form-input" (change)="calculateTotal()" formControlName="maintenance_amount" />
           </div>
           <div class="form-group">
-            <label for="lease_interests" class="form-label">Lease Interest</label>
+            <label for="lease_interests" class="form-label">Interest</label>
             <input type="number" id="lease_interests" class="form-input"  formControlName="lease_interests"/>
           </div>   
         </div>
@@ -110,7 +110,7 @@
       </div>
     <div class="btn">
         <div class="save">
-            <p-button label="Generate" (onClick)="visible = false" size="small"/>
+            <p-button label="Generate" (onClick)="onSubmit()" size="small"/>
         </div>
         <div class="cancel">
             <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
@@ -148,14 +148,18 @@
                 <th pSortableColumn="power_bill_amount">Power Bill Amount<p-sortIcon field="power_bill_amount" /></th>
                 <th pSortableColumn="water_bill_amount">Water Bill Amount<p-sortIcon field="water_bill_amount" /></th>
                 <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
+
+                <th pSortableColumn="maintenance_amount">Interest<p-sortIcon field="maintenance_amount" /></th>
+
+
                 <th pSortableColumn="Bill_Generate_Date">Bill Generate Date<p-sortIcon field="Bill_Generate_Date" /></th>
 
                 <th pSortableColumn="total_amount">Total Amount<p-sortIcon field="total_amount" /></th>
                 <th pSortableColumn="Payment_Date">Payment Date<p-sortIcon field="Payment_Date" /></th>
                 <th pSortableColumn="total_due">Total Due<p-sortIcon field="total_due" /></th>
                 <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
-                <!-- <th pSortableColumn="RI_Approval">RI Approval<p-sortIcon field="RI_Approval" /></th>
-                <th pSortableColumn="RI_ASSIGNED">RI Assigned<p-sortIcon field="RI_ASSIGNED" /></th> -->
+                 <th pSortableColumn="RI_Approval">RI Approval<p-sortIcon field="RI_Approval" /></th>
+                <th pSortableColumn="RI_ASSIGNED">RI Assigned<p-sortIcon field="RI_ASSIGNED" /></th> 
                 <th></th>
 
 
@@ -170,11 +174,12 @@
             <td style="width: 10%;">{{ bill.Lease_Period }}</td>
             <td style="width: 8%;">{{ bill.Lease_Amount }}</td>
             <td style="width: 6%;">{{ bill.GST }}</td>
-            <td style="width: 8%;">{{ bill.Lease_Interest }}</td>
-            <td style="width: 8%;">{{ bill.GST_Interest }}</td>
+            <!-- <td style="width: 8%;">{{ bill.GST_Interest }}</td> -->
             <td style="width: 10%;">{{ bill.Power_Bill_Amount }}</td>
             <td style="width: 10%;">{{ bill.Water_Bill_Amount }}</td>
             <td style="width: 10%;">{{ bill.Maintainence_Amount }}</td>
+            <td style="width: 8%;">{{ bill.Lease_Interest }}</td>
+
             <td style="width: 10%;">{{ formatDate(bill.Bill_Generate_Date) }}</td>
             <td style="width: 8%;">{{ bill.Total_Amount }}</td>
             <td style="width: 8%;">{{ formatDate(bill.Payment_Date) }}</td>

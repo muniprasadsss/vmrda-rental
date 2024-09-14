@@ -22,9 +22,11 @@ export class BillDetailsService {
     return this.http.get(`${this.apiUrl}/billdetailsbybillno?billNo=${billNo}`);
   }
 
-//  sendEmail(emailData: { to: string; subject: string; text: string }): Observable<any> {
-//         return this.http.post(this.apiUrl, emailData); // Post request to backend
-//       }
+
+updateBillDetails(billData: any): Observable<any> {
+  console.log(billData,"check...");
+  return this.http.post(`${this.apiUrl}/updateBillDetails`, billData);
+}
 
       sendEmail(emailData: { to: string; subject: string; text: string }): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/send-email`, emailData); // billData is the data you're sending to the server

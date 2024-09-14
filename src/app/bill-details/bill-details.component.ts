@@ -33,16 +33,16 @@ export class BillDetailsComponent implements OnInit {
     this.getbilldetails();
     this.form = new FormGroup({
       s_no: new FormControl({ value: '', disabled: true }),
-      bill_no: new FormControl(''),
-      user_id: new FormControl(''),
-      property_code: new FormControl(''),
-      lease_period: new FormControl(''),
-      lease_Amount: new FormControl(''),
-      gst: new FormControl(''),
+      bill_no: new FormControl({ value: '', disabled: true }),
+      user_id: new FormControl({ value: '', disabled: true }),
+      property_code: new FormControl({ value: '', disabled: true }),
+      lease_period: new FormControl({ value: '', disabled: true }),
+      lease_Amount: new FormControl({ value: '', disabled: true }),
+      gst: new FormControl({ value: '', disabled: true }),
       power_bill_amount: new FormControl(''),
       water_bill_amount: new FormControl(''),
       maintenance_amount: new FormControl(''),
-      lease_interests: new FormControl(''),
+      lease_interests: new FormControl({ value: '', disabled: true }),
       total: new FormControl('')
     });
   }
@@ -129,4 +129,38 @@ export class BillDetailsComponent implements OnInit {
   formatDate(dateString: string): string {
     return this.datepipe.transform(dateString, 'yyyy-MM-dd') || '';
   }
+
+  onSubmit() {
+    if (this.form.valid) {
+      // Get the form values including disabled fields
+      const formData = this.form.getRawValue(); 
+  
+      // Prepare the payload for the backend
+      const updateData = {
+        bill_no: formData.bill_no, // Ensure correct parameter name
+        power_bill_amount: formData.power_bill_amount,
+        water_bill_amount: formData.water_bill_amount,
+        maintenance_amount: formData.maintenance_amount,
+        lease_interests: formData.lease_interests,
+        total: formData.total
+      };
+  
+      // Call the service to update bill details
+      this.billDetailService.updateBillDetails(updateData).subscribe({
+        next: (response) => {
+          console.log('Form submitted successfully:', response);
+          this.visible = false; // Hide the dialog on success
+        },
+        error: (error) => {
+          console.error('Error submitting form:', error);
+          // Handle error, e.g., show a notification to the user
+        }
+      });
+    } else {
+      console.error('Form is invalid');
+      // Optionally handle form validation errors
+    }
+  }
+  
+  
 }
