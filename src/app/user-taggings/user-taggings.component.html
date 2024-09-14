@@ -1,201 +1,81 @@
-<!-- <app-header></app-header>
-<app-dashboard></app-dashboard> -->
-<div class="card custom-table">
-    <p-table>
-        <ng-template pTemplate="caption">
-
-            <div class="searchbar">
-                <div class="search">
-                    <p-iconField iconPosition="left" class="ml-auto">
-                        <p-inputIcon>
-                            <i class="pi pi-search"></i>
-                        </p-inputIcon>
-                        <input pInputText type="text" placeholder="Search keyword" />
-                    </p-iconField>
-                </div>
-                <div class="dialog">
-                    <p-button 
-                    (onClick)="showDialog()" 
-                    label="Add New" 
-                    severity="success"
-                    size="small" />
-                    <p-dialog 
-    header="Add New" 
-    [modal]="true"
-    [(visible)]="visible" 
-    position="center" 
-    [style]="{ width: '50rem' }">
-    <div class="form-container">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="user-id" class="form-label">User Id</label>
-            <input type="text" id="user-id" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label for="property-code" class="form-label">Property Code</label>
-            <input type="text" id="property-code" class="form-input" />
-          </div>
+<div class="card custom-table" style="margin: 2rem;">
+  <p-table [value]="dataSource" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
+    <ng-template pTemplate="caption">
+      <div class="searchbar">
+        <div class="search">
+          <p-iconField iconPosition="left" class="ml-auto">
+            <p-inputIcon>
+              <i class="pi pi-search"></i>
+            </p-inputIcon>
+            <input pInputText type="text" placeholder="Search keyword" />
+          </p-iconField>
         </div>
-      
-        <div class="form-row">
-          <div class="form-group">
-            <label for="start-date" class="form-label">Start Date</label>
-            <input type="date" id="start-date" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label for="end-date" class="form-label">End Date</label>
-            <input type="date" id="end-date" class="form-input" />
-          </div>
-        </div>
-      
-        <div class="form-row">
-          <div class="form-group">
-            <label for="rental-lease" class="form-label">Rental Lease</label>
-            <input type="text" id="rental-lease" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label for="enhancement-tenure" class="form-label">Enhancement Tenure</label>
-            <input type="text" id="enhancement-tenure" class="form-input" />
-          </div>
-        </div>
-      
-        <div class="form-row">
-          <div class="form-group">
-            <label for="enhancement-percentage" class="form-label">Enhancement %</label>
-            <input type="number" id="enhancement-percentage" class="form-input" step="0.01" />
-          </div>
-          <div class="form-group">
-            <label for="gst-percentage" class="form-label">GST %</label>
-            <input type="number" id="gst-percentage" class="form-input" step="0.01" />
-          </div>
-        </div>
-      
-        <div class="form-row">
-          <div class="form-group">
-            <label for="rental-interest-percentage" class="form-label">Rental Interest %</label>
-            <input type="number" id="rental-interest-percentage" class="form-input" step="0.01" />
-          </div>
-          <div class="form-group">
-            <label for="gst-interest-percentage" class="form-label">GST Interest %</label>
-            <input type="number" id="gst-interest-percentage" class="form-input" step="0.01" />
-          </div>
-        </div>
-      
-        <div class="form-row">
-          <div class="form-group">
-            <label for="lease-deed-no" class="form-label">Lease Deed Number</label>
-            <input type="text" id="lease-deed-no" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label for="lease-deed-no" class="form-label">Lease Deed</label>
-            <input type="file" id="lease-deed-no" class="form-input" />
-          </div>
-        </div>
-      
-        <div class="form-row">
-          <div class="form-group">
-            <label for="power-meter-number" class="form-label">Power Meter Number</label>
-            <input type="text" id="power-meter-number" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label for="water-meter-number" class="form-label">Water Meter Number</label>
-            <input type="text" id="water-meter-number" class="form-input" />
-          </div>
-        </div>
-
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="maintenance-amount" class="form-label">Maintenance Amount</label>
-            <input type="number" id="maintenance-amount" class="form-input" step="0.01" />
-          </div>
-        </div>
-        
-
-        
-
-
-      </div>
-      
-    <div class="btn">
-        <div class="save">
-            <p-button label="Save" (onClick)="visible = false" size="small"/>
-        </div>
-        <div class="cancel">
-            <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
-        </div>
-    </div>
-                    </p-dialog>
-                </div>
+        <div class="dialog">
+          <p-button (onClick)="showDialog()" label="Add New" severity="success" size="small"></p-button>
+          <p-dialog header="Add New" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
+            <div class="form-container">
+              <!-- Your form content -->
             </div>
-
-            <!-- <div class="flex">
-                <p-iconField iconPosition="left" class="ml-auto">
-                    <p-inputIcon>
-                        <i class="pi pi-search"></i>
-                    </p-inputIcon>
-                    <input pInputText type="text" placeholder="Search keyword" />
-                </p-iconField>
-                <p-button 
-                    (onClick)="showDialog()" 
-                    label="Add New" 
-                    severity="success"
-                    size="small" />
-            </div> -->
-
-
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
-                <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
-                <th pSortableColumn="property_code">Property Code<p-sortIcon field="property_code" /></th>
-                <th pSortableColumn="start_date">Start Date<p-sortIcon field="start_date" /></th>
-                <th pSortableColumn="end_date">End Date<p-sortIcon field="end_date" /></th>
-                <th pSortableColumn="rental_lease">Rental Lease<p-sortIcon field="rental_lease" /></th>
-                <th pSortableColumn="enhancement_tenure">Enhancement Tenure<p-sortIcon field="enhancement_tenure" /></th>
-                <th pSortableColumn="enhancement_percentage">Enhancement%<p-sortIcon field="enhancement_percentage" /></th>
-                <th pSortableColumn="gst_percentage">GST%<p-sortIcon field="gst_percentage" /></th>
-                <th pSortableColumn="rental_intrest_percentage">Rental Interest%<p-sortIcon field="rental_intrest_percentage" /></th>
-                <th pSortableColumn="gst_intrest_percentage">GST Interest%<p-sortIcon field="gst_intrest_percentage" /></th>
-                <th pSortableColumn="lease_deed_no">Lease Deed Number<p-sortIcon field="lease_deed_no" /></th>
-                <th pSortableColumn="lease_deed">Lease Deed<p-sortIcon field="lease_deed" /></th>
-                <th pSortableColumn="power_meter_number">Power Meter Number<p-sortIcon field="power_meter_number" /></th>
-                <th pSortableColumn="water_meter_number">Water Meter Number<p-sortIcon field="water_meter_number" /></th>
-                <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
-                <th ></th>
-
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage" let-lease>
-          <tr style="font-size: 12px;">
-            <td style="width: 6%;">{{ lease.S_No }}</td>
-            <td style="width: 8%;">{{ lease.user_id }}</td>
-            <td style="width: 8%;">{{ lease.property_code }}</td>
-            <td style="width: 8%;">{{ lease.start_date }}</td>
-            <td style="width: 8%;">{{ lease.end_date }}</td>
-            <td style="width: 10%;">{{ lease.rental_lease }}</td>
-            <td style="width: 8%;">{{ lease.enhancement_tenure }}</td>
-            <td style="width: 8%;">{{ lease.enhancement_percentage }}</td>
-            <td style="width: 6%;">{{ lease.gst_percentage }}</td>
-            <td style="width: 10%;">{{ lease.rental_intrest_percentage }}</td>
-            <td style="width: 10%;">{{ lease.gst_intrest_percentage }}</td>
-            <td style="width: 10%;">{{ lease.lease_deed_no }}</td>
-            <td style="width: 10%;">{{ lease.power_meter_number }}</td>
-            <td style="width: 10%;">{{ lease.water_meter_number }}</td>
-            <td style="width: 12%;">{{ lease.maintenance_amount }}</td>
-            <td>
-              <div class="rowbtn">
-                <button class="editButton"> <i class="pi pi-pencil"></i></button>
-                <button class="deleteButton"><i class="pi pi-trash"></i></button>
+            <div class="btn">
+              <div class="save">
+                <p-button label="Save" (onClick)="visible = false" size="small"></p-button>
               </div>
-             </td>
-        </tr>
-        
-        </ng-template>
-    </p-table>
+              <div class="cancel">
+                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"></p-button>
+              </div>
+            </div>
+          </p-dialog>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr style="font-size: 12px;">
+        <th pSortableColumn="SL_NO">S No<p-sortIcon field="SL_NO"></p-sortIcon></th>
+        <th pSortableColumn="USER_ID">User Id<p-sortIcon field="USER_ID"></p-sortIcon></th>
+        <th pSortableColumn="USER_NAME">USER_NAME<p-sortIcon field="USER_NAME"></p-sortIcon></th>
+        <th pSortableColumn="PROPERTY">PROPERTY<p-sortIcon field="PROPERTY"></p-sortIcon></th>
+        <th pSortableColumn="START_DATE">Start Date<p-sortIcon field="START_DATE"></p-sortIcon></th>
+        <th pSortableColumn="END_DATE">End Date<p-sortIcon field="END_DATE"></p-sortIcon></th>
+        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">DATE OF RENEWAL OF LICENSE<p-sortIcon field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
+        <th pSortableColumn="RENTAL_LEASE_AMOUNT_PERMONTH">RENTAL LEASE AMOUNT<p-sortIcon field="RENTAL_LEASE_AMOUNT_PERMONTH"></p-sortIcon></th>
+        <th pSortableColumn="RENT_GO_LIVE">RENT GO LIVE%<p-sortIcon field="RENT_GO_LIVE"></p-sortIcon></th>
+        <th pSortableColumn="RENTAL_LEASE_PERIOD">RENTAL LEASE PERIOD<p-sortIcon field="RENTAL_LEASE_PERIOD"></p-sortIcon></th>
+        <th pSortableColumn="RENTAL_INTRESET_PERCENT">Rental Interest PERCENT<p-sortIcon field="RENTAL_INTRESET_PERCENT"></p-sortIcon></th>
+        <th pSortableColumn="RENTAL_HIKE_PERCENT">Rental HIKE PERCENT<p-sortIcon field="RENTAL_HIKE_PERCENT"></p-sortIcon></th>
+        <th pSortableColumn="GST">GST<p-sortIcon field="GST"></p-sortIcon></th>
+        <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th>
+        <th pSortableColumn="LEASE_DEED_NO">LEASE DEED Number<p-sortIcon field="LEASE_DEED_NO"></p-sortIcon></th>
+        <th pSortableColumn="STATUS">STATUS<p-sortIcon field="STATUS"></p-sortIcon></th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-lease>
+      <tr style="font-size: 12px;">
+        <td>{{ lease.SL_NO }}</td>
+        <td>{{ lease.USER_ID }}</td>
+        <td>{{ lease.USER_NAME }}</td>
+        <td>{{ lease.PROPERTY }}</td>
+        <td>{{  formatDate(lease.START_DATE) }}</td>
+        <td>{{  formatDate(lease.END_DATE) }}</td>
+        <td>{{  formatDate(lease.DATE_OF_RENEWAL_OF_LICENSE) }}</td>
+        <td>{{ lease.RENTAL_LEASE_AMOUNT_PERMONTH }}</td>
+        <td>{{ lease.RENT_GO_LIVE }}</td>
+        <td>{{ lease.RENTAL_LEASE_PERIOD }}</td>
+        <td>{{ lease.RENTAL_INTRESET_PERCENT }}</td>
+        <td>{{ lease.RENTAL_HIKE_PERCENT }}</td>
+        <td>{{ lease.GST }}</td>
+        <td>{{ lease.GST_INTEREST_PERCENT }}</td>
+        <td>{{ lease.LEASE_DEED_NO }}</td>
+        <td>{{ lease.STATUS }}</td>
+        <td>
+          <div class="rowbtn">
+            <button class="editButton"><i class="pi pi-pencil"></i></button>
+            <button class="deleteButton"><i class="pi pi-trash"></i></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
-
-
-
-<!-- <app-footer></app-footer> -->

@@ -1,25 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderComponent } from '../header/header.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { FooterComponent } from '../footer/footer.component';
 import { ToastrService } from 'ngx-toastr';
+import { UserTaggingService } from '../services/userTagging/user-tagging.service';
+import { usertagging } from '../interfaces/userTagging/usertagginginterface';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-user-taggings',
   standalone: true,
-  imports: [PrimeNgModule,HeaderComponent,DashboardComponent,FooterComponent],
+  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent],
   templateUrl: './user-taggings.component.html',
-  styleUrl: './user-taggings.component.scss'
+  styleUrls: ['./user-taggings.component.scss'] ,
+  providers: [DatePipe]
+
 })
-export class UserTaggingsComponent {
-  constructor(private toasterservice:ToastrService){}
+export class UserTaggingsComponent implements OnInit {
   visible: boolean = false;
+  responseMsg: string | undefined;
+  dataSource: usertagging[] = [];  // Initialized as an empty array
+
+  constructor(private toasterservice: ToastrService, private usertaggingservice: UserTaggingService,private datepipe: DatePipe) {}
+
+  ngOnInit(): void {
+    this.getUserTaggingDetails();
+  }
+
+  getUserTaggingDetails() {
+    this.usertaggingservice.getUserTaggingDetails().subscribe({
+      next: (res: any) => {
+        this.dataSource = res;  // No need to map it if the structure is correct
+        this.responseMsg = res.message;
+        console.log(this.dataSource, "usertagging data...");
+      },
+      error: (err: any) => {
+        this.responseMsg = err.error?.message || "Error";
+      }
+    });
+  }
 
   showDialog() {
     this.visible = true;
-}
-onUpload() {
-  this.toasterservice.success("File uploaded successfully")
-}
+  }
+
+  onUpload() {
+    this.toasterservice.success("File uploaded successfully");
+  }
+
+  formatDate(dateString: string): string {
+    return this.datepipe.transform(dateString, 'yyyy-MM-dd') || '';
+  }
 }

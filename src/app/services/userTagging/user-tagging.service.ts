@@ -10,8 +10,8 @@ export class UserTaggingService {
 
   private apiUrl = environment.apiUrl; // Backend API URL
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getUserDetails():Observable<any>{
-    return this.http.get(`${this.apiUrl}/users`)
+  getUserTaggingDetails():Observable<any>{
+    return this.http.get(`${this.apiUrl}/usertagging`)
   }}
