@@ -7,6 +7,9 @@ import { BillDetailsService } from '../services/billDetails/bill-details.service
 import { billDetails } from '../interfaces/billDetails/billDetailsInterfaces';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {jsPDF} from 'jspdf';
+import html2canvas from 'html2canvas'; 
+
 
 @Component({
   selector: 'app-bill-details',
@@ -18,7 +21,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class BillDetailsComponent implements OnInit {
   emailData = {
-    to: 'srivatsaks@sssbitech.com',
+    to: 'tranga@sssbitech.com',
     subject: 'Test Email from Angular',
     text: 'Hello! This is a test email sent from the Angular frontend using Nodemailer backend.',
   };
@@ -162,6 +165,28 @@ export class BillDetailsComponent implements OnInit {
       // Optionally handle form validation errors
     }
   }
+
+   // Method to generate the PDF
+   generatePDF(bill: billDetails) {
+    const doc = new jsPDF('p', 'pt', 'a4'); // Create a new jsPDF instance
+
+    // Set up the document title
+    doc.setFontSize(18);
+    doc.text('Bill Details', 20, 30);
+
+    // Add Bill Data (for example)
+    doc.setFontSize(12);
+    doc.text(`Bill No: ${bill.Bill_No}`, 20, 60);
+    doc.text(`User ID: ${bill.User_ID}`, 20, 80);
+    doc.text(`Lease Amount: ${bill.Lease_Amount}`, 20, 100);
+    doc.text(`GST: ${bill.GST}`, 20, 120);
+    doc.text(`Power Bill: ${bill.Power_Bill_Amount}`, 20, 140);
+    doc.text(`Total Amount: ${bill.Total_Amount}`, 20, 160);
+
+    // Save the PDF with a dynamic name
+    doc.save(`Bill-${bill.Bill_No}.pdf`);
+  }
+
   
   
 }
