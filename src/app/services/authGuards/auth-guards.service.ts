@@ -52,6 +52,7 @@ export class AuthGuardsService implements CanActivate {
   }
 
   login(role: string) {
+    localStorage.setItem('userType', role);
     localStorage.setItem('user', 'authenticated');
     localStorage.setItem('role', role.toUpperCase());
     this.userRole = role.toUpperCase();

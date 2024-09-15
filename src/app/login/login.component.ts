@@ -39,11 +39,8 @@ export class LoginComponent {
     if (this.otp.length < 0 || this.otp.length===0) {
       this.toasterservice.warning("Please enter valid otp")
     } else {
-      localStorage.setItem('userType',this.username);
-      localStorage.setItem('user',this.username);
-      localStorage.setItem('role',this.username);
-      this.toasterservice.success("login successful")
       this.authService.login(this.username)
+      this.toasterservice.success("login successful")
       if(this.username === 'USER'){
         this.router.navigateByUrl("billDetails")
       }else{
