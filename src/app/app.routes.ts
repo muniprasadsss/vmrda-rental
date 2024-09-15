@@ -13,23 +13,53 @@ import { LocationsComponent } from './locations/locations.component';
 import { ReportsComponent } from './reports/reports.component';
 import { DummyUserComponent } from './dummy-user/dummy-user.component';
 import { AssetsComponent } from './assets/assets.component';
+import { AuthGuardsService } from './services/authGuards/auth-guards.service';
 
 
 export const routes: Routes = [
+
+    // {path: '',component:LoginComponent},
+    // {path: 'dashboard',component:DashboardComponent},
+    // {path: 'assets',component:AssetsComponent},
+    // {path: 'user',component:UserDetailsComponent},
+    // {path: 'complex',component:ComplexDetailsComponent},
+    // {path: 'location',component:LocationsComponent},
+    // {path: 'property',component:PropertysComponent},
+    // {path: 'userTagging',component:UserTaggingsComponent},
+    // {path: 'billDetails',component:BillDetailsComponent},
+    // {path: 'receptDetails',component:ReceiptDetailsComponent},
+    // {path: 'transactionTracking',component:TransactionTrackingComponent},
+    // {path: 'changeRequest',component:ChangeRequestComponent},
+    // {path: 'reports',component:ReportsComponent},
+    // {path: 'grievanceRequest',component:DummyUserComponent},
     {path: '',component:LoginComponent},
-    {path: 'dashboard',component:DashboardComponent},
-    {path: 'assets',component:AssetsComponent},
-    {path: 'user',component:UserDetailsComponent},
-    {path: 'complex',component:ComplexDetailsComponent},
-    {path: 'location',component:LocationsComponent},
-    {path: 'property',component:PropertysComponent},
-    {path: 'userTagging',component:UserTaggingsComponent},
-    {path: 'billDetails',component:BillDetailsComponent},
-    {path: 'receptDetails',component:ReceiptDetailsComponent},
-    {path: 'transactionTracking',component:TransactionTrackingComponent},
-    {path: 'changeRequest',component:ChangeRequestComponent},
-    {path: 'reports',component:ReportsComponent},
-    {path: 'grievanceRequest',component:DummyUserComponent},
+    { path: 'dashboard', component: DashboardComponent, 
+        canActivate: [AuthGuardsService], data: { role: ['RI', 'AO', 'SECRETARY', 'COMMISSIONER','USER'] } },
+    { path: 'assets', component: AssetsComponent, 
+        canActivate: [AuthGuardsService], data: { role: ['RI', 'AO', 'SECRETARY', 'COMMISSIONER'] } },
+    { path: 'user', component: UserDetailsComponent, 
+        canActivate: [AuthGuardsService], data: { role: ['RI', 'AO', 'SECRETARY', 'COMMISSIONER'] } },
+    // { path: 'complex', component: ComplexDetailsComponent,
+    //      canActivate: [AuthGuardsService], data: { role: ['RI'] } },
+    // { path: 'location', component: LocationsComponent,
+    //      canActivate: [AuthGuardsService], data: { role: ['RI', 'AO'] } },
+    // { path: 'property', component: PropertysComponent,
+    //      canActivate: [AuthGuardsService], data: { role: ['RI', 'AO', 'SECRETARY'] } },
+    { path: 'userTagging', component: UserTaggingsComponent,
+         canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER','RI'] } },
+    { path: 'billDetails', component: BillDetailsComponent,
+         canActivate: [AuthGuardsService], data: { role: ['RI', 'AO','USER'] } },
+    { path: 'receptDetails', component: ReceiptDetailsComponent, 
+        canActivate: [AuthGuardsService], data: { role: ['RI', 'AO','USER'] } },
+    { path: 'transactionTracking', component: TransactionTrackingComponent, 
+        canActivate: [AuthGuardsService], data: { role: ['RI', 'AO'] } },
+    { path: 'changeRequest', component: ChangeRequestComponent, 
+        canActivate: [AuthGuardsService], data: { role: ['RI','AO', 'SECRETARY', 'COMMISSIONER'] } },
+    { path: 'reports', component: ReportsComponent,
+         canActivate: [AuthGuardsService], data: { role: ['RI','AO', 'SECRETARY', 'COMMISSIONER'] } },
+    { path: 'grievanceRequest', component: DummyUserComponent, 
+        canActivate: [AuthGuardsService], data: { role: ['USER'] } },
+    
 
 
 ];

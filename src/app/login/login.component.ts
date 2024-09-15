@@ -14,7 +14,9 @@ import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  constructor(private router:Router,private toasterservice:ToastrService,private authService: AuthGuardsService){}
+  AuthGuardsService: any;
+  constructor(private router:Router,private toasterservice:ToastrService,
+    private authService: AuthGuardsService){}
   username: string = '';
   password: string = '';
   otp: string=''
@@ -39,9 +41,15 @@ export class LoginComponent {
     } else {
       localStorage.setItem('userType',this.username);
       localStorage.setItem('user',this.username);
+      localStorage.setItem('role',this.username);
       this.toasterservice.success("login successful")
-      this.authService.login();
-      this.router.navigateByUrl("/user")
+      this.authService.login(this.username)
+      if(this.username === 'USER'){
+        this.router.navigateByUrl("billDetails")
+      }else{
+        this.router.navigateByUrl("user")
+      }
+
     }
   
   }

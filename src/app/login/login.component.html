@@ -35,15 +35,19 @@
           Please enter the otp.
         </div>
       </div>
-      <div *ngIf="otpDiv" style="margin-top: 30px;">
+      <div *ngIf="otpDiv" style="margin-top: 10px;">
         <p-inputOtp id="otp" type="number" placeholder="Enter Otp" pInputText [(ngModel)]="otp" name="otp" required />
 
       </div>
-
+      <div *ngIf="otpDiv"
+      class="otp" style="color: rgb(38 129 211); font-weight: 700;">
+      Resend OTP 
+    </div>
       <div class="buttonDiv">
         <!-- <button pButton type="submit" label="Login" icon="pi pi-sign-in" class="p-mt-2" size="small"></button> -->
         <button class="buttonClass" type="submit" *ngIf="!otpDiv">Login</button>
         <button class="buttonClass"  type="submit" (click)="submitOtp()" *ngIf="otpDiv">Submit</button>
+      
       </div>
 
       <!-- <div *ngIf="formError" class="error">

@@ -34,7 +34,6 @@ export class UserDetailsComponent implements OnInit {
             next: (res: any) => {
               this.dataSource = Object.keys(res).map(key => ({ ...res[key] }));
               this.responseMsg = res.message;
-              console.log(this.dataSource, "userservice data...");
             },
             error: (err: any) => {
               if (err.error?.message) {

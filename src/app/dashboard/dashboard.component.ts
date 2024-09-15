@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
 
 
     onTabChange(event: any) {
-        const selectedHeader = event.originalEvent.target.innerText; // Gets the header text
+        const selectedHeader = event.tab ? event.tab.header : ''; // Safely access the header
         this.activeTabIndex = event.index;
         switch (selectedHeader) {
             case 'Tenants':
