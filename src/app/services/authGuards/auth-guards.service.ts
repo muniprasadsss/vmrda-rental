@@ -51,8 +51,8 @@ export class AuthGuardsService implements CanActivate {
     return this.authenticated.asObservable();
   }
 
-  login(role: string) {
-    localStorage.setItem('userType', role);
+  login(role: string,userID:string) {
+    localStorage.setItem('userId',userID );
     localStorage.setItem('user', 'authenticated');
     localStorage.setItem('role', role.toUpperCase());
     this.userRole = role.toUpperCase();

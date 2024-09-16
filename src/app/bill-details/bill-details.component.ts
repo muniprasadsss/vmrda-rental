@@ -27,11 +27,12 @@ export class BillDetailsComponent implements OnInit {
   responseMsg: string | undefined;
   dataSource!: billDetails[];
   form!: FormGroup;
-
+  userRole:any
+  userID:any
   constructor(private billDetailService: BillDetailsService) {}
 
   ngOnInit(): void {
-    this.getbilldetails();
+
     this.form = new FormGroup({
       s_no: new FormControl({ value: '', disabled: true }),
       bill_no: new FormControl({ value: '', disabled: true }),
@@ -46,6 +47,10 @@ export class BillDetailsComponent implements OnInit {
       lease_interests: new FormControl({ value: '', disabled: true }),
       total: new FormControl('')
     });
+
+    this.userRole = localStorage.getItem('role')
+    this.userID = localStorage.getItem('userId')
+    this.getBillDetailsByUserId();
   }
 
   calculateTotal(): void {
@@ -115,8 +120,8 @@ export class BillDetailsComponent implements OnInit {
   //   });
   // }
 
-  getbilldetails() {
-    this.billDetailService.getBillDetails().subscribe({
+  getBillDetailsByUserId() {
+    this.billDetailService.getBillDetailsByUserId(this.userRole,this.userID).subscribe({
       next: (res: any) => {
         this.dataSource = res[0]; // Direct assignment if it's an array
         this.responseMsg = res.message;

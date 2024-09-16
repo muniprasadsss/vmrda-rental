@@ -46,7 +46,7 @@ Login(form: any) {
     if (this.otp) {
       this.LoginService.verifyOTP(this.userID,this.otp).subscribe({
         next:(res:any)=>{
-      this.authService.login(res.user.user_type)
+      this.authService.login(res.user.user_type,res.user.USER_ID)
       this.toasterservice.success("login successful")
 
       if(res.user.user_type === 'USER'){

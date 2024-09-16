@@ -12,9 +12,14 @@ export class BillDetailsService {
   constructor(private http: HttpClient) { }
 
     
-    getBillDetails(): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}/getallbills`)   
-      }  
+  getBillDetails(): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/getallbills`)   
+    }
+    
+           // New method to get bill details by userid
+  getBillDetailsByUserId(USER_ID: string,role:string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/getbillsByUserId`,{USER_ID,role});
+  }
       
        // New method to get bill details by bill_no
   getBillDetailsByBillNo(billNo: string): Observable<any> {

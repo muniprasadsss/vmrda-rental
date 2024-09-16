@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
     selectedHeader:string = '';
 
     ngOnInit() {
-        this.user_type = localStorage.getItem('userType')
+        this.user_type = localStorage.getItem('role')
         this.setActiveTabIndex();
     }
 
