@@ -24,36 +24,8 @@ export class LoginComponent {
   otp: number | undefined
   formError: string = '';
   otpDiv:boolean=false;
-  // Login(form: any) {
-  //   if((this.userID==="COMISSIONER" && this.userID.length>0 || 
-  //     this.userID==="SECRETARY" && this.userID.length>0||
-  //     this.userID==="AO" && this.userID.length>0||
-  //     this.userID==="RI" && this.userID.length>0||
-  //      this.userID==="USER" && this.userID.length>0)  && this.password==="password"){
-  //     this.otpDiv=true;  
-  //   }
-  //   else{
-  //     this.toasterservice.warning("Please enter valid userID and password")
-  //   }
-  // }
-  // submitOtp() {
-  //   console.log(this.otp,"after click")
-  //   if (this.otp.length < 0 || this.otp.length===0) {
-  //     this.toasterservice.warning("Please enter valid otp")
-  //   } else {
-  //     this.authService.login(this.userID)
-  //     this.toasterservice.success("login successful")
-  //     if(this.userID === 'USER'){
-  //       this.router.navigateByUrl("billDetails")
-  //     }else{
-  //       this.router.navigateByUrl("user")
-  //     }
-
-  //   }
-  
-  // }
 Login(form: any) {
-    if((this.userID.startsWith("U") && this.userID.length>0  )  && this.password.length>0 ){
+    if( this.userID.length>0   && this.password.length>0 ){
       
       this.LoginService.userLogin(this.userID,this.password).subscribe({
         next:(res:any)=>{
@@ -63,16 +35,6 @@ Login(form: any) {
           this.toasterservice.warning("Please enter valid userID and password")
         }
       })  
-    }
-    else if(this.userID.length>0 && this.password.length>0){
-      this.LoginService.adminLogin(this.userID,this.password).subscribe({
-        next:(res:any)=>{
-          this.otpDiv= res.userValid;
-        },
-        error:(err:any)=>{
-          this.toasterservice.warning("Please enter valid userID and password")
-        }
-      })
     }
     else{
       this.toasterservice.warning("Please enter valid userID and password")
