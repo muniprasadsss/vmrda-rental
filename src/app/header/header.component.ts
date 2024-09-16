@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
           ]
       }
   ];
-   this.userType=localStorage.getItem("role")
+   this.userType=localStorage.getItem("userId")
   }
   showDropDown(){
     this.dropdownDiv=true
