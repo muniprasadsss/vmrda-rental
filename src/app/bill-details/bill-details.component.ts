@@ -5,7 +5,6 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 import { FooterComponent } from '../footer/footer.component';
 import { BillDetailsService } from '../services/billDetails/bill-details.service';
 import { billDetails } from '../interfaces/billDetails/billDetailsInterfaces';
-import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {jsPDF} from 'jspdf';
 import html2canvas from 'html2canvas'; 
@@ -17,7 +16,6 @@ import html2canvas from 'html2canvas';
   imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent, ReactiveFormsModule],
   templateUrl: './bill-details.component.html',
   styleUrls: ['./bill-details.component.scss'],
-  providers: [DatePipe]
 })
 export class BillDetailsComponent implements OnInit {
   emailData = {
@@ -30,7 +28,7 @@ export class BillDetailsComponent implements OnInit {
   dataSource!: billDetails[];
   form!: FormGroup;
 
-  constructor(private billDetailService: BillDetailsService, private datepipe: DatePipe) {}
+  constructor(private billDetailService: BillDetailsService) {}
 
   ngOnInit(): void {
     this.getbilldetails();
@@ -100,10 +98,27 @@ export class BillDetailsComponent implements OnInit {
     });
   }
 
+  // getbilldetails() {
+  //   this.billDetailService.getBillDetails().subscribe({
+  //     next: (res: any) => {
+  //       this.dataSource = Object.keys(res).map(key => ({ ...res[key] }));
+  //       this.responseMsg = res.message;
+  //       console.log(this.dataSource, "userservice data...");
+  //     },
+  //     error: (err: any) => {
+  //       if (err.error?.message) {
+  //         this.responseMsg = err.error?.message;
+  //       } else {
+  //         this.responseMsg = "error";
+  //       }
+  //     }
+  //   });
+  // }
+
   getbilldetails() {
     this.billDetailService.getBillDetails().subscribe({
       next: (res: any) => {
-        this.dataSource = Object.keys(res).map(key => ({ ...res[key] }));
+        this.dataSource = res[0]; // Direct assignment if it's an array
         this.responseMsg = res.message;
         console.log(this.dataSource, "userservice data...");
       },
@@ -116,6 +131,7 @@ export class BillDetailsComponent implements OnInit {
       }
     });
   }
+  
 
   sendEmail() {
     this.billDetailService.sendEmail(this.emailData).subscribe(
@@ -129,9 +145,9 @@ export class BillDetailsComponent implements OnInit {
     console.log("Button clicked...");
   }
 
-  formatDate(dateString: string): string {
-    return this.datepipe.transform(dateString, 'yyyy-MM-dd') || '';
-  }
+  // formatDate(dateString: string): string {
+  //   return this.datepipe.transform(dateString, 'yyyy-MM-dd') || '';
+  // }
 
   onSubmit() {
     if (this.form.valid) {
