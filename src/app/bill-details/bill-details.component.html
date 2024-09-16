@@ -3,7 +3,7 @@
 <div class="content">
 
   <div class="card" style="margin: 2rem;">
-    <button (click)="sendEmail()">Mail Send</button>
+    <!-- <button (click)="sendEmail()">Mail Send</button> -->
 
     <p-table [value]="dataSource" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
       <ng-template pTemplate="caption">
@@ -95,7 +95,7 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr style="font-size: 12px; padding: 0;">
-          <th pSortableColumn="ID">S No<p-sortIcon field="ID" /></th>
+          <th pSortableColumn="ID">S No</th>
           <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
           <th pSortableColumn="User">User Id<p-sortIcon field="User" /></th>
           <th pSortableColumn="Property">Property Code<p-sortIcon field="Property" /></th>
@@ -104,18 +104,18 @@
 
           <th pSortableColumn="Rental_lease_amount_permonth">Lease Amount<p-sortIcon field="Rental_lease_amount_permonth" /></th>
           <th pSortableColumn="GST">GST<p-sortIcon field="GST" /></th>
-          <th pSortableColumn="Power_bill">Power Bill Amount<p-sortIcon field="Power_bill" /></th>
-          <th pSortableColumn="Water_bill">Water Bill Amount<p-sortIcon field="Water_bill" /></th>
-          <th pSortableColumn="Maintainance_bill">Maintenance Amount<p-sortIcon field="Maintainance_bill" /></th>
+          <th pSortableColumn="Power_bill">Power Bill Amount</th>
+          <th pSortableColumn="Water_bill">Water Bill Amount</th>
+          <th pSortableColumn="Maintainance_bill">Maintenance Amount</th>
 
           <th pSortableColumn="Total_rental_interest">Interest<p-sortIcon field="Total_rental_interest" /></th>
           <th pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
 
-          <th pSortableColumn="Total">Total<p-sortIcon field="Total" /></th>
-          <th pSortableColumn="TotalPaid">Payment Amount<p-sortIcon field="TotalPaid" /></th>
-          <th pSortableColumn="Total">Total Due<p-sortIcon field="Total" /></th>
+          <th pSortableColumn="Total">Total</th>
+          <th pSortableColumn="TotalPaid">Payment Amount</th>
+          <th pSortableColumn="Total">Total Due</th>
 
-          <th pSortableColumn="BillStatus">Status<p-sortIcon field="BillStatus" /></th>
+          <th pSortableColumn="BillStatus">Status</th>
           <!-- <th pSortableColumn="Total">RI Approval<p-sortIcon field="Total" /></th> -->
            <th>RI Approval</th>
           <th></th>
@@ -144,15 +144,15 @@
           <td style="width: 8%;">{{ bill.TotalPaid }}</td>
           <!-- <td style="width: 8%;">{{ bill.Total }}</td> -->
           <td style="width: 8%;">{{ bill.Total }}</td>
-          <td style="width: 8%;">{{ bill.Status }}</td>
+          <td style="width: 8%;">{{ bill.BillStatus }}</td>
           <td>
-            <i class="pi pi-check" style="color: green"></i>
-            <i class="pi pi-times" style="color: red"></i>
+            <i class="pi pi-check" style="color: green" *ngIf="bill.BillStatus === 'Active'"></i>
+            <i class="pi pi-times" style="color: red" *ngIf="bill.BillStatus !== 'Active'"></i>
           </td>
 
           <td>
             <div class="rowbtn">
-              <button class="editButton" *ngIf="bill.Status !== 'Generated'" (click)="showDialog(bill.BillNo)"> 
+              <button class="editButton" *ngIf="bill.BillStatus !== 'Active'" (click)="showDialog(bill.BillNo)"> 
                 <i class="pi pi-pencil"></i>
               </button>
             </div>

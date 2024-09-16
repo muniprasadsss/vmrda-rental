@@ -8,6 +8,8 @@ import { billDetails } from '../interfaces/billDetails/billDetailsInterfaces';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {jsPDF} from 'jspdf';
 import html2canvas from 'html2canvas'; 
+// import autoTable from 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 
 
 @Component({
@@ -41,7 +43,7 @@ export class BillDetailsComponent implements OnInit {
       lease_period: new FormControl({ value: '', disabled: true }),
       lease_Amount: new FormControl({ value: '', disabled: true }),
       gst: new FormControl({ value: '', disabled: true }),
-      power_bill_amount: new FormControl(''),
+      power_bill_amount: new FormControl(),
       water_bill_amount: new FormControl(''),
       maintenance_amount: new FormControl(''),
       lease_interests: new FormControl({ value: '', disabled: true }),
@@ -77,22 +79,20 @@ export class BillDetailsComponent implements OnInit {
     this.billDetailService.getBillDetailsByBillNo(bill_no).subscribe({
       next: (res: any) => {
         console.log('Fetched bill details:', res);
-        // Update your form or dataSource as needed
-        if (res.length > 0) {
-          const billDetail = res[0]; // Assuming you get an array and want the first result
+        if (res) {
           this.form.patchValue({
-            s_no: billDetail.S_No,
-            bill_no: billDetail.Bill_No,
-            user_id: billDetail.User_ID,
-            property_code: billDetail.Property_Code,
-            lease_period: billDetail.Lease_Period,
-            lease_Amount: billDetail.Lease_Amount,
-            gst: billDetail.GST,
-            // power_bill_amount: billDetail.Power_Bill_Amount,
-            // water_bill_amount: billDetail.Water_Bill_Amount,
-            // maintenance_amount: billDetail.Power_Bill_Amount,
-            lease_interests: billDetail.Lease_Interest,
-            total: billDetail.total
+            s_no: res.ID,
+            bill_no: res.BillNo,
+            user_id: res.User,
+            property_code: res.Property,
+            lease_period: res.BillNo,
+            lease_Amount: res.Rental_lease_amount_permonth,
+            gst: res.GST,
+            power_bill_amount: res.Power_bill,
+            water_bill_amount: res.Water_bill,
+            maintenance_amount: res.Maintainance_bill,
+            lease_interests: res.Total_rental_interest,
+            total: res.Total
           });
         }
       },
@@ -101,6 +101,7 @@ export class BillDetailsComponent implements OnInit {
         this.responseMsg = "Error fetching details";
       }
     });
+    
   }
 
   // getbilldetails() {
@@ -154,58 +155,195 @@ export class BillDetailsComponent implements OnInit {
   //   return this.datepipe.transform(dateString, 'yyyy-MM-dd') || '';
   // }
 
+  // onSubmit() {
+  //   if (this.form.valid) {
+  //     // Get the form values including disabled fields
+  //     const formData = this.form.getRawValue(); 
+  
+  //     // Prepare the payload for the backend
+  //     const updateData = {
+  //       bill_no: formData.bill_no, // Ensure correct parameter name
+  //       power_bill_amount: formData.power_bill_amount,
+  //       water_bill_amount: formData.water_bill_amount,
+  //       maintenance_amount: formData.maintenance_amount,
+  //       lease_interests: formData.lease_interests,
+  //       total: formData.total
+  //     };
+  
+  //     // Call the service to update bill details
+  //     this.billDetailService.updateBillDetails(updateData).subscribe({
+  //       next: (response) => {
+  //         console.log('Form submitted successfully:', response);
+  //         this.visible = false; // Hide the dialog on success
+  //         //this.sendEmail();   // after api call successful send mail
+  //       },
+  //       error: (error) => {
+  //         console.error('Error submitting form:', error);
+  //         // Handle error, e.g., show a notification to the user
+  //       }
+  //     });
+  //   } else {
+  //     console.error('Form is invalid');
+  //     // Optionally handle form validation errors
+  //   }
+  // }
+
   onSubmit() {
     if (this.form.valid) {
-      // Get the form values including disabled fields
-      const formData = this.form.getRawValue(); 
-  
-      // Prepare the payload for the backend
+      const formData = this.form.getRawValue();
+
       const updateData = {
-        bill_no: formData.bill_no, // Ensure correct parameter name
-        power_bill_amount: formData.power_bill_amount,
-        water_bill_amount: formData.water_bill_amount,
-        maintenance_amount: formData.maintenance_amount,
-        lease_interests: formData.lease_interests,
-        total: formData.total
+        BillNo: formData.bill_no, // Ensure correct parameter name
+        Power_bill: formData.power_bill_amount,
+        Water_bill: formData.water_bill_amount,
+        Maintainance_bill: formData.maintenance_amount,
+        Total: formData.total
       };
-  
-      // Call the service to update bill details
+
       this.billDetailService.updateBillDetails(updateData).subscribe({
         next: (response) => {
           console.log('Form submitted successfully:', response);
-          this.visible = false; // Hide the dialog on success
-          //this.sendEmail();   // after api call successful send mail
+          this.visible = false;
+          // Optionally send an email
+          // this.sendEmail();
         },
         error: (error) => {
           console.error('Error submitting form:', error);
-          // Handle error, e.g., show a notification to the user
         }
       });
     } else {
       console.error('Form is invalid');
-      // Optionally handle form validation errors
     }
   }
 
    // Method to generate the PDF
-   generatePDF(bill: billDetails) {
-    const doc = new jsPDF('p', 'pt', 'a4'); // Create a new jsPDF instance
+  //  generatePDF(bill: billDetails) {
+  //   const doc = new jsPDF('p', 'pt', 'a4'); // Create a new jsPDF instance
 
-    // Set up the document title
-    doc.setFontSize(18);
-    doc.text('Bill Details', 20, 30);
+  //   // Set up the document title
+  //   doc.setFontSize(18);
+  //   doc.text('Bill Details', 20, 30);
 
-    // Add Bill Data (for example)
+  //   // Add Bill Data (for example)
+  //   doc.setFontSize(12);
+  //   doc.text(`Bill No: ${bill.Bill_No}`, 20, 60);
+  //   doc.text(`User ID: ${bill.User_ID}`, 20, 80);
+  //   doc.text(`Lease Amount: ${bill.Lease_Amount}`, 20, 100);
+  //   doc.text(`GST: ${bill.GST}`, 20, 120);
+  //   doc.text(`Power Bill: ${bill.Power_Bill_Amount}`, 20, 140);
+  //   doc.text(`Total Amount: ${bill.Total_Amount}`, 20, 160);
+
+  //   // Save the PDF with a dynamic name
+  //   doc.save(`Bill-${bill.Bill_No}.pdf`);
+  // }
+
+  generatePDF(bill: billDetails){
+    const doc = new jsPDF();
+
+    // Reduced page margins
+    const margins = { top: 15, bottom: 15, left: 20, right: 20 };
+    const lineHeight = 10;
+    let currentY = margins.top;
+    const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png'; // Replace with your logo's Base64 string
+    const logoWidth = 30; // Width of the logo in mm
+    const logoHeight = 30; // Height of the logo in mm
+  
+    // Adjust the X position to center the logo
+    const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
+    doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight);
+    currentY += logoHeight + 5;
+  
+    // Drawing a smaller border
+    doc.setLineWidth(0.5); // Reduced border thickness
+    doc.rect(
+      margins.left - 5,  // Adjusted border to be inside
+      margins.top - 5,
+      doc.internal.pageSize.width - (margins.left + margins.right - 10),
+      doc.internal.pageSize.height - (margins.top + margins.bottom - 10)
+    );
+  
+    // Heading (with reduced font size)
+    doc.setFontSize(12); // Reduced font size for heading
+    doc.setFont('times', 'bold');
+    doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY',
+      doc.internal.pageSize.width / 2, currentY, { align: 'center' }
+    );
+    currentY += lineHeight + 2;
+  
+    doc.setFontSize(12); // Reduced font size for subheading
+    doc.text('Bill Receipt', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
+    currentY += lineHeight * 1;
+  
+    // Adding date and reference (aligned inside border)
+    const currentDate = new Date().toLocaleDateString();
     doc.setFontSize(12);
-    doc.text(`Bill No: ${bill.Bill_No}`, 20, 60);
-    doc.text(`User ID: ${bill.User_ID}`, 20, 80);
-    doc.text(`Lease Amount: ${bill.Lease_Amount}`, 20, 100);
-    doc.text(`GST: ${bill.GST}`, 20, 120);
-    doc.text(`Power Bill: ${bill.Power_Bill_Amount}`, 20, 140);
-    doc.text(`Total Amount: ${bill.Total_Amount}`, 20, 160);
-
-    // Save the PDF with a dynamic name
-    doc.save(`Bill-${bill.Bill_No}.pdf`);
+    doc.setFont('times', 'normal');
+    doc.text(`Bill No.. ${bill.Bill_No}`, margins.left, currentY);
+    doc.text(`Dt: ${currentDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
+    currentY += lineHeight * 2;
+  
+    // Dynamic content based on form data
+    doc.setFontSize(12);
+    doc.setFont('times', 'bold');
+    doc.text(`Property Code: ${bill.Property_Code}`, margins.left, currentY);
+    currentY += lineHeight * 1;
+  
+    doc.setFont('times', 'normal');
+    doc.text(`The property with code ${bill.Property_Code}, leased to ${bill.User_ID}, located in ${bill.Property_Code}, has a monthly lease amount of ${bill.Lease_Amount} with additional charges such as GST and utility bills.`,
+      margins.left, currentY,
+      { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
+    );
+    currentY += lineHeight * 3;
+  
+    doc.text(`The lease amount for the period ${bill.Lease_Period} is due. Please remit the amount of ${bill.Total_Amount} by the due date, failing which further action will be taken according to the terms and conditions.`,
+      margins.left, currentY,
+      { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
+    );
+    currentY += lineHeight * 2;
+  
+    // Adjusting table margins and reducing its width to fit within the border
+    const tableColumn = ["Field", "Value"];
+    const tableRows = [
+      ["Bill No", bill.Bill_No],
+      ["User ID", bill.User_ID],
+      ["Property Code", bill.Property_Code],
+      ["Lease Period", bill.Lease_Period],
+      ["Lease Amount", bill.Lease_Amount],
+      ["GST", bill.GST],
+      ["Power Bill Amount", bill.Power_Bill_Amount],
+      ["Water Bill Amount", bill.Water_Bill_Amount],
+      ["Maintenance Amount", bill.Maintainence_Amount],
+      ["Lease Interests", bill.Lease_Interest],
+      ["Total", bill.Total_Amount],
+    ];
+  
+    const tableStartY = currentY + 7;
+  
+    // Using autoTable with proper margins for table alignment inside the border
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: tableStartY,
+      margin: { left: margins.left + 10, right: margins.right + 10 }, // Adjusting left and right margins
+      tableWidth: doc.internal.pageSize.width - margins.left - margins.right - 20, // Reduced table width to fit inside
+      theme: 'grid', // Adding borders to the table
+    });
+  
+    // Update currentY to the position after the table
+    currentY = doc.internal.pageSize.height - margins.bottom - 20; // Position for footer with some space
+  
+    // Footer content
+    doc.setFontSize(12);
+    doc.setFont('times', 'normal');
+    doc.text('Please pay on time without fail. Thank you for your cooperation.', margins.left, currentY);
+    currentY += lineHeight * 1;
+  
+    doc.text('Regards,', margins.left, currentY);
+    currentY += lineHeight;
+    doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
+  
+    // Save the PDF
+    doc.save(`Bill_Receipt_${bill.Property_Code}.pdf`);
   }
 
   
