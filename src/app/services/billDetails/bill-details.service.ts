@@ -13,13 +13,12 @@ export class BillDetailsService {
 
     
     getBillDetails(): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}/billdetails`)
-          
+        return this.http.get<any>(`${this.apiUrl}/getallbills`)   
       }  
       
        // New method to get bill details by bill_no
   getBillDetailsByBillNo(billNo: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/billdetailsbybillno?billNo=${billNo}`);
+    return this.http.post(`${this.apiUrl}/getbillsByBillNo`,billNo);
   }
 
 
