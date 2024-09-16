@@ -21,7 +21,7 @@ export class LoginComponent {
     private authService: AuthGuardsService){}
   userID: string = '';
   password: string = '';
-  otp: number = 0
+  otp: number | undefined
   formError: string = '';
   otpDiv:boolean=false;
   // Login(form: any) {
@@ -53,11 +53,11 @@ export class LoginComponent {
   
   // }
 Login(form: any) {
-    if((this.userID.startsWith("U") && this.userID.length>0  )  && (this.password==="password" && this.password.length>0)){
+    if((this.userID.startsWith("U") && this.userID.length>0  )  && this.password.length>0 ){
       
       this.LoginService.userLogin(this.userID,this.password).subscribe({
         next:(res:any)=>{
-          this.otpDiv= res.userValid
+          this.otpDiv= res.uservalid
         },
         error:(err:any)=>{
           this.toasterservice.warning("Please enter valid userID and password")
@@ -84,14 +84,17 @@ Login(form: any) {
     if (this.otp) {
       this.LoginService.verifyOTP(this.userID,this.otp).subscribe({
         next:(res:any)=>{
-      this.authService.login(this.userID)
+      this.authService.login(res.user.user_type)
       this.toasterservice.success("login successful")
 
-      if(this.userID === 'USER'){
+      if(res.user.user_type === 'USER'){
         this.router.navigateByUrl("billDetails")
       }else{
         this.router.navigateByUrl("user")
       }
+        },
+        error:(err:any)=>{
+          this.toasterservice.warning("Please enter valid otp")
         }
       })
       

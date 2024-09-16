@@ -13,20 +13,20 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   // Login function to send userId and password to the backend
-  userLogin(userId: string, password: string): Observable<any> {
+  userLogin(USER_ID: string, Password: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const body = { userId, password };
-    return this.http.post(`${this.apiUrl}/userogin`, body, { headers });
+    const body = { USER_ID, Password };
+    return this.http.post(`${this.apiUrl}/login`, body, { headers });
   }
-  adminLogin(userId: string, password: string): Observable<any> {
+  adminLogin(USER_ID: string, Password: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const body = { userId, password };
+    const body = { USER_ID, Password };
     return this.http.post(`${this.apiUrl}/cations`, body, { headers });
   }
 
-  verifyOTP(userId: string, OTP: number): Observable<any> {
+  verifyOTP(USER_ID: string, otp: number): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const body = { userId, OTP };
-    return this.http.post(`${this.apiUrl}/cations`, body, { headers });
+    const body = { USER_ID, otp };
+    return this.http.post(`${this.apiUrl}/verifyOtp`, body, { headers });
   }
 }
