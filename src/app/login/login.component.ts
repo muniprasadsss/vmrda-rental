@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
+import { LoginService } from '../services/login/login.service';
+import { errorContext } from 'rxjs/internal/util/errorContext';
 
 
 @Component({
@@ -15,49 +17,90 @@ import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 })
 export class LoginComponent {
   AuthGuardsService: any;
-  constructor(private router:Router,private toasterservice:ToastrService,
+  constructor(private router:Router,private toasterservice:ToastrService,private LoginService:LoginService,
     private authService: AuthGuardsService){}
-  username: string = '';
+  userID: string = '';
   password: string = '';
-  otp: string=''
+  otp: number = 0
   formError: string = '';
   otpDiv:boolean=false;
-  Login(form: any) {
-    if((this.username==="COMISSIONER" && this.username.length>0 || 
-      this.username==="SECRETARY" && this.username.length>0||
-      this.username==="AO" && this.username.length>0||
-      this.username==="RI" && this.username.length>0||
-       this.username==="USER" && this.username.length>0)  && this.password==="password"){
-      this.otpDiv=true;  
+  // Login(form: any) {
+  //   if((this.userID==="COMISSIONER" && this.userID.length>0 || 
+  //     this.userID==="SECRETARY" && this.userID.length>0||
+  //     this.userID==="AO" && this.userID.length>0||
+  //     this.userID==="RI" && this.userID.length>0||
+  //      this.userID==="USER" && this.userID.length>0)  && this.password==="password"){
+  //     this.otpDiv=true;  
+  //   }
+  //   else{
+  //     this.toasterservice.warning("Please enter valid userID and password")
+  //   }
+  // }
+  // submitOtp() {
+  //   console.log(this.otp,"after click")
+  //   if (this.otp.length < 0 || this.otp.length===0) {
+  //     this.toasterservice.warning("Please enter valid otp")
+  //   } else {
+  //     this.authService.login(this.userID)
+  //     this.toasterservice.success("login successful")
+  //     if(this.userID === 'USER'){
+  //       this.router.navigateByUrl("billDetails")
+  //     }else{
+  //       this.router.navigateByUrl("user")
+  //     }
+
+  //   }
+  
+  // }
+Login(form: any) {
+    if((this.userID.startsWith("U") && this.userID.length>0  )  && (this.password==="password" && this.password.length>0)){
+      
+      this.LoginService.userLogin(this.userID,this.password).subscribe({
+        next:(res:any)=>{
+          this.otpDiv= res.userValid
+        },
+        error:(err:any)=>{
+          this.toasterservice.warning("Please enter valid userID and password")
+        }
+      })  
+    }
+    else if(this.userID.length>0 && this.password.length>0){
+      this.LoginService.adminLogin(this.userID,this.password).subscribe({
+        next:(res:any)=>{
+          this.otpDiv= res.userValid;
+        },
+        error:(err:any)=>{
+          this.toasterservice.warning("Please enter valid userID and password")
+        }
+      })
     }
     else{
-      this.toasterservice.warning("Please enter valid username and password")
+      this.toasterservice.warning("Please enter valid userID and password")
     }
   }
+
+
   submitOtp() {
-    console.log(this.otp,"after click")
-    if (this.otp.length < 0 || this.otp.length===0) {
-      this.toasterservice.warning("Please enter valid otp")
-    } else {
-      this.authService.login(this.username)
+    if (this.otp) {
+      this.LoginService.verifyOTP(this.userID,this.otp).subscribe({
+        next:(res:any)=>{
+      this.authService.login(this.userID)
       this.toasterservice.success("login successful")
-      if(this.username === 'USER'){
+
+      if(this.userID === 'USER'){
         this.router.navigateByUrl("billDetails")
       }else{
         this.router.navigateByUrl("user")
       }
-
+        }
+      })
+      
+    }
+     else {
+      this.toasterservice.warning("Please enter valid otp")
+      
     }
   
   }
-  // submitOtp() {
-  //   console.log(this.otp, "after click");
-  //   if (!this.otp || this.otp.trim().length === 0) {  // Check if OTP is empty
-  //     alert("Please enter a valid OTP.");
-  //   } else {
-  //     this.toasterservice.success("Login successful");
-  //     this.router.navigateByUrl("/dashboard");
-  //   }
-  // }
   
 }

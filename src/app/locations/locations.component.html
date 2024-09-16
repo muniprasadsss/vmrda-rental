@@ -1,5 +1,4 @@
-<!-- <app-header></app-header>
-<app-dashboard></app-dashboard> -->
+
 <div class="card custom-table">
     <p-table [value]="locationData">
         <ng-template pTemplate="caption">
@@ -124,11 +123,31 @@
                 <th pSortableColumn="map_location">Map Location<p-sortIcon field="map_location" /></th>
                 <th pSortableColumn="revenue_division">Revenue Division<p-sortIcon field="revenue_division" /></th>
                 <th pSortableColumn="ri_name">RI Name<p-sortIcon field="ri_name" /></th>
-                <th ></th>
-                
+                <th ></th> 
             </tr>
         </ng-template>
-       
+        <ng-template pTemplate="body" let-location>
+          <tr style="font-size: 12px;margin-bottom: 1rem;">
+            <td style="width: 6%;">{{ location.SL_NO }}</td>
+            <td style="width: 10%;">{{ location.Location_Name }}</td>
+            <td style="width: 10%;">{{ location.Location_Code }}</td>
+            <td style="width: 10%;">{{ location.No_of_Complexes }}</td>
+            <td style="width: 10%;">{{ location.No_of_Indivudual_Shops }}</td>
+            <td style="width: 10%;">{{ location.Total_No_of_Shops }}</td>
+            <td style="width: 10%;">{{ location.District }}</td>
+            <td style="width: 10%;">{{ location.City }}</td>
+            <td style="width: 10%;">{{ location.Place }}</td>
+            <td style="width: 10%;">{{ location.map_location }}</td>
+            <td style="width: 10%;">{{ location.Revenue_Division }}</td>
+            <td style="width: 10%;">{{ location.RI_Name }}</td>
+            <td>
+              <div class="rowbtn">
+                <button class="editButton"> <i class="pi pi-pencil"></i></button>
+                <button class="deleteButton"><i class="pi pi-trash"></i></button>
+              </div>
+             </td>
+        </tr>
+      </ng-template>
         <ng-template pTemplate="emptymessage" let-location>
             
         </ng-template>
@@ -137,6 +156,9 @@
 
 
 <div class="card flex justify-content-center">
+  
+
+  
   <p-accordion class="w-full" expandIcon="pi pi-plus" collapseIcon="pi pi-minus">
  
   <p-accordionTab>
@@ -171,4 +193,3 @@
 </p-accordion>
 </div>
 
-<!-- <app-footer></app-footer> -->
