@@ -1,7 +1,6 @@
-<!-- <app-header></app-header>
-<app-dashboard></app-dashboard> -->
+
 <div class="card custom-table">
-    <p-table>
+    <p-table [value]="receiptData">
         <ng-template pTemplate="caption">
 
             <div class="searchbar">
@@ -14,11 +13,6 @@
                     </p-iconField>
                 </div>
                 <div class="dialog">
-                    <!-- <p-button 
-                    (onClick)="showDialog()" 
-                    label="Add New" 
-                    severity="success"
-                    size="small" /> -->
                     <p-dialog 
     header="Add New" 
     [modal]="true"
@@ -112,55 +106,51 @@
                 </div>
 
             </div>
-
-
-
         </ng-template>
         <ng-template pTemplate="header">
-            <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="S_No">S No<p-sortIcon field="S_No" /></th>
-                <th pSortableColumn="bill_no">Bill No<p-sortIcon field="bill_no" /></th>
-                <th pSortableColumn="user_id">User Id<p-sortIcon field="user_id" /></th>
-                <th pSortableColumn="property">Property<p-sortIcon field="property" /></th>
-                <th pSortableColumn="rental_period">Rental Period<p-sortIcon field="rental_period" /></th>
-                <th pSortableColumn="rental_amount">Rental Amount<p-sortIcon field="rental_amount" /></th>
-                <th pSortableColumn="gst">GST<p-sortIcon field="gst" /></th>
-                <th pSortableColumn="rental_intrest">Rental Interest<p-sortIcon field="rental_intrest" /></th>
-                <th pSortableColumn="gst_intrest">GST Interest<p-sortIcon field="gst_intrest" /></th>
-                <th pSortableColumn="power_bill_amount">Power Bill Amount<p-sortIcon field="power_bill_amount" /></th>
-                <th pSortableColumn="water_bill_amount">Water Bill Amount<p-sortIcon field="water_bill_amount" /></th>
-                <th pSortableColumn="maintenance_amount">Maintenance Amount<p-sortIcon field="maintenance_amount" /></th>
-                <th pSortableColumn="total_amount">Total Amount<p-sortIcon field="total_amount" /></th>
-                <th pSortableColumn="total_due">Total Due<p-sortIcon field="total_due" /></th>
-                <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
-                <th ></th>
-
-            </tr>
+          <tr style="font-size: 12px; padding: 0;">
+            <th pSortableColumn="ID">S No</th>
+            <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
+            <th pSortableColumn="User">User Id<p-sortIcon field="User" /></th>
+            <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th>
+            <th pSortableColumn="Property">Property Code<p-sortIcon field="Property" /></th>
+            <th pSortableColumn="Paid_Date">Paid date<p-sortIcon field="BillNo" /></th>
+            <th pSortableColumn="Rental_lease_amount_permonth">Lease Amount<p-sortIcon
+                field="Rental_lease_amount_permonth" /></th>
+            <th pSortableColumn="GST">GST<p-sortIcon field="GST" /></th>
+            <th pSortableColumn="Total_Rent">Total Rent Interest<p-sortIcon field="Total_rental_interest" /></th>
+            <th pSortableColumn="Total">Total<p-sortIcon field="Total" /></th>
+            <th pSortableColumn="Total_paid">Total Paid<p-sortIcon field="Total_Paid" /></th>
+            <th pSortableColumn="Due">Due<p-sortIcon field="Due" /></th>
+            <th pSortableColumn="Status">Status<p-sortIcon field="Status" /></th>
+            <th></th>
+  
+  
+          </tr>
         </ng-template>
-        <ng-template pTemplate="emptymessage" let-bill>
+        <ng-template pTemplate="body" let-receipt>
           <tr style="font-size: 12px;">
-            <td style="width: 6%;">{{ bill.S_No }}</td>
-            <td style="width: 8%;">{{ bill.bill_no }}</td>
-            <td style="width: 8%;">{{ bill.user_id }}</td>
-            <td style="width: 10%;">{{ bill.property }}</td>
-            <td style="width: 10%;">{{ bill.rental_period }}</td>
-            <td style="width: 8%;">{{ bill.rental_amount }}</td>
-            <td style="width: 6%;">{{ bill.gst }}</td>
-            <td style="width: 8%;">{{ bill.rental_intrest }}</td>
-            <td style="width: 8%;">{{ bill.gst_intrest }}</td>
-            <td style="width: 10%;">{{ bill.power_bill_amount }}</td>
-            <td style="width: 10%;">{{ bill.water_bill_amount }}</td>
-            <td style="width: 10%;">{{ bill.maintenance_amount }}</td>
-            <td style="width: 10%;">{{ bill.total_amount }}</td>
-            <td style="width: 8%;">{{ bill.total_due }}</td>
-            <td style="width: 8%;">{{ bill.status }}</td>
-            <td>
-              <div class="rowbtn">
-                <button class="editButton"> <i class="pi pi-pencil"></i></button>
-                <button class="deleteButton"><i class="pi pi-trash"></i></button>
-              </div>
-             </td>
-        </tr>
+            <td style="width: 6%;">{{ receipt.ID }}</td>
+            <td style="width: 8%;">{{ receipt.BillNo }}</td>
+            <td style="width: 8%;">{{ receipt.User }}</td>
+            <td style="width: 8%;">{{ receipt.ReceiptNo }}</td>
+            <td style="width: 8%;">{{ receipt.Property }}</td>
+            <td style="width: 8%;">{{ receipt.paid_date }}</td>
+            <td style="width: 8%;">{{ receipt.Rental_lease_amount_permonth }}</td>
+          <td style="width: 8%;">{{ receipt.GST }}</td>
+            <td style="width: 6%;">{{ receipt.Total_rental_interest }}</td>
+            <td style="width: 10%;">{{ receipt.Total }}</td>
+            <td style="width: 10%;">{{ receipt.TotalPaid }}</td>
+            <td style="width: 10%;">{{ receipt.Due }}</td>
+  
+            <td style="width: 10%;">{{ receipt.Status }}</td>
+            <!-- <td><i class="pi pi-download" (click)="generatePDF(receipt)"></i></td> -->
+  
+  
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" >
+        
         
         </ng-template>
     </p-table>
