@@ -24,10 +24,7 @@ export class BillDetailsService {
        // New method to get bill details by bill_no
        getBillDetailsByBillNo(BillNo: string): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/getbillsByBillNo`, { BillNo });
-      }
-      
-  
-
+      }    
 
 // updateBillDetails(billData: any): Observable<any> {
 //   console.log(billData,"check...");
@@ -40,5 +37,12 @@ updateBillDetails(billData: any): Observable<any> {
 
       sendEmail(emailData: { to: string; subject: string; text: string }): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/send-email`, emailData); // billData is the data you're sending to the server
+      }
+
+      updateBillDetailsByBillNo(updateData: any): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/updatebillbyBillNo`, updateData); // Updated endpoint
+      }
+      updateReceipt(receiptData: any): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/saveReceipts`, receiptData); // Updated endpoint
       }
 }

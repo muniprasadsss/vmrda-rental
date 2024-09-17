@@ -129,33 +129,32 @@
           <td style="width: 8%;">{{ bill.User }}</td>
           <td style="width: 8%;">{{ bill.Property }}</td>
           <td style="width: 8%;">{{ bill.BillNo }}</td>
-
-          
           <td style="width: 8%;">{{ bill.Rental_lease_amount_permonth }}</td>
           <td style="width: 6%;">{{ bill.GST }}</td>
           <td style="width: 10%;">{{ bill.Power_bill }}</td>
           <td style="width: 10%;">{{ bill.Water_bill }}</td>
           <td style="width: 10%;">{{ bill.Maintainance_bill }}</td>
-
           <td style="width: 10%;">{{ bill.Total_rental_interest }}</td>
           <td style="width: 10%;">{{ bill.Bill_generated_date | date: 'dd/MM/yyyy'  }}</td>
           <td style="width: 8%;">{{ bill.Total }}</td>
-
           <td style="width: 8%;">{{ bill.TotalPaid }}</td>
-          <!-- <td style="width: 8%;">{{ bill.Total }}</td> -->
           <td style="width: 8%;">{{ bill.Total }}</td>
-          <td style="width: 8%;">{{ bill.BillStatus }}</td>
+          <td style="width: 8%;">{{ bill.Status }}</td>
           <td>
             <i class="pi pi-check" style="color: green" *ngIf="bill.BillStatus === 'Active'"></i>
             <i class="pi pi-times" style="color: red" *ngIf="bill.BillStatus !== 'Active'"></i>
           </td>
-
           <td>
             <div class="rowbtn">
               <button class="editButton" *ngIf="bill.BillStatus !== 'Active'" (click)="showDialog(bill.BillNo)"> 
                 <i class="pi pi-pencil"></i>
               </button>
             </div>
+          </td>
+          <td *ngIf="bill.Status !== 'FP'">
+            <button (click)="payBill(bill)" class="pay-btn">Pay</button>
+          </td>
+          <td *ngIf="bill.Status === 'FP'">
           </td>
           <td><i class="pi pi-download" (click)="generatePDF(bill)"></i></td>
         </tr>

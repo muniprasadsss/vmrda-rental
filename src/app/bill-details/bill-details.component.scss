@@ -78,3 +78,31 @@
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
+
+  .pay-btn {
+    background-color: #28a745; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  
+  .pay-btn:hover {
+    background-color: #218838; 
+    transform: translateY(-2px); 
+  }
+  
+  .pay-btn:active {
+    background-color: #1e7e34;
+    transform: translateY(1px); 
+  }
+  
+  .pay-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.4); 
+  }
+}

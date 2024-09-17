@@ -52,7 +52,7 @@ export class BillDetailsComponent implements OnInit {
 
     this.userRole = localStorage.getItem('role')
     this.userID = localStorage.getItem('userId')
-    this.getBillDetailsByUserId();
+    this.getbilldetails();
   }
 
   calculateTotal(): void {
@@ -69,7 +69,6 @@ export class BillDetailsComponent implements OnInit {
     // Update the total field in the form
     this.form.get('total')?.setValue(total, { emitEvent: false }); // { emitEvent: false } to avoid circular triggers
   }
-  
   // Updated showDialog method to fetch data based on bill_no
   showDialog(bill_no: string) {
     console.log(bill_no);
@@ -104,24 +103,7 @@ export class BillDetailsComponent implements OnInit {
     
   }
 
-  // getbilldetails() {
-  //   this.billDetailService.getBillDetails().subscribe({
-  //     next: (res: any) => {
-  //       this.dataSource = Object.keys(res).map(key => ({ ...res[key] }));
-  //       this.responseMsg = res.message;
-  //       console.log(this.dataSource, "userservice data...");
-  //     },
-  //     error: (err: any) => {
-  //       if (err.error?.message) {
-  //         this.responseMsg = err.error?.message;
-  //       } else {
-  //         this.responseMsg = "error";
-  //       }
-  //     }
-  //   });
-  // }
-
-  getBillDetailsByUserId() {
+  getbilldetails() {
     this.billDetailService.getBillDetailsByUserId(this.userID,this.userRole).subscribe({
       next: (res: any) => {
         this.dataSource = res.billingData; // Direct assignment if it's an array
@@ -137,7 +119,6 @@ export class BillDetailsComponent implements OnInit {
       }
     });
   }
-  
 
   sendEmail() {
     this.billDetailService.sendEmail(this.emailData).subscribe(
@@ -151,42 +132,6 @@ export class BillDetailsComponent implements OnInit {
     console.log("Button clicked...");
   }
 
-  // formatDate(dateString: string): string {
-  //   return this.datepipe.transform(dateString, 'yyyy-MM-dd') || '';
-  // }
-
-  // onSubmit() {
-  //   if (this.form.valid) {
-  //     // Get the form values including disabled fields
-  //     const formData = this.form.getRawValue(); 
-  
-  //     // Prepare the payload for the backend
-  //     const updateData = {
-  //       bill_no: formData.bill_no, // Ensure correct parameter name
-  //       power_bill_amount: formData.power_bill_amount,
-  //       water_bill_amount: formData.water_bill_amount,
-  //       maintenance_amount: formData.maintenance_amount,
-  //       lease_interests: formData.lease_interests,
-  //       total: formData.total
-  //     };
-  
-  //     // Call the service to update bill details
-  //     this.billDetailService.updateBillDetails(updateData).subscribe({
-  //       next: (response) => {
-  //         console.log('Form submitted successfully:', response);
-  //         this.visible = false; // Hide the dialog on success
-  //         //this.sendEmail();   // after api call successful send mail
-  //       },
-  //       error: (error) => {
-  //         console.error('Error submitting form:', error);
-  //         // Handle error, e.g., show a notification to the user
-  //       }
-  //     });
-  //   } else {
-  //     console.error('Form is invalid');
-  //     // Optionally handle form validation errors
-  //   }
-  // }
 
   onSubmit() {
     if (this.form.valid) {
@@ -215,27 +160,6 @@ export class BillDetailsComponent implements OnInit {
       console.error('Form is invalid');
     }
   }
-
-   // Method to generate the PDF
-  //  generatePDF(bill: billDetails) {
-  //   const doc = new jsPDF('p', 'pt', 'a4'); // Create a new jsPDF instance
-
-  //   // Set up the document title
-  //   doc.setFontSize(18);
-  //   doc.text('Bill Details', 20, 30);
-
-  //   // Add Bill Data (for example)
-  //   doc.setFontSize(12);
-  //   doc.text(`Bill No: ${bill.Bill_No}`, 20, 60);
-  //   doc.text(`User ID: ${bill.User_ID}`, 20, 80);
-  //   doc.text(`Lease Amount: ${bill.Lease_Amount}`, 20, 100);
-  //   doc.text(`GST: ${bill.GST}`, 20, 120);
-  //   doc.text(`Power Bill: ${bill.Power_Bill_Amount}`, 20, 140);
-  //   doc.text(`Total Amount: ${bill.Total_Amount}`, 20, 160);
-
-  //   // Save the PDF with a dynamic name
-  //   doc.save(`Bill-${bill.Bill_No}.pdf`);
-  // }
 
   generatePDF(bill: billDetails){
     const doc = new jsPDF();
@@ -346,6 +270,62 @@ export class BillDetailsComponent implements OnInit {
     doc.save(`Bill_Receipt_${bill.Property_Code}.pdf`);
   }
 
-  
-  
+  generateChallanNumber(UserID: string): string {
+    const currentMonth = new Date().toLocaleString('en-US', { month: 'short' }).toUpperCase();
+    const currentYear = new Date().getFullYear();
+
+    return `rec/vmrda/${currentMonth}/${currentYear}/${UserID}`;
+  }
+
+payBill(bill: any) {
+  const challanNumber = this.generateChallanNumber(bill.UserID); // Pass user ID to the function
+
+  // Update bill details
+  const updateData = {
+    BillNo: bill.BillNo,
+    Status: 'FP',
+    TotalPaid: bill.Total,
+    Due: 0,
+    Vmrda_Challan_No: challanNumber,
+  };
+
+  this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe(response => {
+    if (response.status === 200) {
+      console.log('Bill updated successfully!');
+      // Create receipt
+      this.createReceipt({
+        BillNo: bill.BillNo,
+        ReceiptNo: challanNumber, // Use challan number as receipt number
+        User: bill.User,
+        Property: bill.Property,
+        paid_date: new Date().toISOString(), // or any other date format
+        Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
+        GST: bill.GST,
+        Total_rental_interest: bill.Total_rental_interest,
+        Total: bill.Total,
+        TotalPaid: bill.Total,
+        Due: 0,
+        Status: 'FP'
+      });
+      this.getbilldetails();
+
+    } else {
+      console.error('Error updating bill:', response.message);
+    }
+  });
+}
+
+
+  createReceipt(receiptData: any) {
+  console.log('Creating receipt with data:', receiptData); // Add logging to check the data
+  this.billDetailService.updateReceipt(receiptData).subscribe(response => {
+    if (response.status === 201) {
+      console.log('Receipt created successfully!');
+    } else {
+      console.error('Error creating receipt:', response.message);
+    }
+  });
+}
+
+
 }
