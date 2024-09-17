@@ -12,8 +12,8 @@ export class ChangeRequestService {
   constructor(private http: HttpClient) { }
 
     
-    getChangeRequestData(): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}/requestchange`)
+    getChangeRequestData(USER_ID:any,USER_TYPE:any): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/getCrInfo`,{USER_ID,USER_TYPE})
           
       }
 

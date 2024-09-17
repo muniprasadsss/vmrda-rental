@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './change-request.component.html',
   styleUrl: './change-request.component.scss'
 })
-export class ChangeRequestComponent {
+export class ChangeRequestComponent implements OnInit {
 
   visible: boolean = false;
   isDialogVisible: boolean = false;
@@ -30,8 +30,9 @@ export class ChangeRequestComponent {
   remarks!: string;
   user: any;
   data: any[] = [];
-  userType: string | null = null; // Role of the user fetched from localStorage
+  userRole: string | null = null; // Role of the user fetched from localStorage
   action:string = ''
+  userID:any;
   payload!: Payload| Object;
   approvedRecordes!:ChangedFields[];
   pendingRecordes!:ChangedFields[];
@@ -49,16 +50,17 @@ export class ChangeRequestComponent {
   ) {}
 
   ngOnInit() {
-    this.getcrInfo();
     this.getUserData();
-    this.userType = localStorage.getItem("userType"); // Fetching userType from localStorage
+    this.userRole = localStorage.getItem('role')
+    this.userID = localStorage.getItem('userId')
+    this.getcrInfo();
   }
 
   getcrInfo() {
     this.crData = [];
-    this.crHttp.getChangeRequestData().subscribe({
+    this.crHttp.getChangeRequestData(this.userID,this.userRole).subscribe({
       next: (res: any) => {
-        this.crData = res;
+        this.crData = res.crInfo;
         this.filterData();
       },
       error: (err: any) => {
@@ -98,7 +100,7 @@ this.payload = {
   request_type: request_type,
   status: status,
   stage: stage,
-  role: localStorage.getItem('userType'),
+  role: localStorage.getItem('userRole'),
   action: action,
   };
 
@@ -153,7 +155,6 @@ this.payload = {
     this.isDialogVisible = false;
   }
 
-  
 
   DeleteToasterMessage() {
     if (this.remarks.length > 0) {
@@ -177,9 +178,9 @@ this.payload = {
     );
   }
 
-  // Function to determine if the button should be shown based on the userType
+  // Function to determine if the button should be shown based on the userRole
   shouldShowButton(buttonType: string) {
-    switch (this.userType) {
+    switch (this.userRole) {
       case 'RI':
         return buttonType === 'Recommend' || buttonType === 'Close';
       case 'AO':
@@ -195,7 +196,7 @@ this.payload = {
 
 
   isSelectDisabled(stage: string, status: string): boolean {
-    switch (this.userType) {
+    switch (this.userRole) {
       case 'RI':
         return !(stage === 'Pending with RI' && status === 'Pending');
       case 'AO':
@@ -213,9 +214,6 @@ this.payload = {
  onChange(crno: any, request_type: any, status: any, stage:any ,action:any) {
     this.changeStatus(crno,request_type,status,stage, this.selectedValue);
   }
-
-  
-  
 
 
 }
