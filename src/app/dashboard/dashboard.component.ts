@@ -32,8 +32,10 @@ export class DashboardComponent implements OnInit {
 
 
     onTabChange(event: any) {
-        const selectedHeader = event.originalEvent.target.innerText; // Safely access the header
-        this.activeTabIndex = event.index;
+        //const selectedHeader = event.originalEvent.target.innerText; // Safely access the header
+        // this.activeTabIndex = event.index;
+        const selectedHeader = event?.originalEvent?.target?.innerText || '';  // Safely access the header or fallback to empty string
+        this.activeTabIndex = event?.index ?? 0;  // Safely handle event.index, fallback to 0
         switch (selectedHeader) {
             case 'Tenants':
                 this.route.navigateByUrl('/user');
@@ -69,7 +71,7 @@ export class DashboardComponent implements OnInit {
                 this.route.navigateByUrl('/grievanceRequest');
                 break;
             case 'Department Users':
-                this.route.navigateByUrl('/dummyuser');
+                this.route.navigateByUrl('/departmentusers');
                 break;
             default:
                 break;
