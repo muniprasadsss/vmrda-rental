@@ -122,9 +122,9 @@ export class BillDetailsComponent implements OnInit {
   // }
 
   getBillDetailsByUserId() {
-    this.billDetailService.getBillDetailsByUserId(this.userRole,this.userID).subscribe({
+    this.billDetailService.getBillDetailsByUserId(this.userID,this.userRole).subscribe({
       next: (res: any) => {
-        this.dataSource = res[0]; // Direct assignment if it's an array
+        this.dataSource = res.billingData; // Direct assignment if it's an array
         this.responseMsg = res.message;
         console.log(this.dataSource, "userservice data...");
       },
