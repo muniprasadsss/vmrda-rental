@@ -14,5 +14,10 @@ export class UserServiceService {
   getUserDetails():Observable<any>{
     return this.http.get(`${this.apiUrl}/users`)
   }
+  
+  getUserDetailsByRole(USER_ID:any,USER_TYPE:any):Observable<any>{
+    
+    return this.http.post(`${this.apiUrl}/getUserInfo`,{USER_ID,USER_TYPE})
+  }
 
 }

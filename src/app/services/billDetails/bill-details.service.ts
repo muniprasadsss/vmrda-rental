@@ -26,11 +26,6 @@ export class BillDetailsService {
         return this.http.post<any>(`${this.apiUrl}/getbillsByBillNo`, { BillNo });
       }    
 
-// updateBillDetails(billData: any): Observable<any> {
-//   console.log(billData,"check...");
-//   return this.http.post(`${this.apiUrl}/updateBillDetails`, billData);
-// }
-
 updateBillDetails(billData: any): Observable<any> {
   return this.http.post<any>(`${this.apiUrl}/updatebill`, billData); // Updated endpoint
 }

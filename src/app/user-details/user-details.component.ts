@@ -24,15 +24,20 @@ export class UserDetailsComponent implements OnInit {
   initialValue!: userdetails[];
   activityValues: number[] = [0, 100];
   responseMsg: string | undefined;
+  userID: any;
+  userRole: any;
+  
 
   constructor(private router:Router,private userdetailsservice:UserServiceService){}
       ngOnInit(): void {
+        this.userRole = localStorage.getItem('role')
+        this.userID = localStorage.getItem('userId')
         this.getuserdetails()
       }
         getuserdetails() {
-          this.userdetailsservice.getUserDetails().subscribe({
+          this.userdetailsservice.getUserDetailsByRole(this.userID,this.userRole).subscribe({
             next: (res: any) => {
-              this.dataSource = Object.keys(res).map(key => ({ ...res[key] }));
+              this.dataSource = res.userinfo;
               this.responseMsg = res.message;
             },
             error: (err: any) => {
