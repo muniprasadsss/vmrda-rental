@@ -14,6 +14,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { DummyUserComponent } from './dummy-user/dummy-user.component';
 import { AssetsComponent } from './assets/assets.component';
 import { AuthGuardsService } from './services/authGuards/auth-guards.service';
+import { DepartmentUsersComponent } from './department-users/department-users.component';
 
 
 export const routes: Routes = [
@@ -59,6 +60,8 @@ export const routes: Routes = [
          canActivate: [AuthGuardsService], data: { role: ['RD','AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
     { path: 'grievanceRequest', component: DummyUserComponent, 
         canActivate: [AuthGuardsService], data: { role: ['USER','ADMIN'] } },
+        { path: 'departmentusers', component: DepartmentUsersComponent, 
+            canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER'] } },
     
 
 
