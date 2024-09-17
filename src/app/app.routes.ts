@@ -54,10 +54,10 @@ export const routes: Routes = [
     { path: 'transactionTracking', component: TransactionTrackingComponent, 
         canActivate: [AuthGuardsService], data: { role: ['RD', 'AO','ADMIN'] } },
     { path: 'changeRequest', component: ChangeRequestComponent, 
-        canActivate: [AuthGuardsService], data: { role: ['RD','AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
+        canActivate: [AuthGuardsService], data: { role: ['RD','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','USER'] } },
     { path: 'reports', component: ReportsComponent,
          canActivate: [AuthGuardsService], data: { role: ['RD','AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
-    { path: 'gRDevanceRequest', component: DummyUserComponent, 
+    { path: 'grievanceRequest', component: DummyUserComponent, 
         canActivate: [AuthGuardsService], data: { role: ['USER','ADMIN'] } },
     
 
