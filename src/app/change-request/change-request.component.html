@@ -35,8 +35,8 @@
     [ngClass]="{'active': activeButton === 'rejected'}" style="background-color: red;">Rejected</button>
   </div>
   <!-- accepted table -->
-<div class="card custom-table" *ngIf="isApprovedClicked">
-    <p-table #dt2 [value]="approvedRecordes"  dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
+<div class="card custom-table" >
+    <p-table #dt2 [value]="tableData"  dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
     [paginator]="true"  [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
      'attachment', 'description', 'propertycode', 'created_at', 'status', 'stage']">
         <ng-template pTemplate="caption">
@@ -105,7 +105,7 @@
     </p-table>
 </div>
 <!-- pending table -->
-<div class="card custom-table" *ngIf="isPendingClicked">
+<!-- <div class="card custom-table" *ngIf="isPendingClicked">
 <p-table #dt2 [value]="pendingRecordes"  dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
 [paginator]="true"  [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
  'attachment', 'description', 'propertycode', 'created_at', 'status', 'stage']">
@@ -174,9 +174,9 @@
         </tr>
     </ng-template>
 </p-table>
-</div>
+</div> -->
 <!-- rejected table  -->
-<div class="card custom-table" *ngIf="isRejectClicked">
+<!-- <div class="card custom-table" *ngIf="isRejectClicked">
     <p-table #dt2 [value]="rejectedRecordes"  dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
     [paginator]="true"  [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
      'attachment', 'description', 'propertycode', 'created_at', 'status', 'stage']">
@@ -227,7 +227,7 @@
                     <select class="custom-select" [(ngModel)]="item.action"
                 [disabled]="isSelectDisabled(item.stage, item.status)" 
                  (change)="changeStatus(item.cr_number,item.requesttype,item.status,item.stage,item.action)">
-                 <!-- <option [ngValue]="null">Select</option> -->
+                
                  <option selected >select</option>
                     <option value="Recommend" *ngIf="shouldShowButton('Recommend')">Recommend</option>
                     <option value="Approval" *ngIf="shouldShowButton('Approval')">Approval</option>
@@ -244,7 +244,7 @@
         </ng-template>
     </p-table>
     
-</div>
+</div> -->
 
  <!-- Confirmation Modal  -->
  <p-dialog header="" [(visible)]="isDialogVisible" modal="modal" [style]="{'width': '30vw','height': '60vh'}" [closable]="true" (onHide)="onHide()">
