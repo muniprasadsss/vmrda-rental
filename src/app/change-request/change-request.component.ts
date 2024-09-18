@@ -98,11 +98,9 @@ export class ChangeRequestComponent implements OnInit {
           this.tableData = this.rejectedRecordes;
     }
     if( this.userRole === 'USER'){
-          this.tableData = this.rejectedRecordes;
-    }
-    if(this.isRejectClicked && this.userRole !== 'USER'){
           this.tableData = this.userRecordes;
     }
+    
   }
 
   onFilterGlobal(event: Event): void {
