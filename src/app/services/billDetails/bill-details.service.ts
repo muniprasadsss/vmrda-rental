@@ -11,20 +11,20 @@ export class BillDetailsService {
   private apiUrl = environment.apiUrl
   constructor(private http: HttpClient) { }
 
-    
-  getBillDetails(): Observable<any> {
-      return this.http.get<any>(`${this.apiUrl}/getallbills`)   
-    }
-    
+
+  // getBillDetails(): Observable<any> {
+  //     return this.http.get<any>(`${this.apiUrl}/getallbills`)
+  //   }
+
            // New method to get bill details by userid
   getBillDetailsByUserId(USER_ID: string,USER_TYPE:string): Observable<any> {
     return this.http.post(`${this.apiUrl}/getBillingInfo`,{USER_ID,USER_TYPE});
   }
-      
+
        // New method to get bill details by bill_no
        getBillDetailsByBillNo(BillNo: string): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/getbillsByBillNo`, { BillNo });
-      }    
+      }
 
 updateBillDetails(billData: any): Observable<any> {
   return this.http.post<any>(`${this.apiUrl}/updatebill`, billData); // Updated endpoint
@@ -39,5 +39,19 @@ updateBillDetails(billData: any): Observable<any> {
       }
       updateReceipt(receiptData: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/saveReceipts`, receiptData); // Updated endpoint
-      }
+  }
+
+  getPropertyInfo(BillNo: any): Observable<any> {
+     console.log(BillNo,"....")
+    return this.http.post<any>(`${this.apiUrl}/getBillAndPropertyInfo`, {BillNo: BillNo })
+
+  }
+
+    createOrder(amount: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/payment/orders`, { amount });
+  }
+
+  verifyPayment(paymentDetails: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/payment/verify`, paymentDetails);
+  }
 }

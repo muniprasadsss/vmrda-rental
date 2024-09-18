@@ -21,17 +21,20 @@ export class UserTaggingsComponent implements OnInit {
   visible: boolean = false;
   responseMsg: string | undefined;
   dataSource: usertagging[] = [];  // Initialized as an empty array
-
+  userID: any;
+  userRole: any;
   constructor(private toasterservice: ToastrService, private usertaggingservice: UserTaggingService,private datepipe: DatePipe) {}
 
   ngOnInit(): void {
+    this.userRole = localStorage.getItem('role')
+    this.userID = localStorage.getItem('userId')
     this.getUserTaggingDetails();
   }
 
   getUserTaggingDetails() {
-    this.usertaggingservice.getUserTaggingDetails().subscribe({
+    this.usertaggingservice.getUserTagging(this.userID,this.userRole).subscribe({
       next: (res: any) => {
-        this.dataSource = res;  // No need to map it if the structure is correct
+        this.dataSource = res.userData;  // No need to map it if the structure is correct
         this.responseMsg = res.message;
         console.log(this.dataSource, "usertagging data...");
       },

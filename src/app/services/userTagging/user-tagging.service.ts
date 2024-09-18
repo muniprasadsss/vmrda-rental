@@ -12,6 +12,6 @@ export class UserTaggingService {
 
   constructor(private http: HttpClient) {}
 
-  getUserTaggingDetails():Observable<any>{
-    return this.http.get(`${this.apiUrl}/usertagging`)
+  getUserTagging(USER_ID:string,USER_TYPE:string):Observable<any>{
+    return this.http.post(`${this.apiUrl}/getUserTagging`,{USER_ID,USER_TYPE})
   }}

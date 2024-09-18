@@ -1,6 +1,6 @@
 
 <div class="card custom-table">
-    <p-table [value]="receiptData">
+    <p-table [value]="receiptData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
         <ng-template pTemplate="caption">
 
             <div class="searchbar">

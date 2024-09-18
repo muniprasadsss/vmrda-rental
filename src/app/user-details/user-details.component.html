@@ -1,6 +1,6 @@
 
   <div class="content">
-    <div class="card" style="margin: 2rem;">
+    <div class="card" >
       <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
           [paginator]="true" [globalFilterFields]="['S_No','User_ID','User_Name','Mobile_No','Nature_of_Business','Aadhaar_No','PAN_No','Email_Id','GSTIN','Revenue_Dvision']"
           [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
@@ -14,7 +14,7 @@
                           <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
                       </p-iconField>
                   </div>
-                  <div class="dialog">
+                  <div class="dialog" *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')">
                               <p-button 
                                   (onClick)="showDialog()" 
                                   label="Add New" 
@@ -102,7 +102,7 @@
                   <th pSortableColumn="EMAIL_ID">Email Id<p-sortIcon field="EMAIL_ID" /></th>
                   <th pSortableColumn="GST_IN">GSTIN<p-sortIcon field="GST_IN" /></th>
                   <!-- <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th> -->
-                  <th></th>
+                  <th *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')"></th>
               </tr>
           </ng-template>
           <ng-template pTemplate="body" let-customer>
@@ -117,7 +117,7 @@
                   <td style="width: 6%;">{{ customer.EMAIL_ID }}</td>
                   <td style="width: 6%;">{{ customer.GST_IN }}</td>
                   <!-- <td style="width: 6%;">{{ customer.Revenue_Dvision }}</td> -->
-                  <td style="width: 6%;">
+                  <td style="width: 6%;" *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')">
                     <div class="rowbtn">
                       <button class="editButton"> <i class="pi pi-pencil"></i></button>
                       <button class="deleteButton"><i class="pi pi-trash"></i></button>

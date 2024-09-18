@@ -1,5 +1,5 @@
-<div class="card custom-table" style="margin: 2rem;">
-  <p-table [value]="dataSource" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
+<div class="card custom-table" >
+  <p-table [value]="dataSource" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [scrollable]="true">
     <ng-template pTemplate="caption">
       <div class="searchbar">
         <div class="search">
@@ -10,7 +10,7 @@
             <input pInputText type="text" placeholder="Search keyword" />
           </p-iconField>
         </div>
-        <div class="dialog">
+        <div class="dialog" *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')">
           <p-button (onClick)="showDialog()" label="Add New" severity="success" size="small"></p-button>
           <p-dialog header="Add New" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
             <div class="form-container">
@@ -47,7 +47,7 @@
         <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th>
         <th pSortableColumn="LEASE_DEED_NO">LEASE DEED Number<p-sortIcon field="LEASE_DEED_NO"></p-sortIcon></th>
         <!-- <th pSortableColumn="STATUS">STATUS<p-sortIcon field="STATUS"></p-sortIcon></th> -->
-        <th></th>
+        <th *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')"></th>
       </tr>
     </ng-template>
 
@@ -57,9 +57,9 @@
         <td>{{ lease.USER_ID }}</td>
         <td>{{ lease.USER_NAME }}</td>
         <td>{{ lease.PROPERTY }}</td>
-        <td>{{  formatDate(lease.START_DATE) }}</td>
-        <td>{{  formatDate(lease.END_DATE) }}</td>
-        <td>{{  formatDate(lease.DATE_OF_RENEWAL_OF_LICENSE) }}</td>
+        <td>{{ lease.START_DATE }}</td>
+        <td>{{ lease.END_DATE }}</td>
+        <td>{{ lease.DATE_OF_RENEWAL_OF_LICENSE}}</td>
         <td>{{ lease.RENTAL_LEASE_AMOUNT_PERMONTH }}</td>
         <td>{{ lease.RENT_GO_LIVE }}</td>
         <td>{{ lease.RENTAL_LEASE_PERIOD }}</td>
@@ -69,10 +69,10 @@
         <td>{{ lease.GST_INTEREST_PERCENT }}</td>
         <td>{{ lease.LEASE_DEED_NO }}</td>
         <!-- <td>{{ lease.STATUS }}</td> -->
-        <td>
+        <td *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')">
           <div class="rowbtn">
             <button class="editButton"><i class="pi pi-pencil"></i></button>
-            <button class="deleteButton"><i class="pi pi-trash"></i></button>
+            <!-- <button class="deleteButton"><i class="pi pi-trash"></i></button> -->
           </div>
         </td>
       </tr>
