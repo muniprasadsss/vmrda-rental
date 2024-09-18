@@ -1,16 +1,17 @@
+import { billDetails } from './../interfaces/billDetails/billDetailsInterfaces';
 import { Component, OnInit } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderComponent } from '../header/header.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { FooterComponent } from '../footer/footer.component';
 import { BillDetailsService } from '../services/billDetails/bill-details.service';
-import { billDetails } from '../interfaces/billDetails/billDetailsInterfaces';
+// import { billDetails } from '../interfaces/billDetails/billDetailsInterfaces';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {jsPDF} from 'jspdf';
 import html2canvas from 'html2canvas';
 // import autoTable from 'jspdf-autotable';
 import autoTable from 'jspdf-autotable';
-
+declare var Razorpay: any;
 
 @Component({
   selector: 'app-bill-details',
@@ -33,6 +34,10 @@ export class BillDetailsComponent implements OnInit {
   userID: any
   showModel: boolean = false;
     visible1: boolean = false;
+  propertyData: any;
+  propertyDetail: any;
+  amount: any;
+
   constructor(private billDetailService: BillDetailsService) {}
 
   ngOnInit(): void {
@@ -106,6 +111,7 @@ export class BillDetailsComponent implements OnInit {
   }
 
   getbilldetails() {
+    this.dataSource = []
     this.billDetailService.getBillDetailsByUserId(this.userID,this.userRole).subscribe({
       next: (res: any) => {
         this.dataSource = res.billingData; // Direct assignment if it's an array
@@ -121,6 +127,11 @@ export class BillDetailsComponent implements OnInit {
       }
     });
   }
+
+    //   getProperty(){
+
+
+    // }
 
   sendEmail() {
     this.billDetailService.sendEmail(this.emailData).subscribe(
@@ -163,7 +174,23 @@ export class BillDetailsComponent implements OnInit {
     }
   }
 
-  generatePDF(bill: billDetails){
+  generatePDF(bill: any) {
+
+    //  this.billDetailService.getPropertyInfo(bill.Bill_No).subscribe({
+    //     next:(res:any)=>{
+    //       this.propertyData = res.billDetails;
+    //     },
+    //     error:(err:any)=>{
+    //       console.log(err)
+    //     }
+    //   })
+    this.billDetailService.getPropertyInfo(bill.BillNo).subscribe({
+
+      next: (res: any) => {
+        this.propertyData = res;
+     this.propertyDetail=  this.propertyData.propertyInfo
+        console.log(this.propertyDetail.PROPERTY_CODE,"propertydata....")
+
     const doc = new jsPDF();
 
     // Reduced page margins
@@ -215,13 +242,13 @@ export class BillDetailsComponent implements OnInit {
     currentY += lineHeight * 1;
 
     doc.setFont('times', 'normal');
-    doc.text(`The property with code ${bill.Property_Code}, leased to ${bill.User_ID}, located in ${bill.Property_Code}, has a monthly lease amount of ${bill.Lease_Amount} with additional charges such as GST and utility bills.`,
+    doc.text(`The property with code ${bill.Property_Code}, leased to ${bill.User_ID}, located in ${bill.Property_Code}, in  has a monthly lease amount of ${bill.Lease_Amount} with additional charges such as GST and utility bills.`,
       margins.left, currentY,
       { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
     );
     currentY += lineHeight * 3;
 
-    doc.text(`The lease amount for the period ${bill.Lease_Period} is due. Please remit the amount of ${bill.Total_Amount} by the due date, failing which further action will be taken according to the terms and conditions.`,
+    doc.text(`The lease amount for the period ${bill.Lease_Period} is due. Please remit the amount of ${bill.Total_Amount} by the due date, failing which further action will be taken according to the terms and conditions. ${this.propertyData.PROPERTY_CODE}`,
       margins.left, currentY,
       { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
     );
@@ -230,18 +257,20 @@ export class BillDetailsComponent implements OnInit {
     // Adjusting table margins and reducing its width to fit within the border
     const tableColumn = ["Field", "Value"];
     const tableRows = [
-      ["Bill No", bill.Bill_No],
-      ["User ID", bill.User_ID],
-      ["Property Code", bill.Property_Code],
-      ["Lease Period", bill.Lease_Period],
-      ["Lease Amount", bill.Lease_Amount],
-      ["GST", bill.GST],
-      ["Power Bill Amount", bill.Power_Bill_Amount],
-      ["Water Bill Amount", bill.Water_Bill_Amount],
-      ["Maintenance Amount", bill.Maintainence_Amount],
-      ["Lease Interests", bill.Lease_Interest],
-      ["Total", bill.Total_Amount],
-    ];
+  ["Bill No", bill.BillNo],
+  ["User ID", bill.User],
+  ["Property Code", bill.Property],
+  ["Lease Period", "1 month"], // Since no lease period is provided in the bill object, you can add static data or calculate it
+  ["Lease Amount", bill.Rental_lease_amount_permonth],
+  ["GST", bill.GST],
+  ["Power Bill Amount", bill.Power_bill],
+  ["Water Bill Amount", bill.Water_bill],
+  ["Maintenance Amount", bill.Maintainance_bill],
+  ["Lease Interests", bill.Total_rental_interest],
+      ["Total", bill.Total],
+  // [".hhh",this.propertyDetail.ALLOTTEE_NAME]
+];
+
 
     const tableStartY = currentY + 7;
 
@@ -270,7 +299,18 @@ export class BillDetailsComponent implements OnInit {
 
     // Save the PDF
     doc.save(`Bill_Receipt_${bill.Property_Code}.pdf`);
+      }
+    }
+    )
+
+
+
+
   }
+
+
+
+
 
   generateChallanNumber(UserID: string): string {
     const currentMonth = new Date().toLocaleString('en-US', { month: 'short' }).toUpperCase();
@@ -279,48 +319,153 @@ export class BillDetailsComponent implements OnInit {
     return `rec/vmrda/${currentMonth}/${currentYear}/${UserID}`;
   }
 
-payBill(bill: any) {
-  const challanNumber = this.generateChallanNumber(bill.UserID); // Pass user ID to the function
+// payBill(bill: any) {
+//   const challanNumber = this.generateChallanNumber(bill.UserID); // Pass user ID to the function
 
-  // Update bill details
-  const updateData = {
-    BillNo: bill.BillNo,
-    Status: 'FP',
-    TotalPaid: bill.Total,
-    Due: 0,
-    Vmrda_Challan_No: challanNumber,
-  };
+//   // Update bill details
+//   const updateData = {
+//     BillNo: bill.BillNo,
+//     Status: 'FP',
+//     TotalPaid: bill.Total,
+//     Due: 0,
+//     Vmrda_Challan_No: challanNumber,
+//   };
 
-  this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe(response => {
-    if (response.status === 200) {
-      console.log('Bill updated successfully!');
-      // Create receipt
-      this.createReceipt({
+//   this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe(response => {
+//     if (response.status === 200) {
+//       console.log('Bill updated successfully!');
+//       // Create receipt
+//       this.createReceipt({
+//         BillNo: bill.BillNo,
+//         ReceiptNo: challanNumber, // Use challan number as receipt number
+//         User: bill.User,
+//         Property: bill.Property,
+//         paid_date: new Date().toISOString(), // or any other date format
+//         Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
+//         GST: bill.GST,
+//         Total_rental_interest: bill.Total_rental_interest,
+//         Total: bill.Total,
+//         TotalPaid: bill.Total,
+//         Due: 0,
+//         Status: 'FP'
+//       });
+//       this.getbilldetails();
+
+//     } else {
+//       console.error('Error updating bill:', response.message);
+//     }
+//   });
+// }
+
+
+//   createReceipt(receiptData: any) {
+//   console.log('Creating receipt with data:', receiptData); // Add logging to check the data
+//   this.billDetailService.updateReceipt(receiptData).subscribe(response => {
+//     if (response.status === 201) {
+//       console.log('Receipt created successfully!');
+//     } else {
+//       console.error('Error creating receipt:', response.message);
+//     }
+//   });
+// }
+
+   showDialog1() {
+        this.visible1 = true;
+  }
+
+
+  payBill(bill: any) {
+  // Set the amount you want to charge
+  this.amount = bill.Total; // Razorpay expects the amount in paise
+
+  // Call Razorpay payment
+  this.billDetailService.createOrder(this.amount).subscribe(
+    (order) => {
+      console.log(order,"....")
+      const options = {
+        key: 'rzp_test_JKpUkmYnatBjUA', // Replace with your Razorpay key ID
+        amount: order.data.amount, // Amount in paise
+        currency: 'INR',
+        name: 'Your Company Name',
+        description: `Payment for ${bill.Property}`,
+        order_id: order.data.id, // Razorpay order ID
+        handler: (response: any) => {
+          // On payment success, update bill and create receipt
+          this.verifyPayment(response, bill);
+        },
+        prefill: {
+          name: bill.User, // Prefill with user info from the bill
+          email: 'user@example.com', // Modify if you have user emails
+          contact: '9999999999', // Modify if you have user phone numbers
+        },
+        theme: {
+          color: '#3399cc',
+        },
+      };
+      const rzp1 = new Razorpay(options);
+      rzp1.open();
+    },
+    (error) => {
+      console.log('Error creating Razorpay order:', error);
+    }
+  );
+}
+
+// Verify the payment response and update the bill details
+verifyPayment(response: any, bill: any) {
+  this.billDetailService.verifyPayment(response).subscribe(
+    (data) => {
+      console.log(data,"data00000")
+
+   //   alert('Payment Verified Successfully');
+
+      // Generate a new challan number
+      const challanNumber = this.generateChallanNumber(bill.User);
+
+      // Update the bill details
+      const updateData = {
         BillNo: bill.BillNo,
-        ReceiptNo: challanNumber, // Use challan number as receipt number
-        User: bill.User,
-        Property: bill.Property,
-        paid_date: new Date().toISOString(), // or any other date format
-        Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
-        GST: bill.GST,
-        Total_rental_interest: bill.Total_rental_interest,
-        Total: bill.Total,
+        Status: 'FP', // Full Payment
         TotalPaid: bill.Total,
         Due: 0,
-        Status: 'FP'
+        Vmrda_Challan_No: challanNumber,
+      };
+
+      this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe((response) => {
+        if (response.status === 200) {
+          console.log('Bill updated successfully!');
+          this.createReceipt({
+            BillNo: bill.BillNo,
+            ReceiptNo: challanNumber, // Use challan number as receipt number
+            User: bill.User,
+            Property: bill.Property,
+            paid_date: new Date().toISOString(), // or any other date format
+            Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
+            GST: bill.GST,
+            Total_rental_interest: bill.Total_rental_interest,
+            Total: bill.Total,
+            TotalPaid: bill.Total,
+            Due: 0,
+            Status: 'FP',
+          });
+          this.getbilldetails(); // Refresh the bill details
+        } else {
+          console.error('Error updating bill:', response.message);
+        }
       });
       this.getbilldetails();
 
-    } else {
-      console.error('Error updating bill:', response.message);
+    },
+    (error) => {
+      console.error('Payment Verification Failed', error);
     }
-  });
+  );
 }
 
-
-  createReceipt(receiptData: any) {
-  console.log('Creating receipt with data:', receiptData); // Add logging to check the data
-  this.billDetailService.updateReceipt(receiptData).subscribe(response => {
+// Function to create a receipt after successful payment
+createReceipt(receiptData: any) {
+  console.log('Creating receipt with data:', receiptData); // Log receipt data
+  this.billDetailService.updateReceipt(receiptData).subscribe((response) => {
     if (response.status === 201) {
       console.log('Receipt created successfully!');
     } else {
@@ -328,11 +473,6 @@ payBill(bill: any) {
     }
   });
 }
-// showModel() {
-//   this.showModel = true;
-  // }
-   showDialog1() {
-        this.visible1 = true;
-    }
+
 
 }
