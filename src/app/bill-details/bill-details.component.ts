@@ -7,7 +7,7 @@ import { BillDetailsService } from '../services/billDetails/bill-details.service
 import { billDetails } from '../interfaces/billDetails/billDetailsInterfaces';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {jsPDF} from 'jspdf';
-import html2canvas from 'html2canvas'; 
+import html2canvas from 'html2canvas';
 // import autoTable from 'jspdf-autotable';
 import autoTable from 'jspdf-autotable';
 
@@ -30,7 +30,9 @@ export class BillDetailsComponent implements OnInit {
   dataSource!: billDetails[];
   form!: FormGroup;
   userRole:any
-  userID:any
+  userID: any
+  showModel: boolean = false;
+    visible1: boolean = false;
   constructor(private billDetailService: BillDetailsService) {}
 
   ngOnInit(): void {
@@ -62,10 +64,10 @@ export class BillDetailsComponent implements OnInit {
     const waterBillAmount = parseFloat(this.form.get('water_bill_amount')?.value) || 0;
     const maintenanceAmount = parseFloat(this.form.get('maintenance_amount')?.value) || 0;
     const leaseInterests = parseFloat(this.form.get('lease_interests')?.value) || 0;
-  
+
     // Calculate the total
     const total = leaseAmount + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests;
-  
+
     // Update the total field in the form
     this.form.get('total')?.setValue(total, { emitEvent: false }); // { emitEvent: false } to avoid circular triggers
   }
@@ -100,7 +102,7 @@ export class BillDetailsComponent implements OnInit {
         this.responseMsg = "Error fetching details";
       }
     });
-    
+
   }
 
   getbilldetails() {
@@ -171,12 +173,12 @@ export class BillDetailsComponent implements OnInit {
     const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png'; // Replace with your logo's Base64 string
     const logoWidth = 30; // Width of the logo in mm
     const logoHeight = 30; // Height of the logo in mm
-  
+
     // Adjust the X position to center the logo
     const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
     doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight);
     currentY += logoHeight + 5;
-  
+
     // Drawing a smaller border
     doc.setLineWidth(0.5); // Reduced border thickness
     doc.rect(
@@ -185,7 +187,7 @@ export class BillDetailsComponent implements OnInit {
       doc.internal.pageSize.width - (margins.left + margins.right - 10),
       doc.internal.pageSize.height - (margins.top + margins.bottom - 10)
     );
-  
+
     // Heading (with reduced font size)
     doc.setFontSize(12); // Reduced font size for heading
     doc.setFont('times', 'bold');
@@ -193,11 +195,11 @@ export class BillDetailsComponent implements OnInit {
       doc.internal.pageSize.width / 2, currentY, { align: 'center' }
     );
     currentY += lineHeight + 2;
-  
+
     doc.setFontSize(12); // Reduced font size for subheading
     doc.text('Bill Receipt', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
     currentY += lineHeight * 1;
-  
+
     // Adding date and reference (aligned inside border)
     const currentDate = new Date().toLocaleDateString();
     doc.setFontSize(12);
@@ -205,26 +207,26 @@ export class BillDetailsComponent implements OnInit {
     doc.text(`Bill No.. ${bill.Bill_No}`, margins.left, currentY);
     doc.text(`Dt: ${currentDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
     currentY += lineHeight * 2;
-  
+
     // Dynamic content based on form data
     doc.setFontSize(12);
     doc.setFont('times', 'bold');
     doc.text(`Property Code: ${bill.Property_Code}`, margins.left, currentY);
     currentY += lineHeight * 1;
-  
+
     doc.setFont('times', 'normal');
     doc.text(`The property with code ${bill.Property_Code}, leased to ${bill.User_ID}, located in ${bill.Property_Code}, has a monthly lease amount of ${bill.Lease_Amount} with additional charges such as GST and utility bills.`,
       margins.left, currentY,
       { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
     );
     currentY += lineHeight * 3;
-  
+
     doc.text(`The lease amount for the period ${bill.Lease_Period} is due. Please remit the amount of ${bill.Total_Amount} by the due date, failing which further action will be taken according to the terms and conditions.`,
       margins.left, currentY,
       { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
     );
     currentY += lineHeight * 2;
-  
+
     // Adjusting table margins and reducing its width to fit within the border
     const tableColumn = ["Field", "Value"];
     const tableRows = [
@@ -240,9 +242,9 @@ export class BillDetailsComponent implements OnInit {
       ["Lease Interests", bill.Lease_Interest],
       ["Total", bill.Total_Amount],
     ];
-  
+
     const tableStartY = currentY + 7;
-  
+
     // Using autoTable with proper margins for table alignment inside the border
     autoTable(doc, {
       head: [tableColumn],
@@ -252,20 +254,20 @@ export class BillDetailsComponent implements OnInit {
       tableWidth: doc.internal.pageSize.width - margins.left - margins.right - 20, // Reduced table width to fit inside
       theme: 'grid', // Adding borders to the table
     });
-  
+
     // Update currentY to the position after the table
     currentY = doc.internal.pageSize.height - margins.bottom - 20; // Position for footer with some space
-  
+
     // Footer content
     doc.setFontSize(12);
     doc.setFont('times', 'normal');
     doc.text('Please pay on time without fail. Thank you for your cooperation.', margins.left, currentY);
     currentY += lineHeight * 1;
-  
+
     doc.text('Regards,', margins.left, currentY);
     currentY += lineHeight;
     doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
-  
+
     // Save the PDF
     doc.save(`Bill_Receipt_${bill.Property_Code}.pdf`);
   }
@@ -326,6 +328,11 @@ payBill(bill: any) {
     }
   });
 }
-
+// showModel() {
+//   this.showModel = true;
+  // }
+   showDialog1() {
+        this.visible1 = true;
+    }
 
 }

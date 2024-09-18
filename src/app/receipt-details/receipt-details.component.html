@@ -13,11 +13,11 @@
                     </p-iconField>
                 </div>
                 <div class="dialog">
-                    <p-dialog 
-    header="Add New" 
+                    <p-dialog
+    header="Add New"
     [modal]="true"
-    [(visible)]="visible" 
-    position="center" 
+    [(visible)]="visible"
+    position="center"
     [style]="{ width: '50rem' }">
     <div class="form-container">
         <div class="form-row">
@@ -30,7 +30,7 @@
             <input type="text" id="user-id" class="form-input" />
           </div>
         </div>
-      
+
         <div class="form-row">
           <div class="form-group">
             <label for="property" class="form-label">Property</label>
@@ -41,7 +41,7 @@
             <input type="text" id="rental-period" class="form-input" />
           </div>
         </div>
-      
+
         <div class="form-row">
           <div class="form-group">
             <label for="rental-amount" class="form-label">Rental Amount</label>
@@ -52,7 +52,7 @@
             <input type="number" id="gst" class="form-input" step="0.01" />
           </div>
         </div>
-      
+
         <div class="form-row">
           <div class="form-group">
             <label for="rental-interest" class="form-label">Rental Interest</label>
@@ -63,7 +63,7 @@
             <input type="number" id="gst-interest" class="form-input" step="0.01" />
           </div>
         </div>
-      
+
         <div class="form-row">
           <div class="form-group">
             <label for="power-bill-amount" class="form-label">Power Bill Amount</label>
@@ -74,7 +74,7 @@
             <input type="number" id="water-bill-amount" class="form-input" step="0.01" />
           </div>
         </div>
-      
+
         <div class="form-row">
           <div class="form-group">
             <label for="maintenance-amount" class="form-label">Maintenance Amount</label>
@@ -85,7 +85,7 @@
             <input type="number" id="total-amount" class="form-input" step="0.01" />
           </div>
         </div>
-      
+
         <div class="form-row">
           <div class="form-group">
             <label for="total-due" class="form-label">Total Due</label>
@@ -93,7 +93,7 @@
           </div>
         </div>
       </div>
-      
+
     <div class="btn">
         <div class="save">
             <p-button label="Save" (onClick)="visible = false" size="small"/>
@@ -110,9 +110,11 @@
         <ng-template pTemplate="header">
           <tr style="font-size: 12px; padding: 0;">
             <th pSortableColumn="ID">S No</th>
-            <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
-            <th pSortableColumn="User">User Id<p-sortIcon field="User" /></th>
             <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th>
+            <!-- <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th> -->
+            <th pSortableColumn="User">User Id<p-sortIcon field="User" /></th>
+            <!-- <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th> -->
+            <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
             <th pSortableColumn="Property">Property Code<p-sortIcon field="Property" /></th>
             <th pSortableColumn="Paid_Date">Paid date<p-sortIcon field="BillNo" /></th>
             <th pSortableColumn="Rental_lease_amount_permonth">Lease Amount<p-sortIcon
@@ -124,16 +126,18 @@
             <th pSortableColumn="Due">Due<p-sortIcon field="Due" /></th>
             <th pSortableColumn="Status">Status<p-sortIcon field="Status" /></th>
             <th></th>
-  
-  
+
+
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-receipt>
           <tr style="font-size: 12px;">
             <td style="width: 6%;">{{ receipt.ID }}</td>
-            <td style="width: 8%;">{{ receipt.BillNo }}</td>
-            <td style="width: 8%;">{{ receipt.User }}</td>
+            <!-- <td style="width: 8%;">{{ receipt.BillNo }}</td> -->
             <td style="width: 8%;">{{ receipt.ReceiptNo }}</td>
+            <td style="width: 8%;">{{ receipt.User }}</td>
+            <!-- <td style="width: 8%;">{{ receipt.ReceiptNo }}</td> -->
+              <td style="width: 8%;">{{ receipt.BillNo }}</td>
             <td style="width: 8%;">{{ receipt.Property }}</td>
             <td style="width: 8%;">{{ receipt.paid_date }}</td>
             <td style="width: 8%;">{{ receipt.Rental_lease_amount_permonth }}</td>
@@ -142,16 +146,16 @@
             <td style="width: 10%;">{{ receipt.Total }}</td>
             <td style="width: 10%;">{{ receipt.TotalPaid }}</td>
             <td style="width: 10%;">{{ receipt.Due }}</td>
-  
+
             <td style="width: 10%;">{{ receipt.Status }}</td>
             <!-- <td><i class="pi pi-download" (click)="generatePDF(receipt)"></i></td> -->
-  
-  
+
+
           </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage" >
-        
-        
+
+
         </ng-template>
     </p-table>
 </div>
