@@ -1,15 +1,23 @@
 export interface LocationDetails {
-    S_No?: number;
-    Location_Name: string;
-    Location_Code: string;
-    No_of_Complexes: number;
-    No_of_Indivudual_Shops: number | null;
-    Total_No_of_Shops: number;
-    District: string;
-    City: string;
-    Place: string;
-    Map_Location: string | null;
-    Revenue_Division: string;
-    RI_Name: string;
-  }
+  ALLOTTEE_NAME: string;
+  ATTRIBUITE1: string | null;
+  BREDTH: string | null;
+  DETAILS: string | null;
+  EXTENT: string | null;
+  FLOOR: string;
+  LENGTH: string | null;
+  LOCATION: string;
+  LOCATION_CODE: string;
+  POWER_METER_NUMBER: string | null;
+  PRESENT_RENT: string;
+  PROPERTY_CODE: string;
+  PROPERTY_NO: string;
+  REVENUE_DIVISION: string;
+  SIZE: string | null;
+  STATUS: string;
+  Sl_NO: number;
+  TYPE_OF_PROPERTY: string;
+  WATER_METER_NO: string | null;
+}
+
   

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { AuthServiceService } from '../authService/auth-service.service'; // Assuming you have this service for authentication
+
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -10,7 +10,7 @@ export class AuthGuardsService implements CanActivate {
   private authenticated = new BehaviorSubject<boolean>(false);
   private userRole: string | null = null;
 
-  constructor(private router: Router, private authService: AuthServiceService) {
+  constructor(private router: Router ) {
     this.checkInitialAuth();
   }
 

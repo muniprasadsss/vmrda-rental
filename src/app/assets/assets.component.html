@@ -1,1 +1,155 @@
-<app-locations></app-locations>
+<div class="card custom-table">
+    <p-table [value]="assetsData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    [globalFilterFields] = "[]">
+        <ng-template pTemplate="caption">
+            <div class="searchbar">
+                <div class="search">
+                    <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" placeholder="Search keyword" />
+                    </p-iconField>
+                </div>
+                <div class="search">
+                    <!-- <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" placeholder="Search keyword" />
+                    </p-iconField> -->
+                    <p-dropdown 
+                    [options]="complex" 
+                    placeholder="Select Location" />
+                </div>
+                <div class="search">
+                    <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" placeholder="Search keyword" />
+                    </p-iconField>
+                </div>
+                <div class="dialog">
+                    <p-button (onClick)="showDialog()" label="Add New" severity="success" size="small" />
+                    <p-dialog header="Add New" [modal]="true" [(visible)]="visible" position="center"
+                        [style]="{ width: '50rem' }">
+                        <div class="form-container">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="location-code" class="form-label">Location Code</label>
+                                    <input type="text" id="location-code" class="form-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="complexes" class="form-label">No of Complexes</label>
+                                    <input type="number" id="complexes" class="form-input" />
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="individual-shops" class="form-label">No of Individual Shops</label>
+                                    <input type="number" id="individual-shops" class="form-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="total-shops" class="form-label">Total No of Shops</label>
+                                    <input type="number" id="total-shops" class="form-input" />
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="district" class="form-label">District</label>
+                                    <input type="text" id="district" class="form-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="city" class="form-label">City</label>
+                                    <input type="text" id="city" class="form-input" />
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="place" class="form-label">Place</label>
+                                    <input type="text" id="place" class="form-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="map-location" class="form-label">Map Location</label>
+                                    <input type="text" id="map-location" class="form-input" />
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="revenue-division" class="form-label">Revenue Division</label>
+                                    <input type="text" id="revenue-division" class="form-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="ri-name" class="form-label">RI Name</label>
+                                    <input type="text" id="ri-name" class="form-input" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn">
+                            <div class="save">
+                                <p-button label="Save" (onClick)="visible = false" size="small" />
+                            </div>
+                            <div class="save">
+                                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small" />
+                            </div>
+                        </div>
+                    </p-dialog>
+
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr style="font-size: 12px; padding: 0;">
+                <th pSortableColumn="Sl_NO">S No <p-sortIcon field="Sl_NO" /></th>
+                <th pSortableColumn="ALLOTTEE_NAME">Allottee Name <p-sortIcon field="ALLOTTEE_NAME" /></th>
+                <th pSortableColumn="LOCATION">Location <p-sortIcon field="LOCATION" /></th>
+                <th pSortableColumn="LOCATION_CODE">Location Code <p-sortIcon field="LOCATION_CODE" /></th>
+                <th pSortableColumn="EXTENT">Extent <p-sortIcon field="EXTENT" /></th>
+                <th pSortableColumn="FLOOR">Floor <p-sortIcon field="FLOOR" /></th>
+                <th pSortableColumn="PRESENT_RENT">Present Rent <p-sortIcon field="PRESENT_RENT" /></th>
+                <th pSortableColumn="PROPERTY_CODE">Property Code <p-sortIcon field="PROPERTY_CODE" /></th>
+                <th pSortableColumn="REVENUE_DIVISION">Revenue Division <p-sortIcon field="REVENUE_DIVISION" /></th>
+                <th pSortableColumn="STATUS">Status <p-sortIcon field="STATUS" /></th>
+                <th pSortableColumn="TYPE_OF_PROPERTY">Type of Property <p-sortIcon field="TYPE_OF_PROPERTY" /></th>
+                <th></th>
+                
+                
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-location>
+            <tr style="font-size: 12px; margin-bottom: 1rem;">
+              <td style="width: 6%;">{{ location.Sl_NO }}</td>
+              <td style="width: 10%;">{{ location.ALLOTTEE_NAME }}</td>
+              <td style="width: 10%;">{{ location.LOCATION }}</td>
+              <td style="width: 10%;">{{ location.LOCATION_CODE }}</td>
+              <td style="width: 10%;">{{ location.EXTENT }}</td>
+              <td style="width: 10%;">{{ location.FLOOR }}</td>
+              <td style="width: 10%;">{{ location.PRESENT_RENT }}</td>
+              <td style="width: 10%;">{{ location.PROPERTY_CODE }}</td>
+              <td style="width: 10%;">{{ location.REVENUE_DIVISION }}</td>
+              <td style="width: 10%;">{{ location.STATUS }}</td>
+              <td style="width: 10%;">{{ location.TYPE_OF_PROPERTY }}</td>
+              <td>
+                <div class="rowbtn">
+                  <button class="editButton">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                  <!-- <button class="deleteButton">
+                    <i class="pi pi-trash"></i>
+                  </button> -->
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          
+        <ng-template pTemplate="emptymessage" let-location>
+
+        </ng-template>
+    </p-table>
+</div>
