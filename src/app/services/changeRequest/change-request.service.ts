@@ -23,4 +23,8 @@ export class ChangeRequestService {
         return this.http.post<any>(`${this.apiUrl}/create-cr-event`, payload,{headers})
           
       }
+
+      getChangeRequestType(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/changerequesttype`)   
+      }
 }

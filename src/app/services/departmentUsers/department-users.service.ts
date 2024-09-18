@@ -14,4 +14,17 @@ export class DepartmentUsersService {
     
   getAdminDetails(): Observable<any> {
       return this.http.get<any>(`${this.apiUrl}/getAllAdminInfo`)   
-    }}
+  }
+  
+  getUserBySlNo(sl_no: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/admin/${sl_no}`)   
+  }
+  
+  createAdmin(userData: any): Observable<any> {
+    console.log(userData,"service check...");
+    
+    return this.http.post(`${this.apiUrl}/adminCreate`, userData);
+  }
+}
+
+  

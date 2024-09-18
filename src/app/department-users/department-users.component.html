@@ -15,44 +15,10 @@
           </div>
           <div class="dialog">
             <p-button 
-                (onClick)="showAddDialog()" 
+                (click)="showAddDialog()" 
                 label="Add New" 
                 severity="success"
                 size="small" />
-            <p-dialog 
-                header="Add New" 
-                [modal]="true"
-                [(visible)]="visible" 
-                position="center" 
-                [style]="{ width: '50rem' }">
-              <div class="form-container">
-                <!-- Add form fields here -->
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" [(ngModel)]="formData.username" class="form-input" />
-                  </div>
-                  <div class="form-group">
-                    <label for="mobile" class="form-label">Mobile No</label>
-                    <input type="number" id="mobile" [(ngModel)]="formData.mobile" class="form-input" />
-                  </div>
-                </div>
-                <div class="form-row"></div>
-                  <div class="form-group">
-                    <label for="usertype" class="form-label">UserType</label>
-                    <input type="text" id="usertype" [(ngModel)]="formData.username" class="form-input" />
-                  </div>
-                  <div class="form-group">
-                    <label for="revenuedivision" class="form-label">Revenue Division</label>
-                    <input type="text" id="revenuedivision" [(ngModel)]="formData.mobile" class="form-input" />
-                  </div>
-                </div>
-                <!-- More form rows -->
-                <div class="btn">
-                  <p-button label="Save" (onClick)="saveUser()" size="small"/>
-                  <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
-                </div>
-            </p-dialog>
           </div>
         </div>
       </ng-template>
@@ -62,8 +28,8 @@
           <th pSortableColumn="USER_ID">User ID <p-sortIcon field="USER_ID" /></th>
           <th pSortableColumn="USER_NAME">User Name<p-sortIcon field="USER_NAME" /></th>
           <th pSortableColumn="MOBILE_NUM">Mobile No<p-sortIcon field="MOBILE_NUM" /></th>
-          <th pSortableColumn="user_type">User Type<p-sortIcon field="user_type" /></th>
-          <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th>
+          <th pSortableColumn="USER_TYPE">User Type<p-sortIcon field="USER_TYPE" /></th>
+          <th pSortableColumn="REVENUE_DIVISION">Revenue Division<p-sortIcon field="REVENUE_DIVISION" /></th>
           <th></th>
         </tr>
       </ng-template>
@@ -77,8 +43,12 @@
           <td style="width: 6%;">{{ customer.REVENUE_DIVISION }}</td>
           <td style="width: 6%;">
             <div class="rowbtn">
-              <button class="editButton" (click)="showEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
-              <button class="deleteButton"><i class="pi pi-trash"></i></button>
+              <button class="editButton" (click)="showEditDialog(customer.SL_NO)"> 
+                <i class="pi pi-pencil"></i>
+              </button>
+              <button class="deleteButton">
+                <i class="pi pi-trash"></i>
+              </button>
             </div>
           </td>
         </tr>
@@ -87,44 +57,89 @@
   </div>
 </div>
 
+<!-- Add Dialog -->
+<p-dialog 
+    header="Add New" 
+    [modal]="true"
+    [(visible)]="visible" 
+    position="center" 
+    [style]="{ width: '30rem' }">
+  <div class="form-container">
+    <form [formGroup]="form" (ngSubmit)="saveUser()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="userid" class="form-label">User ID</label>
+          <input type="text" id="userid" formControlName="USER_ID" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="USER_NAME" formControlName="USER_NAME" class="form-input" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="mobile" class="form-label">Mobile No</label>
+          <input type="number" id="mobile" formControlName="MOBILE_NUM" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="usertype" class="form-label">User Type</label>
+          <input type="text" id="usertype" formControlName="USER_TYPE" class="form-input" />
+        </div>
+
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="revenuedivision" class="form-label">Revenue Division</label>
+          <input type="text" id="revenuedivision" formControlName="REVENUE_DIVISION" class="form-input" />
+        </div>
+      </div>
+      <div class="btn">
+        <p-button type="submit" label="Save" size="small"/>
+        <p-button label="Cancel" severity="danger" (click)="visible = false" size="small"/>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
 <!-- Edit Dialog -->
 <p-dialog 
     header="Edit User" 
     [modal]="true"
     [(visible)]="editVisible" 
     position="center" 
-    [style]="{ width: '50rem' }">
+    [style]="{ width: '30rem' }">
   <div class="form-container">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="userid" class="form-label">User ID</label>
-        <input type="text" id="userid" class="form-input" disabled/>
+    <form [formGroup]="form" (ngSubmit)="updateUser()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="userid" class="form-label">User ID</label>
+          <input type="text" id="userid" formControlName="USER_ID" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" formControlName="USER_NAME" class="form-input" />
+        </div>
       </div>
-      <div class="form-group">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" id="username" class="form-input" disabled/>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="mobileNo" class="form-label">Mobile No</label>
+          <input type="number" id="mobileNo" formControlName="MOBILE_NUM" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="usertype" class="form-label">User Type</label>
+          <input type="text" id="usertype" formControlName="USER_TYPE" class="form-input" />
+        </div>
+      </div> 
+      <div class="form-row">
+        <div class="form-group">
+          <label for="revenuedivision" class="form-label">Revenue Division</label>
+          <input type="text" id="revenuedivision" formControlName="REVENUE_DIVISION" class="form-input" />
+        </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label for="mobileNo" class="form-label">Mobile No</label>
-        <input type="number" id="mobileNo"  class="form-input" />
+      <div class="btn">
+        <p-button type="submit" label="Update" size="small"/>
+        <p-button label="Cancel" severity="danger" (click)="editVisible = false" size="small"/>
       </div>
-      <div class="form-group">
-        <label for="usertype" class="form-label">User Type</label>
-        <input type="text" id="usertype"  class="form-input" />
-      </div>
-    </div> 
-    <div class="form-row">
-      <div class="form-group">
-        <label for="revenuedivision" class="form-label">Revenue Division</label>
-        <input type="text" id="revenuedivision"  class="form-input" />
-      </div>
-    </div>
-    <!-- More form rows -->
-    <div class="btn">
-      <p-button label="Update" (onClick)="updateUser()" size="small"/>
-      <p-button label="Cancel" severity="danger" (onClick)="editVisible = false" size="small"/>
-    </div>
+    </form>
   </div>
 </p-dialog>

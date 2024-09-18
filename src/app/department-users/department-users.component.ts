@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { departmentusers } from '../interfaces/departmentUserInterfaces/departmentuserinterfaces';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DepartmentUsersService } from '../services/departmentUsers/department-users.service';
+import { departmentusers } from '../interfaces/departmentUserInterfaces/departmentuserinterfaces';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-department-users',
@@ -13,26 +13,26 @@ import { DepartmentUsersService } from '../services/departmentUsers/department-u
 })
 export class DepartmentUsersComponent {
   @ViewChild('dt2') dt!: any;
-  value: string = '';
-  formData = {
-    username: '',
-    mobile: '',
-    business: '',
-    aadhar: '',
-    pan: '',
-    email: '',
-    gstin: '',
-    revenue: ''
-  };
-  selectedUser: departmentusers | null = null;
+
   dataSource!: departmentusers[];
   responseMsg: string | undefined;
   visible: boolean = false;
   editVisible: boolean = false;
+  form!: FormGroup;
+  selectedUser: departmentusers | null = null;
 
-  constructor(private admindetailsservice: DepartmentUsersService) {}
+  constructor(private admindetailsservice: DepartmentUsersService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      SL_NO: [{ value: '', disabled: true }],
+      USER_ID: [''],
+      USER_NAME: [''],
+      MOBILE_NUM: [''],
+      USER_TYPE: [''],
+      REVENUE_DIVISION: ['']
+    });
+
     this.getadminInfo();
   }
 
@@ -43,36 +43,59 @@ export class DepartmentUsersComponent {
         this.responseMsg = res.message;
       },
       error: (err: any) => {
-        if (err.error?.message) {
-          this.responseMsg = err.error?.message;
-        } else {
-          this.responseMsg = "error";
-        }
+        this.responseMsg = err.error?.message || 'Error';
       }
     });
   }
 
   onFilterGlobal(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.value = target.value;
-    this.dt.filterGlobal(this.value, 'contains');
+    this.dt.filterGlobal(target.value, 'contains');
   }
 
   showAddDialog() {
+    this.form.reset();
     this.visible = true;
   }
 
+
   saveUser() {
-    // Logic for saving a new user
-    this.visible = false;
+    if (this.form.valid) {
+      this.admindetailsservice.createAdmin(this.form.value).subscribe({
+        next: (res: any) => {
+          this.getadminInfo(); // Refresh the table data
+          this.visible = false; // Close the dialog
+        },
+        error: (err: any) => {
+          console.error("Error saving user", err);
+        }
+      });
+    }
   }
 
-  showEditDialog(user: departmentusers) {
-    this.selectedUser = { ...user };
+  showEditDialog(sl_no: any) {
     this.editVisible = true;
+    this.getAdminDetailsbySno(sl_no);
   }
 
   updateUser() {
-   
+    if (this.selectedUser) {
+      // Logic for updating user details
+    }
+    this.editVisible = false;
+  }
+
+  getAdminDetailsbySno(sl_no: number) {
+    this.admindetailsservice.getUserBySlNo(sl_no).subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.selectedUser = res;
+          this.form.patchValue(res); // Update form values with the selected user's data
+        }
+      },
+      error: (err: any) => {
+        this.responseMsg = err.error?.message || 'Error fetching user details';
+      }
+    });
   }
 }

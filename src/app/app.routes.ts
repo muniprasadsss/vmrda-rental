@@ -62,6 +62,7 @@ export const routes: Routes = [
         canActivate: [AuthGuardsService], data: { role: ['USER','ADMIN'] } },
         { path: 'departmentusers', component: DepartmentUsersComponent, 
             canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER'] } },
+            { path: 'dummyuser', component: DummyUserComponent, },
     
 
 

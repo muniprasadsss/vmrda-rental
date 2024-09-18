@@ -10,6 +10,7 @@ import { ChangedFields, Payload } from '../interfaces/changeRequest/changeReques
 import { ToastrService } from 'ngx-toastr';
 import { DummyUserService } from '../services/dummyUser/dummy-user.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { UserServiceService } from '../services/userService/user-service.service';
 
 @Component({
   selector: 'app-change-request',
@@ -22,6 +23,8 @@ export class ChangeRequestComponent implements OnInit {
 
   visible: boolean = false;
   isDialogVisible: boolean = false;
+  showrejecteddata:boolean=false;
+  addrequestdata:boolean=false;
   isApprovedClicked: boolean = true;
   isRejectClicked: boolean = false;
   isPendingClicked: boolean = false;
@@ -40,6 +43,7 @@ export class ChangeRequestComponent implements OnInit {
   userRecordes!:ChangedFields[];
   value: string | undefined;
   tableData!:ChangedFields[];
+  addRequestForm!: FormGroup;
   @ViewChild('dt2') dt2!: any;
   selectedValue: string = '';
   constructor(
@@ -48,14 +52,30 @@ export class ChangeRequestComponent implements OnInit {
     private crHttp: ChangeRequestService,
     private toasterservice: ToastrService,
     private dummyUserService: DummyUserService,
+    private changerequestservice:ChangeRequestService,
+    private UserService:UserServiceService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+    this.initializeForm();
     this.getUserData();
     this.userRole = localStorage.getItem('role')
     this.userID = localStorage.getItem('userId')
     this.getcrInfo();
+    this.getUserDatabyId(this.userID);
+    this.getRequestType()
+  }
+
+  // Form Initialize 
+  
+  initializeForm() {
+    this.addRequestForm = this.fb.group({
+      userId: [{ value: this.userID, disabled: true }, Validators.required],
+      propertyCode: [{ value: this.userID,disabled:true }, Validators.required],
+      revenueDivision: [{ value: this.userID, disabled: true }, Validators.required],
+      description: ['']
+    });
   }
 
   getcrInfo() {
@@ -170,6 +190,14 @@ this.payload = {
     this.isDialogVisible = true;
   }
 
+  RejectedDiv(){
+    this.showrejecteddata=true
+  }
+
+  addRequestDiv(){
+    this.addrequestdata=true;
+  }
+
   onHide() {
     this.isDialogVisible = false;
   }
@@ -232,6 +260,41 @@ this.payload = {
   
  onChange(crno: any, request_type: any, status: any, stage:any ,action:any) {
     this.changeStatus(crno,request_type,status,stage, this.selectedValue);
+  }
+
+//  API call for get data based on userid 
+
+  getUserDatabyId(userID:any) {
+    this.UserService.getUserDetailsByID(userID).subscribe(  
+      (response) => {
+        console.log(userID,"id");
+        console.log('user data by userid', response);
+        this.data = response; // Populate the user object with fetched data
+        this.addRequestForm.patchValue({
+          userId: response.USER_ID,  // Replace with actual field from response
+          propertyCode: response.PROPERTY_CODE,  // Replace with actual field from response
+          revenueDivision: response.REVENUE_DIVISION,  // Replace with actual field from response
+          description: response.description  // Replace with actual field from response
+        });
+      },
+      (error) => {
+        console.error('Error fetching user data:', error);
+      }
+    );
+  }
+
+  // api call for get data for select request type 
+
+  getRequestType() {
+    this.changerequestservice.getChangeRequestType().subscribe(
+      (response) => {
+        console.log('change request type fetched successfully:', response);
+        this.data = response; // Populate the user object with fetched data
+      },
+      (error) => {
+        console.error('Error fetching change request type:', error);
+      }
+    );
   }
 
 

@@ -50,8 +50,9 @@
                 </p-iconField>
             </div>
             <div *ngIf="userRole === 'USER'">
-                <button class="addNewButton">AddNew</button>
-                <button class="closedButton">Closed Tickets</button>
+                <button class="closedButton" (click)="RejectedDiv()">Closed Tickets</button>
+                <span style="border-left: 5px solid white;height: 1rem;"></span>
+                <button class="addNewButton" (click)="addRequestDiv()">New Request</button>
             </div>
             </div>
         </ng-template>
@@ -69,8 +70,8 @@
                     <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
                     <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
                     <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
-                    <th pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon></th>
-                <th>Change Status</th>
+                    <th *ngIf="userRole !== 'USER'" pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon></th>
+                <th *ngIf="userRole !== 'USER'">Change Status</th>
             </tr>
         </ng-template>
     
@@ -87,8 +88,8 @@
                 <td>{{ item.propertycode }}</td>
                 <td>{{ item.created_at | date: 'short' }}</td>
                 <td>{{ item.status}}</td>
-                <td style="width: 10%;">{{ item.stage}}</td>
-                <td style="width: 10%;" >
+                <td *ngIf="userRole !== 'USER'" style="width: 10%;">{{ item.stage}}</td>
+                <td *ngIf="userRole !== 'USER'" style="width: 10%;" >
                     <select class="custom-select" [(ngModel)]="item.action"
                 [disabled]="isSelectDisabled(item.stage, item.status)" 
                  (change)="changeStatus(item.cr_number,item.requesttype,item.status,item.stage,item.action)">
@@ -274,3 +275,115 @@
         </div>
     </div>
   </p-dialog> 
+
+
+ <!-- popup only for user with rejected status -->
+
+  <!-- <p-button (onClick)="RejectedDiv()" label="Show" /> -->
+
+<p-dialog header="Closed Tickets" [modal]="true" [(visible)]="showrejecteddata" [style]="{ width: '75rem' }">
+    <p-table #dt2 [value]="rejectedRecordes"  dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
+    [paginator]="true"  [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
+     'attachment', 'description', 'propertycode', 'created_at', 'status', 'stage']">
+        <ng-template pTemplate="caption">
+            <div class="flex" style="display: flex;justify-content: space-between;">
+                <div>
+                <p-iconField iconPosition="left" class="ml-auto">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input pInputText type="text"  (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+                </p-iconField>
+            </div>
+            </div>
+        </ng-template>
+    
+        <ng-template pTemplate="header">
+            <tr  style="font-size: 12px; padding: 0;">
+            <th pSortableColumn="id">ID </th>
+            <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
+            <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
+            <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
+            <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
+            <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon></th>
+            <th pSortableColumn="attachment">Attachment </th>
+            <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+            <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
+            <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
+            <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+            <!-- <th pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon></th> -->
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-item>
+        <tr style="font-size: 12px;" >
+            <td>{{ item.id }}</td>
+            <td>{{ item.cr_number }}</td>
+            <td>{{ item.username }}</td>
+            <td>{{ item.userId }}</td>
+            <td>{{ item.requesttype }}</td>
+            <td>{{ item.revenuedivision }}</td>
+            <td>{{ item.attachment }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.propertycode }}</td>
+            <td>{{ item.created_at | date: 'short' }}</td>
+            <td>{{ item.status}}</td>
+            <!-- <td style="width: 10%;">{{ item.stage}}</td>                 -->
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<!-- Popup form for adding request  -->
+
+
+<p-dialog header="Request Form" [modal]="true" [(visible)]="addrequestdata" [style]="{ width: '50rem' }">
+    <div class="form-container">
+        <form [formGroup]="addRequestForm" >
+            <div class="form-row">
+                <!-- <div class="form-group">
+                    <label for="userid" class="form-label">User ID</label>
+                    <input type="text" id="userid" class="form-input" formControlName="userId" />
+                </div> -->
+                <div class="form-group">
+                    <label for="propertycode" class="form-label">Property Code</label>
+                    <input type="text" id="propertycode" class="form-input" formControlName="propertyCode" />
+                </div>
+                <div class="form-group">
+                    <label for="requesttype" class="form-label">Request Type</label>
+                    <select class="form-input" formControlName="requestType">
+                        <option value="">Select Request</option>
+                        <option value="test1">Test 1</option>
+                        <option value="test2">Test 2</option>
+                        <option value="test3">Test 3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fileupload" class="form-label">Upload</label>
+                    <input type="file" id="fileupload" class="form-input"  />
+                </div>
+            </div>
+            <div class="form-row">
+                <!-- <div class="form-group">
+                    <label for="revenuedivision" class="form-label">Revenue Division</label>
+                    <input type="text" id="revenuedivision" class="form-input" formControlName="revenueDivision" />
+                </div> -->
+               
+                <!-- <div class="form-group">
+                    <label for="revenuedivision2" class="form-label">Revenue Division 2</label>
+                    <input type="text" id="revenuedivision2" class="form-input" formControlName="revenueDivision" />
+                </div> -->
+            </div>
+            <div class="form-row" style="justify-content: center;">
+                <div class="form-group">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea rows="10" cols="100" id="description" class="form-input" formControlName="description"></textarea>
+                </div>
+            </div>
+            <div class="btn">
+                <p-button type="submit" label="Save" size="small"></p-button>
+                <p-button label="Cancel" severity="danger" size="small" (click)="addrequestdata = false"></p-button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
