@@ -1,6 +1,6 @@
 <div class="card custom-table">
-    <p-table [value]="assetsData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
-    [globalFilterFields] = "[]">
+    <p-table #dt2 [value]="assetsData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    [globalFilterFields]="['Sl_NO', 'ALLOTTEE_NAME', 'LOCATION', 'LOCATION_CODE', 'EXTENT', 'FLOOR', 'PRESENT_RENT', 'PROPERTY_CODE', 'REVENUE_DIVISION', 'STATUS', 'TYPE_OF_PROPERTY']">
         <ng-template pTemplate="caption">
             <div class="searchbar">
                 <div class="search">
@@ -8,29 +8,16 @@
                         <p-inputIcon>
                             <i class="pi pi-search"></i>
                         </p-inputIcon>
-                        <input pInputText type="text" placeholder="Search keyword" />
+                        <input pInputText type="text"  (input)="onFilterGlobal($event)" placeholder="Search keyword" />
                     </p-iconField>
                 </div>
                 <div class="search">
-                    <!-- <p-iconField iconPosition="left" class="ml-auto">
-                        <p-inputIcon>
-                            <i class="pi pi-search"></i>
-                        </p-inputIcon>
-                        <input pInputText type="text" placeholder="Search keyword" />
-                    </p-iconField> -->
                     <p-dropdown 
                     [options]="complex" 
+                    (onChange)="onSelectGlobal($event.value)"
                     placeholder="Select Location" />
                 </div>
-                <div class="search">
-                    <p-iconField iconPosition="left" class="ml-auto">
-                        <p-inputIcon>
-                            <i class="pi pi-search"></i>
-                        </p-inputIcon>
-                        <input pInputText type="text" placeholder="Search keyword" />
-                    </p-iconField>
-                </div>
-                <div class="dialog">
+                <div class="dialog" *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')">
                     <p-button (onClick)="showDialog()" label="Add New" severity="success" size="small" />
                     <p-dialog header="Add New" [modal]="true" [(visible)]="visible" position="center"
                         [style]="{ width: '50rem' }">
@@ -117,7 +104,7 @@
                 <th pSortableColumn="REVENUE_DIVISION">Revenue Division <p-sortIcon field="REVENUE_DIVISION" /></th>
                 <th pSortableColumn="STATUS">Status <p-sortIcon field="STATUS" /></th>
                 <th pSortableColumn="TYPE_OF_PROPERTY">Type of Property <p-sortIcon field="TYPE_OF_PROPERTY" /></th>
-                <th></th>
+                <th *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')"></th>
                 
                 
             </tr>
@@ -135,7 +122,7 @@
               <td style="width: 10%;">{{ location.REVENUE_DIVISION }}</td>
               <td style="width: 10%;">{{ location.STATUS }}</td>
               <td style="width: 10%;">{{ location.TYPE_OF_PROPERTY }}</td>
-              <td>
+              <td *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')">
                 <div class="rowbtn">
                   <button class="editButton">
                     <i class="pi pi-pencil"></i>
@@ -148,8 +135,10 @@
             </tr>
           </ng-template>
           
-        <ng-template pTemplate="emptymessage" let-location>
-
+        <ng-template pTemplate="emptymessage" >
+            <tr>
+                <td colspan="13">No data found.</td>
+            </tr>
         </ng-template>
     </p-table>
 </div>
