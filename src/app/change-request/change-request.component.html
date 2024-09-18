@@ -1,5 +1,5 @@
 
-<div class="button-container">
+<div class="button-container" *ngIf="userRole !== 'USER'">
     <!-- <p-button 
       label="Approved" 
       severity="success" 
@@ -40,13 +40,19 @@
     [paginator]="true"  [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
      'attachment', 'description', 'propertycode', 'created_at', 'status', 'stage']">
         <ng-template pTemplate="caption">
-            <div class="flex">
+            <div class="flex" style="display: flex;justify-content: space-between;">
+                <div>
                 <p-iconField iconPosition="left" class="ml-auto">
                     <p-inputIcon>
                         <i class="pi pi-search"></i>
                     </p-inputIcon>
                     <input pInputText type="text"  (input)="onFilterGlobal($event)" placeholder="Search keyword" />
                 </p-iconField>
+            </div>
+            <div *ngIf="userRole === 'USER'">
+                <button class="addNewButton">AddNew</button>
+                <button class="closedButton">Closed Tickets</button>
+            </div>
             </div>
         </ng-template>
     
