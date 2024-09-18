@@ -272,13 +272,13 @@
             <i class="pi pi-check" style="color: green" *ngIf="bill.BillStatus === 'Active'"></i>
             <i class="pi pi-times" style="color: red" *ngIf="bill.BillStatus !== 'Active'"></i>
           </td> -->
-          <!-- <td>
+          <td *ngIf="userRole !== 'USER'">
             <div class="rowbtn">
               <button class="editButton" *ngIf="bill.BillStatus !== 'Active'" (click)="showDialog(bill.BillNo)">
                 <i class="pi pi-pencil"></i>
               </button>
             </div>
-          </td> -->
+          </td>
           <td *ngIf="bill.Status !== 'FP'">
             <button (click)="payBill(bill)" class="pay-btn">Pay</button>
           </td>

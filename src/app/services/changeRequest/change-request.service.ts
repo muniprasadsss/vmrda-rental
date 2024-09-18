@@ -25,6 +25,6 @@ export class ChangeRequestService {
       }
 
       getChangeRequestType(): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}/changerequesttype`)   
+        return this.http.get<any>(`${this.apiUrl}/crrequestTypes`)   
       }
 }
