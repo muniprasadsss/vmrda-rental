@@ -27,4 +27,11 @@ export class ChangeRequestService {
       getChangeRequestType(): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/crrequestTypes`)   
       }
+
+      postCR(CRdata: any): Observable<any> {
+        console.log(CRdata,"cr request data check...");
+        return this.http.post<any>(`${this.apiUrl}/requestchange`, CRdata);
+      }
 }
+
+

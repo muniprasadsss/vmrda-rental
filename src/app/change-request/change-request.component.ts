@@ -46,6 +46,8 @@ export class ChangeRequestComponent implements OnInit {
   addRequestForm!: FormGroup;
   @ViewChild('dt2') dt2!: any;
   selectedValue: string = '';
+  userInfo:any;
+  userInfoString:any
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -65,6 +67,8 @@ export class ChangeRequestComponent implements OnInit {
     this.getcrInfo();
     this.getUserDatabyId(this.userID);
     this.getRequestType()
+     this.userInfoString = localStorage.getItem('userInfo');
+    this.userInfo = JSON.parse(this.userInfoString);
   }
 
   // Form Initialize 
@@ -72,9 +76,10 @@ export class ChangeRequestComponent implements OnInit {
   initializeForm() {
     this.addRequestForm = this.fb.group({
       userId: [{ value: this.userID, disabled: true }, Validators.required],
+      requestType: [{ value: ''}, Validators.required],
+      attachment: [{ value: '' }, Validators.required],
       propertyCode: [{ value: this.userID,disabled:true }, Validators.required],
-      revenueDivision: [{ value: this.userID, disabled: true }, Validators.required],
-      description: ['']
+      description: ['', Validators.required]
     });
   }
 
@@ -270,11 +275,10 @@ this.payload = {
         console.log(userID,"id");
         console.log('user data by userid', response);
         this.data = response; // Populate the user object with fetched data
+        const nameofuser=response.USER_NAME;
+        const idofuser=response.USER_ID;
         this.addRequestForm.patchValue({
-          userId: response.USER_ID,  // Replace with actual field from response
-          propertyCode: response.PROPERTY_CODE,  // Replace with actual field from response
-          revenueDivision: response.REVENUE_DIVISION,  // Replace with actual field from response
-          description: response.description  // Replace with actual field from response
+          propertyCode: response.PROPERTY_CODE
         });
       },
       (error) => {
@@ -296,6 +300,43 @@ this.payload = {
       }
     );
   }
+
+
+  onSubmit() {
+    if (this.addRequestForm.valid) {
+      const formData = this.addRequestForm.value;
+  
+      // Prepare the payload to be sent to the API
+      const payload = {
+        username: this.userInfo.USER_NAME,
+        userId: this.userInfo.USER_ID,
+        requesttype: formData.requestType,
+        revenuedivision: this.userInfo.REVENUE_DIVISION,
+        attachment: '',
+        propertycode: formData.propertyCode,
+        description: formData.description,
+        action: 'new'
+      };
+  
+      // Call the saveUserData method and pass the payload
+      this.changerequestservice.postCR(payload).subscribe({
+        next: (response) => {
+          console.log('Change request data sent successfully:', response);
+          this.addrequestdata = false;
+          this.toasterservice.success("Change request raised successfully");
+          this.addRequestForm.reset(); // Reset the form after successful submission
+          this.getcrInfo(); // Refresh the data
+        },
+        error: (error) => {
+          console.error('Error sending data:', error);
+        }
+      });
+    } else {
+      console.warn('Form is not valid:', this.addRequestForm.errors);
+    }
+  }
+  
+  
 
 
 }

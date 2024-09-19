@@ -6,11 +6,12 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderComponent } from "../header/header.component";
 import { DashboardComponent } from "../dashboard/dashboard.component";
 import { FooterComponent } from "../footer/footer.component";
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent],
+  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent,ReactiveFormsModule],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
@@ -26,9 +27,22 @@ export class UserDetailsComponent implements OnInit {
   responseMsg: string | undefined;
   userID: any;
   userRole: any;
+  addNewForm: FormGroup; // Declare the form group
+
   
 
-  constructor(private router:Router,private userdetailsservice:UserServiceService){}
+  constructor(private router:Router,private userdetailsservice:UserServiceService, private fb: FormBuilder){
+    this.addNewForm = this.fb.group({
+      username: [''],
+      mobile: [''],
+      business: [''],
+      aadhar: [''],
+      pan: [''],
+      email: [''],
+      gstin: [''],
+      revenue: ['']
+    });
+  }
       ngOnInit(): void {
         this.userRole = localStorage.getItem('role')
         this.userID = localStorage.getItem('userId')
@@ -59,6 +73,16 @@ export class UserDetailsComponent implements OnInit {
 
     showDialog() {
         this.visible = true;
+    }
+
+    onSubmit() {
+      if (this.addNewForm.valid) {
+        const formData = this.addNewForm.value; // Get the form data
+        // Call your API to save the data
+        console.log('Form Data:', formData);
+        // Close the dialog
+        this.visible = false;
+      }
     }
   
 }

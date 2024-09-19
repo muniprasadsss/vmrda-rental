@@ -353,12 +353,12 @@
                     <label for="requesttype" class="form-label">Request Type</label>
                     <select class="form-input" formControlName="requestType">
                         <option value="">Select Request</option>
-                        <option *ngFor="let property of data" value="property">{{property}}</option>
+                        <option *ngFor="let property of data" [value]="property">{{property}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="fileupload" class="form-label">Upload</label>
-                    <input type="file" id="fileupload" class="form-input"  />
+                    <input type="file" id="fileupload" class="form-input" formControlName="attachment" />
                 </div>
             </div>
             <div class="form-row">
@@ -379,7 +379,7 @@
                 </div>
             </div>
             <div class="btn">
-                <p-button type="submit" label="Save" size="small"></p-button>
+                <p-button type="submit" label="Submit" size="small" (click)="onSubmit()"></p-button>
                 <p-button label="Cancel" severity="danger" size="small" (click)="addrequestdata = false"></p-button>
             </div>
         </form>

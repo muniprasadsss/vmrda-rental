@@ -57,9 +57,9 @@
         <td>{{ lease.USER_ID }}</td>
         <td>{{ lease.USER_NAME }}</td>
         <td>{{ lease.PROPERTY }}</td>
-        <td>{{ lease.START_DATE }}</td>
-        <td>{{ lease.END_DATE }}</td>
-        <td>{{ lease.DATE_OF_RENEWAL_OF_LICENSE}}</td>
+        <td>{{ lease.START_DATE | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ lease.END_DATE | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ lease.DATE_OF_RENEWAL_OF_LICENSE | date: 'yyyy-MM-dd'}}</td>
         <td>{{ lease.RENTAL_LEASE_AMOUNT_PERMONTH }}</td>
         <td>{{ lease.RENT_GO_LIVE }}</td>
         <td>{{ lease.RENTAL_LEASE_PERIOD }}</td>
@@ -69,7 +69,7 @@
         <td>{{ lease.GST_INTEREST_PERCENT }}</td>
         <td>{{ lease.LEASE_DEED_NO }}</td>
         <!-- <td>{{ lease.STATUS }}</td> -->
-        <td *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')">
+        <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
           <div class="rowbtn">
             <button class="editButton"><i class="pi pi-pencil"></i></button>
             <!-- <button class="deleteButton"><i class="pi pi-trash"></i></button> -->
