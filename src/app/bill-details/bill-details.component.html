@@ -156,7 +156,7 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr style="font-size: 12px; padding: 0;">
-      <th pSortableColumn="ID">S No</th>
+      <!-- <th pSortableColumn="ID">S No</th> -->
       <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
       <!-- <th pSortableColumn="User">User Id<p-sortIcon field="User" /></th> -->
       <th pSortableColumn="Property">Property Code<p-sortIcon field="Property" /></th>
@@ -186,7 +186,7 @@
   </ng-template>
   <ng-template pTemplate="body" let-bill>
     <tr style="font-size: 12px;" *ngIf="bill.Status === 'FP'">
-      <td style="width: 6%;">{{ bill.ID }}</td>
+      <!-- <td style="width: 6%;">{{ bill.ID }}</td> -->
       <td style="width: 8%;">{{ bill.BillNo }}</td>
       <!-- <td style="width: 8%;">{{ bill.User }}</td> -->
       <td style="width: 8%;">{{ bill.Property }}</td>
@@ -223,7 +223,7 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr style="font-size: 12px; padding: 0;">
-          <th pSortableColumn="ID">S No</th>
+          <!-- <th pSortableColumn="ID">S No</th> -->
           <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
           <!-- <th pSortableColumn="User">User Id<p-sortIcon field="User" /></th> -->
           <th pSortableColumn="Property">Property Code<p-sortIcon field="Property" /></th>
@@ -252,7 +252,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-bill >
         <tr style="font-size: 12px;" *ngIf="bill.Status === 'NP'">
-          <td style="width: 6%;">{{ bill.ID }}</td>
+          <!-- <td style="width: 6%;">{{ bill.ID }}</td> -->
           <td style="width: 8%;">{{ bill.BillNo }}</td>
           <!-- <td style="width: 8%;">{{ bill.User }}</td> -->
           <td style="width: 8%;">{{ bill.Property }}</td>
