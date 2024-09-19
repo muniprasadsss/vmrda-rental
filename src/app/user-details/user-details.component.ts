@@ -28,6 +28,10 @@ export class UserDetailsComponent implements OnInit {
   userID: any;
   userRole: any;
   addNewForm: FormGroup; // Declare the form group
+  showEdit: boolean = false; // For Add New dialog visibility
+  editVisible: boolean = false; // For Edit dialog visibility
+  editForm!: FormGroup; // Form group for Edit dialog
+  selectedUser: userdetails | null = null; // Store selected user data
 
   
 
@@ -42,12 +46,23 @@ export class UserDetailsComponent implements OnInit {
       gstin: [''],
       revenue: ['']
     });
+    this.editForm = this.fb.group({
+      editUsername: [''],
+      editMobile: [''],
+      editBusiness: [''],
+      editAadhar: [''],
+      editPan: [''],
+      editEmail: [''],
+      editGstin: [''],
+      editRevenue: ['']
+    });
   }
       ngOnInit(): void {
         this.userRole = localStorage.getItem('role')
         this.userID = localStorage.getItem('userId')
         this.getuserdetails()
       }
+
         getuserdetails() {
           this.userdetailsservice.getUserDetailsByRole(this.userID,this.userRole).subscribe({
             next: (res: any) => {
@@ -75,14 +90,50 @@ export class UserDetailsComponent implements OnInit {
         this.visible = true;
     }
 
-    onSubmit() {
+    // addNewUser() {
+    //   if (this.addNewForm.valid) {
+    //     const formData = this.addNewForm.value; // Get the form data
+    //     // Call your API to save the data
+    //     console.log('Add New User Form Data:', formData);
+    //     // Close the dialog
+    //     this.visible = false;
+    //   }
+    // }
+
+    addNewUser() {
       if (this.addNewForm.valid) {
-        const formData = this.addNewForm.value; // Get the form data
-        // Call your API to save the data
-        console.log('Form Data:', formData);
-        // Close the dialog
-        this.visible = false;
+        this.userdetailsservice.createUser(this.addNewForm.value).subscribe({
+          next: (response: any) => {
+            console.log('User created successfully:', response);
+            // Optionally reset the form or show a success message
+            this.addNewForm.reset();
+          },
+          error: (err) => {
+            console.error('Error creating user:', err);
+            // Optionally show an error message
+          }
+        });
       }
+    }
+
+    openEditDialog(user: userdetails) {
+      console.log('Selected User:', user); // Debugging line
+
+      this.selectedUser = user;
+      this.editForm.patchValue({
+        editUsername: user.USER_NAME,
+        editMobile: user.MOBILE_NUM,
+        editBusiness: user.NATURE_OF_BUSINESS,
+        editAadhar: user.Aadhaar_No,
+        editPan: user.PAN,
+        editEmail: user.EMAIL_ID,
+        editGstin: user.GST_IN,
+        editRevenue: user.REVENUE_DIVISION // Update this field name as per your data
+      });
+      this.editVisible = true;
+    }
+    updateUser(){
+      
     }
   
 }

@@ -52,7 +52,7 @@
                   <!-- <td style="width: 6%;">{{ customer.Revenue_Dvision }}</td> -->
                   <td style="width: 6%;" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
                     <div class="rowbtn">
-                      <button class="editButton"> <i class="pi pi-pencil"></i></button>
+                      <button class="editButton" (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
                       <!-- <button class="deleteButton"><i class="pi pi-trash"></i></button> -->
                       <!-- <p-button icon="pi pi-check" [rounded]="true" [outlined]="true" /> -->
                       <!-- <p-button icon="pi pi-times" [rounded]="true" severity="danger" [outlined]="true" /> -->
@@ -76,7 +76,7 @@
   [(visible)]="visible" 
   position="center" 
   [style]="{ width: '50rem' }">
-  <form [formGroup]="addNewForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="addNewForm" (ngSubmit)="addNewUser()">
     <div class="form-container">
       <div class="form-row">
         <div class="form-group">
@@ -133,7 +133,67 @@
   </form>
 </p-dialog>
 
+<!-- Edit New Dilog  -->
 
+<p-dialog
+  header="Edit User"
+  [(visible)]="editVisible"
+  [modal]="true"
+  position="center"
+  [style]="{ width: '50rem' }">
+  <form [formGroup]="editForm" (ngSubmit)="updateUser()">
+    <div class="form-container">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editUsername" class="form-label">Username</label>
+          <input type="text" id="editUsername" formControlName="editUsername" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="editMobile" class="form-label">Mobile No</label>
+          <input type="number" id="editMobile" formControlName="editMobile" class="form-input" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editBusiness" class="form-label">Business</label>
+          <input type="text" id="editBusiness" formControlName="editBusiness" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="editAadhar" class="form-label">Aadhar No</label>
+          <input type="number" id="editAadhar" formControlName="editAadhar" class="form-input" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editPan" class="form-label">PAN No</label>
+          <input type="text" id="editPan" formControlName="editPan" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="editEmail" class="form-label">Email ID</label>
+          <input type="email" id="editEmail" formControlName="editEmail" class="form-input" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editGstin" class="form-label">GST IN</label>
+          <input type="text" id="editGstin" formControlName="editGstin" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="editRevenue" class="form-label">Revenue Division</label>
+          <input type="text" id="editRevenue" formControlName="editRevenue" class="form-input" />
+        </div>
+      </div>
+    </div>
+    <div class="btn">
+      <div class="save">
+        <p-button type="submit" label="Update" size="small"></p-button>
+      </div>
+      <div class="save">
+        <p-button label="Cancel" severity="danger" (click)="editVisible = false" size="small"></p-button>
+      </div>
+    </div>
+  </form>
+</p-dialog>
 
 
 

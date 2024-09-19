@@ -10,21 +10,8 @@
             <input pInputText type="text" placeholder="Search keyword" />
           </p-iconField>
         </div>
-        <div class="dialog" *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')">
+        <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
           <p-button (onClick)="showDialog()" label="Add New" severity="success" size="small"></p-button>
-          <p-dialog header="Add New" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
-            <div class="form-container">
-              <!-- Your form content -->
-            </div>
-            <div class="btn">
-              <div class="save">
-                <p-button label="Save" (onClick)="visible = false" size="small"></p-button>
-              </div>
-              <div class="cancel">
-                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"></p-button>
-              </div>
-            </div>
-          </p-dialog>
         </div>
       </div>
     </ng-template>
@@ -79,3 +66,131 @@
     </ng-template>
   </p-table>
 </div>
+
+
+<!-- Add New Dialog  -->
+
+<p-dialog 
+  header="Add New" 
+  [modal]="true"
+  [(visible)]="visible" 
+  position="center" 
+  [style]="{ width: '50rem' }">
+  <form [formGroup]="addNewForm" (ngSubmit)="addNewUser()">
+    <div class="form-container">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" formControlName="username" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="mobile" class="form-label">Mobile No</label>
+          <input type="number" id="mobile" formControlName="mobile" class="form-input" />
+        </div>
+      </div>
+    
+      <div class="form-row">
+        <div class="form-group">
+          <label for="business" class="form-label">Business</label>
+          <input type="text" id="business" formControlName="business" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="aadhar" class="form-label">Aadhar No</label>
+          <input type="number" id="aadhar" formControlName="aadhar" class="form-input" />
+        </div>
+      </div>
+    
+      <div class="form-row">
+        <div class="form-group">
+          <label for="pan" class="form-label">PAN No</label>
+          <input type="text" id="pan" formControlName="pan" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="email" class="form-label">Email ID</label>
+          <input type="email" id="email" formControlName="email" class="form-input" />
+        </div>
+      </div>
+    
+      <div class="form-row">
+        <div class="form-group">
+          <label for="gstin" class="form-label">GST IN</label>
+          <input type="text" id="gstin" formControlName="gstin" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="revenue" class="form-label">Revenue Division</label>
+          <input type="text" id="revenue" formControlName="revenue" class="form-input" />
+        </div>
+      </div>
+    </div>
+    <div class="btn">
+      <div class="save">
+        <p-button type="submit" label="Save" size="small"/>
+      </div>
+      <div class="save">
+        <p-button label="Cancel" severity="danger" (click)="visible = false" size="small"/>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Edit New Dilog  -->
+
+<!-- <p-dialog
+  header="Edit User"
+  [(visible)]="editVisible"
+  [modal]="true"
+  position="center"
+  [style]="{ width: '50rem' }">
+  <form [formGroup]="editForm" (ngSubmit)="updateUser()">
+    <div class="form-container">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editUsername" class="form-label">Username</label>
+          <input type="text" id="editUsername" formControlName="editUsername" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="editMobile" class="form-label">Mobile No</label>
+          <input type="number" id="editMobile" formControlName="editMobile" class="form-input" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editBusiness" class="form-label">Business</label>
+          <input type="text" id="editBusiness" formControlName="editBusiness" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="editAadhar" class="form-label">Aadhar No</label>
+          <input type="number" id="editAadhar" formControlName="editAadhar" class="form-input" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editPan" class="form-label">PAN No</label>
+          <input type="text" id="editPan" formControlName="editPan" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="editEmail" class="form-label">Email ID</label>
+          <input type="email" id="editEmail" formControlName="editEmail" class="form-input" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editGstin" class="form-label">GST IN</label>
+          <input type="text" id="editGstin" formControlName="editGstin" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="editRevenue" class="form-label">Revenue Division</label>
+          <input type="text" id="editRevenue" formControlName="editRevenue" class="form-input" />
+        </div>
+      </div>
+    </div>
+    <div class="btn">
+      <div class="save">
+        <p-button type="submit" label="Update" size="small"></p-button>
+      </div>
+      <div class="save">
+        <p-button label="Cancel" severity="danger" (click)="editVisible = false" size="small"></p-button>
+      </div>
+    </div>
+  </form>
+</p-dialog> -->

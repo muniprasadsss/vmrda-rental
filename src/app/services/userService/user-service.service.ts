@@ -26,5 +26,10 @@ export class UserServiceService {
     console.log(sl_no,"service check...");  
     return this.http.get<any>(`${this.apiUrl}/getuser/${sl_no}`)   
   }
-
+  
+  createUser(data: any): Observable<any> {
+    console.log(data, "data in supplier post req");
+    return this.http.post(`${this.apiUrl}/createuser`, data); // Pass data as the second argument
+  }
+  
 }

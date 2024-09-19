@@ -7,11 +7,12 @@ import { ToastrService } from 'ngx-toastr';
 import { UserTaggingService } from '../services/userTagging/user-tagging.service';
 import { usertagging } from '../interfaces/userTagging/usertagginginterface';
 import { DatePipe } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user-taggings',
   standalone: true,
-  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent],
+  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent,ReactiveFormsModule],
   templateUrl: './user-taggings.component.html',
   styleUrls: ['./user-taggings.component.scss'] ,
   providers: [DatePipe]
@@ -23,7 +24,20 @@ export class UserTaggingsComponent implements OnInit {
   dataSource: usertagging[] = [];  // Initialized as an empty array
   userID: any;
   userRole: any;
-  constructor(private toasterservice: ToastrService, private usertaggingservice: UserTaggingService,private datepipe: DatePipe) {}
+  addNewForm!: FormGroup; // Declare the form group
+  constructor(private toasterservice: ToastrService, private usertaggingservice: UserTaggingService,private datepipe: DatePipe,private fb: FormBuilder
+  ) {
+    this.addNewForm = this.fb.group({
+      username: [''],
+      mobile: [''],
+      business: [''],
+      aadhar: [''],
+      pan: [''],
+      email: [''],
+      gstin: [''],
+      revenue: ['']
+    });
+  }
 
   ngOnInit(): void {
     this.userRole = localStorage.getItem('role')
@@ -54,5 +68,14 @@ export class UserTaggingsComponent implements OnInit {
 
   formatDate(dateString: string): string {
     return this.datepipe.transform(dateString, 'yyyy-MM-dd') || '';
+  }
+
+  addNewUser() {
+    if (this.addNewForm.valid) {
+      console.log("Form Data:", this.addNewForm.value);
+      
+    }
+    console.log("test");
+    
   }
 }
