@@ -62,7 +62,7 @@ export class AuthGuardsService implements CanActivate {
   logout() {
     localStorage.removeItem('user');
     localStorage.removeItem('role');
-    localStorage.removeItem('userType');
+    localStorage.removeItem('userId');
     this.authenticated.next(false);
   }
 }
