@@ -23,7 +23,7 @@ export class DepartmentUsersService {
   createAdmin(userData: any): Observable<any> {
     console.log(userData,"service check...");
     
-    return this.http.post(`${this.apiUrl}/adminCreate`, userData);
+    return this.http.post(`${this.apiUrl}/adminUserCreate`, userData);
   }
 }
 

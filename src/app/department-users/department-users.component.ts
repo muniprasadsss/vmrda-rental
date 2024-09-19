@@ -25,13 +25,19 @@ export class DepartmentUsersComponent {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      SL_NO: [{ value: '', disabled: true }],
-      USER_ID: [''],
-      USER_NAME: [''],
-      MOBILE_NUM: [''],
-      USER_TYPE: [''],
-      REVENUE_DIVISION: ['']
+      user_id: [''],
+      username: [''],
+      mobileNo: [''],
+      email_id: [''],
+      userType: [''],
+      password: [''],
+      revenueDivision: [''],
+      natureOfBusiness: [''],
+      idNo: [''],
+      pan: [''],
+      gstIn: ['']
     });
+    
 
     this.getadminInfo();
   }

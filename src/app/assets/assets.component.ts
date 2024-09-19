@@ -34,7 +34,7 @@ export class AssetsComponent {
     }
 
     getLocationInfo(){
-      this.http.getAssets( this.userRole,this.userID).subscribe({
+      this.http.getAssets( this.userID,this.userRole).subscribe({
         next:(res:any)=>{
           this.assetsData = res.propertyData;
           this.complex = res.complex;

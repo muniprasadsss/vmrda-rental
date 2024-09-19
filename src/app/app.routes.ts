@@ -38,7 +38,7 @@ export const routes: Routes = [
         canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','USER','ADMIN'] } },
     { path: 'assets', component: AssetsComponent, 
         canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
-    { path: 'user', component: UserDetailsComponent, 
+    { path: 'user', component: UserDetailsComponent,
         canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
     // { path: 'complex', component: ComplexDetailsComponent,
     //      canActivate: [AuthGuardsService], data: { role: ['RD'] } },
@@ -61,7 +61,7 @@ export const routes: Routes = [
     { path: 'grievanceRequest', component: DummyUserComponent, 
         canActivate: [AuthGuardsService], data: { role: ['USER','ADMIN'] } },
         { path: 'departmentusers', component: DepartmentUsersComponent, 
-            canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER'] } },
+            canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
             { path: 'dummyuser', component: DummyUserComponent, },
     
 
