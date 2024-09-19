@@ -279,7 +279,7 @@
               </button>
             </div>
           </td>
-          <td *ngIf="bill.Status !== 'FP'">
+          <td *ngIf="bill.Status !== 'FP' && userRole === 'USER'">
             <button (click)="payBill(bill)" class="pay-btn">Pay</button>
           </td>
           <!-- <td *ngIf="bill.Status === 'FP'">

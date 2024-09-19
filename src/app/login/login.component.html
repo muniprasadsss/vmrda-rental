@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="formDiv">
-    <form class="card" #loginForm="ngForm" (ngSubmit)="Login(loginForm)" novalidate>
+    <form class="card" #loginForm="ngForm"  novalidate>
       <div>
         <p-floatLabel>
           <input id="username" type="text" pInputText [(ngModel)]="userID" name="username" #usernameCtrl="ngModel"
@@ -45,7 +45,7 @@
     </div>
       <div class="buttonDiv">
         <!-- <button pButton type="submit" label="Login" icon="pi pi-sign-in" class="p-mt-2" size="small"></button> -->
-        <button class="buttonClass" type="submit" *ngIf="!otpDiv">Login</button>
+        <button class="buttonClass" type="submit" (click)="Login(loginForm)"  *ngIf="!otpDiv">Login</button>
         <button class="buttonClass"  type="submit" (click)="submitOtp()" *ngIf="otpDiv">Submit</button>
       
       </div>

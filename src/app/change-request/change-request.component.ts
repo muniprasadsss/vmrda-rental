@@ -233,7 +233,7 @@ this.payload = {
   // Function to determine if the button should be shown based on the userRole
   shouldShowButton(buttonType: string) {
     switch (this.userRole) {
-      case 'RI':
+      case 'RD':
         return buttonType === 'Recommend' || buttonType === 'Close';
       case 'AO':
         return true; // AO can see all buttons
@@ -249,7 +249,7 @@ this.payload = {
 
   isSelectDisabled(stage: string, status: string): boolean {
     switch (this.userRole) {
-      case 'RI':
+      case 'RD':
         return !(stage === 'Pending with RI' && status === 'Pending');
       case 'AO':
         return !((stage === 'recommended for ao' || stage === 'Waiting for AO Approval' ) &&

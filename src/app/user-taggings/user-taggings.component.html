@@ -20,12 +20,12 @@
       <tr style="font-size: 12px;">
         <th pSortableColumn="SL_NO">S No<p-sortIcon field="SL_NO"></p-sortIcon></th>
         <th pSortableColumn="USER_ID">User Id<p-sortIcon field="USER_ID"></p-sortIcon></th>
-        <th pSortableColumn="USER_NAME">USER_NAME<p-sortIcon field="USER_NAME"></p-sortIcon></th>
-        <th pSortableColumn="PROPERTY">PROPERTY<p-sortIcon field="PROPERTY"></p-sortIcon></th>
+        <th pSortableColumn="USER_NAME">User Name<p-sortIcon field="USER_NAME"></p-sortIcon></th>
+        <th pSortableColumn="PROPERTY">Property Code<p-sortIcon field="PROPERTY"></p-sortIcon></th>
         <th pSortableColumn="START_DATE">Start Date<p-sortIcon field="START_DATE"></p-sortIcon></th>
         <th pSortableColumn="END_DATE">End Date<p-sortIcon field="END_DATE"></p-sortIcon></th>
-        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">DATE OF RENEWAL OF LICENSE<p-sortIcon field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
-        <th pSortableColumn="RENTAL_LEASE_AMOUNT_PERMONTH">RENTAL LEASE AMOUNT<p-sortIcon field="RENTAL_LEASE_AMOUNT_PERMONTH"></p-sortIcon></th>
+        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">DATE OF RENEWAL<p-sortIcon field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
+        <th pSortableColumn="RENTAL_LEASE_AMOUNT_PERMONTH">Lease Amount<p-sortIcon field="RENTAL_LEASE_AMOUNT_PERMONTH"></p-sortIcon></th>
         <th pSortableColumn="RENT_GO_LIVE">RENT GO LIVE<p-sortIcon field="RENT_GO_LIVE"></p-sortIcon></th>
         <th pSortableColumn="RENTAL_LEASE_PERIOD">RENTAL LEASE PERIOD<p-sortIcon field="RENTAL_LEASE_PERIOD"></p-sortIcon></th>
         <th pSortableColumn="RENTAL_INTRESET_PERCENT">Rental Interest PERCENT<p-sortIcon field="RENTAL_INTRESET_PERCENT"></p-sortIcon></th>
@@ -52,7 +52,7 @@
         <td>{{ lease.RENTAL_INTRESET_PERCENT }}</td>
         <td>{{ lease.RENTAL_HIKE_PERCENT }}</td>
         <td>{{ lease.GST }}</td>
-        <td>{{ lease.GST_INTEREST_PERCENT }}</td>
+        <!-- <td>{{ lease.GST_INTEREST_PERCENT }}</td> -->
         <td>{{ lease.LEASE_DEED_NO }}</td>
         <td *ngIf="(userRole === 'COMMISSIONER' || userRole === 'SECRETARY')">
           <div class="rowbtn">
