@@ -12,43 +12,46 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-user-taggings',
   standalone: true,
-  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent,ReactiveFormsModule],
+  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent, ReactiveFormsModule],
   templateUrl: './user-taggings.component.html',
-  styleUrls: ['./user-taggings.component.scss'] ,
+  styleUrls: ['./user-taggings.component.scss'],
   providers: [DatePipe]
-
 })
 export class UserTaggingsComponent implements OnInit {
   visible: boolean = false;
   responseMsg: string | undefined;
-  dataSource: usertagging[] = [];  // Initialized as an empty array
+  dataSource: usertagging[] = [];
   userID: any;
   userRole: any;
-  addNewForm!: FormGroup; // Declare the form group
-  constructor(private toasterservice: ToastrService, private usertaggingservice: UserTaggingService,private datepipe: DatePipe,private fb: FormBuilder
+  addNewForm!: FormGroup;
+  editVisible: boolean = false; // For the edit dialog
+
+
+  constructor(
+    private toasterservice: ToastrService,
+    private usertaggingservice: UserTaggingService,
+    private datepipe: DatePipe,
+    private fb: FormBuilder
   ) {
     this.addNewForm = this.fb.group({
       username: [''],
-      mobile: [''],
-      business: [''],
-      aadhar: [''],
-      pan: [''],
-      email: [''],
-      gstin: [''],
-      revenue: ['']
+      userId: [''],
+      property: [''],
+      startdate: [''],
+      enddate: ['']
     });
   }
 
   ngOnInit(): void {
-    this.userRole = localStorage.getItem('role')
-    this.userID = localStorage.getItem('userId')
+    this.userRole = localStorage.getItem('role');
+    this.userID = localStorage.getItem('userId');
     this.getUserTaggingDetails();
   }
 
   getUserTaggingDetails() {
-    this.usertaggingservice.getUserTagging(this.userID,this.userRole).subscribe({
+    this.usertaggingservice.getUserTagging(this.userID, this.userRole).subscribe({
       next: (res: any) => {
-        this.dataSource = res.userData;  // No need to map it if the structure is correct
+        this.dataSource = res.userData;
         this.responseMsg = res.message;
         console.log(this.dataSource, "usertagging data...");
       },
@@ -62,20 +65,45 @@ export class UserTaggingsComponent implements OnInit {
     this.visible = true;
   }
 
-  onUpload() {
-    this.toasterservice.success("File uploaded successfully");
-  }
-
-  formatDate(dateString: string): string {
-    return this.datepipe.transform(dateString, 'yyyy-MM-dd') || '';
-  }
-
   addNewUser() {
     if (this.addNewForm.valid) {
+      // Print form data to console
       console.log("Form Data:", this.addNewForm.value);
       
+      // Here you can implement further logic (e.g., call a service to save the data)
+
+      // Optionally, close the dialog
+      this.visible = false;
+    } else {
+      console.log("Form is invalid");
     }
-    console.log("test");
-    
   }
+  
+  editUser(lease: usertagging) {
+    // Populate the form with the selected user's data
+    this.addNewForm.patchValue({
+      username: lease.User_Name,
+      userId: lease.User_ID,
+      property: lease.Property,
+      startdate: lease.Start_Date,
+      enddate: lease.End_Date
+    });
+    this.editVisible = true; // Show the edit dialog
+  }
+
+  updateUser() {
+    if (this.addNewForm.valid) {
+      // Print the form values to the console
+      console.log("Updated Form Data:", this.addNewForm.value);
+      
+      // Here you can implement further logic (e.g., call a service to update the data)
+      
+      // Optionally, close the dialog
+      this.editVisible = false; 
+    } else {
+      console.log("Form is invalid");
+    }
+  }
+  
+  
 }

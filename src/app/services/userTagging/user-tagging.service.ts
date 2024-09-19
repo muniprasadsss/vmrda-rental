@@ -12,6 +12,11 @@ export class UserTaggingService {
 
   constructor(private http: HttpClient) {}
 
+  createUserTagging(userData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/createusertagging`, userData);
+  }
+
   getUserTagging(USER_ID:string,USER_TYPE:string):Observable<any>{
     return this.http.post(`${this.apiUrl}/getUserTagging`,{USER_ID,USER_TYPE})
-  }}
+  }
+}

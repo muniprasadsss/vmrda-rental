@@ -32,4 +32,7 @@ export class UserServiceService {
     return this.http.post(`${this.apiUrl}/createuser`, data); // Pass data as the second argument
   }
   
+  editUserDetails(data: any) {    
+    return this.http.put(`${this.apiUrl}/updateuser`, data);
+  }
 }
