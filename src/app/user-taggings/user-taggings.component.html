@@ -20,19 +20,19 @@
       <tr style="font-size: 12px;">
         <th pSortableColumn="SL_NO">S No<p-sortIcon field="SL_NO"></p-sortIcon></th>
         <th pSortableColumn="USER_ID">User Id<p-sortIcon field="USER_ID"></p-sortIcon></th>
-        <th pSortableColumn="USER_NAME">USER_NAME<p-sortIcon field="USER_NAME"></p-sortIcon></th>
-        <th pSortableColumn="PROPERTY">PROPERTY<p-sortIcon field="PROPERTY"></p-sortIcon></th>
+        <th pSortableColumn="USER_NAME">User Name<p-sortIcon field="USER_NAME"></p-sortIcon></th>
+        <th pSortableColumn="PROPERTY">Property Code<p-sortIcon field="PROPERTY"></p-sortIcon></th>
         <th pSortableColumn="START_DATE">Start Date<p-sortIcon field="START_DATE"></p-sortIcon></th>
         <th pSortableColumn="END_DATE">End Date<p-sortIcon field="END_DATE"></p-sortIcon></th>
-        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">DATE OF RENEWAL OF LICENSE<p-sortIcon field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
-        <th pSortableColumn="RENTAL_LEASE_AMOUNT_PERMONTH">RENTAL LEASE AMOUNT<p-sortIcon field="RENTAL_LEASE_AMOUNT_PERMONTH"></p-sortIcon></th>
+        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">DATE OF RENEWAL<p-sortIcon field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
+        <th pSortableColumn="RENTAL_LEASE_AMOUNT_PERMONTH">Lease Amount<p-sortIcon field="RENTAL_LEASE_AMOUNT_PERMONTH"></p-sortIcon></th>
         <th pSortableColumn="RENT_GO_LIVE">RENT GO LIVE<p-sortIcon field="RENT_GO_LIVE"></p-sortIcon></th>
-        <th pSortableColumn="RENTAL_LEASE_PERIOD">RENTAL LEASE PERIOD<p-sortIcon field="RENTAL_LEASE_PERIOD"></p-sortIcon></th>
-        <th pSortableColumn="RENTAL_INTRESET_PERCENT">Rental Interest PERCENT<p-sortIcon field="RENTAL_INTRESET_PERCENT"></p-sortIcon></th>
-        <th pSortableColumn="RENTAL_HIKE_PERCENT">Rental HIKE %<p-sortIcon field="RENTAL_HIKE_PERCENT"></p-sortIcon></th>
-        <th pSortableColumn="GST">GST<p-sortIcon field="GST"></p-sortIcon></th>
-        <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th>
-        <th pSortableColumn="LEASE_DEED_NO">LEASE DEED Number<p-sortIcon field="LEASE_DEED_NO"></p-sortIcon></th>
+        <th pSortableColumn="RENTAL_LEASE_PERIOD">LEASE PERIOD<p-sortIcon field="RENTAL_LEASE_PERIOD"></p-sortIcon></th>
+        <th pSortableColumn="RENTAL_INTRESET_PERCENT">Rental Interest %<p-sortIcon field="RENTAL_INTRESET_PERCENT"></p-sortIcon></th>
+        <th pSortableColumn="RENTAL_HIKE_PERCENT">Lease Hike %<p-sortIcon field="RENTAL_HIKE_PERCENT"></p-sortIcon></th>
+        <th pSortableColumn="GST">GST %<p-sortIcon field="GST"></p-sortIcon></th>
+        <!-- <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th> -->
+        <th pSortableColumn="LEASE_DEED_NO">Lease Deed Number<p-sortIcon field="LEASE_DEED_NO"></p-sortIcon></th>
         <!-- <th pSortableColumn="STATUS">STATUS<p-sortIcon field="STATUS"></p-sortIcon></th> -->
         <th *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')"></th>
       </tr>
@@ -53,7 +53,7 @@
         <td>{{ lease.rental_interest_percent }}</td>
         <td>{{ lease.RENTAL_HIKE_PERCENT }}</td>
         <td>{{ lease.GST }}</td>
-        <td>{{ lease.GST_INTEREST_PERCENT }}</td>
+        <!-- <td>{{ lease.GST_INTEREST_PERCENT }}</td> -->
         <td>{{ lease.LEASE_DEED_NO }}</td>
         <!-- <td>{{ lease.STATUS }}</td> -->
         <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
