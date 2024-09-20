@@ -13,100 +13,45 @@
                     </p-iconField>
                 </div>
                 <div class="dialog">
-                    <p-dialog
-    header="Add New"
-    [modal]="true"
-    [(visible)]="visible"
-    position="center"
-    [style]="{ width: '50rem' }">
-    <div class="form-container">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="bill-no" class="form-label">Bill No</label>
-            <input type="text" id="bill-no" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label for="user-id" class="form-label">User Id</label>
-            <input type="text" id="user-id" class="form-input" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="property" class="form-label">Property</label>
-            <input type="text" id="property" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label for="rental-period" class="form-label">Rental Period</label>
-            <input type="text" id="rental-period" class="form-input" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="rental-amount" class="form-label">Rental Amount</label>
-            <input type="number" id="rental-amount" class="form-input" step="0.01" />
-          </div>
-          <div class="form-group">
-            <label for="gst" class="form-label">GST</label>
-            <input type="number" id="gst" class="form-input" step="0.01" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="rental-interest" class="form-label">Rental Interest</label>
-            <input type="number" id="rental-interest" class="form-input" step="0.01" />
-          </div>
-          <div class="form-group">
-            <label for="gst-interest" class="form-label">GST Interest</label>
-            <input type="number" id="gst-interest" class="form-input" step="0.01" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="power-bill-amount" class="form-label">Power Bill Amount</label>
-            <input type="number" id="power-bill-amount" class="form-input" step="0.01" />
-          </div>
-          <div class="form-group">
-            <label for="water-bill-amount" class="form-label">Water Bill Amount</label>
-            <input type="number" id="water-bill-amount" class="form-input" step="0.01" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="maintenance-amount" class="form-label">Maintenance Amount</label>
-            <input type="number" id="maintenance-amount" class="form-input" step="0.01" />
-          </div>
-          <div class="form-group">
-            <label for="total-amount" class="form-label">Total Amount</label>
-            <input type="number" id="total-amount" class="form-input" step="0.01" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="total-due" class="form-label">Total Due</label>
-            <input type="number" id="total-due" class="form-input" step="0.01" />
-          </div>
-        </div>
-      </div>
-    <div class="btn">
-        <div class="save">
-            <p-button label="Save" (onClick)="visible = false" size="small"/>
-        </div>
-        <div class="cancel">
-            <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small"/>
-        </div>
-    </div>
-</p-dialog>
-                </div>
-
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
+                  <p-button 
+                  (click)="showDialog()" 
+                  label="Add New" 
+                  severity="success"
+                  size="small" />
+                  <p-dialog
+                  header="Add New"
+                  [modal]="true"
+                  [(visible)]="visible"
+                  position="center"
+                  [style]="{ width: '50rem' }">
+                  <form [formGroup]="addNewForm" (ngSubmit)="addNewUser()">
+                    <div class="form-container">
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label for="bill-no" class="form-label">Bill No</label>
+                          <input type="text" id="bill-no" class="form-input" formControlName="billNo" />
+                        </div>
+                        <div class="form-group">
+                          <label for="user-id" class="form-label">User Id</label>
+                          <input type="text" id="user-id" class="form-input" formControlName="userId"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="btn">
+                      <div class="save">
+                        <p-button label="Save" type="submit" size="small"/> <!-- Add type="submit" -->
+                      </div>
+                      <div class="cancel">
+                        <p-button label="Cancel" severity="danger" (click)="visible = false" size="small"/>
+                      </div>
+                    </div>
+                  </form>
+                </p-dialog>
+                
+</div>
+</div>
+</ng-template>
+<ng-template pTemplate="header">
           <tr style="font-size: 12px; padding: 0;">
             <!-- <th pSortableColumn="ID">S No</th> -->
             <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th>
@@ -128,7 +73,7 @@
 
 
           </tr>
-        </ng-template>
+</ng-template>
         <ng-template pTemplate="body" let-receipt>
           <tr style="font-size: 12px;">
             <!-- <td style="width: 6%;">{{ receipt.ID }}</td> -->

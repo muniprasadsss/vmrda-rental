@@ -6,10 +6,11 @@ import { FooterComponent } from '../footer/footer.component';
 import { ReceptDetailsService } from '../services/receptDetails/recept-details.service';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 @Component({
   selector: 'app-receipt-details',
   standalone: true,
-  imports: [PrimeNgModule,HeaderComponent,DashboardComponent,FooterComponent],
+  imports: [PrimeNgModule,HeaderComponent,DashboardComponent,FooterComponent,ReactiveFormsModule],
   templateUrl: './receipt-details.component.html',
   styleUrl: './receipt-details.component.scss'
 })
@@ -18,7 +19,14 @@ export class ReceiptDetailsComponent {
   userRole:any
   userID:any
   receiptData:any
-  constructor(private http:ReceptDetailsService){}
+  addNewForm: FormGroup;
+  constructor(private http:ReceptDetailsService,private fb: FormBuilder){
+
+    this.addNewForm = this.fb.group({
+      billNo: ['', Validators.required],
+      userId: ['', Validators.required]
+    });
+  }
 
   ngOnInit(){
     this.userRole = localStorage.getItem('role')
@@ -39,8 +47,6 @@ export class ReceiptDetailsComponent {
       }
     })
   }
-
-
 
   generatePDF(receipt: any) {
 
@@ -143,7 +149,20 @@ export class ReceiptDetailsComponent {
 
       // Save the PDF
       doc.save(`Receipt_${receipt.ReceiptNo}.pdf`);
+  }
+
+
+  addNewUser() {
+    if (this.addNewForm.valid) {
+      console.log("Form Data:", this.addNewForm.value);
+      // Close the dialog after logging
+      this.visible = false;
+      // Optionally, you can reset the form
+      this.addNewForm.reset();
+    } else {
+      console.log("Add New Form is invalid");
     }
+  }
 
 
 
