@@ -19,4 +19,8 @@ export class UserTaggingService {
   getUserTagging(USER_ID:string,USER_TYPE:string):Observable<any>{
     return this.http.post(`${this.apiUrl}/getUserTagging`,{USER_ID,USER_TYPE})
   }
+
+  editUserTagging(data: any) {    
+    return this.http.put(`${this.apiUrl}/updateusertagging`, data);
+  }
 }

@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UserTaggingService } from '../services/userTagging/user-tagging.service';
 import { usertagging } from '../interfaces/userTagging/usertagginginterface';
 import { DatePipe } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-taggings',
@@ -25,6 +25,7 @@ export class UserTaggingsComponent implements OnInit {
   userRole: any;
   addNewForm!: FormGroup;
   editVisible: boolean = false; // For the edit dialog
+  editForm: any;
 
 
   constructor(
@@ -35,10 +36,17 @@ export class UserTaggingsComponent implements OnInit {
   ) {
     this.addNewForm = this.fb.group({
       username: [''],
-      userId: [''],
+      user_id: [''],
       property: [''],
-      startdate: [''],
-      enddate: ['']
+      start_date: [''],
+      end_date: ['']
+    });
+    this.editForm = this.fb.group({
+      username: ['', Validators.required],
+      user_id: ['', Validators.required],
+      property: ['', Validators.required],
+      start_date: ['', Validators.required],
+      end_date: ['', Validators.required]
     });
   }
 
@@ -65,45 +73,72 @@ export class UserTaggingsComponent implements OnInit {
     this.visible = true;
   }
 
-  addNewUser() {
-    if (this.addNewForm.valid) {
-      // Print form data to console
-      console.log("Form Data:", this.addNewForm.value);
-      
-      // Here you can implement further logic (e.g., call a service to save the data)
+// In user-taggings.component.ts
+addNewUser() {
+  if (this.addNewForm.valid) {
+    // Print form data to console
+    console.log("Form Data:", this.addNewForm.value);
+    
+    this.usertaggingservice.createUserTagging(this.addNewForm.value).subscribe({
+      next: (res) => {
+        this.toasterservice.success("User added successfully");
+        this.visible = false; // Close the dialog
+        this.getUserTaggingDetails(); // Refresh data
+      },
+      error: (err) => {
+        this.toasterservice.error(err.error?.message || "Error adding user");
+      }
+    });
+  } else {
+    console.log("Add New Form is invalid");
+  }
+}
 
-      // Optionally, close the dialog
-      this.visible = false;
-    } else {
-      console.log("Form is invalid");
-    }
+
+  formatDate(date: any): string {
+    if (!date) return '';
+    const d = new Date(date);
+    return d.toISOString().split('T')[0]; // Returns YYYY-MM-DD
   }
   
   editUser(lease: usertagging) {
+    const startDate = this.formatDate(lease.START_DATE);
+  const endDate = this.formatDate(lease.END_DATE);
     // Populate the form with the selected user's data
-    this.addNewForm.patchValue({
-      username: lease.User_Name,
-      userId: lease.User_ID,
-      property: lease.Property,
-      startdate: lease.Start_Date,
-      enddate: lease.End_Date
+    console.log(lease,"check ,.,.");
+    console.log(lease.USER_ID,"userid check...");
+    
+    
+    this.editForm.patchValue({
+      username: lease.USER_NAME,
+      user_id: lease.USER_ID,
+      property: lease.PROPERTY,
+      start_date: startDate,
+      end_date: endDate
     });
     this.editVisible = true; // Show the edit dialog
   }
 
-  updateUser() {
-    if (this.addNewForm.valid) {
-      // Print the form values to the console
-      console.log("Updated Form Data:", this.addNewForm.value);
-      
-      // Here you can implement further logic (e.g., call a service to update the data)
-      
-      // Optionally, close the dialog
-      this.editVisible = false; 
-    } else {
-      console.log("Form is invalid");
-    }
+// In user-taggings.component.ts
+updateUser() {
+  if (this.editForm.valid) {
+    // Print the form values to the console
+    console.log("Updated Form Data:", this.editForm.value);
+    
+    // Call the service to update the user tagging
+    this.usertaggingservice.editUserTagging(this.editForm.value).subscribe({
+      next: (res) => {
+        this.toasterservice.success("User updated successfully");
+        this.editVisible = false; // Close the edit dialog
+        this.getUserTaggingDetails(); // Refresh data
+      },
+      error: (err) => {
+        this.toasterservice.error(err.error?.message || "Error updating user");
+      }
+    });
+  } else {
+    console.log("Edit form is invalid");
   }
-  
-  
+}
+    
 }

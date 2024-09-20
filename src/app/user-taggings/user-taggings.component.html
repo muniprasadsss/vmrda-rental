@@ -81,7 +81,7 @@
         </div>
         <div class="form-group">
           <label for="userId" class="form-label">User Id</label>
-          <input type="number" id="userId" formControlName="userId" class="form-input" />
+          <input type="number" id="userId" formControlName="user_id" class="form-input" />
         </div>
       </div>
     
@@ -92,14 +92,14 @@
         </div>
         <div class="form-group">
           <label for="startdate" class="form-label">Start Date</label>
-          <input type="date" id="startdate" formControlName="startdate" class="form-input" />
+          <input type="date" id="startdate" formControlName="start_date" class="form-input" />
         </div>
       </div>
     
       <div class="form-row">
         <div class="form-group">
           <label for="enddate" class="form-label">End Date</label>
-          <input type="date" id="enddate" formControlName="enddate" class="form-input" />
+          <input type="date" id="enddate" formControlName="end_date" class="form-input" />
         </div>
       </div>
     </div>
@@ -123,7 +123,7 @@
   [(visible)]="editVisible" 
   position="center" 
   [style]="{ width: '50rem' }">
-  <form [formGroup]="addNewForm" (ngSubmit)="updateUser()">
+  <form [formGroup]="editForm" (ngSubmit)="updateUser()">
     <div class="form-container">
       <div class="form-row">
         <div class="form-group">
@@ -132,7 +132,7 @@
         </div>
         <div class="form-group">
           <label for="userId" class="form-label">User Id</label>
-          <input type="number" id="userId" formControlName="userId" class="form-input" />
+          <input type="text" id="userId" formControlName="user_id" class="form-input" />
         </div>
       </div>
       <div class="form-row">
@@ -142,13 +142,13 @@
         </div>
         <div class="form-group">
           <label for="startdate" class="form-label">Start Date</label>
-          <input type="date" id="startdate" formControlName="startdate" class="form-input" />
+          <input type="date" id="startdate" formControlName="start_date" class="form-input" />
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label for="enddate" class="form-label">End Date</label>
-          <input type="date" id="enddate" formControlName="enddate" class="form-input" />
+          <input type="date" id="enddate" formControlName="end_date" class="form-input" />
         </div>
       </div>
     </div>
