@@ -23,4 +23,8 @@ export class UserTaggingService {
   editUserTagging(data: any) {    
     return this.http.put(`${this.apiUrl}/updateusertagging`, data);
   }
+
+  getPropertys() {    
+    return this.http.get(`${this.apiUrl}/propertyNotoccupied`);
+  }
 }

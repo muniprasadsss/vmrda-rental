@@ -40,58 +40,9 @@ export class ReceiptDetailsComponent {
     })
   }
 
-  //  generatePDF(receipt: any) {
-  //   const doc = new jsPDF();
 
-  //   // Set up PDF content (you can customize the layout and design)
-  //   doc.setFontSize(16);
-  //   doc.text('Receipt Details', 10, 10);
-
-  //   doc.setFontSize(12);
-  //   doc.text(`Receipt No: ${receipt.ReceiptNo}`, 10, 20);
-  //   doc.text(`User ID: ${receipt.User}`, 10, 30);
-  //   doc.text(`Bill No: ${receipt.BillNo}`, 10, 40);
-  //   doc.text(`Property Code: ${receipt.Property}`, 10, 50);
-  //   doc.text(`Paid Date: ${receipt.paid_date}`, 10, 60);
-  //   doc.text(`Lease Amount: ${receipt.Rental_lease_amount_permonth}`, 10, 70);
-  //   doc.text(`GST: ${receipt.GST}`, 10, 80);
-  //   doc.text(`Total Rent Interest: ${receipt.Total_rental_interest}`, 10, 90);
-  //   doc.text(`Total: ${receipt.Total}`, 10, 100);
-  //   doc.text(`Total Paid: ${receipt.TotalPaid}`, 10, 110);
-  //   doc.text(`Due: ${receipt.Due}`, 10, 120);
-  //   doc.text(`Status: ${receipt.Status}`, 10, 130);
-
-  //   // Add more details or format as needed
-  //   // Optionally, you can add autoTable here for a structured table format
-  //   autoTable(doc, {
-  //     startY: 140,
-  //     head: [['Field', 'Value']],
-  //     body: [
-  //       ['Receipt No', receipt.ReceiptNo],
-  //       ['User', receipt.User],
-  //       ['Bill No', receipt.BillNo],
-  //       ['Property', receipt.Property],
-  //       ['Paid Date', receipt.paid_date],
-  //       ['Lease Amount', receipt.Rental_lease_amount_permonth],
-  //       ['GST', receipt.GST],
-  //       ['Total Rent Interest', receipt.Total_rental_interest],
-  //       ['Total', receipt.Total],
-  //       ['Total Paid', receipt.TotalPaid],
-  //       ['Due', receipt.Due],
-  //       ['Status', receipt.Status]
-  //     ]
-  //   });
-
-  //   // Save the PDF
-  //   doc.save(`Receipt_${receipt.ReceiptNo}.pdf`);
-  // }
 
   generatePDF(receipt: any) {
-
-  // this.receptDetailService.getReceiptInfo(receipt.ReceiptNo).subscribe({
-  //   next: (res: any) => {
-  //     this.receiptData = res;
-  //     this.receiptDetail = this.receiptData.receiptInfo;
 
       const doc = new jsPDF();
 
@@ -99,8 +50,6 @@ export class ReceiptDetailsComponent {
       const margins = { top: 15, bottom: 15, left: 20, right: 20 };
       const lineHeight = 10;
       let currentY = margins.top;
-
-      // Logo settings (Assuming it's base64 or correct path to asset)
       const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png'; // Add your logo path or base64 string
       const logoWidth = 30;
       const logoHeight = 30;

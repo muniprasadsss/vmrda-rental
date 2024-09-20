@@ -26,7 +26,7 @@ export class UserTaggingsComponent implements OnInit {
   addNewForm!: FormGroup;
   editVisible: boolean = false; // For the edit dialog
   editForm: any;
-
+  unoccupiedProprertys:any;
 
   constructor(
     private toasterservice: ToastrService,
@@ -53,7 +53,21 @@ export class UserTaggingsComponent implements OnInit {
   ngOnInit(): void {
     this.userRole = localStorage.getItem('role');
     this.userID = localStorage.getItem('userId');
+    this.getUnoccupiedPropertys();
     this.getUserTaggingDetails();
+  }
+
+  getUnoccupiedPropertys() {
+    this.usertaggingservice.getPropertys().subscribe({
+      next: (res: any) => {
+        this.unoccupiedProprertys = res;
+        // this.responseMsg = res.message;
+        // console.log(this.dataSource, "usertagging data...");
+      },
+      error: (err: any) => {
+        this.responseMsg = err.error?.message || "Error";
+      }
+    });
   }
 
   getUserTaggingDetails() {
