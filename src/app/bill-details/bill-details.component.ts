@@ -116,12 +116,12 @@ export class BillDetailsComponent implements OnInit {
     this.dataSource = []
     this.billDetailService.getBillDetailsByUserId(this.userID,this.userRole).subscribe({
       next: (res: any) => {
-        this.dataSource = res.billingData; 
+        this.dataSource = res.billingData;
         this.responseMsg = res.message;
         if(this.dataSource.length > 0){
           this.filterBillData();
         }
-        
+
       },
       error: (err: any) => {
         if (err.error?.message) {
@@ -398,7 +398,7 @@ export class BillDetailsComponent implements OnInit {
           "captured": data.paymentDetails.captured,
           "card_id": data.paymentDetails.card_id,
           "contact": data.paymentDetails.contact,
-          "created_at": data.paymentDetails.created_at,
+          // "created_at": data.paymentDetails.created_at,
           "currency": data.paymentDetails.currency,
           "description": data.paymentDetails.description,
           "email": data.paymentDetails.email,

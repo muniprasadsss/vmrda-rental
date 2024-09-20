@@ -7,6 +7,7 @@ import { HeaderComponent } from "../header/header.component";
 import { DashboardComponent } from "../dashboard/dashboard.component";
 import { FooterComponent } from "../footer/footer.component";
 import { FormBuilder, FormGroup, ReactiveFormsModule ,Validators} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-details',
