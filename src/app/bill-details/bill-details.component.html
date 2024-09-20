@@ -26,81 +26,6 @@
                 History Bills
               </button> -->
           <div class="dialog">
-            <p-dialog
-              header="Bill Details"
-              [modal]="true"
-              [(visible)]="showModel"
-              position="center"
-              [style]="{ width: '50rem' }">
-              <div class="form-container">
-                <form [formGroup]="form">
-                  <div class="form-row">
-                    <div class="form-group">
-                      <label for="bill_no" class="form-label">Bill No</label>
-                      <input type="text" id="bill_no" class="form-input" formControlName="bill_no" />
-                    </div>
-                    <div class="form-group">
-                      <label for="user_id" class="form-label">User Id</label>
-                      <input type="text" id="user_id" class="form-input" formControlName="user_id" />
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group">
-                      <label for="property_code" class="form-label">Property Code</label>
-                      <input type="text" id="property_code" class="form-input" formControlName="property_code" />
-                    </div>
-                    <div class="form-group">
-                      <label for="lease_period" class="form-label">Lease Period</label>
-                      <input type="text" id="lease_period" class="form-input" formControlName="lease_period" />
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group">
-                      <label for="lease_amount" class="form-label">Lease Amount</label>
-                      <input type="number" id="lease_amount" class="form-input" formControlName="lease_Amount" />
-                    </div>
-                    <div class="form-group">
-                      <label for="gst" class="form-label">GST</label>
-                      <input type="number" id="gst" class="form-input" formControlName="gst" />
-                    </div>
-                    <div class="form-group">
-                      <label for="power_bill_amount" class="form-label">Power Bill Amount</label>
-                      <input type="number" id="power_bill_amount" class="form-input" (change)="calculateTotal()" formControlName="power_bill_amount" />
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group">
-                      <label for="water_bill_amount" class="form-label">Water Bill Amount</label>
-                      <input type="number" id="water_bill_amount" class="form-input" (change)="calculateTotal()" formControlName="water_bill_amount" />
-                    </div>
-                    <div class="form-group">
-                      <label for="maintenance_amount" class="form-label">Maintenance Amount</label>
-                      <input type="number" id="maintenance_amount" class="form-input" (change)="calculateTotal()" formControlName="maintenance_amount" />
-                    </div>
-                    <div class="form-group">
-                      <label for="lease_interests" class="form-label">Interest</label>
-                      <input type="number" id="lease_interests" class="form-input" formControlName="lease_interests" />
-                    </div>
-                  </div>
-                  <div class="form-row" style="display: flex; justify-content: center;">
-                    <div class="form-group">
-                      <label for="total" class="form-label">Total</label>
-                      <input type="number" id="total" class="form-input" formControlName="total" />
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="btn">
-                <div class="save">
-                  <p-button label="Generate" (onClick)="onSubmit()" size="small" />
-                </div>
-                <div class="cancel">
-                  <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small" />
-                </div>
-              </div>
-            </p-dialog>
-          </div>
-          <div class="dialog">
             <p-button (onClick)="showDialog1()" label="History" severity="success" size="small" />
             <p-dialog header="History"  [modal]="true" [(visible)]="visible1" position="center" [style]="{ width: '80rem' }">
               <!-- <div class="form-container">
@@ -218,7 +143,6 @@
 
             </p-dialog>
           </div>
-
         </div>
       </ng-template>
       <ng-template pTemplate="header">
@@ -243,7 +167,8 @@
           <th pSortableColumn="TotalPaid">Payment Amount</th>
           <th pSortableColumn="Total">Total Due</th>
 
-          <th pSortableColumn="BillStatus">Status</th>
+          <th pSortableColumn="Status">Status</th>
+          <th pSortableColumn="BillStatus">BillStatus</th>
           <!-- <th pSortableColumn="Total">RI Approval<p-sortIcon field="Total" /></th> -->
            <!-- <th>RI Approval</th> -->
           <th></th>
@@ -268,6 +193,7 @@
           <td style="width: 8%;">{{ bill.TotalPaid }}</td>
           <td style="width: 8%;">{{ bill.Total }}</td>
           <td style="width: 8%;">{{ bill.Status }}</td>
+          <td style="width: 8%;">{{ bill.BillStatus }}</td>
           <!-- <td>
             <i class="pi pi-check" style="color: green" *ngIf="bill.BillStatus === 'Active'"></i>
             <i class="pi pi-times" style="color: red" *ngIf="bill.BillStatus !== 'Active'"></i>
@@ -289,6 +215,84 @@
       </ng-template>
     </p-table>
   </div>
+</div>
+
+<!-- Edit bill details dialog  -->
+
+<div class="dialog">
+  <p-dialog
+    header="Bill Details"
+    [modal]="true"
+    [(visible)]="showModel"
+    position="center"
+    [style]="{ width: '50rem' }">
+    <div class="form-container">
+      <form [formGroup]="form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="bill_no" class="form-label">Bill No</label>
+            <input type="text" id="bill_no" class="form-input" formControlName="bill_no" />
+          </div>
+          <div class="form-group">
+            <label for="user_id" class="form-label">User Id</label>
+            <input type="text" id="user_id" class="form-input" formControlName="user_id" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="property_code" class="form-label">Property Code</label>
+            <input type="text" id="property_code" class="form-input" formControlName="property_code" />
+          </div>
+          <div class="form-group">
+            <label for="lease_period" class="form-label">Lease Period</label>
+            <input type="text" id="lease_period" class="form-input" formControlName="lease_period" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="lease_amount" class="form-label">Lease Amount</label>
+            <input type="number" id="lease_amount" class="form-input" formControlName="lease_Amount" />
+          </div>
+          <div class="form-group">
+            <label for="gst" class="form-label">GST</label>
+            <input type="number" id="gst" class="form-input" formControlName="gst" />
+          </div>
+          <div class="form-group">
+            <label for="power_bill_amount" class="form-label">Power Bill Amount</label>
+            <input type="number" id="power_bill_amount" class="form-input" (change)="calculateTotal()" formControlName="power_bill_amount" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="water_bill_amount" class="form-label">Water Bill Amount</label>
+            <input type="number" id="water_bill_amount" class="form-input" (change)="calculateTotal()" formControlName="water_bill_amount" />
+          </div>
+          <div class="form-group">
+            <label for="maintenance_amount" class="form-label">Maintenance Amount</label>
+            <input type="number" id="maintenance_amount" class="form-input" (change)="calculateTotal()" formControlName="maintenance_amount" />
+          </div>
+          <div class="form-group">
+            <label for="lease_interests" class="form-label">Interest</label>
+            <input type="number" id="lease_interests" class="form-input" formControlName="lease_interests" />
+          </div>
+        </div>
+        <div class="form-row" style="display: flex; justify-content: center;">
+          <div class="form-group">
+            <label for="total" class="form-label">Total</label>
+            <input type="number" id="total" class="form-input" formControlName="total" />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="btn">
+      <div class="save">
+        <p-button label="Generate" (onClick)="onSubmit()" size="small" />
+      </div>
+      <div class="cancel">
+        <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small" />
+      </div>
+    </div>
+  </p-dialog>
 </div>
 
 <!-- <app-footer></app-footer> -->

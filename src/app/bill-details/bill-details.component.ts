@@ -73,6 +73,8 @@ export class BillDetailsComponent implements OnInit {
 
     // Calculate the total
     const total = leaseAmount + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests;
+    console.log(total,"total amount check...");
+    
 
     // Update the total field in the form
     this.form.get('total')?.setValue(total, { emitEvent: false }); // { emitEvent: false } to avoid circular triggers
@@ -81,7 +83,7 @@ export class BillDetailsComponent implements OnInit {
   showDialog(bill_no: string) {
     console.log(bill_no);
     this.visible = true;
-
+    this.showModel = true;
     // Fetch details based on bill_no
     this.billDetailService.getBillDetailsByBillNo(bill_no).subscribe({
       next: (res: any) => {
@@ -148,6 +150,7 @@ export class BillDetailsComponent implements OnInit {
 
 
   onSubmit() {
+    this.showModel=true
     if (this.form.valid) {
       const formData = this.form.getRawValue();
 
@@ -161,8 +164,9 @@ export class BillDetailsComponent implements OnInit {
 
       this.billDetailService.updateBillDetails(updateData).subscribe({
         next: (response) => {
+          this.getbilldetails();
           console.log('Form submitted successfully:', response);
-          this.visible = false;
+          this.showModel = false;
           // Optionally send an email
           // this.sendEmail();
         },
