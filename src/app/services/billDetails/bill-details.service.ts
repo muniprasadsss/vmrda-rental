@@ -54,4 +54,8 @@ updateBillDetails(billData: any): Observable<any> {
   verifyPayment(paymentDetails: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/payment/verify`, paymentDetails);
   }
+
+  saveTransactionDetails(transactionData: any): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/createTransaction`, transactionData); // Updated endpoint
+}
 }

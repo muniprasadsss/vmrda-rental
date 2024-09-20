@@ -195,40 +195,37 @@ export class BillDetailsComponent implements OnInit {
      this.propertyDetail=  this.propertyData.propertyInfo
         console.log(this.propertyDetail.PROPERTY_CODE,"propertydata....")
 
-    const doc = new jsPDF();
 
-    // Reduced page margins
-    const margins = { top: 15, bottom: 15, left: 20, right: 20 };
-    const lineHeight = 10;
-    let currentY = margins.top;
-    const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png'; // Replace with your logo's Base64 string
-    const logoWidth = 30; // Width of the logo in mm
-    const logoHeight = 30; // Height of the logo in mm
 
-    // Adjust the X position to center the logo
-    const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
-    doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight);
-    currentY += logoHeight + 5;
+              const doc = new jsPDF();
+      const margins = { top: 15, bottom: 15, left: 20, right: 20 };
+      const lineHeight = 10;
+      let currentY = margins.top;
+      const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png';
+      const logoWidth = 30;
+      const logoHeight = 30;
+      const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
 
-    // Drawing a smaller border
-    doc.setLineWidth(0.5); // Reduced border thickness
-    doc.rect(
-      margins.left - 5,  // Adjusted border to be inside
-      margins.top - 5,
-      doc.internal.pageSize.width - (margins.left + margins.right - 10),
-      doc.internal.pageSize.height - (margins.top + margins.bottom - 10)
-    );
+      // Logo
+      doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight, '', 'FAST');
+      currentY += logoHeight + 5;
 
-    // Heading (with reduced font size)
-    doc.setFontSize(12); // Reduced font size for heading
-    doc.setFont('times', 'bold');
-    doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY',
-      doc.internal.pageSize.width / 2, currentY, { align: 'center' }
-    );
-    currentY += lineHeight + 2;
+      // Border
+      doc.setLineWidth(0.5);
+      doc.rect(
+        margins.left - 5,
+        margins.top - 5,
+        doc.internal.pageSize.width - (margins.left + margins.right - 10),
+        doc.internal.pageSize.height - (margins.top + margins.bottom - 10)
+      );
+
+      // Heading
+      doc.setFontSize(12).setFont('helvetica', 'bold');
+      doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
+      currentY += lineHeight + 2;
 
     doc.setFontSize(12); // Reduced font size for subheading
-    doc.text('Bill Receipt', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
+    doc.text('Bill', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
     currentY += lineHeight * 1;
 
     // Adding date and reference (aligned inside border)
@@ -242,19 +239,12 @@ export class BillDetailsComponent implements OnInit {
     // Dynamic content based on form data
     doc.setFontSize(12);
     doc.setFont('times', 'bold');
-    doc.text(`Property Code: ${bill.Property}`, margins.left, currentY);
+    doc.text(`Property Name: ${bill.Property}`, margins.left, currentY);
     currentY += lineHeight * 1;
 
     doc.setFont('times', 'normal');
         doc.text(` The Property with ${bill.Property} for an extent of ${this.propertyDetail.EXTENT} sqft. located in the ${this.propertyDetail.LOCATION} has been alloted to  ${this.propertyDetail.ALLOTTEE_NAME} vide reference cited  leased to ${bill.Rental_lease_amount_permonth}, located in ${bill.Property}, in  has a monthly lease amount of ${bill.Rental_lease_amount_permonth} with additional charges such as GST and utility bills.The license of the shop shall have to pay lease amount on or before 10th of every month. Whereas the license has failed to pay monthly lease as per the stipulated time and an amount ${bill.Total} is overdue against the said shop as detailed below`,
-//           to The property with code ${bill.Property_Code}, leased to ${bill.User_ID}, located in ${bill.Property_Code}, in  has a monthly lease amount of ${bill.Lease_Amount} with additional charges such as GST and utility bills.`,
-// //         doc.text(`The Property with ${bill.Property} for an extent of ${ this.propertyDetail.EXTENT} located in the UB Complex (Near Parking
-// Area, West Side) has been allotted to Sri V.Santosh Kumar vide reference cited on
-// monthly license fee of 22,500/- subject to certain terms and conditions stipulated ₹
-// therein. The licensee of the Shop shall have to pay license fee, on or before 10th of
-// every month. Whereas the license has failed to pay monthly license fee as per the
-// stipulated time and an amount of ₹1,12,893/- is overdue against the said shop as
-// detailed below:`
+
 
       margins.left, currentY,
       { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
@@ -330,62 +320,23 @@ export class BillDetailsComponent implements OnInit {
 
 
 
+
+  // generateChallanNumber(UserID: string): string {
+  //   const currentMonth = new Date().toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  //   const currentYear = new Date().getFullYear();
+
+  //   return `rec/vmrda/${currentMonth}/${currentYear}/${UserID}`;
+  // }
   generateChallanNumber(UserID: string): string {
-    const currentMonth = new Date().toLocaleString('en-US', { month: 'short' }).toUpperCase();
-    const currentYear = new Date().getFullYear();
+  const currentDate = new Date();
+  const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month as a number, padded to 2 digits
+  const currentYear = currentDate.getFullYear();
 
-    return `rec/vmrda/${currentMonth}/${currentYear}/${UserID}`;
-  }
-
-// payBill(bill: any) {
-//   const challanNumber = this.generateChallanNumber(bill.UserID); // Pass user ID to the function
-
-//   // Update bill details
-//   const updateData = {
-//     BillNo: bill.BillNo,
-//     Status: 'FP',
-//     TotalPaid: bill.Total,
-//     Due: 0,
-//     Vmrda_Challan_No: challanNumber,
-//   };
-
-//   this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe(response => {
-//     if (response.status === 200) {
-//       console.log('Bill updated successfully!');
-//       // Create receipt
-//       this.createReceipt({
-//         BillNo: bill.BillNo,
-//         ReceiptNo: challanNumber, // Use challan number as receipt number
-//         User: bill.User,
-//         Property: bill.Property,
-//         paid_date: new Date().toISOString(), // or any other date format
-//         Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
-//         GST: bill.GST,
-//         Total_rental_interest: bill.Total_rental_interest,
-//         Total: bill.Total,
-//         TotalPaid: bill.Total,
-//         Due: 0,
-//         Status: 'FP'
-//       });
-//       this.getbilldetails();
-
-//     } else {
-//       console.error('Error updating bill:', response.message);
-//     }
-//   });
-// }
+  return `rec/vmrda/${currentMonth}/${currentYear}/${UserID}`;
+}
 
 
-//   createReceipt(receiptData: any) {
-//   console.log('Creating receipt with data:', receiptData); // Add logging to check the data
-//   this.billDetailService.updateReceipt(receiptData).subscribe(response => {
-//     if (response.status === 201) {
-//       console.log('Receipt created successfully!');
-//     } else {
-//       console.error('Error creating receipt:', response.message);
-//     }
-//   });
-// }
+
 
    showDialog1() {
         this.visible1 = true;
@@ -429,61 +380,65 @@ export class BillDetailsComponent implements OnInit {
   );
 }
 
-// Verify the payment response and update the bill details
-// verifyPayment(response: any, bill: any) {
-//   this.billDetailService.verifyPayment(response).subscribe(
-//     (data) => {
-//       console.log(data,"data00000")
 
-//    //   alert('Payment Verified Successfully');
-
-//       // Generate a new challan number
-//       const challanNumber = this.generateChallanNumber(bill.User);
-
-//       // Update the bill details
-//       const updateData = {
-//         BillNo: bill.BillNo,
-//         Status: 'FP', // Full Payment
-//         TotalPaid: bill.Total,
-//         Due: 0,
-//         Vmrda_Challan_No: challanNumber,
-//       };
-
-//       this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe((response) => {
-//         if (response.status === 200) {
-//           console.log('Bill updated successfully!');
-//           this.createReceipt({
-//             BillNo: bill.BillNo,
-//             ReceiptNo: challanNumber, // Use challan number as receipt number
-//             User: bill.User,
-//             Property: bill.Property,
-//             paid_date: new Date().toISOString(), // or any other date format
-//             Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
-//             GST: bill.GST,
-//             Total_rental_interest: bill.Total_rental_interest,
-//             Total: bill.Total,
-//             TotalPaid: bill.Total,
-//             Due: 0,
-//             Status: 'FP',
-//           });
-//           this.getbilldetails(); // Refresh the bill details
-//         } else {
-//           console.error('Error updating bill:', response.message);
-//         }
-//       });
-//       this.getbilldetails();
-
-//     },
-//     (error) => {
-//       console.error('Payment Verification Failed', error);
-//     }
-//   );
-  // }
   async verifyPayment(response: any, bill: any) {
   this.billDetailService.verifyPayment(response).subscribe({
     next: async (data) => {
       if (data.message === "Payment verified successfully") {
         const challanNumber = this.generateChallanNumber(bill.User);
+        console.log(data, "----------")
+        console.log(data.paymentDetails.acquirer_data.rrn, "data.paymentDetails.acquirer_data.rrn")
+
+        const transactionData = {
+          "rrn": data.paymentDetails.acquirer_data.rrn,
+          "upi_transaction_id": data.paymentDetails.acquirer_data.upi_transaction_id,
+          "amount": data.paymentDetails.amount,
+          "amount_refunded": data.paymentDetails.amount_refunded,
+          "bank": data.paymentDetails.bank,
+          "captured": data.paymentDetails.captured,
+          "card_id": data.paymentDetails.card_id,
+          "contact": data.paymentDetails.contact,
+          "created_at": data.paymentDetails.created_at,
+          "currency": data.paymentDetails.currency,
+          "description": data.paymentDetails.description,
+          "email": data.paymentDetails.email,
+          "entity": data.paymentDetails.entity,
+          "error_description": data.paymentDetails.error_description,
+          "error_reason": data.paymentDetails.error_reason,
+
+          "error_source": data.paymentDetails.error_source,
+          "error_step": data.paymentDetails.error_step,
+          "fee": data.paymentDetails.fee,
+          "id": data.paymentDetails.id,
+          "international": data.paymentDetails.international,
+          "invoice_id": data.paymentDetails.invoice_id,
+          "method": data.paymentDetails.method,
+          "notes": data.paymentDetails.notes,
+          "order_id": data.paymentDetails.order_id,
+          "refund_status": data.paymentDetails.refund_status,
+          "status": data.paymentDetails.status,
+          "tax": data.paymentDetails.tax,
+          "upi": "razorpay",
+                "vpa": "razorpay"
+        }
+        console.log(transactionData, "transactionData");
+        // this.billDetailService.saveTransactionDetails(transactionData).subscribe({
+        //   next:async(response)
+        this.billDetailService.saveTransactionDetails(transactionData).subscribe({
+  next: async (response) => {
+    // Handle successful response
+    console.log('Transaction saved successfully:', response);
+
+  },
+  error: (error) => {
+    // Handle error response
+    console.error('Error saving transaction:', error);
+    // Display an error notification
+
+  },
+
+});
+
 
         const updateData = {
           BillNo: bill.BillNo,
@@ -551,27 +506,28 @@ createReceipt(receiptData: any) {
 
 
 
- generatePDF1(bill: any) {
+
+
+generatePDF1(bill: any) {
   this.billDetailService.getPropertyInfo(bill.BillNo).subscribe({
     next: (res: any) => {
       this.propertyData = res;
       this.propertyDetail = this.propertyData.propertyInfo;
-      console.log(this.propertyDetail.PROPERTY_CODE, "propertydata....");
 
       const doc = new jsPDF();
-
-      // Reduced page margins
       const margins = { top: 15, bottom: 15, left: 20, right: 20 };
       const lineHeight = 10;
       let currentY = margins.top;
-      const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png'; // Logo path
+      const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png';
       const logoWidth = 30;
       const logoHeight = 30;
       const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
-      doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight);
+
+      // Logo
+      doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight, '', 'FAST');
       currentY += logoHeight + 5;
 
-      // Drawing a smaller border
+      // Border
       doc.setLineWidth(0.5);
       doc.rect(
         margins.left - 5,
@@ -581,48 +537,49 @@ createReceipt(receiptData: any) {
       );
 
       // Heading
-      doc.setFontSize(12);
-      doc.setFont('times', 'bold');
-      doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY',
-        doc.internal.pageSize.width / 2, currentY, { align: 'center' }
-      );
+      doc.setFontSize(12).setFont('helvetica', 'bold');
+      doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
       currentY += lineHeight + 2;
 
-      doc.setFontSize(12);
+      doc.setFontSize(12).setFont('helvetica', 'bold');
       doc.text('Payment Receipt', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
-      currentY += lineHeight * 1;
+      currentY += lineHeight;
 
       // Date and Bill No
       const currentDate = new Date().toLocaleDateString();
-      doc.setFontSize(12);
-      doc.setFont('times', 'normal');
-      doc.text(`Bill No: ${bill.BillNo}`, margins.left, currentY);
-      doc.text(`Dt: ${currentDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
+      doc.setFontSize(12).setFont('helvetica', 'normal');
+      doc.text(`Bill No: `, margins.left, currentY);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${bill.BillNo}`, margins.left + 20, currentY); // Adjusted position for bold text
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Dt: `, doc.internal.pageSize.width - margins.right - 45, currentY);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${currentDate}`, doc.internal.pageSize.width - margins.right - 30, currentY); // Adjusted position for bold text
       currentY += lineHeight * 2;
 
-      // Dynamic content based on form data - Payment Success message
-      doc.setFontSize(12);
-      doc.setFont('times', 'bold');
-      doc.text(`Property Code: ${bill.Property}`, margins.left, currentY);
-      currentY += lineHeight * 1;
+      // Dynamic content
+      doc.setFontSize(12).setFont('helvetica', 'bold');
+      doc.text(`Property Name: `, margins.left, currentY);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${bill.Property}`, margins.left + 40, currentY); // Adjusted position for bold text
+      currentY += lineHeight;
 
-      doc.setFont('times', 'normal');
+      doc.setFont('helvetica', 'normal');
       doc.text(
-        `The property with code ${bill.Property} for an extent of ${this.propertyDetail.EXTENT} sqft.,located in ${this.propertyDetail.LOCATION},has been successfully paid by ${this.propertyDetail.ALLOTTEE_NAME}. The payment of Rs. ${bill.Total},including lease and other charges (GST, utility bills), has been completed for the period ${bill.Rental_lease_amount_permonth}.
-        Thank you for your timely payment.`,
+        `The property with code ${bill.Property} for an extent of ${this.propertyDetail.EXTENT} sqft., located in ${this.propertyDetail.LOCATION}, has been successfully paid by ${this.propertyDetail.ALLOTTEE_NAME}. The payment of Rs. ${bill.Total}, including lease and other charges (GST, utility bills), has been completed for the period ${bill.Rental_lease_amount_permonth}. Thank you for your timely payment.`,
         margins.left, currentY,
         { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
       );
       currentY += lineHeight * 4;
 
       doc.text(
-        `No further action is required at this time. Please keep this receipt for your records.We appreciate your prompt payment and cooperation.`,
+        `No further action is required at this time. Please keep this receipt for your records. We appreciate your prompt payment and cooperation.`,
         margins.left, currentY,
         { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
       );
       currentY += lineHeight * 2;
 
-      // Adjusting table margins and reducing its width to fit within the border
+      // Table
       const tableRows = [
         ["Bill No", bill.BillNo],
         ["Property Code", bill.Property],
@@ -637,9 +594,8 @@ createReceipt(receiptData: any) {
 
       const tableStartY = currentY + 7;
 
-      // Using autoTable with proper margins
       autoTable(doc, {
-        body: tableRows,
+        body: tableRows.map(row => [row[0], row[1]]), // Adjust to make labels and values bold in the table
         startY: tableStartY,
         margin: { left: margins.left + 10, right: margins.right + 10 },
         tableWidth: doc.internal.pageSize.width - margins.left - margins.right - 20,
@@ -650,12 +606,11 @@ createReceipt(receiptData: any) {
         },
       });
 
-      // Footer content
+      // Footer
       currentY = doc.internal.pageSize.height - margins.bottom - 20;
-      doc.setFontSize(12);
-      doc.setFont('times', 'normal');
+      doc.setFontSize(12).setFont('helvetica', 'normal');
       doc.text('Thank you for your payment. Please retain this receipt for your records.', margins.left, currentY);
-      currentY += lineHeight * 1;
+      currentY += lineHeight;
       doc.text('Regards,', margins.left, currentY);
       currentY += lineHeight;
       doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
@@ -665,6 +620,8 @@ createReceipt(receiptData: any) {
     }
   });
 }
+
+
 
 
 

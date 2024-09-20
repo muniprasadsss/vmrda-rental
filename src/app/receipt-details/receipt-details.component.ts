@@ -55,108 +55,118 @@ export class ReceiptDetailsComponent {
     })
   }
 
-  generatePDF(receipt: any) {
+generatePDF(receipt: any) {
+  const doc = new jsPDF();
 
-      const doc = new jsPDF();
+  // Page margins
+  const margins = { top: 15, bottom: 15, left: 20, right: 20 };
+  const lineHeight = 8; // Reduced line height
+  let currentY = margins.top;
 
-      // Page margins
-      const margins = { top: 15, bottom: 15, left: 20, right: 20 };
-      const lineHeight = 10;
-      let currentY = margins.top;
-      const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png'; // Add your logo path or base64 string
-      const logoWidth = 30;
-      const logoHeight = 30;
-      const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
-      doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight);
-      currentY += logoHeight + 5;
+  // Optimize logo: Ensure this is a small, compressed image
+  const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png'; // Make sure this is an optimized image
+  const logoWidth = 20; // Keep logo size small
+  const logoHeight = 20;
+  const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
+  doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight, '', 'FAST');
+  currentY += logoHeight + 5;
 
-      // Drawing the border
-      doc.setLineWidth(0.5);
-      doc.rect(margins.left - 5, margins.top - 5, doc.internal.pageSize.width - (margins.left + margins.right - 10), doc.internal.pageSize.height - (margins.top + margins.bottom - 10));
+  // Draw border
+  doc.setLineWidth(0.5);
+  doc.rect(margins.left - 5, margins.top - 5,
+    doc.internal.pageSize.width - (margins.left + margins.right - 10),
+    doc.internal.pageSize.height - (margins.top + margins.bottom - 10));
 
-      // Heading
-      doc.setFontSize(12);
-      doc.setFont('times', 'bold');
-      doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
-      currentY += lineHeight + 2;
+  // Heading
+  doc.setFontSize(12);
+  doc.setFont('helvetica', 'bold');
+  doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY',
+    doc.internal.pageSize.width / 2, currentY, { align: 'center' });
+  currentY += lineHeight + 2;
 
-      // Subheading
-      doc.setFontSize(12);
-      doc.text('Receipt', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
-      currentY += lineHeight * 1;
+  // Subheading
+  doc.setFontSize(12);
+  doc.text('Receipt', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
+  currentY += lineHeight;
 
-      // Adding date and receipt reference
-      const currentDate = new Date().toLocaleDateString();
-      doc.setFontSize(12);
-      doc.setFont('times', 'normal');
-      doc.text(`Receipt No: ${receipt.ReceiptNo}`, margins.left, currentY);
-      doc.text(`Date: ${currentDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
-      currentY += lineHeight * 2;
+  // Adding date and receipt reference
+  const currentDate = new Date().toLocaleDateString();
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Receipt No: `, margins.left, currentY);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`${receipt.ReceiptNo}`, margins.left + 30, currentY);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Date: `, doc.internal.pageSize.width - margins.right - 45, currentY);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`${currentDate}`, doc.internal.pageSize.width - margins.right - 30, currentY);
+  currentY += lineHeight * 2;
 
-      // Dynamic content based on receipt data
-      doc.setFontSize(12);
-      doc.setFont('times', 'bold');
-      doc.text(`Property Code: ${receipt.Property}`, margins.left, currentY);
-      currentY += lineHeight * 1;
+  // Dynamic content
+  doc.setFont('helvetica', 'bold');
+  doc.text(`Property Name: `, margins.left, currentY);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`${receipt.Property}`, margins.left + 40, currentY);
+  currentY += lineHeight;
 
-      doc.setFont('times', 'normal');
-      doc.text(
-        `This receipt acknowledges the payment made for the property with code ${receipt.Property}, leased to ${receipt.User}. ` +
-        `The payment includes the monthly lease amount, GST, and other applicable charges. Below is the summary of the payment details:`,
-        margins.left,
-        currentY,
-        { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
-      );
-      currentY += lineHeight * 3;
+  // Summary Text
+  doc.setFont('helvetica', 'normal');
+  doc.text(
+    `This receipt acknowledges the payment for property code ${receipt.Property}, leased to ${receipt.User}. ` +
+    `Payment includes the lease amount, GST, and other charges. Summary of payment details:`,
+    margins.left, currentY, { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
+  );
+  currentY += lineHeight * 3;
 
-      // Receipt details in table form
-      // const tableColumn = ["Field", "Value"];
-      const tableRows = [
-        ["Receipt No", receipt.ReceiptNo],
-        ["User ID", receipt.User],
-        ["Bill No", receipt.BillNo],
-        ["Property Code", receipt.Property],
-        ["Paid Date", receipt.paid_date],
-        ["Lease Amount", receipt.Rental_lease_amount_permonth],
-        ["GST", receipt.GST],
-        ["Total Rent Interest", receipt.Total_rental_interest],
-        ["Total Paid", receipt.TotalPaid],
-        ["Due Amount", receipt.Due],
-        ["Payment Status", receipt.Status]
-      ];
+  // Receipt details in table form
+  const tableRows = [
+    ["Receipt No", receipt.ReceiptNo],
+    ["User ID", receipt.User],
+    ["Bill No", receipt.BillNo],
+    ["Property Code", receipt.Property],
+    ["Paid Date", receipt.paid_date],
+    ["Lease Amount", receipt.Rental_lease_amount_permonth],
+    ["GST", receipt.GST],
+    ["Total Paid", receipt.TotalPaid],
+    ["Due Amount", receipt.Due],
+    ["Payment Status", receipt.Status]
+  ];
 
-      const tableStartY = currentY + 7;
+  const tableStartY = currentY + 7;
 
-      // Using autoTable for structured receipt details
-      autoTable(doc, {
-        // head: [tableColumn],
-        body: tableRows,
-        startY: tableStartY,
-        margin: { left: margins.left + 10, right: margins.right + 10 },
-        tableWidth: doc.internal.pageSize.width - margins.left - margins.right - 20,
-        theme: 'grid',
-        headStyles: {
-          fillColor: [0, 102, 204],
-          textColor: [255, 255, 255]
-        },
-      });
+  // Using autoTable for structured receipt details
+  autoTable(doc, {
+    body: tableRows,
+    startY: tableStartY,
+    margin: { left: margins.left + 10, right: margins.right + 10 },
+    tableWidth: doc.internal.pageSize.width - margins.left - margins.right - 20,
+    theme: 'grid',
+    headStyles: {
+      fillColor: [0, 102, 204],
+      textColor: [255, 255, 255],
+      fontSize: 12 // Smaller font for table header
+    },
+    styles: {
+      fontSize: 12, // Reduce font size in the table
+      cellPadding: 1 // Reduce padding to save space
+    }
+  });
 
-      // Update currentY to the position after the table
-      currentY = doc.internal.pageSize.height - margins.bottom - 20;
+  // Update currentY to the position after the table
+  currentY = doc.internal.pageSize.height - margins.bottom - 40;
 
-      // Footer content
-      doc.setFontSize(12);
-      doc.setFont('times', 'normal');
-      doc.text('Thank you for your payment. Please retain this receipt for your records.', margins.left, currentY);
-      currentY += lineHeight * 1;
+  // Footer content
+  doc.setFontSize(12);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Thank you for your payment. Please retain this receipt for your records.', margins.left, currentY);
+  currentY += lineHeight;
 
-      doc.text('Regards,', margins.left, currentY);
-      currentY += lineHeight;
-      doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
+  doc.text('Regards,', margins.left, currentY);
+  currentY += lineHeight;
+  doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
 
-      // Save the PDF
-      doc.save(`Receipt_${receipt.ReceiptNo}.pdf`);
-  }
+  // Save the PDF
+  doc.save(`Receipt_${receipt.ReceiptNo}.pdf`);
+}
 
 
   addNewUser() {

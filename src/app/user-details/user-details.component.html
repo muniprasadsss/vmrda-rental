@@ -86,14 +86,18 @@
         </div>
         <div class="form-group">
           <label for="aadhar" class="form-label">Aadhar No</label>
-          <input type="number" id="aadhar" formControlName="aadhar" class="form-input" />
+          <input type="number" id="aadhar" formControlName="aadhar" class="form-input" (keydown)="limitInputLength($event, 12)"/>
         </div>
       </div>
 
       <div class="form-row">
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="pan" class="form-label">PAN No</label>
           <input type="text" id="pan" formControlName="pan" class="form-input" />
+        </div> -->
+        <div class="form-group">
+          <label for="pan">PAN No</label>
+          <input type="text" id="pan" class="form-input" formControlName="pan" (keydown)="limitInputLength($event, 10)" />
         </div>
         <div class="form-group">
           <label for="email" class="form-label">Email ID</label>
@@ -132,10 +136,17 @@
         <div class="form-group">
           <label for="editUsername" class="form-label">Username</label>
           <input type="text" id="editUsername" formControlName="editUsername" class="form-input" />
+          <div *ngIf="editForm.get('editUsername')?.invalid && editForm.get('editUsername')?.touched">
+            <small class="error">Username is required.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="editMobile" class="form-label">Mobile No</label>
+
           <input type="number" id="editMobile" formControlName="editMobile" class="form-input" />
+          <div *ngIf="editForm.get('editMobile')?.invalid && editForm.get('editMobile')?.touched">
+            <small class="error">Please enter a valid 10-digit mobile number.</small>
+          </div>
         </div>
       </div>
       <div class="form-row">
@@ -178,4 +189,5 @@
       </div>
     </div>
   </form>
+
 </p-dialog>

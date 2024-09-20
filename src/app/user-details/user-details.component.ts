@@ -6,8 +6,7 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderComponent } from "../header/header.component";
 import { DashboardComponent } from "../dashboard/dashboard.component";
 import { FooterComponent } from "../footer/footer.component";
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, ReactiveFormsModule ,Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-user-details',
@@ -34,7 +33,7 @@ export class UserDetailsComponent implements OnInit {
   editForm!: FormGroup; // Form group for Edit dialog
   selectedUser: any ; // Store selected user data
 
-  
+
 
   constructor(private router:Router,private userdetailsservice:UserServiceService, private fb: FormBuilder,
     private toasterservice:ToastrService
@@ -137,7 +136,7 @@ export class UserDetailsComponent implements OnInit {
          // Update this field name as per your data
       });
       this.editVisible = true;
-        } 
+        }
     //     updateUser(){
     // const editFormData=this.editForm.value
     //       const payload = {
@@ -153,7 +152,7 @@ export class UserDetailsComponent implements OnInit {
     //         revenueDivision: editFormData.editRevenue,
     //       };
     //       console.log(payload,"check edit...");
-          
+
     //     }
         updateUser() {
           const editFormData=this.editForm.value
@@ -187,6 +186,6 @@ export class UserDetailsComponent implements OnInit {
             });
           }
         }
-        
-  
+
+
 }
