@@ -14,7 +14,7 @@ import { HeaderComponent } from "../header/header.component";
 })
 export class DashboardComponent implements OnInit {
 
-    activeTabIndex: any
+    activeTabIndex: any;
     user_type:any = '';
     constructor(private route: Router) {};
     selectedHeader:string = '';
@@ -28,7 +28,6 @@ export class DashboardComponent implements OnInit {
         this.activeTabIndex = 0;
         this.onTabChange(this.selectedHeader)
     }
-
 
 
     onTabChange(event: any) {

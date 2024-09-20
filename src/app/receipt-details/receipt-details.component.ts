@@ -7,6 +7,7 @@ import { ReceptDetailsService } from '../services/receptDetails/recept-details.s
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-receipt-details',
   standalone: true,
@@ -19,12 +20,18 @@ export class ReceiptDetailsComponent {
   userRole:any
   userID:any
   receiptData:any
-  addNewForm: FormGroup;
-  constructor(private http:ReceptDetailsService,private fb: FormBuilder){
+  addNewRecept: FormGroup;
+  hideAddNew:boolean= false;
+  constructor(private http:ReceptDetailsService,private fb: FormBuilder,private toasterservice: ToastrService,){
 
-    this.addNewForm = this.fb.group({
+    this.addNewRecept = this.fb.group({
       billNo: ['', Validators.required],
-      userId: ['', Validators.required]
+      User: ['', Validators.required],
+      Property: ['', Validators.required],
+      Bill_Period: ['', Validators.required],
+      Total: ['', Validators.required],
+      Status: ['', Validators.required],
+      paidAmount: ['', Validators.required],
     });
   }
 
@@ -40,7 +47,7 @@ export class ReceiptDetailsComponent {
   getReceptData(){
     this.http.getReciptDetails(this.userID,this.userRole).subscribe({
       next:(res:any)=>{
-        this.receiptData = res.receiptData
+        this.receiptData = res.receiptData;
       },
       error:(err:any)=>{
 
@@ -153,14 +160,66 @@ export class ReceiptDetailsComponent {
 
 
   addNewUser() {
-    if (this.addNewForm.valid) {
-      console.log("Form Data:", this.addNewForm.value);
+    if (this.addNewRecept.valid) {
+      console.log("Form Data:", this.addNewRecept.value);
       // Close the dialog after logging
       this.visible = false;
       // Optionally, you can reset the form
-      this.addNewForm.reset();
+      this.addNewRecept.reset();
     } else {
       console.log("Add New Form is invalid");
+    }
+  }
+
+  formatDate(date: any): string {
+    if (!date) return '';
+    const d = new Date(date);
+    return d.toISOString().split('T')[0]; // Returns YYYY-MM-DD
+  }
+
+  fetchBillDetails(billNo:any){
+    this.http.getBillDetails(billNo).subscribe({
+      next:(res:any)=>{
+        this.addNewRecept.patchValue({
+          billNo: res.BillNo,
+          User: res.User,
+          Property: res.Property,
+          Bill_Period:  this.formatDate(res.Bill_Period),
+          Total: res.Total,
+          Status: res.Status,
+
+        })
+            this.hideAddNew = true;
+      }
+    })
+  }
+
+  addReciept(){
+    if (this.addNewRecept.valid) {
+      // Print the form values to the console
+      const form = this.addNewRecept.value
+      console.log("Updated Form Data:", this.addNewRecept.value);
+          const payload = {
+            Property: form.Property,
+            billNo: form.billNo,
+            User: form.User,
+            Status: form.Status,
+            paidAmount: form.paidAmount,
+          }
+      // Call the service to update the user tagging
+      this.http.addReceipt(payload).subscribe({
+        next: (res) => {
+          this.toasterservice.success("User updated successfully");
+          this.visible = false; // Close the edit dialog
+          this.hideAddNew = true;
+          this.getReceptData();
+        },
+        error: (err) => {
+          this.toasterservice.error(err.error?.message || "Error updating user");
+        }
+      });
+    } else {
+      console.log("Edit form is invalid");
     }
   }
 

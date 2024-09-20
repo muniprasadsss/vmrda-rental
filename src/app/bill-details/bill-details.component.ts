@@ -118,7 +118,10 @@ export class BillDetailsComponent implements OnInit {
       next: (res: any) => {
         this.dataSource = res.billingData; 
         this.responseMsg = res.message;
-        this.filterBillData();
+        if(this.dataSource.length > 0){
+          this.filterBillData();
+        }
+        
       },
       error: (err: any) => {
         if (err.error?.message) {

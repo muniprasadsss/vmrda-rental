@@ -2,7 +2,6 @@
 <div class="card custom-table">
     <p-table [value]="receiptData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
         <ng-template pTemplate="caption">
-
             <div class="searchbar">
                 <div class="search">
                     <p-iconField iconPosition="left" class="ml-auto">
@@ -12,43 +11,12 @@
                         <input pInputText type="text" placeholder="Search keyword" />
                     </p-iconField>
                 </div>
-                <div class="dialog">
-                  <p-button 
-                  (click)="showDialog()" 
-                  label="Add New" 
-                  severity="success"
-                  size="small" />
-                  <p-dialog
-                  header="Add New"
-                  [modal]="true"
-                  [(visible)]="visible"
-                  position="center"
-                  [style]="{ width: '50rem' }">
-                  <form [formGroup]="addNewForm" (ngSubmit)="addNewUser()">
-                    <div class="form-container">
-                      <div class="form-row">
-                        <div class="form-group">
-                          <label for="bill-no" class="form-label">Bill No</label>
-                          <input type="text" id="bill-no" class="form-input" formControlName="billNo" />
-                        </div>
-                        <div class="form-group">
-                          <label for="user-id" class="form-label">User Id</label>
-                          <input type="text" id="user-id" class="form-input" formControlName="userId"/>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="btn">
-                      <div class="save">
-                        <p-button label="Save" type="submit" size="small"/> <!-- Add type="submit" -->
-                      </div>
-                      <div class="cancel">
-                        <p-button label="Cancel" severity="danger" (click)="visible = false" size="small"/>
-                      </div>
-                    </div>
-                  </form>
-                </p-dialog>
-                
-</div>
+
+<p-button 
+(click)="showDialog()" 
+label="Add New" 
+severity="success"
+size="small" />
 </div>
 </ng-template>
 <ng-template pTemplate="header">
@@ -107,3 +75,76 @@
 
 
 <!-- <app-footer></app-footer> -->
+
+<div class="dialog">
+                 
+  <p-dialog
+  header="Add New"
+  [modal]="true"
+  [(visible)]="visible"
+  position="center"
+  [style]="{ width: '50rem' }">
+  <form [formGroup]="addNewRecept" (ngSubmit)="addNewUser()">
+    <div class="form-container">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="bill-no" class="form-label">Bill No</label>
+          <input type="text" id="bill-no" class="form-input" formControlName="billNo" />
+          <p-iconField iconPosition="right" class="ml-auto">
+            <p-inputIcon (click)="fetchBillDetails(addNewRecept.get('billNo')!.value)">
+                <i class="pi pi-search"></i>
+            </p-inputIcon>
+        </p-iconField>
+        </div>
+        <!-- <div class="form-group" style="margin-top: 1.2rem;">
+          <p-iconField iconPosition="right" class="ml-auto">
+            <p-inputIcon (click)="fetchBillDetails(addNewRecept.get('billNo')!.value)">
+                <i class="pi pi-search"></i>
+            </p-inputIcon>
+        </p-iconField>
+        </div> -->
+      </div>
+      <div class="form-row" *ngIf="hideAddNew">
+        <div class="form-group">
+          <label for="bill-no" class="form-label">Property Code</label>
+          <input type="text" id="bill-no" class="form-input" formControlName="Property" />
+        </div>
+        <div class="form-group">
+          <label for="user-id" class="form-label">User Id</label>
+          <input type="text" id="user-id" class="form-input" formControlName="User"/>
+        </div>
+       
+      </div>
+      <div class="form-row" *ngIf="hideAddNew">
+        <div class="form-group">
+          <label for="bill-no" class="form-label">Total Amount</label>
+          <input type="text" id="bill-no" class="form-input" formControlName="Total" />
+        </div>
+        <div class="form-group" *ngIf="hideAddNew">
+          <label for="user-id" class="form-label">status</label>
+          <input type="text" id="user-id" class="form-input" formControlName="Status"/>
+        </div>
+      </div>
+      <div class="form-row" *ngIf="hideAddNew">
+        <div class="form-group">
+          <label for="user-id" class="form-label">Bill Period</label>
+          <input type="date" id="user-id" class="form-input" formControlName="Bill_Period"/>
+        </div>
+        <div class="form-group">
+          <label for="bill-no" class="form-label">Paid Amount</label>
+          <input type="text" id="bill-no" class="form-input" formControlName="paidAmount" />
+        </div>
+      </div>
+    </div>
+    <div class="btn" *ngIf="hideAddNew">
+      <div class="save">
+        <p-button label="Save" type="submit" (click)="addReciept()" size="small"/>
+      </div>
+      <div class="cancel">
+        <p-button label="Cancel" severity="danger" (click)="visible = false" size="small"/>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+
+</div>
