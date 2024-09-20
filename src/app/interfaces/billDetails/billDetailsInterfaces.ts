@@ -15,5 +15,5 @@ export interface billDetails {
     Total_Amount: boolean;
     Payment_Date:number;
     Total_Due:number;
-    Status:number;
+    Status:string;
   }

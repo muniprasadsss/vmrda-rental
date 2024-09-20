@@ -38,7 +38,8 @@ export class BillDetailsComponent implements OnInit {
   propertyData: any;
   propertyDetail: any;
   amount: any;
-
+  notPaidBills!:billDetails[];
+  paidBills!:billDetails[];
   constructor(private billDetailService: BillDetailsService,private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -74,8 +75,6 @@ export class BillDetailsComponent implements OnInit {
     // Calculate the total
     const total = leaseAmount + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests;
     console.log(total,"total amount check...");
-    
-
     // Update the total field in the form
     this.form.get('total')?.setValue(total, { emitEvent: false }); // { emitEvent: false } to avoid circular triggers
   }
@@ -117,9 +116,9 @@ export class BillDetailsComponent implements OnInit {
     this.dataSource = []
     this.billDetailService.getBillDetailsByUserId(this.userID,this.userRole).subscribe({
       next: (res: any) => {
-        this.dataSource = res.billingData; // Direct assignment if it's an array
+        this.dataSource = res.billingData; 
         this.responseMsg = res.message;
-        console.log(this.dataSource, "userservice data...");
+        this.filterBillData();
       },
       error: (err: any) => {
         if (err.error?.message) {
@@ -131,10 +130,14 @@ export class BillDetailsComponent implements OnInit {
     });
   }
 
-    //   getProperty(){
-
-
-    // }
+  filterBillData(){
+    this.paidBills = this.dataSource.filter(item=>{
+      return item.Status === 'FP'
+    })
+    this.notPaidBills = this.dataSource.filter(item=>{
+      return item.Status === 'NP'
+    })
+  }
 
   sendEmail() {
     this.billDetailService.sendEmail(this.emailData).subscribe(
