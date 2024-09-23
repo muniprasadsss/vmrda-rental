@@ -29,8 +29,13 @@ export class ChangeRequestService {
       }
 
       postCR(CRdata: any): Observable<any> {
-        console.log(CRdata,"cr request data check...");
-        return this.http.post<any>(`${this.apiUrl}/requestchange`, CRdata);
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        headers.append('Accept', 'application/json');
+        return this.http.post<any>(`${this.apiUrl}/requestchange`, CRdata,{headers});
+      }
+
+      uploadAttachment(CRdata: any): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/upload`, CRdata);
       }
 }
 

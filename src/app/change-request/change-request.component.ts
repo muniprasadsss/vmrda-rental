@@ -47,7 +47,9 @@ export class ChangeRequestComponent implements OnInit {
   @ViewChild('dt2') dt2!: any;
   selectedValue: string = '';
   userInfo:any;
-  userInfoString:any
+  userInfoString:any;
+  fileToUpload: any;
+  attachmentUrl:any = null
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -77,10 +79,39 @@ export class ChangeRequestComponent implements OnInit {
     this.addRequestForm = this.fb.group({
       userId: [{ value: this.userID, disabled: true }, Validators.required],
       requestType: [{ value: ''}, Validators.required],
-      attachment: [{ value: '' }, Validators.required],
+      attachment: [{ value: null }, Validators.required],
       propertyCode: [{ value: this.userID,disabled:true }, Validators.required],
       description: ['', Validators.required]
     });
+  }
+
+   // Handle file input change
+   onFileChange(event: any) {
+    const file = event.target.files[0];
+    this.fileToUpload = file;
+  }
+
+  uploadattachment(){
+    let fd = new FormData();
+    fd.append('image',  this.fileToUpload);
+    this.crHttp.uploadAttachment(fd).subscribe({
+      next:(res:any)=>{
+        this.attachmentUrl = res.location;
+        this.fileToUpload = null;
+      },
+      error:(err:any)=>{
+
+      }
+    })
+  }
+
+  downloadFile(url: string) {
+    if (url) {
+      // Open the S3 URL in a new tab
+      window.open(url, '_blank');
+    } else {
+      console.error('No attachment URL provided');
+    }
   }
 
   getcrInfo() {
@@ -304,15 +335,17 @@ this.payload = {
 
   onSubmit() {
     if (this.addRequestForm.valid) {
+      
       const formData = this.addRequestForm.value;
-  
+
+
       // Prepare the payload to be sent to the API
       const payload = {
         username: this.userInfo.USER_NAME,
         userId: this.userInfo.USER_ID,
         requesttype: formData.requestType,
         revenuedivision: this.userInfo.REVENUE_DIVISION,
-        attachment: '',
+        attachment: this.attachmentUrl,
         propertycode: formData.propertyCode,
         description: formData.description,
         action: 'new'

@@ -83,7 +83,8 @@
                 <td>{{ item.userId }}</td>
                 <td>{{ item.requesttype }}</td>
                 <td>{{ item.revenuedivision }}</td>
-                <td>{{ item.attachment }}</td>
+                <td *ngIf="item.attachment === null  " (click)="downloadFile(item.attachment)"><i class="pi pi-paperclip" style="color: slateblue" ></i></td>
+                <td *ngIf="item.attachment !== null "></td>
                 <td>{{ item.description }}</td>
                 <td>{{ item.propertycode }}</td>
                 <td>{{ item.created_at | date: 'short' }}</td>
@@ -218,8 +219,10 @@
                 </div>
                 <div class="form-group">
                     <label for="fileupload" class="form-label">Upload</label>
-                    <input type="file" id="fileupload" class="form-input" formControlName="attachment" />
+                    <input type="file" id="fileupload" class="form-input" (change)="onFileChange($event)" />
+                    <button (click)="uploadattachment()" style="display: contents;"><i class=" pi pi-upload" style="color: rgb(38, 9, 226)"></i></button>
                 </div>
+                
             </div>
             <div class="form-row">
                 <!-- <div class="form-group">
