@@ -37,7 +37,7 @@ export class DepartmentUsersComponent {
       pan: [''],
       gstIn: ['']
     });
-    
+
 
     this.getadminInfo();
   }
@@ -104,4 +104,37 @@ export class DepartmentUsersComponent {
       }
     });
   }
+
+    limitInputLength(event: KeyboardEvent, maxLength: number): void {
+  const inputElement = event.target as HTMLInputElement;
+
+  if (inputElement.value.length >= maxLength && event.key !== 'Backspace' && event.key !== 'Delete') {
+    event.preventDefault();
+  }
+}
+
+validateNumericInput(event: KeyboardEvent) {
+  const key = event.key;
+  if (!/[0-9]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
+    event.preventDefault();
+  }
+}
+
+validatePanInput(event: KeyboardEvent) {
+  const key = event.key;
+  if (!/[A-Z0-9]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
+    event.preventDefault();
+  }
+  }
+
+  validateEmailInput(event: KeyboardEvent): void {
+  const key = event.key;
+  // Allow letters, numbers, special characters typically used in emails
+  const allowedKeys = /[a-zA-Z0-9@._-]/;
+
+  // Allow Backspace, Delete, and Tab keys for usability
+  if (!allowedKeys.test(key) && key !== 'Backspace' && key !== 'Delete' && key !== 'Tab') {
+    event.preventDefault();
+  }
+}
 }

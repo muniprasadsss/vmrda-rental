@@ -137,9 +137,16 @@ export class BillDetailsComponent implements OnInit {
     this.paidBills = this.dataSource.filter(item=>{
       return item.Status === 'FP'
     })
-    this.notPaidBills = this.dataSource.filter(item=>{
+    if (this.userRole !== 'USER') {
+       this.notPaidBills = this.dataSource.filter(item=>{
       return item.Status === 'NP'
     })
+    } else {
+       this.notPaidBills = this.dataSource.filter(item=>{
+      return (item.Status === 'NP'&& item.BillStatus === 'Active')
+    })
+    }
+
   }
 
   sendEmail() {
@@ -263,7 +270,7 @@ export class BillDetailsComponent implements OnInit {
   ["Bill No", bill.BillNo],
   // ["User ID", bill.User],
   ["Property Code", bill.Property],
-  ["Lease Period", "1 month"], // Since no lease period is provided in the bill object, you can add static data or calculate it
+  ["Lease Period", bill.Bill_Period], // Since no lease period is provided in the bill object, you can add static data or calculate it
   ["Lease Amount", bill.Rental_lease_amount_permonth],
   ["GST", bill.GST],
   ["Power Bill Amount", bill.Power_bill],
@@ -331,6 +338,7 @@ export class BillDetailsComponent implements OnInit {
   const currentDate = new Date();
   const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month as a number, padded to 2 digits
   const currentYear = currentDate.getFullYear();
+
 
   return `rec/vmrda/${currentMonth}/${currentYear}/${UserID}`;
 }
@@ -492,7 +500,7 @@ async verifyPayment(response: any, bill: any) {
 createReceipt(receiptData: any) {
   console.log('Creating receipt with data:', receiptData); // Log receipt data
   this.billDetailService.updateReceipt(receiptData).subscribe((response) => {
-    if (response.status === 201) {
+    if (response.status === 200) {
       console.log('Receipt created successfully!');
     } else {
       console.error('Error creating receipt:', response.message);
@@ -582,7 +590,7 @@ generatePDF1(bill: any) {
       const tableRows = [
         ["Bill No", bill.BillNo],
         ["Property Code", bill.Property],
-        ["Lease Period", "1 month"],
+        ["Lease Period", bill.Bill_Period],
         ["Lease Amount", bill.Rental_lease_amount_permonth],
         ["GST", bill.GST],
         ["Power Bill Amount", bill.Power_bill],

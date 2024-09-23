@@ -12,9 +12,9 @@ export class BillDetailsService {
   constructor(private http: HttpClient) { }
 
 
-  // getBillDetails(): Observable<any> {
-  //     return this.http.get<any>(`${this.apiUrl}/getallbills`)
-  //   }
+  getBillDetails(): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/getallbills`)
+    }
 
            // New method to get bill details by userid
   getBillDetailsByUserId(USER_ID: string,USER_TYPE:string): Observable<any> {
