@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
+import { ProfileSettingsService } from '../services/profileSettings/profile-settings.service';
 
 @Component({
   selector: 'app-header',
@@ -35,9 +36,9 @@ export class HeaderComponent implements OnInit {
   // };
 
 
-  constructor(private router: Router, private authService: AuthGuardsService,private fb: FormBuilder) {
+  constructor(private router: Router, private authService: AuthGuardsService,private fb: FormBuilder,private profileService:ProfileSettingsService) {
     this.profileForm = this.fb.group({
-      USER_ID: [{ value: '', disabled: true }, Validators.required],
+      USER_ID: [{ value: '' }, Validators.required],
       USER_NAME: [{ value: '' }, Validators.required],
       USER_TYPE: [{ value: '', disabled: true }, Validators.required],
       REVENUE_DIVISION: [{ value: '', disabled: true }, Validators.required],
@@ -127,14 +128,28 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  saveData(){
+  // saveData(){
+  //     const formData = this.profileForm.value; // Get form data
+  //     console.log(formData,"form data check...");
+  //     console.log(formData,"save data check");
+  //   this.viewProfileDialog = false; // Show profile dialog
+  // }
+
+  saveData() {
+    if (this.profileForm.valid) {
       const formData = this.profileForm.value; // Get form data
-      console.log(formData,"form data check...");
-      const userId = formData.USER_ID;
-      console.log(userId,"check..");
-      
-      // const userId=this.profileForm.value.user_id;
-      console.log(formData,"save data check");
-    this.viewProfileDialog = false; // Show profile dialog
+      console.log(formData, "form data check...");
+      this.profileService.updateProfile(formData).subscribe(
+        response => {
+          console.log('Profile updated successfully:', response);
+          this.viewProfileDialog = false; // Close the dialog
+        },
+        error => {
+          console.error('Error updating profile:', error);
+        }
+      );
+    } else {
+      console.log('Form is not valid');
+    }
   }
 }

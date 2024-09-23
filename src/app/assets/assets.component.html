@@ -12,8 +12,8 @@
                     </p-iconField>
                 </div>
                 <div class="search">
-                    <p-dropdown
-                    [options]="complex"
+                    <p-dropdown 
+                    [options]="complex" 
                     (onChange)="onSelectGlobal($event.value)"
                     placeholder="Select Location" />
                 </div>
@@ -70,22 +70,6 @@
                                         <input formControlName="presentRent" type="number" class="form-input" />
                                     </div>
                                 </div>
-<<<<<<< Updated upstream
-                                <div class="form-group">
-                                    <label for="complexes" class="form-label">No of Complexes</label>
-                                    <input type="tel" id="complexes" class="form-input" />
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="individual-shops" class="form-label">No of Individual Shops</label>
-                                    <input type="tel" id="individual-shops" class="form-input" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="total-shops" class="form-label">Total No of Shops</label>
-                                    <input type="tel" id="total-shops" class="form-input" />
-=======
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label for="allottee-name" class="form-label">Allottee Name</label>
@@ -137,7 +121,6 @@
                                 </div>
                                 <div class="save">
                                     <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small" />
->>>>>>> Stashed changes
                                 </div>
                             </div>
                         </form>
@@ -159,8 +142,8 @@
                 <th pSortableColumn="STATUS">Status <p-sortIcon field="STATUS" /></th>
                 <th pSortableColumn="TYPE_OF_PROPERTY">Type of Property <p-sortIcon field="TYPE_OF_PROPERTY" /></th>
                 <th *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')"></th>
-
-
+                
+                
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-location>
@@ -188,7 +171,7 @@
               </td>
             </tr>
           </ng-template>
-
+          
         <ng-template pTemplate="emptymessage" >
             <tr>
                 <td colspan="13">No data found.</td>
@@ -196,8 +179,6 @@
         </ng-template>
     </p-table>
 </div>
-<<<<<<< Updated upstream
-=======
 
 
 <!-- Edit Dialog  -->
@@ -304,4 +285,3 @@
         </div>
     </form>
 </p-dialog>
->>>>>>> Stashed changes

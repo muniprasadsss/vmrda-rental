@@ -19,6 +19,7 @@ export class DepartmentUsersComponent {
   visible: boolean = false;
   editVisible: boolean = false;
   form!: FormGroup;
+  editForm!: FormGroup;
   selectedUser: departmentusers | null = null;
 
   constructor(private admindetailsservice: DepartmentUsersService, private fb: FormBuilder) {}
@@ -36,6 +37,15 @@ export class DepartmentUsersComponent {
       idNo: [''],
       pan: [''],
       gstIn: ['']
+    });
+
+
+    this.editForm = this.fb.group({
+      editUserId: [''],
+      editUserName: [''],
+      editmobileNo: [''],
+      edituserType: [''],
+      editrevenueDivision: [''],
     });
 
 
@@ -79,10 +89,18 @@ export class DepartmentUsersComponent {
     }
   }
 
-  showEditDialog(sl_no: any) {
+  showEditDialog(customer: any) {
     this.editVisible = true;
-    console.log(sl_no,"selected sno check...");
-    this.getAdminDetailsbySno(sl_no);
+    this.editForm.patchValue({
+      editUserId: [customer.USER_ID],
+      editUserName: [customer.USER_NAME],
+      editmobileNo: [customer.MOBILE_NUM],
+      edituserType: [customer.USER_TYPE],
+      editrevenueDivision: [customer.REVENUE_DIVISION],
+    })
+    console.log(customer.SL_NO,"selected sno check...");
+    console.log(customer,"selected data check...");
+    this.getAdminDetailsbySno(customer.SL_NO);
     this.form = this.fb.group({
       user_id: [''],
       username: [''],
@@ -110,7 +128,7 @@ export class DepartmentUsersComponent {
       next: (res: any) => {
         if (res) {
           this.selectedUser = res;
-          this.form.patchValue(res); // Update form values with the selected user's data
+          this.editForm.patchValue(res); // Update form values with the selected user's data
         }
       },
       error: (err: any) => {
