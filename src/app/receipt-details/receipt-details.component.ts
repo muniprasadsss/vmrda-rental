@@ -60,12 +60,12 @@ generatePDF(receipt: any) {
 
   // Page margins
   const margins = { top: 15, bottom: 15, left: 20, right: 20 };
-  const lineHeight = 8; // Reduced line height
+  const lineHeight = 8;
   let currentY = margins.top;
 
   // Optimize logo: Ensure this is a small, compressed image
-  const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png'; // Make sure this is an optimized image
-  const logoWidth = 20; // Keep logo size small
+  const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png';
+  const logoWidth = 20;
   const logoHeight = 20;
   const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
   doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight, '', 'FAST');

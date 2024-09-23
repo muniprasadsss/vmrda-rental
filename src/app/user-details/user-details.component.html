@@ -73,10 +73,16 @@
           <label for="username" class="form-label">Username</label>
           <input type="text" id="username" formControlName="username" class="form-input" />
         </div>
+        <!-- <div class="form-group">
+          <label for="mobile" class="form-label">Mobile No</label>
+          <input type="tel" id="mobile" formControlName="mobileNo" class="form-input" (keydown)="limitInputLength($event, 10)"/>
+        </div> -->
         <div class="form-group">
           <label for="mobile" class="form-label">Mobile No</label>
-          <input type="number" id="mobile" formControlName="mobileNo" class="form-input" />
+          <input type="tel" id="mobile" formControlName="mobileNo" class="form-input" inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
         </div>
+
       </div>
 
       <div class="form-row">
@@ -86,7 +92,8 @@
         </div>
         <div class="form-group">
           <label for="aadhar" class="form-label">Aadhar No</label>
-          <input type="number" id="aadhar" formControlName="aadhar" class="form-input" />
+          <input type="text" id="aadhar" formControlName="aadhar" class="form-input" inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)"  />
         </div>
       </div>
 
@@ -95,20 +102,35 @@
           <label for="pan" class="form-label">PAN No</label>
           <input type="text" id="pan" formControlName="pan" class="form-input" />
         </div> -->
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="pan">PAN No</label>
-          <input type="text" id="pan" class="form-input" formControlName="pan" />
-        </div>
+          <input type="text" id="pan" class="form-input" formControlName="pan" (keydown)="limitInputLength($event, 10)"
+          />
+        </div> -->
         <div class="form-group">
+          <label for="pan" class="form-label">PAN No</label>
+          <input type="text" id="pan" class="form-input" formControlName="pan" maxlength="10"
+            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" />
+        </div>
+
+        <!-- <div class="form-group">
           <label for="email" class="form-label">Email ID</label>
           <input type="email" id="email" formControlName="email_id" class="form-input" />
+        </div> -->
+        <!-- Email Field (50 characters max, email-valid characters only) -->
+        <div class="form-group">
+          <label for="email" class="form-label">Email ID</label>
+          <input type="email" id="email" formControlName="email_id" class="form-input" (keydown)="validateEmailInput($event)"
+            (keydown)="limitInputLength($event, 50)" />
         </div>
+
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label for="gstin" class="form-label">GST IN</label>
-          <input type="text" id="gstin" formControlName="gstIn" class="form-input" />
+          <input type="text" id="gstin" formControlName="gstIn" class="form-input"  inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)"/>
         </div>
         <div class="form-group">
           <label for="revenue" class="form-label">Revenue Division</label>
@@ -143,7 +165,8 @@
         <div class="form-group">
           <label for="editMobile" class="form-label">Mobile No</label>
 
-          <input type="number" id="editMobile" formControlName="editMobile" class="form-input" />
+          <input type="number" id="editMobile" formControlName="editMobile" class="form-input" inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)"/>
           <div *ngIf="editForm.get('editMobile')?.invalid && editForm.get('editMobile')?.touched">
             <small class="error">Please enter a valid 10-digit mobile number.</small>
           </div>
@@ -156,17 +179,20 @@
         </div>
         <div class="form-group">
           <label for="editAadhar" class="form-label">Aadhar No</label>
-          <input type="number" id="editAadhar" formControlName="editAadhar" class="form-input" />
+          <input type="number" id="editAadhar" formControlName="editAadhar" class="form-input" inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label for="editPan" class="form-label">PAN No</label>
-          <input type="text" id="editPan" formControlName="editPan" class="form-input" />
+          <input type="text" id="editPan" formControlName="editPan" class="form-input" formControlName="pan" maxlength="10"
+            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" />
         </div>
         <div class="form-group">
           <label for="editEmail" class="form-label">Email ID</label>
-          <input type="email" id="editEmail" formControlName="editEmail" class="form-input" />
+          <input type="email" id="editEmail" formControlName="editEmail"   class="form-input" (keydown)="validateEmailInput($event)"
+            (keydown)="limitInputLength($event, 50)"/>
         </div>
       </div>
       <div class="form-row">
