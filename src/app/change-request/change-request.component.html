@@ -83,8 +83,8 @@
                 <td>{{ item.userId }}</td>
                 <td>{{ item.requesttype }}</td>
                 <td>{{ item.revenuedivision }}</td>
-                <td *ngIf="item.attachment === null  " (click)="downloadFile(item.attachment)"><i class="pi pi-paperclip" style="color: slateblue" ></i></td>
-                <td *ngIf="item.attachment !== null "></td>
+                <td *ngIf="item.attachment !== null  " (click)="downloadFile(item.attachment)"><i class="pi pi-paperclip" style="color: slateblue" ></i></td>
+                <td *ngIf="item.attachment === null "></td>
                 <td>{{ item.description }}</td>
                 <td>{{ item.propertycode }}</td>
                 <td>{{ item.created_at | date: 'short' }}</td>

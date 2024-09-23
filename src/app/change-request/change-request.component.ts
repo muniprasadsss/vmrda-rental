@@ -53,10 +53,9 @@ export class ChangeRequestComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private crHttp: ChangeRequestService,
+    private Http: ChangeRequestService,
     private toasterservice: ToastrService,
     private dummyUserService: DummyUserService,
-    private changerequestservice:ChangeRequestService,
     private UserService:UserServiceService,
     private cdr: ChangeDetectorRef
   ) {}
@@ -80,7 +79,7 @@ export class ChangeRequestComponent implements OnInit {
       userId: [{ value: this.userID, disabled: true }, Validators.required],
       requestType: [{ value: ''}, Validators.required],
       attachment: [{ value: null }, Validators.required],
-      propertyCode: [{ value: this.userID,disabled:true }, Validators.required],
+      propertyCode: [{ value: this.userID}],
       description: ['', Validators.required]
     });
   }
@@ -94,7 +93,7 @@ export class ChangeRequestComponent implements OnInit {
   uploadattachment(){
     let fd = new FormData();
     fd.append('image',  this.fileToUpload);
-    this.crHttp.uploadAttachment(fd).subscribe({
+    this.Http.uploadAttachment(fd).subscribe({
       next:(res:any)=>{
         this.attachmentUrl = res.location;
         this.fileToUpload = null;
@@ -116,7 +115,7 @@ export class ChangeRequestComponent implements OnInit {
 
   getcrInfo() {
     this.crData = [];
-    this.crHttp.getChangeRequestData(this.userID,this.userRole).subscribe({
+    this.Http.getChangeRequestData(this.userID,this.userRole).subscribe({
       next: (res: any) => {
         this.crData = res.crInfo;
         this.filterData();
@@ -186,17 +185,19 @@ this.payload = {
     if (this.remarks.length > 0) {
       this.payload = {...this.payload,remarks:this.remarks};
      
-      this.crHttp.setCRequest(this.payload).subscribe({
-        next: (res: any) => {},
+      this.Http.setCRequest(this.payload).subscribe({
+        next: (res: any) => {
+          this.onHide();
+          this.toasterservice.success("Saved Successfully");
+          this.getcrInfo();
+        },
         error: (err: any) => {
-          console.log(err);
+          this.toasterservice.warning("Please Enter Remarks");
         }
       });
-      this.onHide();
-      this.toasterservice.success("Saved Successfully");
-      this.getcrInfo();
+     
     } else {
-      this.toasterservice.warning("Please Enter Remarks");
+     
     }
   }
 
@@ -303,8 +304,6 @@ this.payload = {
   getUserDatabyId(userID:any) {
     this.UserService.getUserDetailsByID(userID).subscribe(  
       (response) => {
-        console.log(userID,"id");
-        console.log('user data by userid', response);
         this.data = response; // Populate the user object with fetched data
         const nameofuser=response.USER_NAME;
         const idofuser=response.USER_ID;
@@ -321,9 +320,8 @@ this.payload = {
   // api call for get data for select request type 
 
   getRequestType() {
-    this.changerequestservice.getChangeRequestType().subscribe(
+    this.Http.getChangeRequestType().subscribe(
       (response) => {
-        console.log('change request type fetched successfully:', response);
         this.data = response; // Populate the user object with fetched data
       },
       (error) => {
@@ -335,10 +333,7 @@ this.payload = {
 
   onSubmit() {
     if (this.addRequestForm.valid) {
-      
       const formData = this.addRequestForm.value;
-
-
       // Prepare the payload to be sent to the API
       const payload = {
         username: this.userInfo.USER_NAME,
@@ -352,9 +347,9 @@ this.payload = {
       };
   
       // Call the saveUserData method and pass the payload
-      this.changerequestservice.postCR(payload).subscribe({
-        next: (response) => {
-          console.log('Change request data sent successfully:', response);
+      this.Http.postCR(payload).subscribe({
+        next: (response:any) => {
+          console.log(response)
           this.addrequestdata = false;
           this.toasterservice.success("Change request raised successfully");
           this.addRequestForm.reset(); // Reset the form after successful submission
@@ -364,9 +359,12 @@ this.payload = {
           console.error('Error sending data:', error);
         }
       });
-    } else {
-      console.warn('Form is not valid:', this.addRequestForm.errors);
-    }
+
+      this.addrequestdata = false;
+      this.toasterservice.success("Change request raised successfully");
+      this.addRequestForm.reset(); // Reset the form after successful submission
+      this.getcrInfo(); // Refresh the data
+    } 
   }
   
   

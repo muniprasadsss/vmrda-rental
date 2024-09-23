@@ -19,7 +19,6 @@ export class ChangeRequestService {
 
     setCRequest(payload:any): Observable<any> {
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        console.log(payload)
         return this.http.post<any>(`${this.apiUrl}/create-cr-event`, payload,{headers})
           
       }
@@ -30,8 +29,7 @@ export class ChangeRequestService {
 
       postCR(CRdata: any): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        headers.append('Accept', 'application/json');
-        return this.http.post<any>(`${this.apiUrl}/requestchange`, CRdata,{headers});
+        return this.http.post<any>(`${this.apiUrl}/requestchange`, CRdata);
       }
 
       uploadAttachment(CRdata: any): Observable<any> {
