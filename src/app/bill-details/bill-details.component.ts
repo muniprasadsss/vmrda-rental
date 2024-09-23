@@ -381,104 +381,90 @@ export class BillDetailsComponent implements OnInit {
 }
 
 
-  async verifyPayment(response: any, bill: any) {
+async verifyPayment(response: any, bill: any) {
   this.billDetailService.verifyPayment(response).subscribe({
     next: async (data) => {
       if (data.message === "Payment verified successfully") {
         const challanNumber = this.generateChallanNumber(bill.User);
-        console.log(data, "----------")
-        console.log(data.paymentDetails.acquirer_data.rrn, "data.paymentDetails.acquirer_data.rrn")
 
         const transactionData = {
-          "rrn": data.paymentDetails.acquirer_data.rrn,
-          "upi_transaction_id": data.paymentDetails.acquirer_data.upi_transaction_id,
-          "amount": data.paymentDetails.amount,
-          "amount_refunded": data.paymentDetails.amount_refunded,
-          "bank": data.paymentDetails.bank,
-          "captured": data.paymentDetails.captured,
-          "card_id": data.paymentDetails.card_id,
-          "contact": data.paymentDetails.contact,
-          // "created_at": data.paymentDetails.created_at,
-          "currency": data.paymentDetails.currency,
-          "description": data.paymentDetails.description,
-          "email": data.paymentDetails.email,
-          "entity": data.paymentDetails.entity,
-          "error_description": data.paymentDetails.error_description,
-          "error_reason": data.paymentDetails.error_reason,
-
-          "error_source": data.paymentDetails.error_source,
-          "error_step": data.paymentDetails.error_step,
-          "fee": data.paymentDetails.fee,
-          "id": data.paymentDetails.id,
-          "international": data.paymentDetails.international,
-          "invoice_id": data.paymentDetails.invoice_id,
-          "method": data.paymentDetails.method,
-          "notes": data.paymentDetails.notes,
-          "order_id": data.paymentDetails.order_id,
-          "refund_status": data.paymentDetails.refund_status,
-          "status": data.paymentDetails.status,
-          "tax": data.paymentDetails.tax,
+          "id": data.paymentDetails.id ?? "No Data",
+          "invoice_id": data.paymentDetails.invoice_id ?? "No Data",
+          "order_id": data.paymentDetails.order_id ?? "No Data",
+          "method": data.paymentDetails.method ?? "No Data",
+          "upi_transaction_id": data.paymentDetails.acquirer_data.upi_transaction_id ?? "No Data",
+          "amount": data.paymentDetails.amount ?? "No Data",
+          "amount_refunded": data.paymentDetails.amount_refunded ?? "No Data",
+          "fee": data.paymentDetails.fee ?? "No Data",
+          "bank": data.paymentDetails.bank ?? "No Data",
+          "captured": data.paymentDetails.captured ?? "No Data",
+          "card_id": data.paymentDetails.card_id ?? "No Data",
+          "contact": data.paymentDetails.contact ?? "No Data",
+          "currency": data.paymentDetails.currency ?? "No Data",
+          "description": data.paymentDetails.description ?? "No Data",
+          "email": data.paymentDetails.email ?? "No Data",
+          "entity": data.paymentDetails.entity ?? "No Data",
+          "error_description": data.paymentDetails.error_description ?? "No Data",
+          "error_reason": data.paymentDetails.error_reason ?? "No Data",
+          "error_source": data.paymentDetails.error_source ?? "No Data",
+          "error_step": data.paymentDetails.error_step ?? "No Data",
+          "international": data.paymentDetails.international ?? "No Data",
+          "tax": data.paymentDetails.tax ?? "No Data",
           "upi": "razorpay",
-                "vpa": "razorpay"
-        }
-        console.log(transactionData, "transactionData");
-        // this.billDetailService.saveTransactionDetails(transactionData).subscribe({
-        //   next:async(response)
-        this.billDetailService.saveTransactionDetails(transactionData).subscribe({
-  next: async (response) => {
-    // Handle successful response
-    console.log('Transaction saved successfully:', response);
-
-  },
-  error: (error) => {
-    // Handle error response
-    console.error('Error saving transaction:', error);
-    // Display an error notification
-
-  },
-
-});
-
-
-        const updateData = {
-          BillNo: bill.BillNo,
-          Status: 'FP',
-          TotalPaid: bill.Total,
-          Due: 0,
-          Vmrda_Challan_No: challanNumber,
+          "vpa": "razorpay",
+          "rrn": data.paymentDetails.acquirer_data.rrn ?? "No Data",
+          "notes": "No Data",
+          "refund_status": data.paymentDetails.refund_status ?? "No Data",
+          "status": data.paymentDetails.status ?? "No Data",
         };
 
-        this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
+        this.billDetailService.saveTransactionDetails(transactionData).subscribe({
           next: async (response) => {
-            if (response.status === 200) {
-              console.log('Bill updated successfully!');
+            console.log('Transaction saved successfully:', response);
 
-              await this.createReceipt({
-                BillNo: bill.BillNo,
-                ReceiptNo: challanNumber,
-                User: bill.User,
-                Property: bill.Property,
-                paid_date: new Date().toISOString(),
-                Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
-                GST: bill.GST,
-                Total_rental_interest: bill.Total_rental_interest,
-                Total: bill.Total,
-                TotalPaid: bill.Total,
-                Due: 0,
-                Status: 'FP'
-              });
+            const updateData = {
+              BillNo: bill.BillNo,
+              Status: 'FP',
+              TotalPaid: bill.Total,
+              Due: 0,
+              Vmrda_Challan_No: challanNumber,
+            };
 
-              await this.getbilldetails();
+            this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
+              next: async (response) => {
+                if (response.status === 200) {
+                  console.log('Bill updated successfully!');
 
-              // Trigger change detection manually
-              this.cd.detectChanges();
+                  await this.createReceipt({
+                    BillNo: bill.BillNo,
+                    ReceiptNo: challanNumber,
+                    User: bill.User,
+                    Property: bill.Property,
+                    paid_date: new Date().toISOString(),
+                    Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
+                    GST: bill.GST,
+                    Total_rental_interest: bill.Total_rental_interest,
+                    Total: bill.Total,
+                    TotalPaid: bill.Total,
+                    Due: 0,
+                    Status: 'FP'
+                  });
+                  await this.getbilldetails();
+                //  this.cd.markForCheck(); // Changed to markForCheck
+                  this.cd.detectChanges();
 
-            } else {
-              console.error('Error updating bill:', response.message);
-            }
+                 
+                } else {
+                  console.error('Error updating bill:', response.message);
+                }
+              },
+              error: (err) => {
+                console.error('Error updating bill:', err);
+              },
+            });
           },
-          error: (err) => {
-            console.error('Error updating bill:', err);
+          error: (error) => {
+            console.error('Error saving transaction:', error);
           },
         });
       }
@@ -489,7 +475,20 @@ export class BillDetailsComponent implements OnInit {
   });
 }
 
-// Function to create a receipt after successful payment
+
+
+
+
+
+
+
+
+//Function to create a receipt after successful payment
+
+
+
+
+
 createReceipt(receiptData: any) {
   console.log('Creating receipt with data:', receiptData); // Log receipt data
   this.billDetailService.updateReceipt(receiptData).subscribe((response) => {
