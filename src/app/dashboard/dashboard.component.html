@@ -1,18 +1,4 @@
 <div class="card">
-    <!-- <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)" [scrollable]="true">
-        <p-tabPanel  header="Tenants"> </p-tabPanel>
-        <p-tabPanel  header="Assets"> </p-tabPanel>
-        <p-tabPanel  header="Tenant Tagging"> </p-tabPanel>
-        <p-tabPanel  header="Bills"> </p-tabPanel>
-        <p-tabPanel  header="Generate Bills"> </p-tabPanel>
-        <p-tabPanel  header="Grievance"> </p-tabPanel>
-        <p-tabPanel  header="Receipts"> </p-tabPanel>
-        <p-tabPanel  header="Issue Notice"> </p-tabPanel>
-        <p-tabPanel  header="Track Transactions"> </p-tabPanel>
-        <p-tabPanel  header="Reports"> </p-tabPanel>
-        <p-tabPanel header="Grievance Request"> </p-tabPanel>
-        <p-tabPanel  header="Department Users"> </p-tabPanel>
-    </p-tabView> -->
     <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)" [scrollable]="true">
         <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Tenants"> </p-tabPanel>
         <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Assets"> </p-tabPanel>
@@ -21,26 +7,11 @@
         <p-tabPanel *ngIf="!(user_type === 'COMMISSIONER'  || user_type === 'SECRETARY' )" header="Receipts"> </p-tabPanel>
         <p-tabPanel *ngIf="(user_type === 'RD' || user_type === 'AO' )" header="Generate Bills"> </p-tabPanel>
         <p-tabPanel header="Grievance"> </p-tabPanel>
-        <p-tabPanel *ngIf="(user_type === 'RD' || user_type === 'AO' )" header="Issue Notice"> </p-tabPanel>
-        <p-tabPanel *ngIf="(user_type === 'RD' || user_type === 'AO' )" header="Track Transactions"> </p-tabPanel>
+        <p-tabPanel *ngIf="(user_type === 'RD' || user_type === 'AO' || user_type === 'ADMIN' )" header="Issue Notice"> </p-tabPanel>
+        <p-tabPanel *ngIf="(user_type === 'RD' || user_type === 'AO' || user_type === 'ADMIN')" header="Track Transactions"> </p-tabPanel>
         <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Reports"> </p-tabPanel>
-        <!-- <p-tabPanel *ngIf="(user_type === 'USER' )" header="Grievance Request"> </p-tabPanel> -->
         <p-tabPanel *ngIf="(user_type === 'COMMISSIONER'  || user_type === 'SECRETARY' || user_type === 'ADMIN')" header="Department Users"> </p-tabPanel>
     </p-tabView>
 </div>
 
 
-<!-- <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)" [scrollable]="true">
-    <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Tenants"> </p-tabPanel>
-    <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Assets"> </p-tabPanel>
-    <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Tenant Tagging"> </p-tabPanel>
-    <p-tabPanel *ngIf="!(user_type === 'COMISSIONER'  || user_type === 'SECRETARY')" header="Bills"> </p-tabPanel>
-    <p-tabPanel *ngIf="(user_type === 'RI' || user_type === 'AO' )" header="Generate Bills"> </p-tabPanel>
-    <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Grievance"> </p-tabPanel>
-    <p-tabPanel *ngIf="!(user_type === 'COMISSIONER'  || user_type === 'SECRETARY')" header="Receipts"> </p-tabPanel>
-    <p-tabPanel *ngIf="(user_type === 'RI' || user_type === 'AO' )" header="Issue Notice"> </p-tabPanel>
-    <p-tabPanel *ngIf="(user_type === 'RI' || user_type === 'AO' )" header="Track Transactions"> </p-tabPanel>
-    <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Reports"> </p-tabPanel>
-    <p-tabPanel *ngIf="(user_type === 'USER' )" header="Grievance Request"> </p-tabPanel>
-    <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Department Users"> </p-tabPanel>
-</p-tabView> -->
