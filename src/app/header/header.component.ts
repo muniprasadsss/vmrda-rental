@@ -38,11 +38,11 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private authService: AuthGuardsService,private fb: FormBuilder) {
     this.profileForm = this.fb.group({
       USER_ID: [{ value: '', disabled: true }, Validators.required],
-      USER_NAME: [{ value: '', disabled: true }, Validators.required],
+      USER_NAME: [{ value: '' }, Validators.required],
       USER_TYPE: [{ value: '', disabled: true }, Validators.required],
       REVENUE_DIVISION: [{ value: '', disabled: true }, Validators.required],
-      EMAIL_ID: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
-      MOBILE_NUM: [{ value: '', disabled: true }, Validators.required],
+      EMAIL_ID: [{ value: '' }, [Validators.required, Validators.email]],
+      MOBILE_NUM: [{ value: '' }, Validators.required],
       AADHARNO: [{ value: '', disabled: true }, Validators.required],
       GST_IN: [{ value: '', disabled: true }, Validators.required],
       PAN: [{ value: '', disabled: true }, Validators.required],
@@ -125,5 +125,16 @@ export class HeaderComponent implements OnInit {
   logOut() {
     this.authService.logout();
     this.router.navigateByUrl('/');
+  }
+
+  saveData(){
+      const formData = this.profileForm.value; // Get form data
+      console.log(formData,"form data check...");
+      const userId = formData.USER_ID;
+      console.log(userId,"check..");
+      
+      // const userId=this.profileForm.value.user_id;
+      console.log(formData,"save data check");
+    this.viewProfileDialog = false; // Show profile dialog
   }
 }
