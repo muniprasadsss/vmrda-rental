@@ -27,12 +27,12 @@
         <form [formGroup]="profileForm">
             <div class="form-row">
                 <div class="form-group">
-                  <label for="username" class="form-label">Username</label>
-                  <input type="text" id="username" formControlName="USER_NAME" class="form-input" />
-                </div>
-                <div class="form-group">
                   <label for="mobile" class="form-label">User ID</label>
                   <input type="text" id="mobile" formControlName="USER_ID" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" id="username" formControlName="USER_NAME" class="form-input" />
                 </div>
             </div>
                 <div class="form-row">
@@ -84,7 +84,6 @@
                   <input type="text" id="bussiness" formControlName="NATURE_OF_BUSINESS" class="form-input" />
                 </div>
             </div>
-
             <!-- <div class="form-row">
                 <div class="form-group">
                   <label for="password" class="form-label">Password</label>
@@ -100,7 +99,7 @@
                 <!-- Add more profile fields as necessary -->
 
             <div style="display: flex;justify-content:center;margin-top: 2rem;">
-                <button class="editButton" type="button" (click)="viewProfileDialog=false">Save</button>
+                <button class="editButton" type="button" (click)="saveData()">Save</button>
                 <span style="border-left: 6px solid white;height: 1rem;"></span>
                 <!-- <button class="deleteButton" type="button" (click)="viewProfileDialog=false">Close</button> -->
             </div>

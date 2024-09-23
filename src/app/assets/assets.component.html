@@ -19,14 +19,58 @@
                 </div>
                 <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
                     <p-button (onClick)="showDialog()" label="Add New" severity="success" size="small" />
-                    <p-dialog header="Add New" [modal]="true" [(visible)]="visible" position="center"
-                        [style]="{ width: '50rem' }">
-                        <div class="form-container">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="location-code" class="form-label">Location Code</label>
-                                    <input type="text" id="location-code" class="form-input" />
+                    <p-dialog header="Add New" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
+                        <form [formGroup]="locationForm" (ngSubmit)="onSave()">
+                            <div class="form-container">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="location" class="form-label">Location</label>
+                                        <select formControlName="location" class="form-input">
+                                            <option value="" disabled selected>Select Location</option>
+                                            <option *ngFor="let loc of location" [value]="loc">{{ loc }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="location-code" class="form-label">Location Code</label>
+                                        <select formControlName="locationCode" class="form-input">
+                                            <option value="" disabled selected>Select Location Code</option>
+                                            <option *ngFor="let code of complex" [value]="code">{{ code }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="property-code" class="form-label">Property Code</label>
+                                        <input formControlName="propertyCode" type="text" class="form-input" />
+                                    </div>
+                                </div>                                                   
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="property-no" class="form-label">Property No</label>
+                                        <input formControlName="propertyNo" type="text" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="type-of-property" class="form-label">Type of Property</label>
+                                        <input formControlName="typeOfProperty" type="text" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="floor" class="form-label">Floor</label>
+                                        <input formControlName="floor" type="text" class="form-input" />
+                                    </div>
+                                </div>                   
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="attribuite1" class="form-label">Attribute 1</label>
+                                        <input formControlName="attribuite1" type="text" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="extent" class="form-label">Extent</label>
+                                        <input formControlName="extent" type="text" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="present-rent" class="form-label">Present Rent</label>
+                                        <input formControlName="presentRent" type="number" class="form-input" />
+                                    </div>
                                 </div>
+<<<<<<< Updated upstream
                                 <div class="form-group">
                                     <label for="complexes" class="form-label">No of Complexes</label>
                                     <input type="tel" id="complexes" class="form-input" />
@@ -41,53 +85,63 @@
                                 <div class="form-group">
                                     <label for="total-shops" class="form-label">Total No of Shops</label>
                                     <input type="tel" id="total-shops" class="form-input" />
+=======
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="allottee-name" class="form-label">Allottee Name</label>
+                                        <input formControlName="allotteeName" type="text" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="size" class="form-label">Size</label>
+                                        <input formControlName="size" type="text" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="length" class="form-label">Length</label>
+                                        <input formControlName="length" type="number" class="form-input" />
+                                    </div>
+                                   
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="breadth" class="form-label">Breadth</label>
+                                        <input formControlName="breadth" type="number" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="revenue-division" class="form-label">Revenue Division</label>
+                                        <input formControlName="revenueDivision" type="text" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="power-meter-number" class="form-label">Power Meter Number</label>
+                                        <input formControlName="powerMeterNumber" type="text" class="form-input" />
+                                    </div>
+                                    
+                                </div>                 
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="water-meter-no" class="form-label">Water Meter No</label>
+                                        <input formControlName="waterMeterNo" type="text" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="details" class="form-label">Details</label>
+                                        <input formControlName="details" type="text" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status" class="form-label">Status</label>
+                                        <input formControlName="status" type="text" class="form-input" />
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="district" class="form-label">District</label>
-                                    <input type="text" id="district" class="form-input" />
+                            <div class="btn">
+                                <div class="save">
+                                    <p-button label="Save" type="submit" size="small" />
                                 </div>
-                                <div class="form-group">
-                                    <label for="city" class="form-label">City</label>
-                                    <input type="text" id="city" class="form-input" />
+                                <div class="save">
+                                    <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small" />
+>>>>>>> Stashed changes
                                 </div>
                             </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="place" class="form-label">Place</label>
-                                    <input type="text" id="place" class="form-input" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="map-location" class="form-label">Map Location</label>
-                                    <input type="text" id="map-location" class="form-input" />
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="revenue-division" class="form-label">Revenue Division</label>
-                                    <input type="text" id="revenue-division" class="form-input" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="ri-name" class="form-label">RI Name</label>
-                                    <input type="text" id="ri-name" class="form-input" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="btn">
-                            <div class="save">
-                                <p-button label="Save" (onClick)="visible = false" size="small" />
-                            </div>
-                            <div class="save">
-                                <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small" />
-                            </div>
-                        </div>
+                        </form>
                     </p-dialog>
-
                 </div>
             </div>
         </ng-template>
@@ -124,7 +178,7 @@
               <td style="width: 10%;">{{ location.TYPE_OF_PROPERTY }}</td>
               <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
                 <div class="rowbtn">
-                  <button class="editButton">
+                  <button class="editButton" (click)="onEdit(location)">
                     <i class="pi pi-pencil"></i>
                   </button>
                   <!-- <button class="deleteButton">
@@ -142,3 +196,112 @@
         </ng-template>
     </p-table>
 </div>
+<<<<<<< Updated upstream
+=======
+
+
+<!-- Edit Dialog  -->
+
+<p-dialog header="Edit Property" [modal]="true" [(visible)]="editVisible" position="center" [style]="{ width: '50rem' }">
+    <form [formGroup]="editForm" (ngSubmit)="onUpdate()">
+        <div class="form-container">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="location" class="form-label">Location</label>
+                    <select formControlName="editlocation" class="form-input">
+                        <option value="" disabled selected>Select Location</option>
+                        <option *ngFor="let loc of location" [value]="loc">{{ loc }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="location-code" class="form-label">Location Code</label>
+                    <select formControlName="editlocationCode" class="form-input">
+                        <option value="" disabled selected>Select Location Code</option>
+                        <option *ngFor="let code of complex" [value]="code">{{ code }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="property-code" class="form-label">Property Code</label>
+                    <input formControlName="editpropertyCode" type="text" class="form-input" />
+                </div>
+            </div>                                                   
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="property-no" class="form-label">Property No</label>
+                    <input formControlName="editpropertyNo" type="text" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="type-of-property" class="form-label">Type of Property</label>
+                    <input formControlName="edittypeOfProperty" type="text" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="floor" class="form-label">Floor</label>
+                    <input formControlName="editfloor" type="text" class="form-input" />
+                </div>
+            </div>                   
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="attribuite1" class="form-label">Attribute 1</label>
+                    <input formControlName="editattribuite1" type="text" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="extent" class="form-label">Extent</label>
+                    <input formControlName="editextent" type="text" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="present-rent" class="form-label">Present Rent</label>
+                    <input formControlName="editpresentRent" type="number" class="form-input" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="allottee-name" class="form-label">Allottee Name</label>
+                    <input formControlName="editallotteeName" type="text" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="size" class="form-label">Size</label>
+                    <input formControlName="editsize" type="text" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="length" class="form-label">Length</label>
+                    <input formControlName="editlength" type="number" class="form-input" />
+                </div>
+               
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="breadth" class="form-label">Breadth</label>
+                    <input formControlName="editbreadth" type="number" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="revenue-division" class="form-label">Revenue Division</label>
+                    <input formControlName="editrevenueDivision" type="text" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="power-meter-number" class="form-label">Power Meter Number</label>
+                    <input formControlName="editpowerMeterNumber" type="text" class="form-input" />
+                </div>
+                
+            </div>                 
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="water-meter-no" class="form-label">Water Meter No</label>
+                    <input formControlName="editwaterMeterNo" type="text" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="details" class="form-label">Details</label>
+                    <input formControlName="editdetails" type="text" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="status" class="form-label">Status</label>
+                    <input formControlName="editstatus" type="text" class="form-input" />
+                </div>
+            </div> 
+        </div>
+        <div class="btn">
+            <p-button label="Update" type="submit" size="small" />
+            <p-button label="Cancel" severity="danger" (onClick)="editVisible = false" size="small" />
+        </div>
+    </form>
+</p-dialog>
+>>>>>>> Stashed changes

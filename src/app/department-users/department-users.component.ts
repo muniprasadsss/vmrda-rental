@@ -81,7 +81,21 @@ export class DepartmentUsersComponent {
 
   showEditDialog(sl_no: any) {
     this.editVisible = true;
+    console.log(sl_no,"selected sno check...");
     this.getAdminDetailsbySno(sl_no);
+    this.form = this.fb.group({
+      user_id: [''],
+      username: [''],
+      mobileNo: [''],
+      // email_id: [''],
+      userType: [''],
+      // password: [''],
+      // revenueDivision: [''],
+      // natureOfBusiness: [''],
+      // idNo: [''],
+      // pan: [''],
+      // gstIn: ['']
+    });
   }
 
   updateUser() {
