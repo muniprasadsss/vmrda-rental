@@ -45,7 +45,7 @@ updateBillDetails(billData: any): Observable<any> {
   }
 
   getPropertyInfo(BillNo: any): Observable<any> {
-     
+
     return this.http.post<any>(`${this.apiUrl}/getBillAndPropertyInfo`, {BillNo: BillNo })
 
   }
@@ -62,7 +62,7 @@ updateBillDetails(billData: any): Observable<any> {
   return this.http.post<any>(`${this.apiUrl}/createTransaction`, transactionData); // Updated endpoint
   }
 
-  sendEmailWithAttachment(formData: FormData) {
+  sendEmailWithAttachment(formData: FormData) : Observable<any>{
   return this.http.post<any>(`${this.apiUrl}/sendEmailWithAttachment`, formData);
 }
 

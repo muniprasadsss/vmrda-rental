@@ -169,35 +169,240 @@ export class BillDetailsComponent implements OnInit {
   }
 
 
-  onSubmit() {
-    this.showModel = true
-    if (this.form.valid) {
-      const formData = this.form.getRawValue();
+//   onSubmit() {
+//     this.showModel = true
+//     if (this.form.valid) {
+//       const formData = this.form.getRawValue();
 
-      const updateData = {
-        BillNo: formData.bill_no, // Ensure correct parameter name
-        Power_bill: formData.power_bill_amount,
-        Water_bill: formData.water_bill_amount,
-        Maintainance_bill: formData.maintenance_amount,
-        Total: formData.total
-      };
+//       const updateData = {
+//         BillNo: formData.bill_no, // Ensure correct parameter name
+//         Power_bill: formData.power_bill_amount,
+//         Water_bill: formData.water_bill_amount,
+//         Maintainance_bill: formData.maintenance_amount,
+//         Total: formData.total
+//       };
+// console.log(updateData,"....updatedata")
+//       this.billDetailService.updateBillDetails(updateData).subscribe({
+//         next: (response) => {
+//           this.getbilldetails();
+//           // this.createAndGeneratePDF(this.billDetailService);
+//           this.showModel = false;
+//           // Optionally send an email
+//           // this.sendEmail();
+//         },
+//         error: (error) => {
+//           console.error('Error submitting form:', error);
+//         }
+//       });
+//     } else {
+//       console.error('Form is invalid');
+//     }
+//   }
+// onSubmit() {
+//   this.showModel = true; // Show the modal (if you're using one)
 
-      this.billDetailService.updateBillDetails(updateData).subscribe({
-        next: (response) => {
-          this.getbilldetails();
+//   if (this.form.valid) {
+//     const formData = this.form.getRawValue();
+//     console.log(formData, "..");
 
-          this.showModel = false;
-          // Optionally send an email
-          // this.sendEmail();
-        },
-        error: (error) => {
-          console.error('Error submitting form:', error);
-        }
-      });
-    } else {
-      console.error('Form is invalid');
-    }
+//     // Assuming you have the user ID from the form data or elsewhere in the component
+//     const userId = formData.user_id
+//     ; // Change this based on where you're storing/retrieving the user ID
+
+//     const updateData = {
+//       BillNo: formData.bill_no, // Ensure correct parameter name
+//       Power_bill: formData.power_bill_amount,
+//       Water_bill: formData.water_bill_amount,
+//       Maintainance_bill: formData.maintenance_amount,
+//       Total: formData.total,
+//        // Include userId here for sending with email
+//     };
+
+//     console.log(updateData, "....updatedata");
+
+//     this.billDetailService.updateBillDetails(updateData).subscribe({
+//       next: (response) => {
+//         // Generate and send PDF immediately after updating
+//         this.createAndSendPDF(updateData); // Call the method to create and send PDF
+//         this.showModel = false; // Close the modal after successful update
+//       },
+//       error: (error) => {
+//         console.error('Error submitting form:', error);
+//       }
+//     });
+//   } else {
+//     console.error('Form is invalid');
+//   }
+// }
+onSubmit() {
+  this.showModel = true; // Show the modal (if you're using one)
+
+  if (this.form.valid) {
+    const formData = this.form.getRawValue();
+    console.log(formData, "..");
+
+    // Get the user ID from the form data
+    const userId = formData.user_id; // Ensure this matches your form field name
+const Property=formData.property_code;
+const lease_Amount=formData.lease_Amount;
+    // Create the updateData object, including userId
+    const updateData = {
+      BillNo: formData.bill_no, // Ensure correct parameter name
+      Power_bill: formData.power_bill_amount,
+      Water_bill: formData.water_bill_amount,
+      Maintainance_bill: formData.maintenance_amount,
+      Total: formData.total,
+      UserId: userId ,// Include userId here for sending with email
+      Property:Property,
+
+lease_Amount:lease_Amount
+    };
+
+    console.log(updateData, "....updatedata");
+
+    this.billDetailService.updateBillDetails(updateData).subscribe({
+      next: (response) => {
+        // Generate and send PDF immediately after updating
+        this.createAndSendPDF(updateData); // Call the method to create and send PDF
+        this.showModel = false; // Close the modal after successful update
+      },
+      error: (error) => {
+        console.error('Error submitting form:', error);
+      }
+    });
+  } else {
+    console.error('Form is invalid');
   }
+}
+
+
+
+createAndSendPDF(updateData: any) {
+  this.billDetailService.getPropertyInfo(updateData.BillNo).subscribe({
+
+    next: (res: any) => {
+      this.propertyData = res;
+      this.propertyDetail = this.propertyData.propertyInfo
+  const doc = new jsPDF();
+  const margins = { top: 15, bottom: 15, left: 20, right: 20 };
+  const lineHeight = 10; // Consistent line height
+  let currentY = margins.top;
+
+  // Add logo
+  const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png';
+  const logoWidth = 30; // Adjusted for consistency
+  const logoHeight = 30; // Adjusted for consistency
+  const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
+  doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight, '', 'FAST');
+  currentY += logoHeight + 5;
+
+  // Border
+  doc.setLineWidth(0.5);
+  doc.rect(
+    margins.left - 5,
+    margins.top - 5,
+    doc.internal.pageSize.width - (margins.left + margins.right - 10),
+    doc.internal.pageSize.height - (margins.top + margins.bottom - 10)
+  );
+
+  // Heading
+  doc.setFontSize(12).setFont('helvetica', 'bold');
+  doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
+  currentY += lineHeight + 2;
+
+  // Title
+  doc.setFontSize(12);
+  doc.text('Payment Reminder Bill', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
+  currentY += lineHeight * 1;
+
+  // Adding bill number and date
+  const currentDate = new Date().toLocaleDateString();
+  doc.setFontSize(12);
+  doc.setFont('times', 'normal');
+  doc.text(`Bill No: ${updateData.BillNo}`, margins.left, currentY);
+  doc.text(`Dt: ${currentDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
+  currentY += lineHeight * 2;
+
+  // Dynamic content
+  doc.setFontSize(12);
+  doc.setFont('times', 'bold');
+  doc.text(`Property Name: ${updateData.Property}`, margins.left, currentY);
+  currentY += lineHeight;
+
+  doc.setFont('times', 'normal');
+  // doc.text(`The bill no ${updateData.BillNo} is due for payment of ${updateData.Total} by the due date.`, margins.left, currentY, {
+  //   maxWidth: doc.internal.pageSize.width - margins.left - margins.right
+  // });
+  doc.text(` The Property with ${updateData.Property} for an extent of ${this.propertyDetail.EXTENT} sqft. located in the ${this.propertyDetail.LOCATION} has been alloted to  ${this.propertyDetail.ALLOTTEE_NAME} vide reference cited  leased to ${updateData.lease_Amount}, located in ${updateData.Property}, in  has a monthly lease amount of ${updateData.lease_Amount} with additional charges such as GST and utility bills.The license of the shop shall have to pay lease amount on or before 10th of every month. Whereas the license has failed to pay monthly lease as per the stipulated time and an amount ${updateData.Total} is overdue against the said shop as detailed below`,
+
+
+    margins.left, currentY,
+    { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
+  );
+
+  currentY += lineHeight * 4;
+
+  // Adding billing details in a table
+  const billingDetails = [
+    ["Bill No", updateData.BillNo],
+    ["Power Bill", updateData.Power_bill],
+    ["Water Bill", updateData.Water_bill],
+    ["Maintenance Bill", updateData.Maintainance_bill],
+    ["Total Amount Due", updateData.Total],
+  ];
+
+  const tableStartY = currentY + 7;
+
+  autoTable(doc, {
+    // head: [['Description', 'Amount']],
+    body: billingDetails.map(detail => [detail[0], detail[1]]),
+    startY: tableStartY,
+    margin: { left: margins.left + 10, right: margins.right + 10 },
+    theme: 'grid',
+    // headStyles: {
+    //   fillColor: [0, 102, 204],
+    //   textColor: [255, 255, 255],
+    // },
+  });
+
+  // Footer content
+  currentY = doc.internal.pageSize.height - margins.bottom - 20; // Position for footer
+  doc.setFontSize(12);
+  doc.setFont('times', 'normal');
+  doc.text('Thank you for your attention. Please contact us for any queries.', margins.left, currentY);
+  currentY += lineHeight;
+  doc.text('Regards,', margins.left, currentY);
+  currentY += lineHeight;
+  doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
+
+  // Generate the PDF as a Blob
+  const pdfBlob = doc.output('blob');
+
+  // Prepare FormData to send the PDF to the backend
+  const formData = new FormData();
+  formData.append('pdf', pdfBlob, `Bill_${updateData.BillNo}.pdf`);
+  formData.append('userId', updateData.UserId);
+
+  // Send the PDF to the backend for emailing
+  this.billDetailService.sendEmailWithAttachment(formData).subscribe({
+    next: (response) => {
+      console.log('Email with bill sent successfully!', response);
+    },
+    error: (error) => {
+      console.error('Error sending email:', error);
+    }
+  });
+}
+  }
+)}
+
+
+
+
+
+
+
+
 
   generatePDF(bill: any) {
 
@@ -321,6 +526,7 @@ export class BillDetailsComponent implements OnInit {
     }
     )
   }
+
 
   generateChallanNumber(UserID: string): string {
     const currentDate = new Date();
@@ -468,13 +674,19 @@ export class BillDetailsComponent implements OnInit {
     });
   }
 
+
+
+
+
   createAndSendReceiptPDF(receiptData: any) {
     const doc = new jsPDF();
+
+    // Page margins and initial Y position
     const margins = { top: 15, bottom: 15, left: 20, right: 20 };
     const lineHeight = 8;
     let currentY = margins.top;
 
-    // Add logo and receipt content
+    // Add logo
     const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png';
     const logoWidth = 20;
     const logoHeight = 20;
@@ -482,34 +694,77 @@ export class BillDetailsComponent implements OnInit {
     doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight, '', 'FAST');
     currentY += logoHeight + 5;
 
-    // Add borders, headings, receipt content (refer to your existing content generation logic)
+    // Add border
+    doc.setLineWidth(0.5);
+    doc.rect(
+      margins.left - 5, margins.top - 5,
+      doc.internal.pageSize.width - (margins.left + margins.right - 10),
+      doc.internal.pageSize.height - (margins.top + margins.bottom - 10)
+    );
 
-    // Receipt details in table form
+    // Add headings
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text(
+      'VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY',
+      doc.internal.pageSize.width / 2, currentY, { align: 'center' }
+    );
+    currentY += lineHeight + 2;
+
+    doc.text('Receipt', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
+    currentY += lineHeight;
+
+    // Add date and receipt reference
+    const currentDate = new Date().toLocaleDateString();
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Receipt No:`, margins.left, currentY);
+    doc.setFont('helvetica', 'bold');
+    doc.text(receiptData.ReceiptNo, margins.left + 30, currentY);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Date:', doc.internal.pageSize.width - margins.right - 45, currentY);
+    doc.setFont('helvetica', 'bold');
+    doc.text(currentDate, doc.internal.pageSize.width - margins.right - 30, currentY);
+    currentY += lineHeight * 2;
+
+    // Add property details
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Property Name: `, margins.left, currentY);
+    doc.text(receiptData.Property, margins.left + 40, currentY);
+    currentY += lineHeight;
+
+    // Add summary text
+    doc.setFont('helvetica', 'normal');
+    doc.text(
+      `This receipt acknowledges the payment for property code ${receiptData.Property}, leased to ${receiptData.User}. ` +
+      `Payment includes the lease amount, GST, and other charges. Summary of payment details:`,
+      margins.left, currentY, { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
+    );
+    currentY += lineHeight * 3;
+
+    // Add receipt details in a table format
     const tableRows = [
-      ["Receipt No", receiptData.ReceiptNo],
-      ["User ID", receiptData.User],
-      ["Bill No", receiptData.BillNo],
-      ["Property Code", receiptData.Property],
-      ["Paid Date", receiptData.paid_date],
-      ["Lease Amount", receiptData.Rental_lease_amount_permonth],
-      ["GST", receiptData.GST],
-      ["Total Paid", receiptData.TotalPaid],
-      ["Due Amount", receiptData.Due],
-      ["Payment Status", receiptData.Status]
+      ['Receipt No', receiptData.ReceiptNo],
+      ['User ID', receiptData.User],
+      ['Bill No', receiptData.BillNo],
+      ['Property Code', receiptData.Property],
+      ['Paid Date', new Date(receiptData.paid_date).toLocaleDateString()],
+      ['Lease Amount', receiptData.Rental_lease_amount_permonth],
+      ['GST', receiptData.GST],
+      ['Total Paid', receiptData.TotalPaid],
+      ['Due Amount', receiptData.Due],
+      ['Payment Status', receiptData.Status]
     ];
-
-    const tableStartY = currentY + 7;
 
     autoTable(doc, {
       body: tableRows,
-      startY: tableStartY,
+      startY: currentY,
       margin: { left: margins.left + 10, right: margins.right + 10 },
       tableWidth: doc.internal.pageSize.width - margins.left - margins.right - 20,
       theme: 'grid',
       headStyles: {
         fillColor: [0, 102, 204],
         textColor: [255, 255, 255],
-        fontSize: 12 // Adjusted font size
+        fontSize: 12
       },
       styles: {
         fontSize: 12,
@@ -517,14 +772,26 @@ export class BillDetailsComponent implements OnInit {
       }
     });
 
-    // Footer (as per your logic)
+    // Move to position for the footer
+    currentY = doc.internal.pageSize.height - margins.bottom - 40;
 
-    // Generate PDF Blob
+    // Add footer text
+    doc.setFont('helvetica', 'normal');
+    doc.text('Thank you for your payment. Please retain this receipt for your records.', margins.left, currentY);
+    currentY += lineHeight;
+    doc.text('Regards,', margins.left, currentY);
+    currentY += lineHeight;
+    doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
+
+    // Generate the PDF as a Blob
     const pdfBlob = doc.output('blob');
 
     // Prepare FormData to send the PDF to the backend
     const formData = new FormData();
     formData.append('pdf', pdfBlob, `Receipt_${receiptData.ReceiptNo}.pdf`);
+    // formData.append('userId', receiptData.User);
+    formData.append('userId', receiptData.User); // Check if 'User' is U00006
+console.log('User ID sent in formData:', formData.get('userId'));
 
     // Send the PDF to the backend for emailing
     this.billDetailService.sendEmailWithAttachment(formData).subscribe({
