@@ -545,11 +545,10 @@ export class BillDetailsComponent implements OnInit {
   createReceipt(receiptData: any) {
 
     this.billDetailService.updateReceipt(receiptData).subscribe((response) => {
-      if (response.status === 200) {
-
+      if (response.message == "receipt created successfully") {
         console.log('Receipt created successfully!');
-
-      } else {
+      }
+       else {
         console.error('Error creating receipt:', response.message);
         this.createAndSendReceiptPDF(receiptData);
       }
