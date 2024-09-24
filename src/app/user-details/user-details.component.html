@@ -22,27 +22,27 @@
         <tr style="font-size: 12px;">
           <th pSortableColumn="SL_NO">S.No <p-sortIcon field="SL_NO" /></th>
           <th pSortableColumn="USER_ID">User ID <p-sortIcon field="USER_ID" /></th>
-          <th pSortableColumn="USER_NAME">User Name<p-sortIcon field="USER_NAME" /></th>
-          <th pSortableColumn="MOBILE_NUM">Mobile No<p-sortIcon field="MOBILE_NUM" /></th>
-          <th pSortableColumn="NATURE_OF_BUSINESS"> Nature of Business<p-sortIcon field="NATURE_OF_BUSINESS" /></th>
-          <th pSortableColumn="Aadhaar_No">Aadhar No<p-sortIcon field="Aadhaar_No" /></th>
-          <th pSortableColumn="PAN">PAN No<p-sortIcon field="PAN" /></th>
-          <th pSortableColumn="EMAIL_ID">Email Id<p-sortIcon field="EMAIL_ID" /></th>
-          <th pSortableColumn="GST_IN">GSTIN<p-sortIcon field="GST_IN" /></th>
+          <th pSortableColumn="USER_NAME">User Name</th>
+          <th pSortableColumn="MOBILE_NUM">Mobile No</th>
+          <th pSortableColumn="NATURE_OF_BUSINESS"> Nature of Business</th>
+          <th pSortableColumn="Aadhaar_No">Aadhar No</th>
+          <th pSortableColumn="PAN">PAN No</th>
+          <th pSortableColumn="EMAIL_ID">Email Id</th>
+          <th pSortableColumn="GST_IN">GSTIN</th>
           <!-- <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th> -->
           <th *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-customer>
         <tr style="font-size: 12px;">
-          <td style="width: 6%;">{{ customer.SL_NO }}</td>
+          <td style="width: 5%;">{{ customer.SL_NO }}</td>
           <td style="width: 7%;">{{ customer.USER_ID }}</td>
-          <td style="width: 6%;">{{ customer.USER_NAME }}</td>
-          <td style="width: 8%;">{{ customer.MOBILE_NUM }}</td>
-          <td style="width: 6%;">{{ customer.NATURE_OF_BUSINESS }}</td>
+          <td style="width: 9%;">{{ customer.USER_NAME }}</td>
+          <td style="width: 6%;">{{ customer.MOBILE_NUM }}</td>
+          <td style="width: 8%;">{{ customer.NATURE_OF_BUSINESS }}</td>
           <td style="width: 8%;">{{ customer.Aadhaar_No }}</td>
           <td style="width: 6%;">{{ customer.PAN }}</td>
-          <td style="width: 6%;">{{ customer.EMAIL_ID }}</td>
+          <td style="width: 9%;">{{ customer.EMAIL_ID }}</td>
           <td style="width: 6%;">{{ customer.GST_IN }}</td>
           <!-- <td style="width: 6%;">{{ customer.Revenue_Dvision }}</td> -->
           <td style="width: 6%;" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">

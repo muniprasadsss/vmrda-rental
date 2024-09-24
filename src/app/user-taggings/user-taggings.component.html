@@ -20,17 +20,17 @@
       <tr style="font-size: 12px;">
         <th pSortableColumn="SL_NO">S No<p-sortIcon field="SL_NO"></p-sortIcon></th>
         <th pSortableColumn="USER_ID">User Id<p-sortIcon field="USER_ID"></p-sortIcon></th>
-        <th pSortableColumn="USER_NAME">User Name<p-sortIcon field="USER_NAME"></p-sortIcon></th>
+        <th pSortableColumn="USER_NAME">User Name</th>
         <th pSortableColumn="PROPERTY">Property Code<p-sortIcon field="PROPERTY"></p-sortIcon></th>
         <th pSortableColumn="START_DATE">Start Date<p-sortIcon field="START_DATE"></p-sortIcon></th>
         <th pSortableColumn="END_DATE">End Date<p-sortIcon field="END_DATE"></p-sortIcon></th>
         <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">DATE OF RENEWAL<p-sortIcon field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
-        <th pSortableColumn="RENTAL_LEASE_AMOUNT_PERMONTH">Lease Amount<p-sortIcon field="RENTAL_LEASE_AMOUNT_PERMONTH"></p-sortIcon></th>
-        <th pSortableColumn="RENT_GO_LIVE">Lease Go Live<p-sortIcon field="RENT_GO_LIVE"></p-sortIcon></th>
+        <th pSortableColumn="RENTAL_LEASE_AMOUNT_PERMONTH">Lease Amount</th>
+        <th pSortableColumn="RENT_GO_LIVE">Lease Go Live</th>
         <th pSortableColumn="RENTAL_LEASE_PERIOD">LEASE PERIOD<p-sortIcon field="RENTAL_LEASE_PERIOD"></p-sortIcon></th>
         <th pSortableColumn="RENTAL_INTRESET_PERCENT">Lease Interest%<p-sortIcon field="RENTAL_INTRESET_PERCENT"></p-sortIcon></th>
         <th pSortableColumn="RENTAL_HIKE_PERCENT">Lease Hike%<p-sortIcon field="RENTAL_HIKE_PERCENT"></p-sortIcon></th>
-        <th pSortableColumn="GST">GST%<p-sortIcon field="GST"></p-sortIcon></th>
+        <th pSortableColumn="GST">GST%</th>
         <!-- <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th> -->
         <th pSortableColumn="LEASE_DEED_NO">LEASE DEED Number<p-sortIcon field="LEASE_DEED_NO"></p-sortIcon></th>
         <th *ngIf="(userRole === 'COMMISSIONER' || userRole === 'SECRETARY')"></th>
@@ -39,21 +39,21 @@
 
     <ng-template pTemplate="body" let-lease>
       <tr style="font-size: 12px;">
-        <td>{{ lease.SL_NO }}</td>
-        <td>{{ lease.USER_ID }}</td>
-        <td>{{ lease.USER_NAME }}</td>
-        <td>{{ lease.PROPERTY }}</td>
-        <td>{{ lease.START_DATE | date: 'yyyy-MM-dd' }}</td>
-        <td>{{ lease.END_DATE | date: 'yyyy-MM-dd' }}</td>
-        <td>{{ lease.DATE_OF_RENEWAL_OF_LICENSE | date: 'yyyy-MM-dd'}}</td>
-        <td>{{ lease.RENTAL_LEASE_AMOUNT_PERMONTH }}</td>
-        <td>{{ lease.RENT_GO_LIVE }}</td>
-        <td>{{ lease.RENTAL_LEASE_PERIOD }}</td>
-        <td>{{ lease.RENTAL_INTRESET_PERCENT }}</td>
-        <td>{{ lease.RENTAL_HIKE_PERCENT }}</td>
-        <td>{{ lease.GST }}</td>
-        <!-- <td>{{ lease.GST_INTEREST_PERCENT }}</td> -->
-        <td>{{ lease.LEASE_DEED_NO }}</td>
+        <td style="width: 6%;">{{ lease.SL_NO }}</td>
+        <td style="width: 7%;">{{ lease.USER_ID }}</td>
+        <td style="width: 9%;">{{ lease.USER_NAME }}</td>
+        <td style="width: 11%;">{{ lease.PROPERTY }}</td>
+        <td style="width: 9%;">{{ lease.START_DATE | date: 'yyyy-MM-dd' }}</td>
+        <td style="width: 8%;">{{ lease.END_DATE | date: 'yyyy-MM-dd' }}</td>
+        <td style="width: 8%;">{{ lease.DATE_OF_RENEWAL_OF_LICENSE | date: 'yyyy-MM-dd'}}</td>
+        <td style="width: 6%;">{{ lease.RENTAL_LEASE_AMOUNT_PERMONTH }}</td>
+        <td style="width: 6%;">{{ lease.RENT_GO_LIVE }}</td>
+        <td style="width: 6%;">{{ lease.RENTAL_LEASE_PERIOD }}</td>
+        <td style="width: 6%;">{{ lease.RENTAL_INTRESET_PERCENT }}</td>
+        <td style="width: 6%;">{{ lease.RENTAL_HIKE_PERCENT }}</td>
+        <td style="width: 6%;">{{ lease.GST }}</td>
+        <!-- <td style="width: 6%;">{{ lease.GST_INTEREST_PERCENT }}</td> -->
+        <td style="width: 6%;">{{ lease.LEASE_DEED_NO }}</td>
         <td *ngIf="(userRole === 'COMMISSIONER' || userRole === 'SECRETARY')">
           <div class="rowbtn">
             <button class="editButton" (click)="editUser(lease)"><i class="pi pi-pencil"></i></button>
