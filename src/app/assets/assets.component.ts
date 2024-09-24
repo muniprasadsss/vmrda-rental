@@ -90,7 +90,7 @@ export class AssetsComponent {
           this.location = res.location;
         },
         error:(err:any)=>{
-          console.log(err)
+          
         }
       })
     }
@@ -98,7 +98,7 @@ export class AssetsComponent {
     getUserData() {
       this.assetsservice.getLocationData().subscribe(
         (response) => {
-          console.log('User data fetched successfully:', response);
+          
         },
         (error) => {
           console.error('Error fetching user data:', error);
@@ -145,8 +145,7 @@ export class AssetsComponent {
   };
   this.assetsservice.addAssets(propertyData).subscribe({
     next: (response) => {
-      console.log('Property added successfully', response);
-      console.log('Property added successfully', propertyData);
+
       this.getLocationInfo(); // Refresh the list if needed
       this.visible = false; // Close the dialog
       this.locationForm.reset(); // Reset the form
@@ -160,7 +159,7 @@ export class AssetsComponent {
     onEdit(location: LocationDetails): void {
       // this.visible = true; 
       this.editVisible=true;
-      console.log(location,"test");
+      
       
       this.editForm.patchValue({
         // LOCATION: location.LOCATION,
@@ -225,13 +224,12 @@ export class AssetsComponent {
            DETAILS: data.editdetails,
            STATUS: data.editstatus
       }
-      console.log(propertyData,"data...");
-      console.log(this.selectedPropertyCode,"property...");
+
       
   
       this.assetsservice.updateAssets(this.selectedPropertyCode, propertyData).subscribe({
         next: (response) => {
-          console.log('Property updated successfully', response);
+          
           this.getLocationInfo(); // Refresh the list if needed
           this.editVisible = false; // Close the dialog
           this.editForm.reset(); // Reset the form

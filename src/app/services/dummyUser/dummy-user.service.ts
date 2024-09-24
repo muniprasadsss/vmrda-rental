@@ -16,6 +16,6 @@ export class DummyUserService {
         return this.http.get<any>(`${this.apiUrl}/requestchange`)    
       }
       postCR(locationData: any): Observable<any> {
-        console.log(locationData,"data check...");
+        
         return this.http.post<any>(`${this.apiUrl}/requestchange`, locationData);
       }}

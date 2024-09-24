@@ -42,7 +42,7 @@ updateBillDetails(billData: any): Observable<any> {
   }
 
   getPropertyInfo(BillNo: any): Observable<any> {
-     console.log(BillNo,"....")
+     
     return this.http.post<any>(`${this.apiUrl}/getBillAndPropertyInfo`, {BillNo: BillNo })
 
   }

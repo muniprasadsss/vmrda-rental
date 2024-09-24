@@ -40,24 +40,18 @@ export class HeaderComponent implements OnInit {
     this.profileForm = this.fb.group({
       USER_ID: [{ value: '' }, Validators.required],
       USER_NAME: [{ value: '' }, Validators.required],
-      USER_TYPE: [{ value: '', disabled: true }, Validators.required],
-      REVENUE_DIVISION: [{ value: '', disabled: true }, Validators.required],
+      USER_TYPE: [{ value: '', disabled: true }],
+      REVENUE_DIVISION: [{ value: '', disabled: true }],
       EMAIL_ID: [{ value: '' }, [Validators.required, Validators.email]],
       MOBILE_NUM: [{ value: '' }, Validators.required],
-      AADHARNO: [{ value: '', disabled: true }, Validators.required],
-      GST_IN: [{ value: '', disabled: true }, Validators.required],
-      PAN: [{ value: '', disabled: true }, Validators.required],
-      NATURE_OF_BUSINESS: [{ value: '', disabled: true }, Validators.required],
-      // password: [{ value: '' }, Validators.required],
-      // confirmPassword: [{ value: '' }, Validators.required],
-      // Add more fields as necessary
+      AADHARNO: [{ value: '', disabled: true }],
+      GST_IN: [{ value: '', disabled: true }],
+      PAN: [{ value: '', disabled: true }],
+      NATURE_OF_BUSINESS: [{ value: '', disabled: true }],
     });
     this.passwordform = this.fb.group({
       Password: [{ value: '' }, Validators.required],
       ChangePassword: [{ value: '' }, Validators.required],
-      // password: [{ value: '' }, Validators.required],
-      // confirmPassword: [{ value: '' }, Validators.required],
-      // Add more fields as necessary
     });
   }
 
@@ -96,7 +90,7 @@ export class HeaderComponent implements OnInit {
 
     // Load user profile data from localStorage
     const userInfo = localStorage.getItem("userInfo");
-    console.log(userInfo,"userinfo...");
+    
     if (userInfo) {
       const userDetails = JSON.parse(userInfo);
       this.profileForm.patchValue({
@@ -128,20 +122,15 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  // saveData(){
-  //     const formData = this.profileForm.value; // Get form data
-  //     console.log(formData,"form data check...");
-  //     console.log(formData,"save data check");
-  //   this.viewProfileDialog = false; // Show profile dialog
-  // }
+
 
   saveData() {
     if (this.profileForm.valid) {
       const formData = this.profileForm.value; // Get form data
-      console.log(formData, "form data check...");
+      
       this.profileService.updateProfile(formData).subscribe(
         response => {
-          console.log('Profile updated successfully:', response);
+          
           this.viewProfileDialog = false; // Close the dialog
         },
         error => {
@@ -149,7 +138,7 @@ export class HeaderComponent implements OnInit {
         }
       );
     } else {
-      console.log('Form is not valid');
+      
     }
   }
 }

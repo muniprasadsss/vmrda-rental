@@ -61,8 +61,6 @@ export class UserTaggingsComponent implements OnInit {
     this.usertaggingservice.getPropertys().subscribe({
       next: (res: any) => {
         this.unoccupiedProprertys = res;
-        // this.responseMsg = res.message;
-        // console.log(this.dataSource, "usertagging data...");
       },
       error: (err: any) => {
         this.responseMsg = err.error?.message || "Error";
@@ -75,7 +73,6 @@ export class UserTaggingsComponent implements OnInit {
       next: (res: any) => {
         this.dataSource = res.userData;
         this.responseMsg = res.message;
-        console.log(this.dataSource, "usertagging data...");
       },
       error: (err: any) => {
         this.responseMsg = err.error?.message || "Error";
@@ -90,8 +87,6 @@ export class UserTaggingsComponent implements OnInit {
 // In user-taggings.component.ts
 addNewUser() {
   if (this.addNewForm.valid) {
-    // Print form data to console
-    console.log("Form Data:", this.addNewForm.value);
     
     this.usertaggingservice.createUserTagging(this.addNewForm.value).subscribe({
       next: (res) => {
@@ -104,7 +99,6 @@ addNewUser() {
       }
     });
   } else {
-    console.log("Add New Form is invalid");
   }
 }
 
@@ -118,11 +112,6 @@ addNewUser() {
   editUser(lease: usertagging) {
     const startDate = this.formatDate(lease.START_DATE);
   const endDate = this.formatDate(lease.END_DATE);
-    // Populate the form with the selected user's data
-    console.log(lease,"check ,.,.");
-    console.log(lease.USER_ID,"userid check...");
-    
-    
     this.editForm.patchValue({
       username: lease.USER_NAME,
       user_id: lease.USER_ID,
@@ -135,10 +124,7 @@ addNewUser() {
 
 // In user-taggings.component.ts
 updateUser() {
-  if (this.editForm.valid) {
-    // Print the form values to the console
-    console.log("Updated Form Data:", this.editForm.value);
-    
+  if (this.editForm.valid) {   
     // Call the service to update the user tagging
     this.usertaggingservice.editUserTagging(this.editForm.value).subscribe({
       next: (res) => {
@@ -151,7 +137,6 @@ updateUser() {
       }
     });
   } else {
-    console.log("Edit form is invalid");
   }
 }
     

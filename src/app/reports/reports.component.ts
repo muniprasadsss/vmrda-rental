@@ -17,7 +17,7 @@ ngOnInit(): void {
   const developmentReports = "https://app.powerbi.com/groups/me/reports/bc442fb1-c861-40ca-82e6-4540f340e881/36bf69323c2c697c3f2c?ctid=392ae423-abe9-4219-b159-0ae77ac19fca&experience=power-bi";
 
   this.userType=localStorage.getItem("userType")
-  console.log(this.userType,"usertype check");
+  
   
  if(this.userType==="RI"){
   window.open(revenueInspectorReports,'_blank')

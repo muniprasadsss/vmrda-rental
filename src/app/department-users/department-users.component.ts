@@ -35,7 +35,6 @@ export class DepartmentUsersComponent {
       revenueDivision: [''],
       natureOfBusiness: [''],
       idNo: [''],
-      pan: [''],
       gstIn: ['']
     });
 
@@ -98,21 +97,13 @@ export class DepartmentUsersComponent {
       edituserType: [customer.USER_TYPE],
       editrevenueDivision: [customer.REVENUE_DIVISION],
     })
-    console.log(customer.SL_NO,"selected sno check...");
-    console.log(customer,"selected data check...");
+
     this.getAdminDetailsbySno(customer.SL_NO);
     this.form = this.fb.group({
       user_id: [''],
       username: [''],
       mobileNo: [''],
-      // email_id: [''],
       userType: [''],
-      // password: [''],
-      // revenueDivision: [''],
-      // natureOfBusiness: [''],
-      // idNo: [''],
-      // pan: [''],
-      // gstIn: ['']
     });
   }
 

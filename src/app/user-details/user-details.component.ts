@@ -94,21 +94,12 @@ export class UserDetailsComponent implements OnInit {
         this.visible = true;
         }
 
-    // addNewUser() {
-    //   if (this.addNewForm.valid) {
-    //     const formData = this.addNewForm.value; // Get the form data
-    //     // Call your API to save the data
-    //     console.log('Add New User Form Data:', formData);
-    //     // Close the dialog
-    //     this.visible = false;
-    //   }
-    // }
+
 
         addNewUser() {
       if (this.addNewForm.valid) {
         this.userdetailsservice.createUser(this.addNewForm.value).subscribe({
           next: (response: any) => {
-            console.log('User created successfully:', response);
             this.toasterservice.success('User created successfully');
             // Optionally reset the form or show a success message
             this.addNewForm.reset();
@@ -123,7 +114,6 @@ export class UserDetailsComponent implements OnInit {
         }
 
         openEditDialog(user: userdetails) {
-      console.log('Selected User:', user); // Debugging line
 
       this.selectedUser = user;
       this.editForm.patchValue({
@@ -139,23 +129,7 @@ export class UserDetailsComponent implements OnInit {
       });
       this.editVisible = true;
         }
-    //     updateUser(){
-    // const editFormData=this.editForm.value
-    //       const payload = {
-    //         user_id: this.userID,
-    //         username: editFormData.editUsername,
-    //         mobileNo: editFormData.editMobile,
-    //         natureOfBusiness: editFormData.editBusiness,
-    //         aadharNo: editFormData.editAadhar,
-    //         pan: editFormData.editPan,
-    //         email_id: editFormData.editEmail,
-    //         gstIn: editFormData.editGstin,
-    //         userType: editFormData.user_type,
-    //         revenueDivision: editFormData.editRevenue,
-    //       };
-    //       console.log(payload,"check edit...");
 
-    //     }
         updateUser() {
           const editFormData=this.editForm.value
           const payload = {
@@ -170,11 +144,11 @@ export class UserDetailsComponent implements OnInit {
             userType: editFormData.user_type,
             revenueDivision: editFormData.editRevenue,
           };
-          console.log(payload,"check edit...");
+
           if (this.editForm.valid) {
             this.userdetailsservice.editUserDetails(payload).subscribe({
               next: (response: any) => {
-                console.log('User updated successfully:', response);
+
                 this.toasterservice.success("Updated successful")
                 // Optionally reset the form or show a success message
                 this.editForm.reset();

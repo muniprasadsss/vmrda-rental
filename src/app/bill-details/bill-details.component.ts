@@ -74,19 +74,19 @@ export class BillDetailsComponent implements OnInit {
 
     // Calculate the total
     const total = leaseAmount + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests;
-    console.log(total,"total amount check...");
+    
     // Update the total field in the form
     this.form.get('total')?.setValue(total, { emitEvent: false }); // { emitEvent: false } to avoid circular triggers
   }
   // Updated showDialog method to fetch data based on bill_no
   showDialog(bill_no: string) {
-    console.log(bill_no);
+    
     this.visible = true;
     this.showModel = true;
     // Fetch details based on bill_no
     this.billDetailService.getBillDetailsByBillNo(bill_no).subscribe({
       next: (res: any) => {
-        console.log('Fetched bill details:', res);
+        
         if (res) {
           this.form.patchValue({
             s_no: res.ID,
@@ -152,13 +152,13 @@ export class BillDetailsComponent implements OnInit {
   sendEmail() {
     this.billDetailService.sendEmail(this.emailData).subscribe(
       (response) => {
-        console.log('Email sent successfully', response);
+        
       },
       (error) => {
-        console.error('Error sending email', error);
+        
       }
     );
-    console.log("Button clicked...");
+    
   }
 
 
@@ -178,7 +178,7 @@ export class BillDetailsComponent implements OnInit {
       this.billDetailService.updateBillDetails(updateData).subscribe({
         next: (response) => {
           this.getbilldetails();
-          console.log('Form submitted successfully:', response);
+          
           this.showModel = false;
           // Optionally send an email
           // this.sendEmail();
@@ -200,7 +200,7 @@ export class BillDetailsComponent implements OnInit {
       next: (res: any) => {
         this.propertyData = res;
      this.propertyDetail=  this.propertyData.propertyInfo
-        console.log(this.propertyDetail.PROPERTY_CODE,"propertydata....")
+        
 
 
 
@@ -358,7 +358,7 @@ export class BillDetailsComponent implements OnInit {
   // Call Razorpay payment
   this.billDetailService.createOrder(this.amount).subscribe(
     (order) => {
-      console.log(order,"....")
+      
       const options = {
         key: 'rzp_test_JKpUkmYnatBjUA', // Replace with your Razorpay key ID
         amount: order.data.amount, // Amount in paise
@@ -383,7 +383,7 @@ export class BillDetailsComponent implements OnInit {
       rzp1.open();
     },
     (error) => {
-      console.log('Error creating Razorpay order:', error);
+      
     }
   );
 }
@@ -428,7 +428,7 @@ async verifyPayment(response: any, bill: any) {
 
         this.billDetailService.saveTransactionDetails(transactionData).subscribe({
           next: async (response) => {
-            console.log('Transaction saved successfully:', response);
+            
 
             const updateData = {
               BillNo: bill.BillNo,
@@ -441,7 +441,7 @@ async verifyPayment(response: any, bill: any) {
             this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
               next: async (response) => {
                 if (response.status === 200) {
-                  console.log('Bill updated successfully!');
+                  
 
                   await this.createReceipt({
                     BillNo: bill.BillNo,
@@ -498,10 +498,10 @@ async verifyPayment(response: any, bill: any) {
 
 
 createReceipt(receiptData: any) {
-  console.log('Creating receipt with data:', receiptData); // Log receipt data
+  
   this.billDetailService.updateReceipt(receiptData).subscribe((response) => {
     if (response.status === 200) {
-      console.log('Receipt created successfully!');
+      
     } else {
       console.error('Error creating receipt:', response.message);
     }

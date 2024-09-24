@@ -44,7 +44,7 @@ export class ComplexDetailsComponent {
         this.loading = false
       },
       error:(err:any)=>{
-        console.log(err)
+        
       }
   })
       

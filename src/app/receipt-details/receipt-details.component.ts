@@ -171,13 +171,13 @@ generatePDF(receipt: any) {
 
   addNewUser() {
     if (this.addNewRecept.valid) {
-      console.log("Form Data:", this.addNewRecept.value);
+      
       // Close the dialog after logging
       this.visible = false;
       // Optionally, you can reset the form
       this.addNewRecept.reset();
     } else {
-      console.log("Add New Form is invalid");
+      
     }
   }
 
@@ -208,7 +208,7 @@ generatePDF(receipt: any) {
     if (this.addNewRecept.valid) {
       // Print the form values to the console
       const form = this.addNewRecept.value
-      console.log("Updated Form Data:", this.addNewRecept.value);
+      
           const payload = {
             Property: form.Property,
             billNo: form.billNo,
@@ -229,7 +229,7 @@ generatePDF(receipt: any) {
         }
       });
     } else {
-      console.log("Edit form is invalid");
+      
     }
   }
 

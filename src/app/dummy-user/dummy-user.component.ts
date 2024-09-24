@@ -47,7 +47,7 @@ export class DummyUserComponent {
   saveUserData() {
     this.dummyUserService.postCR(this.user).subscribe(
       (response) => {
-        console.log('Data sent successfully:', response);
+        
         this.toasterservice.success("Complaint raised successfully")
       },
       (error) => {

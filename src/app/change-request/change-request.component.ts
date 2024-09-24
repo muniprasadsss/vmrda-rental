@@ -121,7 +121,7 @@ export class ChangeRequestComponent implements OnInit {
         this.filterData();
       },
       error: (err: any) => {
-        console.log(err);
+        
       }
     });
   }
@@ -253,7 +253,7 @@ this.payload = {
   getUserData() {
     this.dummyUserService.getCR().subscribe(
       (response) => {
-        console.log('User data fetched successfully:', response);
+        
         this.data = response; // Populate the user object with fetched data
       },
       (error) => {
@@ -349,7 +349,7 @@ this.payload = {
       // Call the saveUserData method and pass the payload
       this.Http.postCR(payload).subscribe({
         next: (response:any) => {
-          console.log(response)
+          
           this.addrequestdata = false;
           this.toasterservice.success("Change request raised successfully");
           this.addRequestForm.reset(); // Reset the form after successful submission

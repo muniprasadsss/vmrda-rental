@@ -21,8 +21,7 @@ export class AssetsService {
     }
 
     updateAssets(propertyCode: string, propertyData: any): Observable<any> {
-      console.log(propertyCode,"service code...");
-      console.log(propertyData,"service data...");
+
       
       return this.http.put(`${this.apiUrl}/property/${propertyCode}`, propertyData);
     }

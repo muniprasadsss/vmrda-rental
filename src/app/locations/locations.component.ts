@@ -28,7 +28,7 @@ export class LocationsComponent {
           this.locationData = res;
         },
         error:(err:any)=>{
-          console.log(err)
+          
         }
       })
     }

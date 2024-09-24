@@ -16,19 +16,17 @@ export class UserServiceService {
   }
   
   getUserDetailsByRole(USER_ID:any,USER_TYPE:any):Observable<any>{
-    console.log(USER_ID,"id...");
-    console.log(USER_TYPE,"type...");
-    
+
     return this.http.post(`${this.apiUrl}/getUserInfo`,{USER_ID,USER_TYPE})
   }
 
   getUserDetailsByID(sl_no: number): Observable<any> {
-    console.log(sl_no,"service check...");  
+    
     return this.http.get<any>(`${this.apiUrl}/getuser/${sl_no}`)   
   }
   
   createUser(data: any): Observable<any> {
-    console.log(data, "data in supplier post req");
+
     return this.http.post(`${this.apiUrl}/createuser`, data); // Pass data as the second argument
   }
   
