@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderComponent } from '../header/header.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -32,7 +32,8 @@ export class UserTaggingsComponent implements OnInit {
     private toasterservice: ToastrService,
     private usertaggingservice: UserTaggingService,
     private datepipe: DatePipe,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef
   ) {
     this.addNewForm = this.fb.group({
       username: [''],
@@ -69,6 +70,7 @@ export class UserTaggingsComponent implements OnInit {
   }
 
   getUserTaggingDetails() {
+    this.dataSource = [];
     this.usertaggingservice.getUserTagging(this.userID, this.userRole).subscribe({
       next: (res: any) => {
         this.dataSource = res.userData;
@@ -78,6 +80,7 @@ export class UserTaggingsComponent implements OnInit {
         this.responseMsg = err.error?.message || "Error";
       }
     });
+    this.cd.detectChanges();
   }
 
   showDialog() {
@@ -131,6 +134,7 @@ updateUser() {
         this.toasterservice.success("User updated successfully");
         this.editVisible = false; // Close the edit dialog
         this.getUserTaggingDetails(); // Refresh data
+        
       },
       error: (err) => {
         this.toasterservice.error(err.error?.message || "Error updating user");
