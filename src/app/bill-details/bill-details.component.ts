@@ -136,8 +136,10 @@ export class BillDetailsComponent implements OnInit {
     });
   }
 
-  filterBillData() {
-    this.paidBills = this.dataSource.filter(item => {
+  filterBillData(){
+    this.paidBills = [];
+    this.notPaidBills = [];
+    this.paidBills = this.dataSource.filter(item=>{
       return item.Status === 'FP'
     })
     if (this.userRole !== 'USER') {
@@ -149,6 +151,8 @@ export class BillDetailsComponent implements OnInit {
         return (item.Status === 'NP' && item.BillStatus === 'Active')
       })
     }
+
+    this.cd.detectChanges();
 
   }
 
@@ -407,17 +411,15 @@ export class BillDetailsComponent implements OnInit {
             "status": data.paymentDetails.status ?? "No Data",
           };
 
-          this.billDetailService.saveTransactionDetails(transactionData).subscribe({
-            next: async (response) => {
-
-
-              const updateData = {
-                BillNo: bill.BillNo,
-                Status: 'FP',
-                TotalPaid: bill.Total,
-                Due: 0,
-                Vmrda_Challan_No: challanNumber,
-              };
+        this.billDetailService.saveTransactionDetails(transactionData).subscribe({
+          next: async (response) => {
+            const updateData = {
+              BillNo: bill.BillNo,
+              Status: 'FP',
+              TotalPaid: bill.Total,
+              Due: 0,
+              Vmrda_Challan_No: challanNumber,
+            };
 
               this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
                 next: async (response) => {
