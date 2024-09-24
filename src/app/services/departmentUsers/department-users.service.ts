@@ -20,10 +20,12 @@ export class DepartmentUsersService {
     return this.http.get<any>(`${this.apiUrl}/admin/${sl_no}`)   
   }
   
-  createAdmin(userData: any): Observable<any> {
-    
-    
+  createAdmin(userData: any): Observable<any> { 
     return this.http.post(`${this.apiUrl}/adminUserCreate`, userData);
+  }
+
+  updateAdmin(updatedData: any): Observable<any> { 
+    return this.http.post(`${this.apiUrl}/updateUserInfo`, updatedData);
   }
 }
 

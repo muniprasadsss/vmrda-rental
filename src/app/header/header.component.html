@@ -22,7 +22,7 @@
     </header>
 
     <!-- Profile View Dialog -->
-    <!-- Profile View Dialog -->
+
     <p-dialog header="View Profile" [(visible)]="viewProfileDialog" [modal]="true" [closable]="true" [style]="{ width: '50rem' }">
         <form [formGroup]="profileForm">
             <div class="form-row">
@@ -35,7 +35,7 @@
                   <input type="text" id="username" formControlName="USER_NAME" class="form-input" />
                 </div>
             </div>
-                <div class="form-row">
+            <div class="form-row">
                     <div class="form-group">
                       <label for="usertype" class="form-label">User Type</label>
                       <input type="text" id="usertype" formControlName="USER_TYPE" class="form-input" />
@@ -44,9 +44,7 @@
                       <label for="rd" class="form-label">Revenue Division</label>
                       <input type="text" id="rd" formControlName="REVENUE_DIVISION" class="form-input" />
                     </div>
-                </div>
-
-
+            </div>
             <div class="form-row">
                 <div class="form-group">
                   <label for="emailId" class="form-label">Email Id</label>
@@ -57,9 +55,6 @@
                   <input type="text" id="mobileno" formControlName="MOBILE_NUM" class="form-input" />
                 </div>
             </div>
-
-
-
             <div class="form-row">
                 <div class="form-group">
                   <label for="aadharno" class="form-label">Aadhar No</label>
@@ -70,10 +65,6 @@
                   <input type="text" id="gstno" formControlName="GST_IN" class="form-input" />
                 </div>
             </div>
-
-
-
-
             <div class="form-row">
                 <div class="form-group">
                   <label for="panno" class="form-label">Pan No</label>
@@ -84,48 +75,35 @@
                   <input type="text" id="bussiness" formControlName="NATURE_OF_BUSINESS" class="form-input" />
                 </div>
             </div>
-            <!-- <div class="form-row">
-                <div class="form-group">
-                  <label for="password" class="form-label">Password</label>
-                  <input type="password" id="password" formControlName="password" class="form-input" />
-                </div>
-                <div class="form-group">
-                  <label for="confirmPassword" class="form-label">Confirm password</label>
-                  <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-input" />
-                </div>
-            </div> -->
-
-
-                <!-- Add more profile fields as necessary -->
-
             <div style="display: flex;justify-content:center;margin-top: 2rem;">
                 <button class="editButton" type="button" (click)="saveData()">Save</button>
-                <span style="border-left: 6px solid white;height: 1rem;"></span>
-                <!-- <button class="deleteButton" type="button" (click)="viewProfileDialog=false">Close</button> -->
             </div>
         </form>
     </p-dialog>
 
-
     <!-- Change Password Dialog -->
+     
     <p-dialog header="Change Password" [(visible)]="changePasswordDialog" [modal]="true" [closable]="true" [style]="{ width: '50rem' }">
-        <!-- <form (ngSubmit)="onChangePassword()" #changePasswordForm="ngForm"> -->
             <form [formGroup]="passwordform">
              <div class="form-row">
+              <div class="form-group">
+                <label for="password" class="form-label">Old Password</label>
+                <input type="password" id="oldpassword" formControlName="oldPassword" class="form-input" />
+              </div>
                 <div class="form-group">
-                  <label for="password" class="form-label">Password</label>
-                  <input type="password" id="password" formControlName="Password" class="form-input" />
+                  <label for="password" class="form-label">New Password</label>
+                  <input type="password" id="newpassword" formControlName="newPassword" class="form-input" />
                 </div>
                 <div class="form-group">
                   <label for="confirmPassword" class="form-label">Confirm password</label>
-                  <input type="password" id="confirmPassword" formControlName="ChangePassword" class="form-input" />
+                  <input type="password" id="confirmPassword" formControlName="ConfirmnewPassword" class="form-input" />
                 </div>
             </div>
             <div style="display: flex;justify-content:center;margin-top: 2rem;">
-                <button class="editButton" type="submit" (click)="changePasswordDialog=false">Save</button>
+                <button class="editButton" type="submit" (click)="editPassword()">Save</button>
                 <span style="border-left: 6px solid white;height: 1rem;"></span>
                 <!-- <button  class="deleteButton" type="button" (click)="changePasswordDialog=false">Cancel</button> -->
             </div>
-        </form>
+            </form>
     </p-dialog>
 </div>
