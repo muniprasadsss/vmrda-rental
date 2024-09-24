@@ -1,0 +1,86 @@
+<div class="card" >
+    <div class="table">
+        
+    </div>
+    <p-table [value]="notPaidBills" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
+      <ng-template pTemplate="caption">
+        <div class="searchbar">
+          <div class="search">
+            <p-iconField iconPosition="left" class="ml-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input pInputText type="text" placeholder="Search keyword" />
+            </p-iconField>
+          </div>
+
+          <div class="dialog">
+            <p-button (onClick)="showDialog1()" label="History" severity="success" size="small" />
+          </div>
+
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr style="font-size: 12px; padding: 0;">
+          <th >Bill No</th>
+          <th >Property Code</th>
+          <th pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
+          <th pSortableColumn="Total">Total Due</th>
+          <th pSortableColumn="Status">Status</th>
+          <th pSortableColumn="BillStatus">BillStatus</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-bill >
+        <tr style="font-size: 12px;" >
+          <td >{{ bill.BillNo }}</td>
+          <td >{{ bill.Property }}</td>
+          <td >{{ bill.Bill_generated_date | date: 'dd/MM/yyyy'  }}</td>
+          <td >{{ bill.Due }}</td>
+          <td >{{ bill.Status }}</td>
+          <td >{{ bill.BillStatus }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" >
+        <tr>
+            <td colspan="16">No data found.</td>
+        </tr>
+    </ng-template>
+    </p-table>
+  </div>
+
+
+  <!-- history -->
+
+  <div class="dialog">
+    <p-dialog header="History"  [modal]="true" [(visible)]="visible1" position="center" [style]="{ width: '80rem' }">
+  <p-table [value]="paidBills" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
+  <ng-template pTemplate="caption">
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr style="font-size: 12px; padding: 0;">
+      <th >Bill No</th>
+      <th >Property Code</th>
+      <th pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
+      <th pSortableColumn="Total">Total Due</th>
+      <th pSortableColumn="Status">Status</th>
+      <th pSortableColumn="BillStatus">BillStatus</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-bill >
+    <tr style="font-size: 12px;" >
+      <td >{{ bill.BillNo }}</td>
+      <td >{{ bill.Property }}</td>
+      <td >{{ bill.Bill_generated_date | date: 'dd/MM/yyyy'  }}</td>
+      <td >{{ bill.Due }}</td>
+      <td >{{ bill.Status }}</td>
+      <td >{{ bill.BillStatus }}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage" >
+    <tr>
+        <td colspan="16">No data found.</td>
+    </tr>
+</ng-template>
+  </p-table>
+    </p-dialog>
+  </div>

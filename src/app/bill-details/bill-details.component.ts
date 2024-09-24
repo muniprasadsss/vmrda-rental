@@ -382,11 +382,11 @@ export class BillDetailsComponent implements OnInit {
 
           const transactionData = {
             "id": data.paymentDetails.id ?? "No Data",
-            "invoice_id": data.paymentDetails.invoice_id ?? "No Data",
+            "invoice_id": bill.BillNo ?? "No Data",
             "order_id": data.paymentDetails.order_id ?? "No Data",
             "method": data.paymentDetails.method ?? "No Data",
             "upi_transaction_id": data.paymentDetails.acquirer_data.upi_transaction_id ?? "No Data",
-            "amount": data.paymentDetails.amount ?? "No Data",
+            "amount": bill.Total ?? "No Data",
             "amount_refunded": data.paymentDetails.amount_refunded ?? "No Data",
             "fee": data.paymentDetails.fee ?? "No Data",
             "bank": data.paymentDetails.bank ?? "No Data",
@@ -468,9 +468,6 @@ export class BillDetailsComponent implements OnInit {
     });
   }
 
-
-
-
   createAndSendReceiptPDF(receiptData: any) {
     const doc = new jsPDF();
     const margins = { top: 15, bottom: 15, left: 20, right: 20 };
@@ -540,7 +537,6 @@ export class BillDetailsComponent implements OnInit {
     });
   }
 
-
   //Function to create a receipt after successful payme
   createReceipt(receiptData: any) {
 
@@ -554,13 +550,6 @@ export class BillDetailsComponent implements OnInit {
       }
     });
   }
-
-
-
-
-
-
-
 
   generatePDF1(bill: any) {
     this.billDetailService.getPropertyInfo(bill.BillNo).subscribe({
@@ -674,9 +663,5 @@ export class BillDetailsComponent implements OnInit {
       }
     });
   }
-
-
-
-
 
 }

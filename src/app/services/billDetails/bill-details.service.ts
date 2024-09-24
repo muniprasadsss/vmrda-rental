@@ -20,6 +20,9 @@ export class BillDetailsService {
   getBillDetailsByUserId(USER_ID: string,USER_TYPE:string): Observable<any> {
     return this.http.post(`${this.apiUrl}/getBillingInfo`,{USER_ID,USER_TYPE});
   }
+  getOverdueBills(USER_ID: string,USER_TYPE:string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/overdueBills`,{USER_ID,USER_TYPE});
+  }
 
        // New method to get bill details by bill_no
        getBillDetailsByBillNo(BillNo: string): Observable<any> {
