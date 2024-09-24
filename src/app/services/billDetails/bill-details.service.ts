@@ -16,6 +16,9 @@ export class BillDetailsService {
       return this.http.get<any>(`${this.apiUrl}/getallbills`)
     }
 
+    getPropertyCodes(USER_ID:string,USER_TYPE:string): Observable<any> {
+      return this.http.post<any>(`${this.apiUrl}/Allproperty`,{USER_ID,USER_TYPE})   
+    }
            // New method to get bill details by userid
   getBillDetailsByUserId(USER_ID: string,USER_TYPE:string): Observable<any> {
     return this.http.post(`${this.apiUrl}/getBillingInfo`,{USER_ID,USER_TYPE});

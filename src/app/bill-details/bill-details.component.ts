@@ -1,6 +1,6 @@
 import { ReceptDetailsService } from './../services/receptDetails/recept-details.service';
 import { billDetails } from './../interfaces/billDetails/billDetailsInterfaces';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderComponent } from '../header/header.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -43,6 +43,9 @@ export class BillDetailsComponent implements OnInit {
   receiptData: any;
   notPaidBills!: billDetails[];
   paidBills!: billDetails[];
+  propertyCode:any;
+  @ViewChild('dt2') dt2!: any;
+  value: any;
   constructor(private billDetailService: BillDetailsService, private cd: ChangeDetectorRef, http: ReceptDetailsService) { }
 
   ngOnInit(): void {
@@ -65,6 +68,31 @@ export class BillDetailsComponent implements OnInit {
     this.userRole = localStorage.getItem('role')
     this.userID = localStorage.getItem('userId')
     this.getbilldetails();
+    this.getPropertyCodes();
+  }
+
+  onSelectGlobal(value:any): void {
+    // const target = event.target as HTMLInputElement;
+    // this.value = target.value;
+    this.dt2.filterGlobal(value, 'contains');
+  }
+
+  onFilterGlobal(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.value = target.value;
+    this.dt2.filterGlobal(this.value, 'contains');
+  }
+
+  getPropertyCodes(){
+    this.billDetailService.getPropertyCodes( this.userID,this.userRole).subscribe({
+      next:(res:any)=>{
+        this.propertyCode = res;
+
+      },
+      error:(err:any)=>{
+        
+      }
+    })
   }
 
   calculateTotal(): void {

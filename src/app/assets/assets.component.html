@@ -17,115 +17,6 @@
                     (onChange)="onSelectGlobal($event.value)"
                     placeholder="Select Location" />
                 </div>
-                <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
-                    <p-button (onClick)="showDialog()" label="Add New" severity="success" size="small" />
-                    <p-dialog header="Add New" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
-                        <form [formGroup]="locationForm" (ngSubmit)="onSave()">
-                            <div class="form-container">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="location" class="form-label">Location</label>
-                                        <select formControlName="location" class="form-input">
-                                            <option value="" disabled selected>Select Location</option>
-                                            <option *ngFor="let loc of location" [value]="loc">{{ loc }}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="location-code" class="form-label">Location Code</label>
-                                        <select formControlName="locationCode" class="form-input">
-                                            <option value="" disabled selected>Select Location Code</option>
-                                            <option *ngFor="let code of complex" [value]="code">{{ code }}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="property-code" class="form-label">Property Code</label>
-                                        <input formControlName="propertyCode" type="text" class="form-input" />
-                                    </div>
-                                </div>                                                   
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="property-no" class="form-label">Property No</label>
-                                        <input formControlName="propertyNo" type="text" class="form-input" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="type-of-property" class="form-label">Type of Property</label>
-                                        <input formControlName="typeOfProperty" type="text" class="form-input" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="floor" class="form-label">Floor</label>
-                                        <input formControlName="floor" type="text" class="form-input" />
-                                    </div>
-                                </div>                   
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="attribuite1" class="form-label">Attribute 1</label>
-                                        <input formControlName="attribuite1" type="text" class="form-input" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="extent" class="form-label">Extent</label>
-                                        <input formControlName="extent" type="text" class="form-input" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="present-rent" class="form-label">Present Rent</label>
-                                        <input formControlName="presentRent" type="number" class="form-input" />
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="allottee-name" class="form-label">Allottee Name</label>
-                                        <input formControlName="allotteeName" type="text" class="form-input" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="size" class="form-label">Size</label>
-                                        <input formControlName="size" type="text" class="form-input" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="length" class="form-label">Length</label>
-                                        <input formControlName="length" type="number" class="form-input" />
-                                    </div>
-                                   
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="breadth" class="form-label">Breadth</label>
-                                        <input formControlName="breadth" type="number" class="form-input" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="revenue-division" class="form-label">Revenue Division</label>
-                                        <input formControlName="revenueDivision" type="text" class="form-input" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="power-meter-number" class="form-label">Power Meter Number</label>
-                                        <input formControlName="powerMeterNumber" type="text" class="form-input" />
-                                    </div>
-                                    
-                                </div>                 
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="water-meter-no" class="form-label">Water Meter No</label>
-                                        <input formControlName="waterMeterNo" type="text" class="form-input" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="details" class="form-label">Details</label>
-                                        <input formControlName="details" type="text" class="form-input" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="status" class="form-label">Status</label>
-                                        <input formControlName="status" type="text" class="form-input" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="btn">
-                                <div class="save">
-                                    <p-button label="Save" type="submit" size="small" />
-                                </div>
-                                <div class="save">
-                                    <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small" />
-                                </div>
-                            </div>
-                        </form>
-                    </p-dialog>
-                </div>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -285,3 +176,115 @@
         </div>
     </form>
 </p-dialog>
+
+
+<!-- add new dialog -->
+<div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
+    <p-button (onClick)="showDialog()" label="Add New" severity="success" size="small" />
+    <p-dialog header="Add New" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
+        <form [formGroup]="locationForm" (ngSubmit)="onSave()">
+            <div class="form-container">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="location" class="form-label">Location</label>
+                        <select formControlName="location" class="form-input">
+                            <option value="" disabled selected>Select Location</option>
+                            <option *ngFor="let loc of location" [value]="loc">{{ loc }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="location-code" class="form-label">Location Code</label>
+                        <select formControlName="locationCode" class="form-input">
+                            <option value="" disabled selected>Select Location Code</option>
+                            <option *ngFor="let code of complex" [value]="code">{{ code }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="property-code" class="form-label">Property Code</label>
+                        <input formControlName="propertyCode" type="text" class="form-input" />
+                    </div>
+                </div>                                                   
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="property-no" class="form-label">Property No</label>
+                        <input formControlName="propertyNo" type="text" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="type-of-property" class="form-label">Type of Property</label>
+                        <input formControlName="typeOfProperty" type="text" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="floor" class="form-label">Floor</label>
+                        <input formControlName="floor" type="text" class="form-input" />
+                    </div>
+                </div>                   
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="attribuite1" class="form-label">Attribute 1</label>
+                        <input formControlName="attribuite1" type="text" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="extent" class="form-label">Extent</label>
+                        <input formControlName="extent" type="text" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="present-rent" class="form-label">Present Rent</label>
+                        <input formControlName="presentRent" type="number" class="form-input" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="allottee-name" class="form-label">Allottee Name</label>
+                        <input formControlName="allotteeName" type="text" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="size" class="form-label">Size</label>
+                        <input formControlName="size" type="text" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="length" class="form-label">Length</label>
+                        <input formControlName="length" type="number" class="form-input" />
+                    </div>
+                   
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="breadth" class="form-label">Breadth</label>
+                        <input formControlName="breadth" type="number" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="revenue-division" class="form-label">Revenue Division</label>
+                        <input formControlName="revenueDivision" type="text" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="power-meter-number" class="form-label">Power Meter Number</label>
+                        <input formControlName="powerMeterNumber" type="text" class="form-input" />
+                    </div>
+                    
+                </div>                 
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="water-meter-no" class="form-label">Water Meter No</label>
+                        <input formControlName="waterMeterNo" type="text" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="details" class="form-label">Details</label>
+                        <input formControlName="details" type="text" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="status" class="form-label">Status</label>
+                        <input formControlName="status" type="text" class="form-input" />
+                    </div>
+                </div>
+            </div>
+            <div class="btn">
+                <div class="save">
+                    <p-button label="Save" type="submit" size="small" />
+                </div>
+                <div class="save">
+                    <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small" />
+                </div>
+            </div>
+        </form>
+    </p-dialog>
+</div>
