@@ -4,6 +4,8 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 import { ProfileSettingsService } from '../services/profileSettings/profile-settings.service';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +16,7 @@ import { ProfileSettingsService } from '../services/profileSettings/profile-sett
 })
 export class HeaderComponent implements OnInit {
   userType: any;
+  localStoragePassword: any;
   dropdownDiv: boolean = false;
   items: any | undefined;
   userdetails: any;
@@ -36,7 +39,7 @@ export class HeaderComponent implements OnInit {
   // };
 
 
-  constructor(private router: Router, private authService: AuthGuardsService,private fb: FormBuilder,private profileService:ProfileSettingsService) {
+  constructor(private router: Router, private authService: AuthGuardsService,private fb: FormBuilder,private profileService:ProfileSettingsService,private toasterservice:ToastrService) {
     this.profileForm = this.fb.group({
       USER_ID: [{ value: '' }, Validators.required],
       USER_NAME: [{ value: '' }, Validators.required],
@@ -50,8 +53,9 @@ export class HeaderComponent implements OnInit {
       NATURE_OF_BUSINESS: [{ value: '', disabled: true }],
     });
     this.passwordform = this.fb.group({
-      Password: [{ value: '' }, Validators.required],
-      ChangePassword: [{ value: '' }, Validators.required],
+      oldPassword: [''],
+      newPassword: [''],
+      ConfirmnewPassword: [''],
     });
   }
 
@@ -77,16 +81,9 @@ export class HeaderComponent implements OnInit {
         ]
       }
     ];
-    this.passwordform = this.fb.group({
-      Password: [{ value: '' }, Validators.required],
-      ChangePassword: [{ value: '' }, Validators.required],
-      // password: [{ value: '' }, Validators.required],
-      // confirmPassword: [{ value: '' }, Validators.required],
-      // Add more fields as necessary
-    });
-    
     this.userType = localStorage.getItem("userId");
     this.userdetails=localStorage.getItem("userInfo")
+    this.localStoragePassword=localStorage.getItem("Password")
 
     // Load user profile data from localStorage
     const userInfo = localStorage.getItem("userInfo");
@@ -122,8 +119,6 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-
-
   saveData() {
     if (this.profileForm.valid) {
       const formData = this.profileForm.value; // Get form data
@@ -141,4 +136,62 @@ export class HeaderComponent implements OnInit {
       
     }
   }
+
+  // editPassword(){
+  //   const passwordData = this.passwordform.value; // Get form data
+  //  const senddata={
+  //   old_password:passwordData.Password,
+  //   new_password:passwordData.ChangePassword,
+  //   USER_ID:this.profileForm.value.USER_ID,
+  //  }
+  //  console.log(senddata,"data to send...");
+   
+   
+   
+  //  this.changePasswordDialog=false;
+  // }
+
+  editPassword() {
+    const PasswordinLocal = this.localStoragePassword; // Assume this holds the stored password
+  
+    if (this.passwordform.valid) {
+      const passwordData = this.passwordform.value; // Get form data
+      const old_password = passwordData.oldPassword;
+      const new_password = passwordData.newPassword;
+      const confirm_new_password = passwordData.ConfirmnewPassword;
+  
+      if (old_password === PasswordinLocal) {
+        if (new_password === confirm_new_password) {
+          const senddata = {
+            old_password,
+            new_password,
+            USER_ID: this.profileForm.value.USER_ID, 
+          };
+  
+          console.log(senddata, "data to send...");
+  
+          // API Call
+          this.profileService.changePassword(senddata).subscribe(
+            response => {
+              console.log('Password changed successfully:', response);
+              this.toasterservice.success('Password changed successfully!'); // Show success message
+              this.changePasswordDialog = false; // Close the dialog
+            },
+            error => {
+              console.error('Error changing password:', error);
+              this.toasterservice.error('Error changing password. Please try again.'); // Show error message
+            }
+          );
+        } else {
+          this.toasterservice.error("New passwords do not match");
+        }
+      } else {
+        this.toasterservice.error("Old password is incorrect");
+      }
+    } else {
+      this.toasterservice.warning("Please fill in all required fields");
+    }
+  }
+  
+  
 }

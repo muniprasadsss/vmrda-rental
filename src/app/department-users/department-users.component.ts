@@ -25,6 +25,7 @@ export class DepartmentUsersComponent {
   constructor(private admindetailsservice: DepartmentUsersService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
+
     this.form = this.fb.group({
       user_id: [''],
       username: [''],
@@ -38,15 +39,13 @@ export class DepartmentUsersComponent {
       gstIn: ['']
     });
 
-
     this.editForm = this.fb.group({
-      editUserId: [''],
-      editUserName: [''],
-      editmobileNo: [''],
-      edituserType: [''],
-      editrevenueDivision: [''],
+      USER_ID: [''],
+      editUserName: [{ value: '', disabled: true }],
+      MOBILE_NUM: [''],
+      user_type: [''],
+      REVENUE_DIVISION: [''],
     });
-
 
     this.getadminInfo();
   }
@@ -73,7 +72,6 @@ export class DepartmentUsersComponent {
     this.visible = true;
   }
 
-
   saveUser() {
     if (this.form.valid) {
       this.admindetailsservice.createAdmin(this.form.value).subscribe({
@@ -91,29 +89,55 @@ export class DepartmentUsersComponent {
   showEditDialog(customer: any) {
     this.editVisible = true;
     this.editForm.patchValue({
-      editUserId: [customer.USER_ID],
-      editUserName: [customer.USER_NAME],
-      editmobileNo: [customer.MOBILE_NUM],
-      edituserType: [customer.USER_TYPE],
-      editrevenueDivision: [customer.REVENUE_DIVISION],
+      USER_ID: customer.USER_ID,
+      editUserName: customer.USER_NAME,
+      MOBILE_NUM: customer.MOBILE_NUM,
+      user_type: customer.USER_TYPE,
+      REVENUE_DIVISION: customer.REVENUE_DIVISION,
     })
 
     this.getAdminDetailsbySno(customer.SL_NO);
-    this.form = this.fb.group({
-      user_id: [''],
-      username: [''],
-      mobileNo: [''],
-      userType: [''],
-    });
+    // this.form = this.fb.group({
+    //   user_id: [''],
+    //   username: [''],
+    //   mobileNo: [''],
+    //   userType: [''],
+    // });
   }
 
   updateUser() {
-    if (this.selectedUser) {
-      // Logic for updating user details
+    if (this.editForm.valid) {
+      const updatedUser = this.editForm.value;
+      // console.log("Updated User Data:", updatedUser);
+      this.admindetailsservice.updateAdmin(updatedUser).subscribe({
+        next: (res: any) => {
+          this.getadminInfo(); // Refresh the table data
+          this.editVisible = false; // Close the dialog
+        },
+        error: (err: any) => {
+          console.error("Error updating user", err);
+        }
+      });
     }
     this.editVisible = false;
   }
 
+  // updateUser() {
+  //   if (this.editForm.valid) {
+  //     const updatedUser = this.editForm.value;
+  //     this.admindetailsservice.updateAdmin(updatedUser).subscribe({
+  //       next: (res: any) => {
+  //         this.getadminInfo(); // Refresh the table data
+  //         this.editVisible = false; // Close the dialog here
+  //       },
+  //       error: (err: any) => {
+  //         console.error("Error updating user", err);
+  //         console.error("Response:", err.response);
+  //       }
+  //     });
+  //   }
+  // }
+  
   getAdminDetailsbySno(sl_no: number) {
     this.admindetailsservice.getUserBySlNo(sl_no).subscribe({
       next: (res: any) => {
@@ -128,22 +152,22 @@ export class DepartmentUsersComponent {
     });
   }
 
-    limitInputLength(event: KeyboardEvent, maxLength: number): void {
+  limitInputLength(event: KeyboardEvent, maxLength: number): void {
   const inputElement = event.target as HTMLInputElement;
 
   if (inputElement.value.length >= maxLength && event.key !== 'Backspace' && event.key !== 'Delete') {
     event.preventDefault();
   }
-}
+  }
 
-validateNumericInput(event: KeyboardEvent) {
+  validateNumericInput(event: KeyboardEvent) {
   const key = event.key;
   if (!/[0-9]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
     event.preventDefault();
   }
-}
+  }
 
-validatePanInput(event: KeyboardEvent) {
+  validatePanInput(event: KeyboardEvent) {
   const key = event.key;
   if (!/[A-Z0-9]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
     event.preventDefault();
@@ -159,5 +183,5 @@ validatePanInput(event: KeyboardEvent) {
   if (!allowedKeys.test(key) && key !== 'Backspace' && key !== 'Delete' && key !== 'Tab') {
     event.preventDefault();
   }
-}
+  }
 }

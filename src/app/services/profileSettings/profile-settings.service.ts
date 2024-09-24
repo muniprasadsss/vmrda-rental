@@ -14,4 +14,8 @@ export class ProfileSettingsService {
   updateProfile(profileData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/updateProfile`, profileData);
   }
+
+  changePassword(passwordData: any): Observable<any> { 
+    return this.http.post(`${this.apiUrl}/changepassword`, passwordData);
+  }
 }
