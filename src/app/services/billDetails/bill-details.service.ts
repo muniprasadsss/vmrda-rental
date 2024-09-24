@@ -57,5 +57,10 @@ updateBillDetails(billData: any): Observable<any> {
 
   saveTransactionDetails(transactionData: any): Observable<any> {
   return this.http.post<any>(`${this.apiUrl}/createTransaction`, transactionData); // Updated endpoint
+  }
+
+  sendEmailWithAttachment(formData: FormData) {
+  return this.http.post<any>(`${this.apiUrl}/sendEmailWithAttachment`, formData);
 }
+
 }
