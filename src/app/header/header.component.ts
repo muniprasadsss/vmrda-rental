@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private router: Router, private authService: AuthGuardsService,private fb: FormBuilder,private profileService:ProfileSettingsService,private toasterservice:ToastrService) {
     this.profileForm = this.fb.group({
-      USER_ID: [{ value: '' }, Validators.required],
+      USER_ID: [{ value: '',disabled : true }, Validators.required],
       USER_NAME: [{ value: '' }, Validators.required],
       USER_TYPE: [{ value: '', disabled: true }],
       REVENUE_DIVISION: [{ value: '', disabled: true }],
@@ -82,14 +82,14 @@ export class HeaderComponent implements OnInit {
       }
     ];
     this.userType = localStorage.getItem("userId");
-    this.userdetails=localStorage.getItem("userInfo")
-    this.localStoragePassword=localStorage.getItem("Password")
+    this.userdetails=localStorage.getItem("userInfo");
+    this.localStoragePassword = JSON.parse(this.userdetails);
 
     // Load user profile data from localStorage
-    const userInfo = localStorage.getItem("userInfo");
+ 
     
-    if (userInfo) {
-      const userDetails = JSON.parse(userInfo);
+    if (this.userdetails) {
+      const userDetails = JSON.parse(this.userdetails);
       this.profileForm.patchValue({
         USER_NAME: userDetails.USER_NAME ,
         USER_ID: userDetails.USER_ID ,
@@ -121,9 +121,15 @@ export class HeaderComponent implements OnInit {
 
   saveData() {
     if (this.profileForm.valid) {
-      const formData = this.profileForm.value; // Get form data
+      const formData = { ...this.profileForm.getRawValue()};
+      const payload= {
+        USER_NAME:formData.USER_NAME,
+        MOBILE_NUM:formData.MOBILE_NUM,
+        EMAIL_ID:formData.EMAIL_ID,
+        USER_ID:formData.USER_ID,
+      }
       
-      this.profileService.updateProfile(formData).subscribe(
+      this.profileService.updateProfile(payload).subscribe(
         response => {
           
           this.viewProfileDialog = false; // Close the dialog
@@ -137,22 +143,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  // editPassword(){
-  //   const passwordData = this.passwordform.value; // Get form data
-  //  const senddata={
-  //   old_password:passwordData.Password,
-  //   new_password:passwordData.ChangePassword,
-  //   USER_ID:this.profileForm.value.USER_ID,
-  //  }
-  //  console.log(senddata,"data to send...");
-   
-   
-   
-  //  this.changePasswordDialog=false;
-  // }
+
 
   editPassword() {
-    const PasswordinLocal = this.localStoragePassword; // Assume this holds the stored password
+    const PasswordinLocal = this.localStoragePassword.Password; // Assume this holds the stored password
   
     if (this.passwordform.valid) {
       const passwordData = this.passwordform.value; // Get form data
@@ -165,7 +159,7 @@ export class HeaderComponent implements OnInit {
           const senddata = {
             old_password,
             new_password,
-            USER_ID: this.profileForm.value.USER_ID, 
+            USER_ID: this.localStoragePassword.USER_ID, 
           };
   
           console.log(senddata, "data to send...");
