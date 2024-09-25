@@ -10,13 +10,14 @@
                         </p-inputIcon>
                         <input pInputText type="text" placeholder="Search keyword" />
                     </p-iconField>
+                    <p-button *ngIf=" userRole !== 'USER'"
+                      (click)="showDialog()" 
+                      label="Add New" 
+                      severity="success"
+                      size="small" />
                 </div>
 
-<p-button 
-(click)="showDialog()" 
-label="Add New" 
-severity="success"
-size="small" />
+
 </div>
 </ng-template>
 <ng-template pTemplate="header">

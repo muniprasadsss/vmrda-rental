@@ -15,7 +15,7 @@
               <input pInputText type="text"  (input)="onFilterGlobal($event)" placeholder="Search keyword" />
             </p-iconField>
           </div>
-          <div class="search">
+          <div class="search" *ngIf=" userRole !== 'USER'">
             <p-dropdown 
             [options]="propertyCode" 
             (onChange)="onSelectGlobal($event.value)"
