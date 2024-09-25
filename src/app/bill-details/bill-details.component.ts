@@ -90,7 +90,7 @@ export class BillDetailsComponent implements OnInit {
 
       },
       error:(err:any)=>{
-        
+
       }
     })
   }
@@ -412,7 +412,7 @@ createAndSendPDF(updateData: any) {
   formData.append('userId', updateData.UserId);
 
   // Send the PDF to the backend for emailing
-  this.billDetailService.sendEmailWithAttachment(formData).subscribe({
+  this.billDetailService.sendEmailWithAttachmentBill(formData).subscribe({
     next: (response) => {
       console.log('Email with bill sent successfully!', response);
     },

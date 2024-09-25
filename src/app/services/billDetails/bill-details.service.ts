@@ -17,7 +17,7 @@ export class BillDetailsService {
     }
 
     getPropertyCodes(USER_ID:string,USER_TYPE:string): Observable<any> {
-      return this.http.post<any>(`${this.apiUrl}/Allproperty`,{USER_ID,USER_TYPE})   
+      return this.http.post<any>(`${this.apiUrl}/Allproperty`,{USER_ID,USER_TYPE})
     }
            // New method to get bill details by userid
   getBillDetailsByUserId(USER_ID: string,USER_TYPE:string): Observable<any> {
@@ -67,6 +67,9 @@ updateBillDetails(billData: any): Observable<any> {
 
   sendEmailWithAttachment(formData: FormData) : Observable<any>{
   return this.http.post<any>(`${this.apiUrl}/sendEmailWithAttachment`, formData);
+}
+sendEmailWithAttachmentBill(formData: FormData) : Observable<any>{
+  return this.http.post<any>(`${this.apiUrl}/sendEmailWithAttachmentBill`, formData);
 }
 
 }
