@@ -24,7 +24,7 @@ size="small" />
             <!-- <th pSortableColumn="ID">S No</th> -->
             <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th>
             <!-- <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th> -->
-            <th pSortableColumn="User">User Id<p-sortIcon field="User" /></th>
+            <th pSortableColumn="User" *ngIf="userRole !== 'USER'">User Id<p-sortIcon field="User" /></th>
             <!-- <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th> -->
             <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
             <th pSortableColumn="Property">Property Code<p-sortIcon field="Property" /></th>
