@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
                 this.route.navigateByUrl('/issueNotice');
                 break;
             case 'Track Transactions':
-                this.route.navigateByUrl('/trackTransactions');
+                this.route.navigateByUrl('/transactionTracking');
                 break;
             case 'Reports':
                 this.route.navigateByUrl('/reports');

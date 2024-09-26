@@ -139,7 +139,7 @@
     </div>
     <div class="btn" *ngIf="hideAddNew">
       <div class="save" *ngIf="bill_status !== 'FP'">
-        <p-button label="Save" type="submit" (click)="addReciept()" size="small"/>
+        <p-button label="Manual Pay" type="submit" (click)="addReciept()" size="small"/>
       </div>
       <div class="cancel">
         <p-button label="Cancel" severity="danger" (click)="closeDialog()" size="small"/>
