@@ -9,6 +9,7 @@ import autoTable from 'jspdf-autotable';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
+import { BillDetailsService } from '../services/billDetails/bill-details.service';
 @Component({
   selector: 'app-receipt-details',
   standalone: true,
@@ -28,8 +29,12 @@ export class ReceiptDetailsComponent {
   value: any;
   fileToUpload: any;
   attachmentUrl:any = null
-  constructor(private http:ReceptDetailsService,private Http: ChangeRequestService,
-    private fb: FormBuilder,private toasterservice: ToastrService,){
+  bill:any;
+  constructor(private http:ReceptDetailsService,
+    private Http: ChangeRequestService,
+    private billDetailService: BillDetailsService,
+    private fb: FormBuilder,
+    private toasterservice: ToastrService,){
 
     this.addNewRecept = this.fb.group({
       billNo: ['', Validators.required],
@@ -220,6 +225,7 @@ generatePDF(receipt: any) {
   fetchBillDetails(billNo:any){
     this.http.getBillDetails(billNo).subscribe({
       next:(res:any)=>{
+        this.bill = res;
         this.bill_status = res.Status;
         this.addNewRecept.patchValue({
           billNo: res.BillNo,
@@ -236,33 +242,94 @@ generatePDF(receipt: any) {
   }
 
   addReciept(){
-    if (this.addNewRecept.valid) {
+    if (true) {
       // Print the form values to the console
-      const form = this.addNewRecept.value
+      if(this.bill_status === 'NP'){
+        this.bill_status = 'FP';
+        const form = this.addNewRecept.value
 
-          const payload = {
-            Property: form.Property,
-            billNo: form.billNo,
-            User: form.User,
-            Status: form.Status,
-            paidAmount: form.paidAmount,
+    //     const payload = {
+    //       Property: form.Property,
+    //       billNo: form.billNo,
+    //       User: form.User,
+    //       Status: this.bill_status,
+    //       paidAmount: form.paidAmount,
+    //     }
+    // // Call the service to update the user tagging
+    // this.http.addReceipt(payload).subscribe({
+    //   next: (res) => {
+    //     this.toasterservice.success("User updated successfully");
+    //     this.visible = false; // Close the edit dialog
+    //     this.hideAddNew = true;
+    //     this.getReceptData();
+    //   },
+    //   error: (err) => {
+    //     this.toasterservice.error(err.error?.message || "Error updating user");
+    //   }
+    // });
+    
+    const updateData = {
+      BillNo: this.bill.BillNo,
+      Status: 'FP',
+      TotalPaid: this.bill.Total,
+      Due: 0,
+      Vmrda_Challan_No: 'Manually Paid',
+
+      }
+
+
+      this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
+        next: async (response) => {
+          if (response.status === 200) {
+
+
+            await this.createReceipt({
+              BillNo: this.bill.BillNo,
+              ReceiptNo: 'Manually Paid',
+              User: form.User,
+              Property: this.bill.Property,
+              paid_date: new Date().toISOString(),
+              Rental_lease_amount_permonth: this.bill.Rental_lease_amount_permonth,
+              GST: this.bill.GST,
+              Total_rental_interest: this.bill.Total_rental_interest,
+              Total: this.bill.Total,
+              TotalPaid: this.bill.Total,
+              Due: 0,
+              Status: 'FP'
+            });
+
+
+          } else {
+            console.error('Error updating bill:', response.message);
           }
-      // Call the service to update the user tagging
-      this.http.addReceipt(payload).subscribe({
-        next: (res) => {
-          this.toasterservice.success("User updated successfully");
-          this.visible = false; // Close the edit dialog
-          this.hideAddNew = true;
-          this.getReceptData();
         },
-        error: (err) => {
-          this.toasterservice.error(err.error?.message || "Error updating user");
-        }
+        error: (err:any) => {
+          console.error('Error updating bill:', err);
+        },
       });
-    } else {
+
+    } 
+  }
+
+}
+
+createReceipt(receiptData: any) {
+
+  this.billDetailService.updateReceipt(receiptData).subscribe((response) => {
+    if (response.message == "receipt created successfully") {
+      console.log('Receipt created successfully!');
+      // this.createAndSendReceiptPDF(receiptData);
+      this.visible = false; // Close the edit dialog
+      this.hideAddNew = true;
+      this.getReceptData();
+    }
+     else {
+      console.error('Error creating receipt:', response.message);
 
     }
-  }
+  });
+}
+
 
     closeDialog(){
       this.bill_status = '';
