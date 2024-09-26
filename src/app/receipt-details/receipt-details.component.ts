@@ -138,10 +138,11 @@ generatePDF(receipt: any) {
     ["Bill No", receipt.BillNo],
     ["Property Code", receipt.Property],
     ["Paid Date", receipt.paid_date],
-    ["Lease Amount", receipt.Rental_lease_amount_permonth],
-    ["GST", receipt.GST],
+    // ["Lease Amount", receipt.Rental_lease_amount_permonth],
+    // ["GST", receipt.GST],
+    ["Total Bill Amount", receipt.Total],
     ["Total Paid", receipt.TotalPaid],
-    ["Due Amount", receipt.Due],
+    // ["Due Amount", receipt.Due],
     ["Payment Status", receipt.Status]
   ];
 
@@ -185,13 +186,13 @@ generatePDF(receipt: any) {
 
   addNewUser() {
     if (this.addNewRecept.valid) {
-      
+
       // Close the dialog after logging
       this.visible = false;
       // Optionally, you can reset the form
       this.addNewRecept.reset();
     } else {
-      
+
     }
   }
 
@@ -238,7 +239,7 @@ generatePDF(receipt: any) {
     if (this.addNewRecept.valid) {
       // Print the form values to the console
       const form = this.addNewRecept.value
-      
+
           const payload = {
             Property: form.Property,
             billNo: form.billNo,
@@ -259,7 +260,7 @@ generatePDF(receipt: any) {
         }
       });
     } else {
-      
+
     }
   }
 

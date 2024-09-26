@@ -485,7 +485,7 @@ createAndSendPDF(updateData: any) {
         doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
 
         // Save the PDF
-        doc.save(`Bill_Receipt_${bill.Property}.pdf`);
+        doc.save(`Bill_${bill.BillNo}.pdf`);
       }
     }
     )
@@ -498,7 +498,7 @@ createAndSendPDF(updateData: any) {
     const currentYear = currentDate.getFullYear();
 
 
-    return `rec/vmrda/${currentMonth}/${currentYear}/${UserID}`;
+    return `REC/VMRDA/${currentMonth}/${currentYear}/${UserID}`;
   }
 
   showDialog1() {
@@ -548,7 +548,7 @@ createAndSendPDF(updateData: any) {
     this.billDetailService.verifyPayment(response).subscribe({
       next: async (data) => {
         if (data.message === "Payment verified successfully") {
-          const challanNumber = this.generateChallanNumber(bill.property_code);
+          const challanNumber = this.generateChallanNumber(bill.Property);
 
           const transactionData = {
             "id": data.paymentDetails.id ?? "No Data",
@@ -778,7 +778,7 @@ console.log('User ID sent in formData:', formData.get('userId'));
       }
        else {
         console.error('Error creating receipt:', response.message);
-        
+
       }
     });
   }
