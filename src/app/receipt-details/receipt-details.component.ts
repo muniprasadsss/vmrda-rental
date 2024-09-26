@@ -240,7 +240,14 @@ generatePDF(receipt: any) {
       }
     })
   }
+  generateChallanNumber(UserID: string): string {
+    const currentDate = new Date();
+    const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month as a number, padded to 2 digits
+    const currentYear = currentDate.getFullYear();
 
+
+    return `REC/VMRDA/${currentMonth}/${currentYear}/${UserID}`;
+  }
   addReciept(){
     if (true) {
       // Print the form values to the console
@@ -248,32 +255,14 @@ generatePDF(receipt: any) {
         this.bill_status = 'FP';
         const form = this.addNewRecept.value
 
-    //     const payload = {
-    //       Property: form.Property,
-    //       billNo: form.billNo,
-    //       User: form.User,
-    //       Status: this.bill_status,
-    //       paidAmount: form.paidAmount,
-    //     }
-    // // Call the service to update the user tagging
-    // this.http.addReceipt(payload).subscribe({
-    //   next: (res) => {
-    //     this.toasterservice.success("User updated successfully");
-    //     this.visible = false; // Close the edit dialog
-    //     this.hideAddNew = true;
-    //     this.getReceptData();
-    //   },
-    //   error: (err) => {
-    //     this.toasterservice.error(err.error?.message || "Error updating user");
-    //   }
-    // });
+
     
     const updateData = {
       BillNo: this.bill.BillNo,
       Status: 'FP',
       TotalPaid: this.bill.Total,
       Due: 0,
-      Vmrda_Challan_No: 'Manually Paid',
+      Vmrda_Challan_No:  this.generateChallanNumber(this.bill.Property),
 
       }
 
@@ -285,7 +274,7 @@ generatePDF(receipt: any) {
 
             await this.createReceipt({
               BillNo: this.bill.BillNo,
-              ReceiptNo: 'Manually Paid',
+              ReceiptNo: this.generateChallanNumber(this.bill.Property),
               User: form.User,
               Property: this.bill.Property,
               paid_date: new Date().toISOString(),

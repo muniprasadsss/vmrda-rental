@@ -49,7 +49,8 @@ export class ChangeRequestComponent implements OnInit {
   userInfo:any;
   userInfoString:any;
   fileToUpload: any;
-  attachmentUrl:any = null
+  attachmentUrl:any = null;
+  hideSelect:boolean= true;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -199,31 +200,11 @@ this.payload = {
       });
      
     } else {
-     
+     this.toasterservice.warning("Please Enter Remarks")
     }
   }
 
-  navigateTo(status: string) {
-    this.activeButton = status;
-    this.getcrInfo();
-    switch (status) {
-      case 'approved':
-        this.isApprovedClicked = true;
-        this.isPendingClicked = false;
-        this.isRejectClicked = false;
-        break;
-      case 'pending':
-        this.isApprovedClicked = false;
-        this.isPendingClicked = true;
-        this.isRejectClicked = false;
-        break;
-      case 'rejected':
-        this.isApprovedClicked = false;
-        this.isPendingClicked = false;
-        this.isRejectClicked = true;
-        break;
-    }
-  }
+
 
   showModalDiv() {
     this.isDialogVisible = true;
@@ -276,7 +257,7 @@ this.payload = {
       case 'COMISSIONER':
         return buttonType === 'Approval';
       default:
-        return false;
+        return buttonType === 'Select';
     }
   }
 

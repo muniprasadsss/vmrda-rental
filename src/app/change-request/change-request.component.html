@@ -33,7 +33,7 @@
     
         <ng-template pTemplate="header">
                 <tr  style="font-size: 12px; padding: 0;">
-                    <th pSortableColumn="id" *ngIf="userRole !== 'USER'">ID <p-sortIcon field="id"></p-sortIcon></th>
+                    <!-- <th pSortableColumn="id" *ngIf="userRole !== 'USER'">ID <p-sortIcon field="id"></p-sortIcon></th> -->
                     <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
                     <th pSortableColumn="username" *ngIf="userRole !== 'USER'">Username <p-sortIcon field="username"></p-sortIcon></th>
                     <th pSortableColumn="userId" *ngIf="userRole !== 'USER'">User ID <p-sortIcon field="userId"></p-sortIcon></th>
@@ -51,7 +51,7 @@
     
         <ng-template pTemplate="body" let-item>
             <tr style="font-size: 12px;">
-                <td *ngIf="userRole !== 'USER'">{{ item.id }}</td>
+                <!-- <td *ngIf="userRole !== 'USER'">{{ item.id }}</td> -->
                 <td>{{ item.cr_number }}</td>
                 <td *ngIf="userRole !== 'USER'">{{ item.username }}</td>
                 <td *ngIf="userRole !== 'USER'">{{ item.userId }}</td>
@@ -61,20 +61,23 @@
                 <td *ngIf="item.attachment === null "></td>
                 <td>{{ item.description }}</td>
                 <td>{{ item.propertycode }}</td>
-                <td>{{ item.created_at | date: 'short' }}</td>
+                <td>{{ item.created_at | date: 'YYYY-MM-dd'}}</td>
                 <td>{{ item.status}}</td>
                 <td *ngIf="userRole !== 'USER'" style="width: 10%;">{{ item.stage}}</td>
-                <td *ngIf="userRole !== 'USER'" style="width: 10%;" >
-                    <select class="custom-select" [(ngModel)]="item.action"
-                [disabled]="isSelectDisabled(item.stage, item.status)" 
-                 (change)="changeStatus(item.cr_number,item.requesttype,item.status,item.stage,item.action)">
-                 <!-- <option [ngValue]="null">Select</option> -->
-                 <option [ngValue]="null">select</option>
-                    <option value="Recommend" *ngIf="shouldShowButton('Recommend')">Recommend</option>
-                    <option value="Approval" *ngIf="shouldShowButton('Approval')">Approval</option>
-                    <option value="Close" *ngIf="shouldShowButton('Close')">Close</option>
-                </select>
+                <td *ngIf="userRole !== 'USER'" style="width: 10%;">
+                    <select class="custom-select" 
+                            [(ngModel)]="item.action"
+                            [disabled]="isSelectDisabled(item.stage, item.status)" 
+                            (change)="changeStatus(item.cr_number, item.requesttype, item.status, item.stage, item.action)">
+                      <option  disabled [selected]="true">Select</option>
+                      <option value="Recommend" *ngIf="shouldShowButton('Recommend')">Recommend</option>
+                      <option value="Approval" *ngIf="shouldShowButton('Approval')">Approval</option>
+                      <option value="Close" *ngIf="shouldShowButton('Close')">Close</option>
+                    </select>
                   </td>
+                  
+                  
+                  
                   
             </tr>
         </ng-template>
@@ -133,7 +136,7 @@
     
         <ng-template pTemplate="header">
             <tr  style="font-size: 12px; padding: 0;">
-            <th pSortableColumn="id">ID </th>
+            <!-- <th pSortableColumn="id">ID </th> -->
             <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
             <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
             <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
@@ -150,7 +153,7 @@
 
         <ng-template pTemplate="body" let-item>
         <tr style="font-size: 12px;" >
-            <td>{{ item.id }}</td>
+            <!-- <td>{{ item.id }}</td> -->
             <td>{{ item.cr_number }}</td>
             <td>{{ item.username }}</td>
             <td>{{ item.userId }}</td>
@@ -160,7 +163,7 @@
             <td *ngIf="item.attachment === null "></td>
             <td>{{ item.description }}</td>
             <td>{{ item.propertycode }}</td>
-            <td>{{ item.created_at | date: 'short' }}</td>
+            <td>{{ item.created_at | date: 'YYYY-MM-dd' }}</td>
             <td>{{ item.status}}</td>
             <!-- <td style="width: 10%;">{{ item.stage}}</td>                 -->
             </tr>
@@ -198,15 +201,6 @@
                 
             </div>
             <div class="form-row">
-                <!-- <div class="form-group">
-                    <label for="revenuedivision" class="form-label">Revenue Division</label>
-                    <input type="text" id="revenuedivision" class="form-input" formControlName="revenueDivision" />
-                </div> -->
-               
-                <!-- <div class="form-group">
-                    <label for="revenuedivision2" class="form-label">Revenue Division 2</label>
-                    <input type="text" id="revenuedivision2" class="form-input" formControlName="revenueDivision" />
-                </div> -->
             </div>
             <div class="form-row" style="justify-content: center;">
                 <div class="form-group">
