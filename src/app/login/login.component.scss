@@ -58,13 +58,10 @@ html {
 // }
 
 .login-box {
-  background: rgba(255, 255, 255, 0.5); /* White background with 50% opacity */
+  
   padding: 30px;
   width: 350px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
-  backdrop-filter: blur(1px); /* Applies a blur effect to the background */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Optional: light border for glass effect */
+  
 }
 
 
@@ -75,7 +72,7 @@ html {
 }
 
 .input-group {
-  margin-bottom: 15px;
+  margin-bottom: 1px;
 }
 
 .input-group label {
@@ -119,8 +116,7 @@ html {
   border: none;
   background: none;
   margin-top: 10px;
-  font-size: 0.85em;
-  color: #007bff;
+  color: white;
   text-decoration: none;
 }
 
@@ -151,7 +147,7 @@ html {
  .formHeading{
   margin-bottom: 1.5rem;
   letter-spacing: 2px;
-  color: black;
+  color: white;
   font-weight: bold;
   font-size:large;
  }

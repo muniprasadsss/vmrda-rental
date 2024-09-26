@@ -1,7 +1,7 @@
 <title>Login Page</title>
 <div class="login-container">
   <div class="welcome-box">
-    <h1>Welcome</h1>
+    <h1>Welcome to VMRDA</h1>
     <!-- <p>
       We’re glad to see you again. Enjoy a seamless experience as you navigate through our platform.
     </p> -->
@@ -25,15 +25,15 @@
 
     <form #loginForm="ngForm" novalidate *ngIf="!forgotPasswordDiv">
       <div class="formHeading">
-        Sign In
+        <h1>Sign In</h1>
       </div>
       <div class="input-group">
         <input id="username" type="text" pInputText [(ngModel)]="userID" name="username" #usernameCtrl="ngModel"
-          required placeholder="Enter your UserId" />
+          required placeholder="Enter User Id" />
       </div>
       <div class="input-group" style="margin-top: 1rem;">
         <input id="password" type="password" pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
-          required placeholder="Enter your password" />
+          required placeholder="Enter Password" />
         <div *ngIf="
             (passwordCtrl.invalid && passwordCtrl.touched) ||
             (usernameCtrl.invalid && usernameCtrl.touched)" class="error" style="margin-top: 2rem;color: red;">
@@ -69,7 +69,9 @@
         </div>
         <div>
           <!-- <a href="#" class="forgot-link">Lost your password?</a> -->
-          <button class="forgot-link" (click)="ForgotPasswordDiv()">Forgot password?</button>
+          <button class="forgot-link" (click)="ForgotPasswordDiv()">
+            <h3>Forgot password?</h3>
+          </button>
         </div>
       </div>
     </form>
