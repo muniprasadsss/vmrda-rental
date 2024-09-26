@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 import { LoginService } from '../services/login/login.service';
 import { errorContext } from 'rxjs/internal/util/errorContext';
+import { ProfileSettingsService } from '../services/profileSettings/profile-settings.service';
 
 
 @Component({
@@ -17,17 +18,20 @@ import { errorContext } from 'rxjs/internal/util/errorContext';
 })
 export class LoginComponent {
   AuthGuardsService: any;
-  constructor(private router:Router,private toasterservice:ToastrService,private LoginService:LoginService,
-    private authService: AuthGuardsService){}
+  constructor(private router:Router,private toasterservice:ToastrService,
+    private LoginService:LoginService,
+    private authService: AuthGuardsService,private profileService:ProfileSettingsService){}
   userID: string = '';
   password: string = '';
   verifyUserID: string = '';
   otp: number | undefined
-  forgotOtp: number | undefined
   formError: string = '';
+  newPassword: string = '';
+  renterNewPass: string = '';
   otpDiv:boolean=false;
   forgotPasswordDiv:boolean=false;
-  showForgotOtpDiv: boolean = false; // New property for OTP display
+  showForgotOtpDiv: boolean = false; 
+  isNewPassword: boolean = false; 
 Login(form: any) {
     if( this.userID.length>0   && this.password.length>0 ){
       
@@ -72,40 +76,84 @@ Login(form: any) {
     }
   
   }
+  verifyOtp() {
+    if (this.otp) {
+      this.LoginService.verifyOTP(this.userID,this.otp).subscribe({
+        next:(res:any)=>{
+          localStorage.setItem('userInfo', JSON.stringify(res.user));
+      // this.authService.login(res.user.user_type,res.user.USER_ID)
+        // this.toasterservice.success("login successful")
+        this.isNewPassword = true;
+        this.otpDiv = false;
+        },
+        error:(err:any)=>{
+          this.toasterservice.warning("Please enter valid otp")
+        }
+      })
+      
+    }
+     else {
+      this.toasterservice.warning("Please enter valid otp")
+      
+    }
+  
+  }
   
   ForgotPasswordDiv(){
     this.forgotPasswordDiv=true
   }
 
-  // ForgotPassword(form:any){
-  //  if(this.verifyUserID.length>0){
-  //   console.log(this.verifyUserID,"userid on confirm password");
-  //  }
-   
-  // }
 
-  // ForgotPassword(form: any) {
-  //   if (this.verifyUserID.length > 0) {
-  //     console.log(this.verifyUserID, "User ID on confirm password");
-  //     this.LoginService.OtpForChangePassword(this.verifyUserID).subscribe(
-  //       response => {
-  //         console.log('Response:', response);
-  //         // Handle successful response (e.g., show a success message)
-  //       },
-  //       error => {
-  //         console.error('Error:', error);
-  //         // Handle error response (e.g., show an error message)
-  //       }
-  //     );
-  //   } else {
-  //     console.log('Please enter a valid User ID.');
-  //   }
-  // }
+  submitNewPassword() {
+      if(this.newPassword === this.renterNewPass){
+        const senddata = {
+          old_password:this.newPassword,
+          new_password:this.renterNewPass,
+          USER_ID: this.userID, 
+        };
+
+        this.profileService.changePassword(senddata).subscribe(
+          response => {
+            console.log('Password changed successfully:', response);
+            this.toasterservice.success('Password changed successfully!'); // Show success message
+            this.forgotPasswordDiv = false;
+            this.isNewPassword = false;
+          },
+          error => {
+            console.error('Error changing password:', error);
+            this.toasterservice.error('Error changing password. Please try again.'); // Show error message
+          }
+        );
+      }
+      else{
+        this.toasterservice.error("New passwords do not match");
+      }
+  }
+  
+  resendOtp() {
+    if( this.userID.length>0   && this.password.length>0 ){
+        let payload = {
+          USER_ID:this.userID
+        }
+      this.LoginService.resendOtp(payload).subscribe({
+        next:(res:any)=>{
+          // this.otpDiv= res.uservalid
+        },
+        error:(err:any)=>{
+          this.toasterservice.warning("Please enter valid userID and password")
+        }
+      })  
+    }
+    else{
+      this.toasterservice.warning("Please enter valid userID and password")
+    }
+  }
+
 
   ForgotPassword(form: any) {
-    if (this.verifyUserID.length > 0) {
-      console.log(this.verifyUserID, "User ID on confirm password");
-      this.LoginService.OtpForChangePassword(this.verifyUserID).subscribe(
+    if (this.userID.length > 0) {
+      console.log(this.userID, "User ID on confirm password");
+      this.LoginService.OtpForChangePassword(this.userID).subscribe(
         response => {
           console.log('Response:', response);
           this.showForgotOtpDiv = true; // Show OTP input

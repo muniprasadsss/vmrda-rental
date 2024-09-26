@@ -8,6 +8,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ChangeRequestService } from '../services/changeRequest/change-request.service';
 @Component({
   selector: 'app-receipt-details',
   standalone: true,
@@ -22,9 +23,13 @@ export class ReceiptDetailsComponent {
   receiptData:any
   addNewRecept: FormGroup;
   hideAddNew:boolean= false;
+  bill_status:string = '';
   @ViewChild('dt2') dt!: any;
   value: any;
-  constructor(private http:ReceptDetailsService,private fb: FormBuilder,private toasterservice: ToastrService,){
+  fileToUpload: any;
+  attachmentUrl:any = null
+  constructor(private http:ReceptDetailsService,private Http: ChangeRequestService,
+    private fb: FormBuilder,private toasterservice: ToastrService,){
 
     this.addNewRecept = this.fb.group({
       billNo: ['', Validators.required],
@@ -190,20 +195,36 @@ generatePDF(receipt: any) {
     }
   }
 
-  formatDate(date: any): string {
-    if (!date) return '';
-    const d = new Date(date);
-    return d.toISOString().split('T')[0]; // Returns YYYY-MM-DD
-  }
+     // Handle file input change
+     onFileChange(event: any) {
+      const file = event.target.files[0];
+      this.fileToUpload = file;
+    }
+
+    uploadattachment(){
+      let fd = new FormData();
+      fd.append('image',  this.fileToUpload);
+      this.Http.uploadAttachment(fd).subscribe({
+        next:(res:any)=>{
+          this.attachmentUrl = res.location;
+          this.fileToUpload = null;
+        },
+        error:(err:any)=>{
+  
+        }
+      })
+    }
+  
 
   fetchBillDetails(billNo:any){
     this.http.getBillDetails(billNo).subscribe({
       next:(res:any)=>{
+        this.bill_status = res.Status;
         this.addNewRecept.patchValue({
           billNo: res.BillNo,
           User: res.User,
           Property: res.Property,
-          Bill_Period:  this.formatDate(res.Bill_Period),
+          Bill_Period:  res.Bill_Period,
           Total: res.Total,
           Status: res.Status,
 
@@ -242,6 +263,12 @@ generatePDF(receipt: any) {
     }
   }
 
+    closeDialog(){
+      this.bill_status = '';
+      this.visible = false;
+      this.hideAddNew = false;
+      this.addNewRecept.reset();
+    }
 
 
 }

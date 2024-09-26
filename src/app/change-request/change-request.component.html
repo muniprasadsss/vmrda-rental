@@ -1,5 +1,5 @@
 
-<div class="button-container" *ngIf="userRole !== 'USER'">
+<!-- <div class="button-container" *ngIf="userRole !== 'USER'">
     <button class="Button"  (click)="navigateTo('approved')"
     [ngClass]="{'active': activeButton === 'approved'}" style="background-color: green;">Approved</button>
     <button (click)="navigateTo('pending')" class="Button" 
@@ -7,7 +7,7 @@
     <button (click)="navigateTo('rejected')" 
     class="Button" 
     [ngClass]="{'active': activeButton === 'rejected'}" style="background-color: rgb(30, 116, 228);">Closed</button>
-  </div>
+  </div> -->
   <!-- accepted table -->
 <div class="card custom-table" >
     <p-table #dt2 [value]="tableData"  dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
@@ -23,10 +23,10 @@
                     <input pInputText type="text"  (input)="onFilterGlobal($event)" placeholder="Search keyword" />
                 </p-iconField>
             </div>
-            <div *ngIf="userRole === 'USER'">
-                <button class="closedButton" (click)="RejectedDiv()">Closed Tickets</button>
+            <div >
+                <button  *ngIf="userRole !== 'USER'" class="closedButton" (click)="RejectedDiv()">Closed Tickets</button>
                 <span style="border-left: 5px solid white;height: 1rem;"></span>
-                <button class="addNewButton" (click)="addRequestDiv()">New Request</button>
+                <button *ngIf="userRole === 'USER'" class="addNewButton" (click)="addRequestDiv()">New Request</button>
             </div>
             </div>
         </ng-template>
@@ -156,7 +156,8 @@
             <td>{{ item.userId }}</td>
             <td>{{ item.requesttype }}</td>
             <td>{{ item.revenuedivision }}</td>
-            <td>{{ item.attachment }}</td>
+            <td *ngIf="item.attachment !== null  " (click)="downloadFile(item.attachment)"><i class="pi pi-paperclip" style="color: slateblue" ></i></td>
+            <td *ngIf="item.attachment === null "></td>
             <td>{{ item.description }}</td>
             <td>{{ item.propertycode }}</td>
             <td>{{ item.created_at | date: 'short' }}</td>
@@ -220,3 +221,5 @@
         </form>
     </div>
 </p-dialog>
+
+

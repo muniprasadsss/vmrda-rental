@@ -131,29 +131,31 @@ export class ChangeRequestComponent implements OnInit {
     this.pendingRecordes = [];
     this.rejectedRecordes = [];
 
-    this.approvedRecordes = this.crData.filter(item=> {
-      return item.status === 'Approved'
-    })
     this.pendingRecordes = this.crData.filter(item=> {
-      return item.status === 'Pending'
+      return item.status === 'Approved' || item.status === 'Pending'
     })
+    // this.pendingRecordes = this.crData.filter(item=> {
+    //   return item.status === 'Pending'
+    // })
     this.rejectedRecordes = this.crData.filter(item=> {
       return item.status === 'Closed'
     })
     this.userRecordes = this.crData.filter(item=> {
       return item.status !== 'Closed'
     })
-    if(this.isApprovedClicked && this.userRole !== 'USER'){
-          this.tableData = this.approvedRecordes;
-    }
-    if(this.isPendingClicked && this.userRole !== 'USER'){
-          this.tableData = this.pendingRecordes;
-    }
-    if(this.isRejectClicked && this.userRole !== 'USER'){
-          this.tableData = this.rejectedRecordes;
-    }
+    // if(this.isApprovedClicked && this.userRole !== 'USER'){
+    //       this.tableData = this.approvedRecordes;
+    // }
+    // if(this.isPendingClicked && this.userRole !== 'USER'){
+    //       this.tableData = this.pendingRecordes;
+    // }
+    // if(this.isRejectClicked && this.userRole !== 'USER'){
+    //       this.tableData = this.rejectedRecordes;
+    // }
     if( this.userRole === 'USER'){
           this.tableData = this.userRecordes;
+    }else{
+      this.tableData = this.pendingRecordes;
     }
     
   }
