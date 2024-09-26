@@ -131,7 +131,9 @@
       <div class="form-row">
         <div class="form-group">
           <label for="mobileNo" class="form-label">Mobile No</label>
-          <input type="number" id="mobileNo" formControlName="MOBILE_NUM" class="form-input" />
+          <input type="tel" id="mobileNo" formControlName="MOBILE_NUM" class="form-input" 
+          inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)"/>
         </div>
         <div class="form-group">
           <label for="usertype" class="form-label">User Type</label>

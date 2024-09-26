@@ -21,9 +21,13 @@ export class LoginComponent {
     private authService: AuthGuardsService){}
   userID: string = '';
   password: string = '';
+  verifyUserID: string = '';
   otp: number | undefined
+  forgotOtp: number | undefined
   formError: string = '';
   otpDiv:boolean=false;
+  forgotPasswordDiv:boolean=false;
+  showForgotOtpDiv: boolean = false; // New property for OTP display
 Login(form: any) {
     if( this.userID.length>0   && this.password.length>0 ){
       
@@ -69,4 +73,51 @@ Login(form: any) {
   
   }
   
+  ForgotPasswordDiv(){
+    this.forgotPasswordDiv=true
+  }
+
+  // ForgotPassword(form:any){
+  //  if(this.verifyUserID.length>0){
+  //   console.log(this.verifyUserID,"userid on confirm password");
+  //  }
+   
+  // }
+
+  // ForgotPassword(form: any) {
+  //   if (this.verifyUserID.length > 0) {
+  //     console.log(this.verifyUserID, "User ID on confirm password");
+  //     this.LoginService.OtpForChangePassword(this.verifyUserID).subscribe(
+  //       response => {
+  //         console.log('Response:', response);
+  //         // Handle successful response (e.g., show a success message)
+  //       },
+  //       error => {
+  //         console.error('Error:', error);
+  //         // Handle error response (e.g., show an error message)
+  //       }
+  //     );
+  //   } else {
+  //     console.log('Please enter a valid User ID.');
+  //   }
+  // }
+
+  ForgotPassword(form: any) {
+    if (this.verifyUserID.length > 0) {
+      console.log(this.verifyUserID, "User ID on confirm password");
+      this.LoginService.OtpForChangePassword(this.verifyUserID).subscribe(
+        response => {
+          console.log('Response:', response);
+          this.showForgotOtpDiv = true; // Show OTP input
+          this.otpDiv = true; // Set to true if you want to manage OTP display globally
+        },
+        error => {
+          console.error('Error:', error);
+          this.toasterservice.warning("Failed to send OTP, please try again.");
+        }
+      );
+    } else {
+      this.toasterservice.warning('Please enter a valid User ID.');
+    }
+  }
 }

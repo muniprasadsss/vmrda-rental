@@ -1,54 +1,171 @@
-<div class="loginContainer">
-  <div class="backgroundWrapper"></div> <!-- Background wrapper with blur -->
-  <div class="titleDiv">
-    <div>
-      <!-- <img src="../../assets/vmrdalogo.jpg" class="logoStyles"/> -->
-    </div>
-    <div>
-      <span style="font-size: 30px;font-weight: 500;">Visakhapatnam Metropolitan Region Development Authority</span>
+<title>Login Page</title>
+<div class="login-container">
+  <div class="welcome-box">
+    <h1>Welcome Back</h1>
+    <p>
+      We’re glad to see you again. Enjoy a seamless experience as you navigate through our platform.
+    </p>
+    <div class="social-icons">
+      <span>
+        <a href="#"><i class="pi pi-facebook"></i></a>
+      </span>
+      <span>
+        <a href="#"><i class="pi pi-twitter"></i></a>
+      </span>
+      <span>
+        <a href="#"><i class="pi pi-instagram"></i></a>
+      </span>
+      <span>
+        <a href="#"><i class="pi pi-youtube"></i></a>
+      </span>    
     </div>
   </div>
-  <div class="formDiv">
-    <form class="card" #loginForm="ngForm"  novalidate>
-      <div>
-        <p-floatLabel>
-          <input id="username" type="text" pInputText [(ngModel)]="userID" name="username" #usernameCtrl="ngModel"
-            required />
-          <label for="username">Username</label>
-        </p-floatLabel>
-        <!-- <div *ngIf="" class="error">
-              Username is required.
-            </div> -->
-      </div>
-      <div style="margin-top: 30px;">
-        <p-floatLabel>
-          <input id="password" type="password" pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
-            required />
-          <label for="password">Password</label>
-        </p-floatLabel>
-        <div *ngIf="passwordCtrl.invalid && passwordCtrl.touched || usernameCtrl.invalid && usernameCtrl.touched"
-          class="error">
-          Username and Password is required.
-        </div>
-        <div *ngIf="otpDiv"
-          class="otp">
-          Please enter the otp.
-        </div>
-      </div>
-      <div *ngIf="otpDiv" style="margin-top: 10px;">
-        <p-inputOtp id="otp" type="number" placeholder="Enter Otp" pInputText [(ngModel)]="otp" name="otp" required />
+  <div class="login-box">
+    <!-- Login Form  -->
 
+    <form #loginForm="ngForm" novalidate *ngIf="!forgotPasswordDiv">
+      <div class="input-group">
+          <input
+            id="username"
+            type="text"
+            pInputText
+            [(ngModel)]="userID"
+            name="username"
+            #usernameCtrl="ngModel"
+            required
+            placeholder="Enter your UserId"
+          />
       </div>
-      <div *ngIf="otpDiv"
-      class="otp" style="color: rgb(38 129 211); font-weight: 700;">
-      Resend OTP 
-    </div>
-      <div class="buttonDiv">
-        <!-- <button pButton type="submit" label="Login" icon="pi pi-sign-in" class="p-mt-2" size="small"></button> -->
-        <button class="buttonClass" type="submit" (click)="Login(loginForm)"  *ngIf="!otpDiv">Login</button>
-        <button class="buttonClass"  type="submit" (click)="submitOtp()" *ngIf="otpDiv">Submit</button>
+      <div class="input-group" style="margin-top: 30px;">
+          <input
+            id="password"
+            type="password"
+            pInputText
+            [(ngModel)]="password"
+            name="password"
+            #passwordCtrl="ngModel"
+            required
+            placeholder="Enter your password"
+          />
+        <div
+          *ngIf="
+            (passwordCtrl.invalid && passwordCtrl.touched) ||
+            (usernameCtrl.invalid && usernameCtrl.touched)"
+          class="error" style="margin-top: 2rem;color: red;"
+        >
+          Username and Password are required.
+        </div>
+      </div>
       
+      <!-- OTP section if required -->
+      <div *ngIf="otpDiv" style="margin-top: 10px;">
+        <p-inputOtp
+          id="otp"
+          type="number"
+          placeholder="Enter Otp"
+          pInputText
+          [(ngModel)]="otp"
+          name="otp"
+          required
+        ></p-inputOtp>
+        <div class="otp" style="color: rgb(38, 129, 211); font-weight: 700;">
+          Resend OTP
+        </div>
+      </div>
+
+      <div class="checkbox-group" style="margin-top: 20px;">
+        <input type="checkbox" id="remember" />
+        <label for="remember">Remember Me</label>
+      </div>
+
+
+      
+      <!-- Submit buttons -->
+      <div class="buttonDiv" style="margin-top: 20px;display: flex;flex-direction: column;align-items: center;">
+        <div>
+        <button
+          class="signin-btn"
+          type="submit"
+          (click)="Login(loginForm)"
+          *ngIf="!otpDiv"
+        >
+          Sign in now
+        </button>
+        <button
+          class="signin-btn"
+          type="submit"
+          (click)="submitOtp()"
+          *ngIf="otpDiv"
+        >
+          Submit OTP
+        </button>
+      </div>
+        <div>
+        <!-- <a href="#" class="forgot-link">Lost your password?</a> -->
+        <button class="forgot-link" (click)="ForgotPasswordDiv()">Forgot password?</button>
+        </div>
       </div>
     </form>
+
+    <!-- ForgotPasswordForm  -->
+
+    <form #forgotpasswordform="ngForm" novalidate *ngIf="forgotPasswordDiv">
+      <div class="input-group">
+          <input
+            id="username"
+            type="text"
+            pInputText
+            [(ngModel)]="verifyUserID"
+            name="username"
+            #usernameCtrl="ngModel"
+            required
+            placeholder="Enter your UserId"
+          />
+      </div>
+      <!-- OTP section if required -->
+      <div *ngIf="showForgotOtpDiv" style="margin-top: 10px;">
+        <p-inputOtp
+          id="otp"
+          type="number"
+          placeholder="Enter Otp"
+          pInputText
+          [(ngModel)]="forgotOtp"
+          name="otp"
+          required
+        ></p-inputOtp>
+        <div class="otp" style="color: rgb(38, 129, 211); font-weight: 700;">
+          Resend OTP
+        </div>
+      </div>
+
+      
+      <!-- Submit buttons -->
+      <div class="buttonDiv" style="margin-top: 20px;display: flex;flex-direction: column;align-items: center;">
+        <div>
+        <button
+          class="signin-btn"
+          type="submit"
+          (click)="ForgotPassword(forgotpasswordform)"
+          *ngIf="!otpDiv"
+        >
+          Send Otp
+        </button>
+        <button
+          class="signin-btn"
+          type="submit"
+          (click)="submitOtp()"
+          *ngIf="otpDiv"
+        >
+          Submit OTP
+        </button>
+      </div>
+      </div>
+    </form>
+    <!-- <div *ngIf="forgotPasswordDiv">
+      <input type="text" id="confirmationuserid"/>
+      <input type="text" id="confirationotp" />
+      </div> -->
+
   </div>
 </div>
+

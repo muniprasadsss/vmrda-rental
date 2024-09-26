@@ -29,4 +29,8 @@ export class LoginService {
     const body = { USER_ID, otp };
     return this.http.post(`${this.apiUrl}/verifyOtp`, body, { headers });
   }
+
+  OtpForChangePassword(UserId: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/send-otp`, {USER_ID:UserId});
+  }
 }
