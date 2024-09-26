@@ -442,7 +442,7 @@ createAndSendPDF(updateData: any) {
           ["Bill No", bill.BillNo],
           // ["User ID", bill.User],
           ["Property Code", bill.Property],
-          ["Lease Period", bill.Bill_Period], // Since no lease period is provided in the bill object, you can add static data or calculate it
+          // ["Lease Period", bill.Bill_Period], 
           ["Lease Amount", bill.Rental_lease_amount_permonth],
           ["GST", bill.GST],
           ["Power Bill Amount", bill.Power_bill],
