@@ -36,7 +36,7 @@
           required placeholder="Enter Password" />
         <div *ngIf="
             (passwordCtrl.invalid && passwordCtrl.touched) ||
-            (usernameCtrl.invalid && usernameCtrl.touched)" class="error" style="margin-top: 2rem;color:#e95420;">
+            (usernameCtrl.invalid && usernameCtrl.touched)" class="error" style="margin-top: 2rem;color:red; background: white;">
           Invalid Username and Password.
         </div>
       </div>
