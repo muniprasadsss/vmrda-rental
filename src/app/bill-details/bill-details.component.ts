@@ -214,10 +214,10 @@ const lease_Amount=formData.lease_Amount;
       Water_bill: formData.water_bill_amount,
       Maintainance_bill: formData.maintenance_amount,
       Total: formData.total,
+      Due: formData.total,
       UserId: userId ,// Include userId here for sending with email
       Property:Property,
-
-lease_Amount:lease_Amount
+      lease_Amount:lease_Amount
     };
 
     console.log(updateData, "....updatedata");
@@ -227,12 +227,14 @@ lease_Amount:lease_Amount
         // Generate and send PDF immediately after updating
         this.createAndSendPDF(updateData); // Call the method to create and send PDF
         this.showModel = false; // Close the modal after successful update
+        this.getbilldetails();
       },
       error: (error) => {
         console.error('Error submitting form:', error);
       }
     });
-  } else {
+  } 
+  else {
     console.error('Form is invalid');
   }
 }
