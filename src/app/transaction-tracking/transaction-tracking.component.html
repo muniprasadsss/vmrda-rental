@@ -42,7 +42,7 @@
         <td style="width: 9%;">{{ transaction.amount_refunded }}</td>
         <td style="width: 5%;">{{ transaction.currency }}</td>
         <td style="width: 5%;">{{ transaction.status }}</td>
-        <td style="width: 5%;">{{ transaction.created_at | date: 'short' }}</td> <!-- Format the date -->
+        <td style="width: 5%;">{{ transaction.created_at | date: 'YYYY-MM-dd' }}</td> <!-- Format the date -->
       </tr>
     </ng-template>
   </p-table>
