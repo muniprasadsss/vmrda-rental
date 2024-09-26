@@ -1,8 +1,8 @@
 
 <!-- <div class="content"> -->
   <div class="card" >
-    <p-table #dt2 [value]="notPaidBills" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 
-    [globalFilterFields]="['BillNo','Property','Bill_Period','Rental_lease_amount_permonth','GST','Power_bill','Water_bill','Maintainance_bill','Total_rental_interest','Bill_generated_date','Total','TotalPaid','Due','Status','BillStatus']" 
+    <p-table #dt2 [value]="notPaidBills" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+    [globalFilterFields]="['BillNo','Property','Bill_Period','Rental_lease_amount_permonth','GST','Power_bill','Water_bill','Maintainance_bill','Total_rental_interest','Bill_generated_date','Total','TotalPaid','Due','Status','BillStatus']"
     [paginator]="true">
 
       <ng-template pTemplate="caption">
@@ -11,20 +11,20 @@
             <p-iconField iconPosition="left" class="ml-auto">
               <p-inputIcon>
                 <i class="pi pi-search"></i>
-              </p-inputIcon> 
+              </p-inputIcon>
               <input pInputText type="text"  (input)="onFilterGlobal($event)" placeholder="Search keyword" />
             </p-iconField>
           </div>
           <div class="search" *ngIf=" userRole !== 'USER'">
-            <p-dropdown 
-            [options]="propertyCode" 
+            <p-dropdown
+            [options]="propertyCode"
             (onChange)="onSelectGlobal($event.value)"
             placeholder="Select Property" />
         </div>
           <div class="dialog">
             <p-button (onClick)="showDialog1()" label="History" severity="success" size="small" />
           </div>
-         
+
         </div>
       </ng-template>
       <ng-template pTemplate="header">
@@ -209,7 +209,7 @@
   <td style="width: 10%;">{{ bill.Bill_generated_date | date: 'dd/MM/yyyy' }}</td>
   <td style="width: 8%;">{{ bill.Total }}</td>
   <td style="width: 8%;">{{ bill.TotalPaid }}</td>
-  <td style="width: 8%;">{{ bill.Total }}</td>
+  <td style="width: 8%;">{{ bill.Due }}</td>
   <td style="width: 8%;">{{ bill.Status }}</td>
   <!-- *ngIf="bill.Status === 'NP'" -->
   <!-- <td>
