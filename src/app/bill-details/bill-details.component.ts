@@ -498,7 +498,7 @@ createAndSendPDF(updateData: any) {
     const currentYear = currentDate.getFullYear();
 
 
-    return `REC/VMRDA/${currentMonth}/${currentYear}/${UserID}`;
+    return `Rec/VMRDA/${currentMonth}/${currentYear}/${UserID}`;
   }
 
   showDialog1() {
