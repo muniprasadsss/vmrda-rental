@@ -57,6 +57,7 @@ export class AuthGuardsService implements CanActivate {
     localStorage.setItem('role', role.toUpperCase());
     this.userRole = role.toUpperCase();
     this.authenticated.next(true);
+    
   }
 
   logout() {
@@ -64,5 +65,6 @@ export class AuthGuardsService implements CanActivate {
     localStorage.removeItem('role');
     localStorage.removeItem('userId');
     this.authenticated.next(false);
+    localStorage.removeItem('userInfo');
   }
 }
