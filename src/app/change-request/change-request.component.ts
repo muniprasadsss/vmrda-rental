@@ -174,7 +174,7 @@ this.payload = {
   request_type: request_type,
   status: status,
   stage: stage,
-  role: localStorage.getItem('userRole'),
+  role: localStorage.getItem('role'),
   action: action,
   };
 

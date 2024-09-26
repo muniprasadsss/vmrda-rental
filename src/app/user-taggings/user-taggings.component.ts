@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderComponent } from '../header/header.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -27,7 +27,8 @@ export class UserTaggingsComponent implements OnInit {
   editVisible: boolean = false; // For the edit dialog
   editForm: any;
   unoccupiedProprertys:any;
-
+  @ViewChild('dt2') dt!: any;
+  value: any;
   constructor(
     private toasterservice: ToastrService,
     private usertaggingservice: UserTaggingService,
@@ -68,6 +69,12 @@ export class UserTaggingsComponent implements OnInit {
       }
     });
   }
+  onFilterGlobal(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.value = target.value;
+    this.dt.filterGlobal(this.value, 'contains');
+  }
+
 
   getUserTaggingDetails() {
     this.dataSource = [];

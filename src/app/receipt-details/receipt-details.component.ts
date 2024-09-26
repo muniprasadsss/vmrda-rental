@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderComponent } from '../header/header.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -22,6 +22,8 @@ export class ReceiptDetailsComponent {
   receiptData:any
   addNewRecept: FormGroup;
   hideAddNew:boolean= false;
+  @ViewChild('dt2') dt!: any;
+  value: any;
   constructor(private http:ReceptDetailsService,private fb: FormBuilder,private toasterservice: ToastrService,){
 
     this.addNewRecept = this.fb.group({
@@ -43,6 +45,13 @@ export class ReceiptDetailsComponent {
   showDialog() {
     this.visible = true;
 }
+
+onFilterGlobal(event: Event): void {
+  const target = event.target as HTMLInputElement;
+  this.value = target.value;
+  this.dt.filterGlobal(this.value, 'contains');
+}
+
 
   getReceptData(){
     this.http.getReciptDetails(this.userID,this.userRole).subscribe({

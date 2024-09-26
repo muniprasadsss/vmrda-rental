@@ -1,38 +1,12 @@
 
 <div class="button-container" *ngIf="userRole !== 'USER'">
-    <!-- <p-button 
-      label="Approved" 
-      severity="success" 
-      (click)="navigateTo('approved')" 
-      size="small" 
-      class="Button" 
-      [ngClass]="{'active': activeButton === 'approved'}"
-    ></p-button> -->
     <button class="Button"  (click)="navigateTo('approved')"
     [ngClass]="{'active': activeButton === 'approved'}" style="background-color: green;">Approved</button>
-  
-    <!-- <p-button 
-      label="Pending" 
-      severity="warning" 
-      (click)="navigateTo('pending')" 
-      size="small" 
-      class="Button" 
-      [ngClass]="{'active': activeButton === 'pending'}"
-    ></p-button> -->
     <button (click)="navigateTo('pending')" class="Button" 
     [ngClass]="{'active': activeButton === 'pending'}" style="background-color: orange;">Pending</button>
-  
-    <!-- <p-button 
-      label="Rejected" 
-      severity="danger" 
-      (click)="navigateTo('rejected')" 
-      size="small" 
-      class="Button" 
-      [ngClass]="{'active': activeButton === 'rejected'}"
-    ></p-button> -->
     <button (click)="navigateTo('rejected')" 
     class="Button" 
-    [ngClass]="{'active': activeButton === 'rejected'}" style="background-color: red;">Rejected</button>
+    [ngClass]="{'active': activeButton === 'rejected'}" style="background-color: rgb(30, 116, 228);">Closed</button>
   </div>
   <!-- accepted table -->
 <div class="card custom-table" >
@@ -59,10 +33,10 @@
     
         <ng-template pTemplate="header">
                 <tr  style="font-size: 12px; padding: 0;">
-                    <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+                    <th pSortableColumn="id" *ngIf="userRole !== 'USER'">ID <p-sortIcon field="id"></p-sortIcon></th>
                     <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
-                    <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
-                    <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
+                    <th pSortableColumn="username" *ngIf="userRole !== 'USER'">Username <p-sortIcon field="username"></p-sortIcon></th>
+                    <th pSortableColumn="userId" *ngIf="userRole !== 'USER'">User ID <p-sortIcon field="userId"></p-sortIcon></th>
                     <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
                     <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon></th>
                     <th pSortableColumn="attachment">Attachment <p-sortIcon field="attachment"></p-sortIcon></th>
@@ -139,8 +113,6 @@
 
 
  <!-- popup only for user with rejected status -->
-
-  <!-- <p-button (onClick)="RejectedDiv()" label="Show" /> -->
 
 <p-dialog header="Closed Tickets" [modal]="true" [(visible)]="showrejecteddata" [style]="{ width: '75rem' }">
     <p-table #dt2 [value]="rejectedRecordes"  dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" 

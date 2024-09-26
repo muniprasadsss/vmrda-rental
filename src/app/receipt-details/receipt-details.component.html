@@ -1,22 +1,21 @@
 
 <div class="card custom-table">
-    <p-table [value]="receiptData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
+    <p-table #dt2 [value]="receiptData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
         <ng-template pTemplate="caption">
             <div class="searchbar">
-                <div class="search">
-                    <p-iconField iconPosition="left" class="ml-auto">
-                        <p-inputIcon>
-                            <i class="pi pi-search"></i>
-                        </p-inputIcon>
-                        <input pInputText type="text" placeholder="Search keyword" />
-                    </p-iconField>
-                    <p-button *ngIf=" userRole !== 'USER'"
-                      (click)="showDialog()" 
-                      label="Add New" 
-                      severity="success"
-                      size="small" />
-                </div>
-
+              <div class="search">
+                <p-iconField iconPosition="left" class="ml-auto">
+                  <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                  </p-inputIcon>
+                  <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+                </p-iconField>
+              </div>
+                <p-button *ngIf=" userRole !== 'USER'"
+                (click)="showDialog()" 
+                label="Add New" 
+                severity="success"
+                size="small" />
 
 </div>
 </ng-template>

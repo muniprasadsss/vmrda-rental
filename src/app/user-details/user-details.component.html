@@ -1,7 +1,7 @@
 <div class="content">
   <div class="card">
     <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
-      [globalFilterFields]="['S_No','User_ID','User_Name','Mobile_No','Nature_of_Business','Aadhaar_No','PAN_No','Email_Id','GSTIN','Revenue_Dvision']"
+    [globalFilterFields]="['SL_NO', 'USER_ID', 'USER_NAME', 'MOBILE_NUM', 'NATURE_OF_BUSINESS', 'Aadhaar_No', 'PAN', 'EMAIL_ID', 'GST_IN']"
       [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
       <ng-template pTemplate="caption">
         <div class="searchbar">
@@ -44,16 +44,9 @@
           <td style="width: 6%;">{{ customer.PAN }}</td>
           <td style="width: 9%;">{{ customer.EMAIL_ID }}</td>
           <td style="width: 6%;">{{ customer.GST_IN }}</td>
-          <!-- <td style="width: 6%;">{{ customer.Revenue_Dvision }}</td> -->
           <td style="width: 6%;" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
             <div class="rowbtn">
               <button class="editButton" (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
-              <!-- <button class="deleteButton"><i class="pi pi-trash"></i></button> -->
-              <!-- <p-button icon="pi pi-check" [rounded]="true" [outlined]="true" /> -->
-              <!-- <p-button icon="pi pi-times" [rounded]="true" severity="danger" [outlined]="true" /> -->
-
-              <!-- <p-button icon="pi pi-pencil" severity="success" size="small"></p-button> -->
-              <!-- <p-button icon="pi pi-trash" severity="danger" size="small"></p-button> -->
             </div>
           </td>
         </tr>
@@ -73,10 +66,6 @@
           <label for="username" class="form-label">Username</label>
           <input type="text" id="username" formControlName="username" class="form-input" />
         </div>
-        <!-- <div class="form-group">
-          <label for="mobile" class="form-label">Mobile No</label>
-          <input type="tel" id="mobile" formControlName="mobileNo" class="form-input" (keydown)="limitInputLength($event, 10)"/>
-        </div> -->
         <div class="form-group">
           <label for="mobile" class="form-label">Mobile No</label>
           <input type="tel" id="mobile" formControlName="mobileNo" class="form-input" inputmode="numeric"
@@ -98,26 +87,11 @@
       </div>
 
       <div class="form-row">
-        <!-- <div class="form-group">
-          <label for="pan" class="form-label">PAN No</label>
-          <input type="text" id="pan" formControlName="pan" class="form-input" />
-        </div> -->
-        <!-- <div class="form-group">
-          <label for="pan">PAN No</label>
-          <input type="text" id="pan" class="form-input" formControlName="pan" (keydown)="limitInputLength($event, 10)"
-          />
-        </div> -->
         <div class="form-group">
           <label for="pan" class="form-label">PAN No</label>
           <input type="text" id="pan" class="form-input" formControlName="pan" maxlength="10"
             (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" />
         </div>
-
-        <!-- <div class="form-group">
-          <label for="email" class="form-label">Email ID</label>
-          <input type="email" id="email" formControlName="email_id" class="form-input" />
-        </div> -->
-        <!-- Email Field (50 characters max, email-valid characters only) -->
         <div class="form-group">
           <label for="email" class="form-label">Email ID</label>
           <input type="email" id="email" formControlName="email_id" class="form-input" (keydown)="validateEmailInput($event)"

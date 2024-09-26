@@ -5,7 +5,7 @@
         <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Tenant Tagging"> </p-tabPanel>
         <p-tabPanel *ngIf="!(user_type === 'COMMISSIONER'  || user_type === 'SECRETARY')" header="Bills"> </p-tabPanel>
         <p-tabPanel *ngIf="!(user_type === 'COMMISSIONER'  || user_type === 'SECRETARY' )" header="Receipts"> </p-tabPanel>
-        <p-tabPanel *ngIf="(user_type === 'RD' || user_type === 'AO' )" header="Generate Bills"> </p-tabPanel>
+        <!-- <p-tabPanel *ngIf="(user_type === 'RD' || user_type === 'AO' )" header="Generate Bills"> </p-tabPanel> -->
         <p-tabPanel header="Grievance"> </p-tabPanel>
         <p-tabPanel *ngIf="(user_type === 'RD' || user_type === 'AO' || user_type === 'ADMIN' )" header="Issue Notice"> </p-tabPanel>
         <p-tabPanel *ngIf="(user_type === 'RD' || user_type === 'AO' || user_type === 'ADMIN')" header="Track Transactions"> </p-tabPanel>

@@ -196,72 +196,6 @@ export class BillDetailsComponent implements OnInit {
 
   }
 
-
-//   onSubmit() {
-//     this.showModel = true
-//     if (this.form.valid) {
-//       const formData = this.form.getRawValue();
-
-//       const updateData = {
-//         BillNo: formData.bill_no, // Ensure correct parameter name
-//         Power_bill: formData.power_bill_amount,
-//         Water_bill: formData.water_bill_amount,
-//         Maintainance_bill: formData.maintenance_amount,
-//         Total: formData.total
-//       };
-// console.log(updateData,"....updatedata")
-//       this.billDetailService.updateBillDetails(updateData).subscribe({
-//         next: (response) => {
-//           this.getbilldetails();
-//           // this.createAndGeneratePDF(this.billDetailService);
-//           this.showModel = false;
-//           // Optionally send an email
-//           // this.sendEmail();
-//         },
-//         error: (error) => {
-//           console.error('Error submitting form:', error);
-//         }
-//       });
-//     } else {
-//       console.error('Form is invalid');
-//     }
-//   }
-// onSubmit() {
-//   this.showModel = true; // Show the modal (if you're using one)
-
-//   if (this.form.valid) {
-//     const formData = this.form.getRawValue();
-//     console.log(formData, "..");
-
-//     // Assuming you have the user ID from the form data or elsewhere in the component
-//     const userId = formData.user_id
-//     ; // Change this based on where you're storing/retrieving the user ID
-
-//     const updateData = {
-//       BillNo: formData.bill_no, // Ensure correct parameter name
-//       Power_bill: formData.power_bill_amount,
-//       Water_bill: formData.water_bill_amount,
-//       Maintainance_bill: formData.maintenance_amount,
-//       Total: formData.total,
-//        // Include userId here for sending with email
-//     };
-
-//     console.log(updateData, "....updatedata");
-
-//     this.billDetailService.updateBillDetails(updateData).subscribe({
-//       next: (response) => {
-//         // Generate and send PDF immediately after updating
-//         this.createAndSendPDF(updateData); // Call the method to create and send PDF
-//         this.showModel = false; // Close the modal after successful update
-//       },
-//       error: (error) => {
-//         console.error('Error submitting form:', error);
-//       }
-//     });
-//   } else {
-//     console.error('Form is invalid');
-//   }
-// }
 onSubmit() {
   this.showModel = true; // Show the modal (if you're using one)
 
@@ -612,7 +546,7 @@ createAndSendPDF(updateData: any) {
     this.billDetailService.verifyPayment(response).subscribe({
       next: async (data) => {
         if (data.message === "Payment verified successfully") {
-          const challanNumber = this.generateChallanNumber(bill.User);
+          const challanNumber = this.generateChallanNumber(bill.property_code);
 
           const transactionData = {
             "id": data.paymentDetails.id ?? "No Data",
@@ -838,10 +772,11 @@ console.log('User ID sent in formData:', formData.get('userId'));
     this.billDetailService.updateReceipt(receiptData).subscribe((response) => {
       if (response.message == "receipt created successfully") {
         console.log('Receipt created successfully!');
+        this.createAndSendReceiptPDF(receiptData);
       }
        else {
         console.error('Error creating receipt:', response.message);
-        this.createAndSendReceiptPDF(receiptData);
+        
       }
     });
   }
