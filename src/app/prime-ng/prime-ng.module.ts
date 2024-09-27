@@ -24,6 +24,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MenuModule } from 'primeng/menu';
 import { AccordionModule } from 'primeng/accordion';
 import { FileUploadModule } from 'primeng/fileupload';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 
@@ -34,12 +35,12 @@ import { FileUploadModule } from 'primeng/fileupload';
     CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
      DropdownModule,FloatLabelModule,ToastModule,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule,ConfirmDialogModule,
-     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule
+     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule,TooltipModule 
   ],
   exports: [CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
      DropdownModule,FloatLabelModule,ToastModule ,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule,ConfirmDialogModule,
-     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule
+     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule,TooltipModule 
    ],
   providers:[ComplexServiceService]
 })

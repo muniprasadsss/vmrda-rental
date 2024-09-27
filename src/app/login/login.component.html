@@ -42,21 +42,16 @@
       </div>
 
       <!-- OTP section if required -->
-      <div *ngIf="otpDiv" style="margin-top: 1rem;">
-        <p-inputOtp id="otp" type="number" placeholder="Enter Otp" pInputText [(ngModel)]="otp" name="otp"
-          required></p-inputOtp>
-        <div class="otp" style="color: rgb(38, 129, 211); font-weight: 700;" (click)="resendOtp()">
-          Resend OTP
-        </div>
+      <div *ngIf="otpDiv"  class="otp-div">
+          <p-inputOtp id="otp" type="number"  style="background: none;border: none;" 
+          placeholder="Enter Otp" pInputText [(ngModel)]="otp" name="otp" required></p-inputOtp>
+          
+          <div class="timer-container">
+            <button pButton label="Resend OTP" (click)="resendOtp()" [disabled]="isTimerActive"></button>
+            <p style="color: white; font-weight: 700;margin-top: 10px;"
+            *ngIf="isTimerActive">You can resend OTP in {{ timer }} seconds</p>
+          </div>
       </div>
-
-      <!-- <div class="checkbox-group" style="margin-top: 20px;">
-        <input type="checkbox" id="remember" />
-        <label for="remember">Remember Me</label>
-      </div> -->
-
-
-
       <!-- Submit buttons -->
       <div class="buttonDiv" style="margin-top: 20px;display: flex;flex-direction: column;align-items: center;">
         <div>
@@ -68,7 +63,6 @@
           </button>
         </div>
         <div>
-          <!-- <a href="#" class="forgot-link">Lost your password?</a> -->
           <button class="forgot-link" (click)="ForgotPasswordDiv()">
             <h3>Forgot password?</h3>
           </button>
@@ -116,10 +110,5 @@
         </div>
       </div>
     </form>
-    <!-- <div *ngIf="forgotPasswordDiv">
-      <input type="text" id="confirmationuserid"/>
-      <input type="text" id="confirationotp" />
-      </div> -->
-
   </div>
 </div>

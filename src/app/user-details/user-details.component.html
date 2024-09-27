@@ -13,8 +13,8 @@
               <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
             </p-iconField>
           </div>
-          <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
-            <p-button (click)="showDialog()" label="Add New" severity="success" size="small" />
+          <div class="dialog"  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+            <p-button (click)="showDialog()" label=" + Add New" severity="success" size="small" />
           </div>
         </div>
       </ng-template>
@@ -30,7 +30,7 @@
           <th pSortableColumn="EMAIL_ID">Email Id</th>
           <th pSortableColumn="GST_IN">GSTIN</th>
           <!-- <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th> -->
-          <th *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')"></th>
+          <th  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-customer>
@@ -44,7 +44,7 @@
           <td style="width: 6%;">{{ customer.PAN }}</td>
           <td style="width: 9%;">{{ customer.EMAIL_ID }}</td>
           <td style="width: 6%;">{{ customer.GST_IN }}</td>
-          <td style="width: 6%;" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
+          <td style="width: 6%;"  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
             <div class="rowbtn">
               <button class="editButton" (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
             </div>
@@ -58,7 +58,7 @@
 
 <!-- Add New Dialog  -->
 
-<p-dialog header="Add New" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
+<p-dialog header="Add New Tenant" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
   <form [formGroup]="addNewForm" (ngSubmit)="addNewUser()">
     <div class="form-container">
       <div class="form-row">
@@ -106,10 +106,10 @@
           <input type="text" id="gstin" formControlName="gstIn" class="form-input"  inputmode="numeric"
             (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)"/>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="revenue" class="form-label">Revenue Division</label>
           <input type="text" id="revenue" formControlName="revenueDivision" class="form-input" />
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="btn">
@@ -125,7 +125,7 @@
 
 <!-- Edit New Dilog  -->
 
-<p-dialog header="Edit User" [(visible)]="editVisible" [modal]="true" position="center" [style]="{ width: '50rem' }">
+<p-dialog header="Edit Tenant" [(visible)]="editVisible" [modal]="true" position="center" [style]="{ width: '50rem' }">
   <form [formGroup]="editForm" (ngSubmit)="updateUser()">
     <div class="form-container">
       <div class="form-row">

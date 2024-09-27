@@ -48,7 +48,6 @@ export class UserDetailsComponent implements OnInit {
       pan: [''],
       email_id: [''],
       gstIn: [''],
-      revenueDivision: ['']
     });
     this.editForm = this.fb.group({
       editUsername: [''],

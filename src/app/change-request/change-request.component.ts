@@ -37,7 +37,6 @@ export class ChangeRequestComponent implements OnInit {
   action:string = ''
   userID:any;
   payload!: Payload| Object;
-  approvedRecordes!:ChangedFields[];
   pendingRecordes!:ChangedFields[];
   rejectedRecordes!:ChangedFields[];
   userRecordes!:ChangedFields[];
@@ -87,11 +86,18 @@ export class ChangeRequestComponent implements OnInit {
 
    // Handle file input change
    onFileChange(event: any) {
-    const file = event.target.files[0];
-    this.fileToUpload = file;
+    const files = event.target.files;
+    if (files.length > 0) { // Check if any file is selected
+      const file = files[0];
+      this.fileToUpload = file;
+      this.uploadAttachment(); // Trigger upload function if file exists
+    } else {
+      console.warn('No file selected');
+    }
   }
+  
 
-  uploadattachment(){
+  uploadAttachment(){
     let fd = new FormData();
     fd.append('image',  this.fileToUpload);
     this.Http.uploadAttachment(fd).subscribe({
@@ -128,33 +134,18 @@ export class ChangeRequestComponent implements OnInit {
   }
 
   filterData(){
-    this.approvedRecordes = [];
     this.pendingRecordes = [];
     this.rejectedRecordes = [];
 
     this.pendingRecordes = this.crData.filter(item=> {
       return item.status === 'Approved' || item.status === 'Pending'
     })
-    // this.pendingRecordes = this.crData.filter(item=> {
-    //   return item.status === 'Pending'
-    // })
     this.rejectedRecordes = this.crData.filter(item=> {
       return item.status === 'Closed'
     })
-    this.userRecordes = this.crData.filter(item=> {
-      return item.status !== 'Closed'
-    })
-    // if(this.isApprovedClicked && this.userRole !== 'USER'){
-    //       this.tableData = this.approvedRecordes;
-    // }
-    // if(this.isPendingClicked && this.userRole !== 'USER'){
-    //       this.tableData = this.pendingRecordes;
-    // }
-    // if(this.isRejectClicked && this.userRole !== 'USER'){
-    //       this.tableData = this.rejectedRecordes;
-    // }
+
     if( this.userRole === 'USER'){
-          this.tableData = this.userRecordes;
+          this.tableData = this.pendingRecordes;
     }else{
       this.tableData = this.pendingRecordes;
     }
