@@ -3,34 +3,31 @@ version: 0.2
 phases:
   install:
     commands:
-      # Install the AWS CLI if it is not pre-installed (only necessary if CodeBuild environment doesn't include it)
       - echo "Installing dependencies..."
-      - pip install --upgrade awscli
+      - apt-get update -y
+      - apt-get install -y awscli
 
   pre_build:
     commands:
-      # Configure AWS CLI with the required credentials (optional if configured via IAM role in CodeBuild)
-      - echo "Setting up AWS configuration..."
+      - echo "Preparing to deploy to S3..."
       - aws --version
-      - echo "Fetching GitLab source code..."
 
   build:
     commands:
-      - echo "Starting build process..."
-      # Build your project if necessary (e.g., npm run build for a React app)
-      # For static website content, you might skip this step.
+      - echo "Building project..."
+      # Example: build static website (if necessary)
+      - npm install
+      - npm run build
       - echo "Build complete."
 
   post_build:
     commands:
-      - echo "Deploying files to S3..."
-      # Sync built or source files to the S3 bucket
-      # Change 'dist/' to the directory where your build or source files are located
-      - aws s3 sync src/ s3://vmrda-rental-code/ --acl public-read
-      - echo "Deployment to S3 complete."
+      - echo "Deploying to S3..."
+      - aws s3 sync build/ s3://vmrda-rental-code/ --acl public-read
+      - echo "Deployment complete."
 
 artifacts:
   files:
     - '**/*'
   discard-paths: yes
-  base-directory: src/
+  base-directory: build/
