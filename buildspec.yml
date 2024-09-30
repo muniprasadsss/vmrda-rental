@@ -16,7 +16,7 @@ phases:
     commands:
       - echo "Building project..."
       # Example: build static website (if necessary)
-      - npm install
+      - npm install --legacy-peer-deps
       - npm run build
       - echo "Build complete."
 
