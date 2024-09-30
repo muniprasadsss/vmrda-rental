@@ -62,8 +62,7 @@ export class BillDetailsComponent implements OnInit {
     private Http: ChangeRequestService,
      private cd: ChangeDetectorRef, http: ReceptDetailsService, private fb: FormBuilder,private datePipe: DatePipe) {
     this.PaymentPopupform = this.fb.group({
-      // due: [''],
-      billNo: [{ value: '' }],
+      billNo: [{ value: '',disabled: true }],
       propertycode: [{ value: '', disabled: true }],
       leaseperiod: [{ value: '', disabled: true }],
       leaseAmount: [{ value: '', disabled: true }],
@@ -634,7 +633,6 @@ createAndSendPDF(updateData: any) {
       waterBillAmount: bill.Water_bill,
       maintenance: bill.Maintainance_bill,
       interest: bill.Total_rental_interest,
-      // billGeneratedDate: bill.Bill_generated_date ,
       billGeneratedDate: this.datePipe.transform(bill.Bill_generated_date, 'yyyy-MM-dd'), // Format the date using data pipe
       total: bill.Total,
       paymentAmount: bill.TotalPaid,
@@ -647,9 +645,10 @@ createAndSendPDF(updateData: any) {
 
   PaymnetPage() {
     const editedAmount = this.PaymentPopupform.value.due; // Get the edited amount
-    this.amount = editedAmount 
+    this.amount = editedAmount                            // Initialise edited amount
     console.log(this.amount,"edited form amount...");
-    
+    const billNo = this.PaymentPopupform.get('billNo')?.value; // Access the disabled control
+    console.log(billNo,"bill no 1..");
 
     // Call Razorpay payment
     this.billDetailService.createOrder(this.amount).subscribe(
@@ -662,7 +661,7 @@ createAndSendPDF(updateData: any) {
           description: `Payment for ${this.selectedBill.Property}`,
           order_id: order.data.id,
           handler: (response: any) => {
-            this.verifyPayment(response, this.selectedBill,this.amount);
+            this.verifyPayment(response, this.selectedBill,this.amount,billNo);
           },
           prefill: {
             name: this.selectedBill.User,
@@ -685,7 +684,7 @@ createAndSendPDF(updateData: any) {
   }
 
 
-  async verifyPayment(response: any, bill: any,editedAamount:any) {
+  async verifyPayment(response: any, bill: any,editedAamount:any, billNo: string) {
     this.billDetailService.verifyPayment(response).subscribe({
       next: async (data) => {
         if (data.message === "Payment verified successfully") {
@@ -734,17 +733,18 @@ createAndSendPDF(updateData: any) {
             //   Vmrda_Challan_No: challanNumber,
             // };
             const updateData={
-              p_billid: bill.BillNo,
+              p_billid: billNo,
               p_payment_amount: transactionData.amount,             
             }
-
+            console.log(updateData,"payload data sent");
+          
               this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
                 next: async (response) => {
                   if (response.status === 200) {
 
 
                     await this.createReceipt({
-                      BillNo: bill.BillNo,
+                      BillNo: billNo,
                       ReceiptNo: challanNumber,
                       User: bill.User,
                       Property: bill.Property,
