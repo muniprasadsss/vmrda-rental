@@ -224,3 +224,82 @@
     </p-dialog>
   </div>
 
+
+  <!-- Payment Pop for Enter Partial Payment  -->
+
+  <div class="card flex justify-content-center">
+    <p-dialog header="Edit Amount" [modal]="true" [(visible)]="showPayPopup" [style]="{ width: '40rem' }">
+      <form [formGroup]="PaymentPopupform">
+      <div class="form-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="BillNo" class="form-label">Bill No</label>
+            <input type="text" id="BillNo" class="form-input" formControlName="billNo"  />
+          </div>
+          <div class="form-group">
+            <label for="propertycode" class="form-label">Property Code</label>
+            <input type="text" id="propertycode"  class="form-input" formControlName="propertycode"/>
+           </div>
+           <div class="form-group">
+            <label for="leaseperiod" class="form-label">Lease Period</label>
+            <input type="text" id="leaseperiod"  class="form-input" formControlName="leaseperiod"/>
+           </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="leaseAmount" class="form-label">Lease Amount</label>
+            <input type="number" id="leaseAmount" class="form-input" formControlName="leaseAmount" />
+          </div>
+          <div class="form-group">
+            <label for="gst" class="form-label">GST</label>
+            <input type="number" id="gst"  class="form-input" formControlName="gst"/>
+           </div>
+           <div class="form-group">
+            <label for="powerBillAmount" class="form-label">Power Bill Amount</label>
+            <input type="number" id="powerBillAmount"  class="form-input" formControlName="powerBillAmount"/>
+           </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="waterBillAmount" class="form-label">Water Bill Amount</label>
+            <input type="number" id="waterBillAmount" class="form-input" formControlName="waterBillAmount"  />
+          </div>
+          <div class="form-group">
+            <label for="maintenance" class="form-label">Maintenance Amount</label>
+            <input type="number" id="maintenance"  class="form-input" formControlName="maintenance"/>
+           </div>
+           <div class="form-group">
+            <label for="interest" class="form-label">Interest</label>
+            <input type="number" id="interest"  class="form-input" formControlName="interest"/>
+           </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="billGeneratedDate" class="form-label">Bill Generated Date</label>
+            <input type="text" id="billGeneratedDate" class="form-input" formControlName="billGeneratedDate" />
+          </div>
+          <div class="form-group">
+            <label for="total" class="form-label">Total</label>
+            <input type="number" id="total"  class="form-input" formControlName="total"/>
+           </div>
+           <div class="form-group">
+            <label for="paymentAmount" class="form-label">Payment Amount</label>
+            <input type="number" id="paymentAmount"  class="form-input" formControlName="paymentAmount"/>
+           </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="due" class="form-label">Total Due</label>
+            <input type="number" id="due" class="form-input" formControlName="due" />
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-content-end gap-2">
+             <button (click)="PaymnetPage()">Pay</button>
+      </div>
+        </form>
+    </p-dialog>
+</div>
+
+
+

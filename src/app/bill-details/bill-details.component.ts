@@ -9,11 +9,12 @@ import { BillDetailsService } from '../services/billDetails/bill-details.service
 // import { ReceptDetailsService } from '../services/receptDetails/recept-details.service';
 import { ChangeDetectorRef } from '@angular/core';
 // import { billDetails } from '../interfaces/billDetails/billDetailsInterfaces';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 // import autoTable from 'jspdf-autotable';
 import autoTable from 'jspdf-autotable';
+import { DatePipe } from '@angular/common';
 declare var Razorpay: any;
 
 @Component({
@@ -22,6 +23,8 @@ declare var Razorpay: any;
   imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent, ReactiveFormsModule],
   templateUrl: './bill-details.component.html',
   styleUrls: ['./bill-details.component.scss'],
+  providers: [DatePipe], // Add DatePipe here
+
 })
 export class BillDetailsComponent implements OnInit {
   emailData = {
@@ -44,9 +47,30 @@ export class BillDetailsComponent implements OnInit {
   notPaidBills!: billDetails[];
   paidBills!: billDetails[];
   propertyCode:any;
+  showPayPopup:boolean=false;
+  PaymentPopupform!: FormGroup;
+  selectedBill: any;
+  PartialPaidAmount!: number;
   @ViewChild('dt2') dt2!: any;
   value: any;
-  constructor(private billDetailService: BillDetailsService, private cd: ChangeDetectorRef, http: ReceptDetailsService) { }
+  constructor(private billDetailService: BillDetailsService, private cd: ChangeDetectorRef, http: ReceptDetailsService, private fb: FormBuilder,private datePipe: DatePipe) {
+    this.PaymentPopupform = this.fb.group({
+      // due: [''],
+      billNo: [{ value: '' }],
+      propertycode: [{ value: '', disabled: true }],
+      leaseperiod: [{ value: '', disabled: true }],
+      leaseAmount: [{ value: '', disabled: true }],
+      gst: [{ value: '', disabled: true }],
+      powerBillAmount: [{ value: '', disabled: true }],
+      waterBillAmount: [{ value: '', disabled: true }],
+      maintenance: [{ value: '', disabled: true }],
+      interest: [{ value: '', disabled: true }],
+      billGeneratedDate: [{ value: '', disabled: true }],
+      total: [{ value: '', disabled: true }],
+      paymentAmount: [{ value: '', disabled: true }],
+      due: [{ value: '' }]
+    });
+   }
 
   ngOnInit(): void {
 
@@ -176,7 +200,7 @@ export class BillDetailsComponent implements OnInit {
       })
     } else {
       this.notPaidBills = this.dataSource.filter(item => {
-        return (item.Status === 'NP' && item.BillStatus === 'Active')
+        return (item.Status !== 'FP' && item.BillStatus === 'Active') //PP and NP only visible changed 27-09-24
       })
     }
 
@@ -506,29 +530,100 @@ createAndSendPDF(updateData: any) {
   }
 
 
-  payBill(bill: any) {
+  // payBill(bill: any) {
+  //   this.showPaymentPopup()
+  //  const selectedbill=bill
+  //   this.PaymentPopupform.patchValue({
+  //     Total: selectedbill.Due,
+       // Update this field name as per your data
+    // });
+
+
     // Set the amount you want to charge
-    this.amount = bill.Total; // Razorpay expects the amount in paise
+    // console.log(bill,"bill object")
+    // this.amount = bill.Due; // Razorpay expects the amount in paise
+
+    // Call Razorpay payment
+  //   this.billDetailService.createOrder(this.amount).subscribe(
+  //     (order) => {
+
+  //       const options = {
+  //         key: 'rzp_test_JKpUkmYnatBjUA', // Replace with your Razorpay key ID
+  //         amount: order.data.amount, // Amount in paise
+  //         currency: 'INR',
+  //         name: 'Your Company Name',
+  //         description: `Payment for ${bill.Property}`,
+  //         order_id: order.data.id, // Razorpay order ID
+  //         handler: (response: any) => {
+  //           // On payment success, update bill and create receipt
+  //           this.verifyPayment(response, bill);
+  //         },
+  //         prefill: {
+  //           name: bill.User, // Prefill with user info from the bill
+  //           email: 'user@example.com', // Modify if you have user emails
+  //           contact: '9999999999', // Modify if you have user phone numbers
+  //         },
+  //         theme: {
+  //           color: '#3399cc',
+  //         },
+  //       };
+  //       const rzp1 = new Razorpay(options);
+  //       rzp1.open();
+  //     },
+  //     (error) => {
+
+  //     }
+  //   );
+  // }
+
+  // Popup opening for Partial Payment 
+
+  payBill(bill: any) {
+    this.selectedBill = bill; // Store the selected bill
+    this.PaymentPopupform.patchValue({
+      billNo: bill.BillNo,
+      propertycode: bill.Property,
+      leaseperiod: bill.Bill_Period,
+      leaseAmount: bill.Rental_lease_amount_permonth,
+      gst: bill.GST,
+      powerBillAmount: bill.Power_bill,
+      waterBillAmount: bill.Water_bill,
+      maintenance: bill.Maintainance_bill,
+      interest: bill.Total_rental_interest,
+      // billGeneratedDate: bill.Bill_generated_date ,
+      billGeneratedDate: this.datePipe.transform(bill.Bill_generated_date, 'yyyy-MM-dd'), // Format the date using data pipe
+      total: bill.Total,
+      paymentAmount: bill.TotalPaid,
+      due: bill.Due 
+    });
+        this.showPayPopup = true; // Show the payment popup
+  }
+
+  // Sent Edited Partial Payment amount to Payment Page 
+
+  PaymnetPage() {
+    const editedAmount = this.PaymentPopupform.value.due; // Get the edited amount
+    this.amount = editedAmount 
+    console.log(this.amount,"edited form amount...");
+    
 
     // Call Razorpay payment
     this.billDetailService.createOrder(this.amount).subscribe(
       (order) => {
-
         const options = {
-          key: 'rzp_test_JKpUkmYnatBjUA', // Replace with your Razorpay key ID
+          key: 'rzp_test_JKpUkmYnatBjUA',
           amount: order.data.amount, // Amount in paise
           currency: 'INR',
           name: 'Your Company Name',
-          description: `Payment for ${bill.Property}`,
-          order_id: order.data.id, // Razorpay order ID
+          description: `Payment for ${this.selectedBill.Property}`,
+          order_id: order.data.id,
           handler: (response: any) => {
-            // On payment success, update bill and create receipt
-            this.verifyPayment(response, bill);
+            this.verifyPayment(response, this.selectedBill,this.amount);
           },
           prefill: {
-            name: bill.User, // Prefill with user info from the bill
-            email: 'user@example.com', // Modify if you have user emails
-            contact: '9999999999', // Modify if you have user phone numbers
+            name: this.selectedBill.User,
+            email: 'user@example.com',
+            contact: '9999999999',
           },
           theme: {
             color: '#3399cc',
@@ -536,15 +631,17 @@ createAndSendPDF(updateData: any) {
         };
         const rzp1 = new Razorpay(options);
         rzp1.open();
+
+        this.showPayPopup = false; // Close the popup after opening Razorpay
       },
       (error) => {
-
+        // Handle error
       }
     );
   }
 
 
-  async verifyPayment(response: any, bill: any) {
+  async verifyPayment(response: any, bill: any,editedAamount:any) {
     this.billDetailService.verifyPayment(response).subscribe({
       next: async (data) => {
         if (data.message === "Payment verified successfully") {
@@ -556,7 +653,7 @@ createAndSendPDF(updateData: any) {
             "order_id": data.paymentDetails.order_id ?? "No Data",
             "method": data.paymentDetails.method ?? "No Data",
             "upi_transaction_id": data.paymentDetails.acquirer_data.upi_transaction_id ?? "No Data",
-            "amount": bill.Total ?? "No Data",
+            "amount": editedAamount ?? "No Data",
             "amount_refunded": data.paymentDetails.amount_refunded ?? "No Data",
             "fee": data.paymentDetails.fee ?? "No Data",
             "bank": data.paymentDetails.bank ?? "No Data",
@@ -580,16 +677,22 @@ createAndSendPDF(updateData: any) {
             "refund_status": data.paymentDetails.refund_status ?? "No Data",
             "status": data.paymentDetails.status ?? "No Data",
           };
+          console.log(transactionData,"transaction data check...");
+          
 
         this.billDetailService.saveTransactionDetails(transactionData).subscribe({
           next: async (response) => {
-            const updateData = {
-              BillNo: bill.BillNo,
-              Status: 'FP',
-              TotalPaid: bill.Total,
-              Due: 0,
-              Vmrda_Challan_No: challanNumber,
-            };
+            // const updateData = {
+            //   BillNo: bill.BillNo,
+            //   Status: 'FP',
+            //   TotalPaid: bill.Total,
+            //   Due: 0,
+            //   Vmrda_Challan_No: challanNumber,
+            // };
+            const updateData={
+              p_billid: bill.BillNo,
+              p_payment_amount: transactionData.amount,             
+            }
 
               this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
                 next: async (response) => {
@@ -896,4 +999,11 @@ console.log('User ID sent in formData:', formData.get('userId'));
     });
   }
 
+  showPaymentPopup(){
+    this.showPayPopup=true;
+    // this.PaymentPopupform.patchValue({
+      // Total: selectedbill.Due,
+       // Update this field name as per your data
+    // });
+  }
 }

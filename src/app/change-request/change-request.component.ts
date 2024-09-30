@@ -220,6 +220,7 @@ this.payload = {
 
   onHide() {
     this.isDialogVisible = false;
+    this.remarks=''  // remarks form changes to null
   }
 
 
