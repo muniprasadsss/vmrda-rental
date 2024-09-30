@@ -32,22 +32,42 @@ export class LoginComponent {
   forgotPasswordDiv:boolean=false;
   showForgotOtpDiv: boolean = false; 
   isNewPassword: boolean = false; 
-Login(form: any) {
-    if( this.userID.length>0   && this.password.length>0 ){
-      
-      this.LoginService.userLogin(this.userID,this.password).subscribe({
-        next:(res:any)=>{
-          this.otpDiv= res.uservalid
-        },
-        error:(err:any)=>{
-          this.toasterservice.warning("Please enter valid userID and password")
-        }
-      })  
-    }
-    else{
-      this.toasterservice.warning("Please enter valid userID and password")
-    }
+  timer: number = 60;
+  isTimerActive: boolean = true;
+
+  ngOnInit(){
+   
   }
+  startTimer() {
+    this.isTimerActive = true;
+    this.timer = 60;
+    const interval = setInterval(() => {
+      if (this.timer > 0) {
+        this.timer--;
+      } else {
+        this.isTimerActive = false;
+        clearInterval(interval);
+      }
+    }, 1000); // Countdown every second
+  }
+
+  Login(form: any) {
+      if( this.userID.length>0   && this.password.length>0 ){
+        
+        this.LoginService.userLogin(this.userID,this.password).subscribe({
+          next:(res:any)=>{
+            this.otpDiv= res.uservalid
+            this.startTimer();
+          },
+          error:(err:any)=>{
+            this.toasterservice.warning("Please enter valid userID and password")
+          }
+        })  
+      }
+      else{
+        this.toasterservice.warning("Please enter valid userID and password")
+      }
+    }
 
 
   submitOtp() {
@@ -137,7 +157,7 @@ Login(form: any) {
         }
       this.LoginService.resendOtp(payload).subscribe({
         next:(res:any)=>{
-          // this.otpDiv= res.uservalid
+          this.startTimer();
         },
         error:(err:any)=>{
           this.toasterservice.warning("Please enter valid userID and password")
@@ -148,6 +168,8 @@ Login(form: any) {
       this.toasterservice.warning("Please enter valid userID and password")
     }
   }
+
+
 
 
   ForgotPassword(form: any) {

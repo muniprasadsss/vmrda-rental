@@ -151,3 +151,27 @@ html {
   font-weight: bold;
   font-size:large;
  }
+
+ .otp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.timer-container {
+  margin-top: 10px;
+  text-align: center;
+}
+
+button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.otp-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}

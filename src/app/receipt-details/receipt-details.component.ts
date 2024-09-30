@@ -204,7 +204,13 @@ generatePDF(receipt: any) {
      // Handle file input change
      onFileChange(event: any) {
       const file = event.target.files[0];
-      this.fileToUpload = file;
+      if (file.length > 0) { // Check if any file is selected
+        const files = file[0];
+        this.fileToUpload = files;
+        this.uploadattachment(); // Trigger upload function if file exists
+      } else {
+        console.warn('No file selected');
+      }
     }
 
     uploadattachment(){

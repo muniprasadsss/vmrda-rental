@@ -17,6 +17,7 @@
                     (onChange)="onSelectGlobal($event.value)"
                     placeholder="Select Location" />
                 </div>
+                <p-button (onClick)="showDialog()"  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')" label=" + Add New" severity="success" size="small" />
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -32,7 +33,7 @@
                 <th pSortableColumn="REVENUE_DIVISION">Revenue Division <p-sortIcon field="REVENUE_DIVISION" /></th>
                 <th pSortableColumn="STATUS">Status <p-sortIcon field="STATUS" /></th>
                 <th pSortableColumn="TYPE_OF_PROPERTY">Type of Property</th>
-                <th *ngIf="(userRole === 'COMISSIONER'  || userRole === 'SECRETARY')"></th>
+                <th  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
                 
                 
             </tr>
@@ -50,7 +51,7 @@
               <td style="width: 12%;">{{ location.REVENUE_DIVISION }}</td>
               <td style="width: 7%;">{{ location.STATUS }}</td>
               <td style="width: 10%;">{{ location.TYPE_OF_PROPERTY }}</td>
-              <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
+              <td  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
                 <div class="rowbtn">
                   <button class="editButton" (click)="onEdit(location)">
                     <i class="pi pi-pencil"></i>
@@ -74,7 +75,7 @@
 
 <!-- Edit Dialog  -->
 
-<p-dialog header="Edit Property" [modal]="true" [(visible)]="editVisible" position="center" [style]="{ width: '50rem' }">
+<p-dialog header="Edit Asset" [modal]="true" [(visible)]="editVisible" position="center" [style]="{ width: '50rem' }">
     <form [formGroup]="editForm" (ngSubmit)="onUpdate()">
         <div class="form-container">
             <div class="form-row">
@@ -95,6 +96,7 @@
                 <div class="form-group">
                     <label for="property-code" class="form-label">Property Code</label>
                     <input formControlName="editpropertyCode" type="text" class="form-input" />
+                    <small class="input-format-info">Format: UBC-ABC-01</small>
                 </div>
             </div>                                                   
             <div class="form-row">
@@ -166,7 +168,10 @@
                 </div>
                 <div class="form-group">
                     <label for="status" class="form-label">Status</label>
-                    <input formControlName="editstatus" type="text" class="form-input" />
+                    <select formControlName="status" class="form-input">
+                        <option>Occupied</option>
+                        <option>Vacant</option>
+                    </select>
                 </div>
             </div> 
         </div>
@@ -179,9 +184,8 @@
 
 
 <!-- add new dialog -->
-<div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY')">
-    <p-button (onClick)="showDialog()" label="Add New" severity="success" size="small" />
-    <p-dialog header="Add New" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
+<div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+    <p-dialog header="Add New Asset" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
         <form [formGroup]="locationForm" (ngSubmit)="onSave()">
             <div class="form-container">
                 <div class="form-row">
@@ -202,6 +206,7 @@
                     <div class="form-group">
                         <label for="property-code" class="form-label">Property Code</label>
                         <input formControlName="propertyCode" type="text" class="form-input" />
+                        <small class="input-format-info">Format: UBC-ABC-01</small>
                     </div>
                 </div>                                                   
                 <div class="form-row">
@@ -273,7 +278,10 @@
                     </div>
                     <div class="form-group">
                         <label for="status" class="form-label">Status</label>
-                        <input formControlName="status" type="text" class="form-input" />
+                        <select formControlName="status" class="form-input">
+                            <option>Occupied</option>
+                            <option>Vacant</option>
+                        </select>
                     </div>
                 </div>
             </div>

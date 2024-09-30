@@ -13,7 +13,7 @@
               </div>
                 <p-button *ngIf=" userRole !== 'USER'"
                 (click)="showDialog()" 
-                label="Add New" 
+                label=" + Add New" 
                 severity="success"
                 size="small" />
 
@@ -79,7 +79,7 @@
 <div class="dialog">
                  
   <p-dialog
-  header="Add New"
+  header="Add Manual Receipt"
   [modal]="true"
   [(visible)]="visible"
   position="center"
@@ -88,7 +88,7 @@
     <div class="form-container">
       <div class="form-row">
         <div class="form-group">
-          <label for="bill-no" class="form-label">Bill No</label>
+          <label for="bill-no" class="form-label">Search By Bill No</label>
           <input type="text" id="bill-no" class="form-input" formControlName="billNo" />
           <p-iconField iconPosition="right" class="ml-auto">
             <p-inputIcon (click)="fetchBillDetails(addNewRecept.get('billNo')!.value)">
@@ -133,7 +133,8 @@
         <div class="form-group">
           <label for="fileupload" class="form-label">Upload</label>
                     <input type="file" id="fileupload" class="form-input" (change)="onFileChange($event)" />
-                    <button (click)="uploadattachment()" style="display: contents;"><i class=" pi pi-upload" style="color: rgb(38, 9, 226)"></i></button>
+                    <!-- <button (click)="uploadattachment()" style="display: contents;"><i class=" pi pi-upload" style="color: rgb(38, 9, 226)"></i></button> -->
+                    <small class="input-format-info">Upload file size limit: 10MB</small>
         </div>
       </div>
     </div>

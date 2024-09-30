@@ -9,12 +9,13 @@ import { BillDetailsService } from '../services/billDetails/bill-details.service
 // import { ReceptDetailsService } from '../services/receptDetails/recept-details.service';
 import { ChangeDetectorRef } from '@angular/core';
 // import { billDetails } from '../interfaces/billDetails/billDetailsInterfaces';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 // import autoTable from 'jspdf-autotable';
 import autoTable from 'jspdf-autotable';
 import { DatePipe } from '@angular/common';
+import { ChangeRequestService } from '../services/changeRequest/change-request.service';
 declare var Razorpay: any;
 
 @Component({
@@ -53,7 +54,13 @@ export class BillDetailsComponent implements OnInit {
   PartialPaidAmount!: number;
   @ViewChild('dt2') dt2!: any;
   value: any;
-  constructor(private billDetailService: BillDetailsService, private cd: ChangeDetectorRef, http: ReceptDetailsService, private fb: FormBuilder,private datePipe: DatePipe) {
+  fileToUpload: any;
+  attachmentUrl: any;
+  isTds:boolean = true;
+  tdsvalue:number = 0
+  constructor(private billDetailService: BillDetailsService,
+    private Http: ChangeRequestService,
+     private cd: ChangeDetectorRef, http: ReceptDetailsService, private fb: FormBuilder,private datePipe: DatePipe) {
     this.PaymentPopupform = this.fb.group({
       // due: [''],
       billNo: [{ value: '' }],
@@ -86,7 +93,8 @@ export class BillDetailsComponent implements OnInit {
       water_bill_amount: new FormControl(''),
       maintenance_amount: new FormControl(''),
       lease_interests: new FormControl({ value: '', disabled: true }),
-      total: new FormControl('')
+      total: new FormControl(''),
+      tds: new FormControl(''),
     });
 
     this.userRole = localStorage.getItem('role')
@@ -95,9 +103,14 @@ export class BillDetailsComponent implements OnInit {
     this.getPropertyCodes();
   }
 
+  closeDialog(){
+    this.showModel = false
+    this.form.reset();
+    this.tdsvalue = 0;
+    this.isTds = true;
+  }
+
   onSelectGlobal(value:any): void {
-    // const target = event.target as HTMLInputElement;
-    // this.value = target.value;
     this.dt2.filterGlobal(value, 'contains');
   }
 
@@ -126,12 +139,15 @@ export class BillDetailsComponent implements OnInit {
     const waterBillAmount = parseFloat(this.form.get('water_bill_amount')?.value) || 0;
     const maintenanceAmount = parseFloat(this.form.get('maintenance_amount')?.value) || 0;
     const leaseInterests = parseFloat(this.form.get('lease_interests')?.value) || 0;
-
+    this.tdsvalue = parseFloat(this.form.get('tds')?.value) || 0;
+    if(this.tdsvalue > 0){
+      this.isTds = false;
+    }
     // Calculate the total
-    const total = leaseAmount + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests;
+    const total = leaseAmount + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests + this.tdsvalue;
 
     // Update the total field in the form
-    this.form.get('total')?.setValue(total, { emitEvent: false }); // { emitEvent: false } to avoid circular triggers
+    this.form.get('total')?.setValue(total, { emitEvent: false }); 
   }
   // Updated showDialog method to fetch data based on bill_no
   showDialog(bill_no: string) {
@@ -166,6 +182,7 @@ export class BillDetailsComponent implements OnInit {
     });
 
   }
+  
 
   getbilldetails() {
     this.dataSource = []
@@ -225,12 +242,11 @@ onSubmit() {
 
   if (this.form.valid) {
     const formData = this.form.getRawValue();
-    console.log(formData, "..");
 
     // Get the user ID from the form data
     const userId = formData.user_id; // Ensure this matches your form field name
-const Property=formData.property_code;
-const lease_Amount=formData.lease_Amount;
+    const Property=formData.property_code;
+    const lease_Amount=formData.lease_Amount;
     // Create the updateData object, including userId
     const updateData = {
       BillNo: formData.bill_no, // Ensure correct parameter name
@@ -241,7 +257,9 @@ const lease_Amount=formData.lease_Amount;
       Due: formData.total,
       UserId: userId ,// Include userId here for sending with email
       Property:Property,
-      lease_Amount:lease_Amount
+      lease_Amount:lease_Amount,
+      tds:formData.tds,
+      attachmentUlr:this.attachmentUrl
     };
 
     console.log(updateData, "....updatedata");
@@ -263,7 +281,40 @@ const lease_Amount=formData.lease_Amount;
   }
 }
 
+onFileChange(event: any) {
+  const files = event.target.files;
+  if (files.length > 0) { // Check if any file is selected
+    const file = files[0];
+    this.fileToUpload = file;
+    this.uploadAttachment(); // Trigger upload function if file exists
+  } else {
+    console.warn('No file selected');
+  }
+}
 
+
+uploadAttachment(){
+  let fd = new FormData();
+  fd.append('image',  this.fileToUpload);
+  this.Http.uploadAttachment(fd).subscribe({
+    next:(res:any)=>{
+      this.attachmentUrl = res.location;
+      this.fileToUpload = null;
+    },
+    error:(err:any)=>{
+
+    }
+  })
+}
+
+downloadFile(url: string) {
+  if (url) {
+    // Open the S3 URL in a new tab
+    window.open(url, '_blank');
+  } else {
+    console.error('No attachment URL provided');
+  }
+}
 
 createAndSendPDF(updateData: any) {
   this.billDetailService.getPropertyInfo(updateData.BillNo).subscribe({
@@ -383,14 +434,6 @@ createAndSendPDF(updateData: any) {
 }
   }
 )}
-
-
-
-
-
-
-
-
 
   generatePDF(bill: any) {
 
@@ -527,6 +570,7 @@ createAndSendPDF(updateData: any) {
 
   showDialog1() {
     this.visible1 = true;
+
   }
 
 
@@ -740,10 +784,6 @@ createAndSendPDF(updateData: any) {
       },
     });
   }
-
-
-
-
 
   createAndSendReceiptPDF(receiptData: any) {
     const doc = new jsPDF();
