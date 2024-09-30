@@ -30,7 +30,7 @@ phases:
 
 artifacts:
   files:
-    - '**/*'
+    - 'dist/**/*'
   discard-paths: yes
   base-directory: /
 
