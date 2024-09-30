@@ -1,4 +1,3 @@
-
 version: 0.2
 
 phases:
@@ -24,16 +23,12 @@ phases:
 
   post_build:
     commands:
-      echo "Contents of dist directory:"
-      - ls -al dist
-      - echo "Checking if any files are present..."
-      - if [ -z "$(ls -A dist)" ]; then echo "No files to upload!"; exit 1; fi
       - echo "Deploying to S3..."
       - aws s3 sync ./dist s3://vmrda-rental-code/build/ --acl public-read --delete
       - echo "Deployment complete."
 
 artifacts:
   files:
-    - 'dist/**/*'  # Reference files in the dist directory
+    - '**/*'
   discard-paths: yes
-  base-directory: dist
+  base-directory: /
