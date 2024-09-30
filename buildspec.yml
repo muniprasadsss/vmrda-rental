@@ -1,3 +1,4 @@
+
 version: 0.2
 
 phases:
@@ -15,7 +16,8 @@ phases:
   build:
     commands:
       - echo "Building project..."
-      # Example: build static website (if necessary)
+      - rm -rf node_modules
+      - rm -f package-lock.json
       - npm install --legacy-peer-deps
       - npm run build
       - echo "Build complete."
@@ -31,3 +33,4 @@ artifacts:
     - '**/*'
   discard-paths: yes
   base-directory: build/
+
