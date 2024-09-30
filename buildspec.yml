@@ -25,12 +25,12 @@ phases:
   post_build:
     commands:
       - echo "Deploying to S3..."
-      - if [ -d "build" ]; then aws s3 sync build/ s3://vmrda-rental-code/ --acl public-read; else echo "Build directory does not exist."; fi
+      - aws s3 sync s3://vmrda-rental-code/build/ --acl public-read
       - echo "Deployment complete."
 
 artifacts:
   files:
     - '**/*'
   discard-paths: yes
-  base-directory: build/
+  base-directory: /
 
