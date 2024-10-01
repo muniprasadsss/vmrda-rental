@@ -648,7 +648,13 @@ createAndSendPDF(updateData: any) {
     this.amount = editedAmount                            // Initialise edited amount
     console.log(this.amount,"edited form amount...");
     const billNo = this.PaymentPopupform.get('billNo')?.value; // Access the disabled control
-    console.log(billNo,"bill no 1..");
+    const powerBill = this.PaymentPopupform.get('Power_bill')?.value; // Access the disabled control
+    const waterBill = this.PaymentPopupform.get('Water_bill')?.value; // Access the disabled control
+    const maintenanceAmount = this.PaymentPopupform.get('Maintainance_bill')?.value; // Access the disabled control
+    const sentDisabledFieldValues={
+      billNo,powerBill,waterBill,maintenanceAmount
+    }
+    // console.log(billNo,"bill no 1..");
 
     // Call Razorpay payment
     this.billDetailService.createOrder(this.amount).subscribe(
@@ -661,7 +667,7 @@ createAndSendPDF(updateData: any) {
           description: `Payment for ${this.selectedBill.Property}`,
           order_id: order.data.id,
           handler: (response: any) => {
-            this.verifyPayment(response, this.selectedBill,this.amount,billNo);
+            this.verifyPayment(response, this.selectedBill,this.amount,sentDisabledFieldValues);
           },
           prefill: {
             name: this.selectedBill.User,
@@ -684,7 +690,7 @@ createAndSendPDF(updateData: any) {
   }
 
 
-  async verifyPayment(response: any, bill: any,editedAamount:any, billNo: string) {
+  async verifyPayment(response: any, bill: any,editedAamount:any, billDetails: any) {
     this.billDetailService.verifyPayment(response).subscribe({
       next: async (data) => {
         if (data.message === "Payment verified successfully") {
@@ -733,7 +739,7 @@ createAndSendPDF(updateData: any) {
             //   Vmrda_Challan_No: challanNumber,
             // };
             const updateData={
-              p_billid: billNo,
+              p_billid: billDetails.billNo,
               p_payment_amount: transactionData.amount,             
             }
             console.log(updateData,"payload data sent");
@@ -744,7 +750,11 @@ createAndSendPDF(updateData: any) {
 
 
                     await this.createReceipt({
-                      BillNo: billNo,
+                      BillNo: billDetails.billNo,
+                      Power_bill: billDetails.powerBill,
+                      Water_bill: billDetails.waterBill,
+                      Maintainance_bill: billDetails.maintenanceAmount,
+                      Current_Payment: transactionData.amount,
                       ReceiptNo: challanNumber,
                       User: bill.User,
                       Property: bill.Property,
