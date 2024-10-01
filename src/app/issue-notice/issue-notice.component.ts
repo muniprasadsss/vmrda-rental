@@ -4,6 +4,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { BillDetailsService } from '../services/billDetails/bill-details.service';
 import { ReceptDetailsService } from '../services/receptDetails/recept-details.service';
+import { IssuenoticeService } from '../services/issueNotice/issuenotice.service';
 
 @Component({
   selector: 'app-issue-notice',
@@ -27,51 +28,81 @@ export class IssueNoticeComponent {
   receiptData: any;
   notPaidBills!: billDetails[];
   paidBills!: billDetails[];
-  constructor(private billDetailService: BillDetailsService, private cd: ChangeDetectorRef, http: ReceptDetailsService) { }
+  constructor(private billDetailService: BillDetailsService, 
+              private cd: ChangeDetectorRef, 
+              private issueNoticeService: IssuenoticeService, 
+              http: ReceptDetailsService) {}
 
   ngOnInit(){
     this.userRole = localStorage.getItem('role')
     this.userID = localStorage.getItem('userId')
-    this.getbilldetails();
+    // this.getbilldetails();
+    this.getIssueNoticeDetails();
   }
 
-  getbilldetails() {
-    this.dataSource = []
-    this.billDetailService.getOverdueBills(this.userID, this.userRole).subscribe({
-      next: (res: any) => {
-        this.dataSource = res;
-        this.responseMsg = res.message;
-        this.filterBillData();
-      },
-      error: (err: any) => {
-        if (err.error?.message) {
-          this.responseMsg = err.error?.message;
-        } else {
-          this.responseMsg = "error";
-        }
-      }
-    });
-  }
+  // getbilldetails() {
+  //   this.dataSource = []
+  //   this.billDetailService.getOverdueBills(this.userID, this.userRole).subscribe({
+  //     next: (res: any) => {
+  //       this.dataSource = res;
+  //       this.responseMsg = res.message;
+  //       this.filterBillData();
+  //     },
+  //     error: (err: any) => {
+  //       if (err.error?.message) {
+  //         this.responseMsg = err.error?.message;
+  //       } else {
+  //         this.responseMsg = "error";
+  //       }
+  //     }
+  //   });
+  // }
 
-  filterBillData(){
-    this.paidBills = [];
-    this.notPaidBills = [];
-    this.paidBills = this.dataSource.filter(item=>{
-      return item.Status === 'FP'
-    })
+  // filterBillData(){
+  //   this.paidBills = [];
+  //   this.notPaidBills = [];
+  //   this.paidBills = this.dataSource.filter(item=>{
+  //     return item.Status === 'FP'
+  //   })
 
-      this.notPaidBills = this.dataSource.filter(item => {
-        return item.Status === 'NP'
-      })
+  //     this.notPaidBills = this.dataSource.filter(item => {
+  //       return item.Status === 'NP'
+  //     })
     
-    this.cd.detectChanges();
+  //   this.cd.detectChanges();
 
-  }
+  // }
 
   showDialog1() {
     this.visible1 = true;
   }
 
+  getIssueNoticeDetails() {
+    this.issueNoticeService.getIssueNoticeData(this.userID,this.userRole).subscribe({
+      next: (res: any) => {
+        this.dataSource = res.issueNoticeData; // Adjust according to the actual response structure
+        this.responseMsg = res.message;
+      },
+      error: (err: any) => {
+               if (err.error?.message) {
+                 this.responseMsg = err.error?.message;
+               } else {
+                 this.responseMsg = "error";
+               }
+             }
+    });
+  }
 
+  issueNoticeResponse(issuenotice: any) {
+    // console.log(issuenotice, "check...");
+    this.issueNoticeService.issueNoticeMail(issuenotice).subscribe({
+      next: (response: any) => {
+        console.log("Notice generated successfully:", response);
+      },
+      error: (error: any) => {
+        console.error("Error generating notice:", error);
+      }
+    });
+  }
 
 }
