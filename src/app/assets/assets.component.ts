@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FooterComponent } from '../footer/footer.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { HeaderComponent } from '../header/header.component';
@@ -16,7 +16,7 @@ FormsModule
   templateUrl: './assets.component.html',
   styleUrl: './assets.component.scss'
 })
-export class AssetsComponent {
+export class AssetsComponent implements OnInit{
   visible: boolean = false;
   editVisible: boolean = false;
   assetsData!: LocationDetails[];
@@ -79,7 +79,6 @@ export class AssetsComponent {
       this.userRole = localStorage.getItem('role')
       this.userID = localStorage.getItem('userId')
       this.getLocationInfo();
-      this.getUserData();
     }
 
     getLocationInfo(){
@@ -95,16 +94,7 @@ export class AssetsComponent {
       })
     }
 
-    getUserData() {
-      this.assetsservice.getLocationData().subscribe(
-        (response) => {
-          
-        },
-        (error) => {
-          console.error('Error fetching user data:', error);
-        }
-      );
-    }
+
 
     onFilterGlobal(event: Event): void {
       const target = event.target as HTMLInputElement;

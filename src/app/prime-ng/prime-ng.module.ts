@@ -25,6 +25,7 @@ import { MenuModule } from 'primeng/menu';
 import { AccordionModule } from 'primeng/accordion';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 
@@ -35,12 +36,12 @@ import { TooltipModule } from 'primeng/tooltip';
     CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
      DropdownModule,FloatLabelModule,ToastModule,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule,ConfirmDialogModule,
-     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule,TooltipModule 
+     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule,TooltipModule,ProgressSpinnerModule 
   ],
   exports: [CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
      DropdownModule,FloatLabelModule,ToastModule ,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule,ConfirmDialogModule,
-     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule,TooltipModule 
+     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule,TooltipModule,ProgressSpinnerModule 
    ],
   providers:[ComplexServiceService]
 })

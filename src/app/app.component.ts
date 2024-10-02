@@ -5,12 +5,13 @@ import { HeaderComponent } from "./header/header.component";
 import { FooterComponent } from "./footer/footer.component";
 import { CommonModule } from '@angular/common';
 import { AuthGuardsService } from './services/authGuards/auth-guards.service';
+import { SpinnerComponent } from "./spinner/spinner.component";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, DashboardComponent, HeaderComponent, FooterComponent,CommonModule],
+  imports: [RouterOutlet, DashboardComponent, HeaderComponent, FooterComponent, CommonModule, SpinnerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
