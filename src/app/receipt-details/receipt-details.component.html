@@ -60,7 +60,7 @@
             <td style="width: 10%;">{{ receipt.Due }}</td>
 
             <td style="width: 10%;">{{ receipt.Status }}</td>
-            <td><i class="pi pi-download"(click)="generatePDF(receipt)" ></i></td>
+            <td><i class="pi pi-download"  pTooltip=" Download Receipt" tooltipPosition="left"  (click)="generatePDF(receipt)" ></i></td>
 
 <!-- (click)="generatePDF(receipt)" -->
           </tr>
@@ -76,8 +76,7 @@
 
 <!-- <app-footer></app-footer> -->
 
-<div class="dialog">
-                 
+<div class="dialog">                
   <p-dialog
   header="Add Manual Receipt"
   [modal]="true"
@@ -135,6 +134,12 @@
                     <input type="file" id="fileupload" class="form-input" (change)="onFileChange($event)" />
                     <!-- <button (click)="uploadattachment()" style="display: contents;"><i class=" pi pi-upload" style="color: rgb(38, 9, 226)"></i></button> -->
                     <small class="input-format-info">Upload file size limit: 10MB</small>
+        </div>
+      </div>
+      <div class="form-row" *ngIf="hideAddNew">
+        <div class="form-group">
+          <label for="amount_paid" class="form-label">Amount Paid</label>
+          <input type="text" id="amount_paid" class="form-input" formControlName="amount_paid"/>
         </div>
       </div>
     </div>

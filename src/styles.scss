@@ -96,3 +96,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .card{
   padding: 0rem 1rem;
 }
+.p-tooltip {
+  font-size: 0.75rem; /* Adjusts the font size */
+  padding: 4px 4px; /* Adjusts padding */
+  max-width: 150px; /* Limits the width of the tooltip */
+}

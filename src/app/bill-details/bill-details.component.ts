@@ -506,9 +506,7 @@ createAndSendPDF(updateData: any) {
         const tableColumn = ["Field", "Value"];
         const tableRows = [
           ["Bill No", bill.BillNo],
-          // ["User ID", bill.User],
           ["Property Code", bill.Property],
-          // ["Lease Period", bill.Bill_Period], 
           ["Lease Amount", bill.Rental_lease_amount_permonth],
           ["GST", bill.GST],
           ["Power Bill Amount", bill.Power_bill],
@@ -516,7 +514,6 @@ createAndSendPDF(updateData: any) {
           ["Maintenance Amount", bill.Maintainance_bill],
           ["Lease Interests", bill.Total_rental_interest],
           ["Total", bill.Total],
-          // [".hhh",this.propertyDetail.ALLOTTEE_NAME]
         ];
 
 
@@ -661,7 +658,7 @@ createAndSendPDF(updateData: any) {
           key: 'rzp_test_JKpUkmYnatBjUA',
           amount: order.data.amount, // Amount in paise
           currency: 'INR',
-          name: 'Your Company Name',
+          name: 'VMRDA Rental',
           description: `Payment for ${this.selectedBill.Property}`,
           order_id: order.data.id,
           handler: (response: any) => {
@@ -744,25 +741,25 @@ createAndSendPDF(updateData: any) {
           
               this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
                 next:  (response) => {
-                     this.createReceipt({
-                      p_billid: billDetails.billNo,
-                      Power_bill: billDetails.powerBill,
-                      Water_bill: billDetails.waterBill,
-                      Maintainance_bill: billDetails.maintenanceAmount,
-                      p_payment_amount: transactionData.amount,
-                      ReceiptNo: challanNumber,
-                      User: bill.User,
-                      Property: bill.Property,
-                      paid_date: new Date().toISOString(),
-                      Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
-                      GST: bill.GST,
-                      Total_rental_interest: bill.Total_rental_interest,
-                      Total: bill.Total,
-                      TotalPaid: bill.Total,
-                      Due: 0,
-                      Status: 'FP'
-                    });
-
+                    let payload = {
+                        p_billid: billDetails.billNo,
+                        Power_bill: billDetails.powerBill,
+                        Water_bill: billDetails.waterBill,
+                        Maintainance_bill: billDetails.maintenanceAmount,
+                        p_payment_amount: transactionData.amount,
+                        ReceiptNo: challanNumber,
+                        User: bill.User,
+                        Property: bill.Property,
+                        paid_date: new Date().toISOString(),
+                        Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
+                        GST: bill.GST,
+                        Total_rental_interest: bill.Total_rental_interest,
+                        Total: bill.Total,
+                        TotalPaid: bill.Total,
+                        Due: 0,
+                        Status: 'FP'
+                       }
+                    this.createAndSendReceiptPDF(payload);
 
                      this.getbilldetails();
                     //  this.cd.markForCheck(); // Changed to markForCheck
@@ -784,7 +781,7 @@ createAndSendPDF(updateData: any) {
       },
     });
   }
-
+  // to send bill paid receipt pdf to user 
   createAndSendReceiptPDF(receiptData: any) {
     const doc = new jsPDF();
 
@@ -852,13 +849,13 @@ createAndSendPDF(updateData: any) {
     const tableRows = [
       ['Receipt No', receiptData.ReceiptNo],
       ['User ID', receiptData.User],
-      ['Bill No', receiptData.BillNo],
+      ['Bill No', receiptData.p_billid],
       ['Property Code', receiptData.Property],
       ['Paid Date', new Date(receiptData.paid_date).toLocaleDateString()],
       ['Lease Amount', receiptData.Rental_lease_amount_permonth],
-      ['Power Bill', receiptData.powerBill],
-      ['Maintaiance Bill', receiptData.waterBill],
-      ['Water Bill', receiptData.maintenanceAmount],
+      ['Power Bill', receiptData.Power_bill],
+      ['Maintaiance Bill', receiptData.Maintainance_bill],
+      ['Water Bill', receiptData.Water_bill],
       ['GST', receiptData.GST],
       ['Total Paid', receiptData.TotalPaid],
       ['Due Amount', receiptData.Due],
@@ -920,7 +917,7 @@ console.log('User ID sent in formData:', formData.get('userId'));
     this.billDetailService.updateReceipt(receiptData).subscribe((response) => {
       if (response.message == "receipt created successfully") {
         console.log('Receipt created successfully!');
-        this.createAndSendReceiptPDF(receiptData);
+        // this.createAndSendReceiptPDF(receiptData);
       }
        else {
         console.error('Error creating receipt:', response.message);

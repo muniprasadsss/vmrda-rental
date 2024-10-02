@@ -231,18 +231,23 @@ generatePDF(receipt: any) {
   fetchBillDetails(billNo:any){
     this.http.getBillDetails(billNo).subscribe({
       next:(res:any)=>{
-        this.bill = res;
-        this.bill_status = res.Status;
-        this.addNewRecept.patchValue({
-          billNo: res.BillNo,
-          User: res.User,
-          Property: res.Property,
-          Bill_Period:  res.Bill_Period,
-          Total: res.Total,
-          Status: res.Status,
-
-        })
-            this.hideAddNew = true;
+        if(res.Status !== 'FP'){
+          this.bill = res;
+          this.bill_status = res.Status;
+          this.addNewRecept.patchValue({
+            billNo: res.BillNo,
+            User: res.User,
+            Property: res.Property,
+            Bill_Period:  res.Bill_Period,
+            Total: res.Total,
+            Status: res.Status,
+          })
+              this.hideAddNew = true;
+        }
+        else{
+          this.toasterservice.warning('Bill already paid')
+        }
+       
       }
     })
   }
@@ -257,28 +262,19 @@ generatePDF(receipt: any) {
   addReciept(){
     if (true) {
       // Print the form values to the console
-      if(this.bill_status === 'NP'){
+      if(this.bill_status !== 'FP' ){
         this.bill_status = 'FP';
         const form = this.addNewRecept.value
-
-
-    
-    const updateData = {
-      BillNo: this.bill.BillNo,
-      Status: 'FP',
-      TotalPaid: this.bill.Total,
-      Due: 0,
-      Vmrda_Challan_No:  this.generateChallanNumber(this.bill.Property),
-
-      }
+        const updateData = {
+            p_billid: this.bill.billNo,
+            p_payment_amount: this.addNewRecept.get('amount_paid')?.value,               
+          }
 
 
       this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
-        next: async (response) => {
+        next:  (response) => {
           if (response.status === 200) {
-
-
-            await this.createReceipt({
+             this.createReceipt({
               BillNo: this.bill.BillNo,
               ReceiptNo: this.generateChallanNumber(this.bill.Property),
               User: form.User,
@@ -304,6 +300,9 @@ generatePDF(receipt: any) {
       });
 
     } 
+    else{
+      this.toasterservice.warning('Bill already paid')
+    }
   }
 
 }
