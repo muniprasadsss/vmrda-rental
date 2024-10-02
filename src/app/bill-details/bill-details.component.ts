@@ -648,12 +648,10 @@ createAndSendPDF(updateData: any) {
     this.amount = editedAmount                            // Initialise edited amount
     console.log(this.amount,"edited form amount...");
     const billNo = this.PaymentPopupform.get('billNo')?.value; // Access the disabled control
-    const powerBill = this.PaymentPopupform.get('Power_bill')?.value; // Access the disabled control
-    const waterBill = this.PaymentPopupform.get('Water_bill')?.value; // Access the disabled control
-    const maintenanceAmount = this.PaymentPopupform.get('Maintainance_bill')?.value; // Access the disabled control
-    const sentDisabledFieldValues={
-      billNo,powerBill,waterBill,maintenanceAmount
-    }
+    const powerBill = this.PaymentPopupform.get('powerBillAmount')?.value; // Access the disabled control
+    const waterBill = this.PaymentPopupform.get('waterBillAmount')?.value; // Access the disabled control
+    const maintenanceAmount = this.PaymentPopupform.get('maintenance')?.value; // Access the disabled control
+    const sentDisabledFieldValues={billNo,powerBill,waterBill,maintenanceAmount}
     // console.log(billNo,"bill no 1..");
 
     // Call Razorpay payment
@@ -690,9 +688,9 @@ createAndSendPDF(updateData: any) {
   }
 
 
-  async verifyPayment(response: any, bill: any,editedAamount:any, billDetails: any) {
+   verifyPayment(response: any, bill: any,editedAamount:any, billDetails: any) {
     this.billDetailService.verifyPayment(response).subscribe({
-      next: async (data) => {
+      next:  (data) => {
         if (data.message === "Payment verified successfully") {
           const challanNumber = this.generateChallanNumber(bill.Property);
 
@@ -730,7 +728,7 @@ createAndSendPDF(updateData: any) {
           
 
         this.billDetailService.saveTransactionDetails(transactionData).subscribe({
-          next: async (response) => {
+          next:  (response) => {
             // const updateData = {
             //   BillNo: bill.BillNo,
             //   Status: 'FP',
@@ -745,16 +743,13 @@ createAndSendPDF(updateData: any) {
             console.log(updateData,"payload data sent");
           
               this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
-                next: async (response) => {
-                  if (response.status === 200) {
-
-
-                    await this.createReceipt({
-                      BillNo: billDetails.billNo,
+                next:  (response) => {
+                     this.createReceipt({
+                      p_billid: billDetails.billNo,
                       Power_bill: billDetails.powerBill,
                       Water_bill: billDetails.waterBill,
                       Maintainance_bill: billDetails.maintenanceAmount,
-                      Current_Payment: transactionData.amount,
+                      p_payment_amount: transactionData.amount,
                       ReceiptNo: challanNumber,
                       User: bill.User,
                       Property: bill.Property,
@@ -769,14 +764,9 @@ createAndSendPDF(updateData: any) {
                     });
 
 
-                    await this.getbilldetails();
+                     this.getbilldetails();
                     //  this.cd.markForCheck(); // Changed to markForCheck
                     this.cd.detectChanges();
-
-
-                  } else {
-                    console.error('Error updating bill:', response.message);
-                  }
                 },
                 error: (err) => {
                   console.error('Error updating bill:', err);
@@ -866,6 +856,9 @@ createAndSendPDF(updateData: any) {
       ['Property Code', receiptData.Property],
       ['Paid Date', new Date(receiptData.paid_date).toLocaleDateString()],
       ['Lease Amount', receiptData.Rental_lease_amount_permonth],
+      ['Power Bill', receiptData.powerBill],
+      ['Maintaiance Bill', receiptData.waterBill],
+      ['Water Bill', receiptData.maintenanceAmount],
       ['GST', receiptData.GST],
       ['Total Paid', receiptData.TotalPaid],
       ['Due Amount', receiptData.Due],

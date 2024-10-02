@@ -2,10 +2,13 @@ import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } fr
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import {provideToastr} from "ngx-toastr"
+import { LoadingInterceptor } from './services/interceptors/loading.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
-     provideRouter(routes), provideAnimationsAsync(), provideHttpClient(),provideToastr() ,]
+     provideRouter(routes), provideAnimationsAsync(), provideHttpClient(),provideToastr(),
+     importProvidersFrom(HttpClientModule),LoadingInterceptor,
+     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}]
 };
