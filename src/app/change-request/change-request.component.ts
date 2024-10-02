@@ -62,14 +62,15 @@ export class ChangeRequestComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    this.getUserData();
     this.userRole = localStorage.getItem('role')
     this.userID = localStorage.getItem('userId')
     this.getcrInfo();
-    this.getUserDatabyId(this.userID);
-    this.getRequestType()
      this.userInfoString = localStorage.getItem('userInfo');
     this.userInfo = JSON.parse(this.userInfoString);
+    if(this.userRole === 'USER'){
+      this.getUserDatabyId(this.userID);
+      this.getRequestType()
+    }
   }
 
   // Form Initialize 
@@ -225,18 +226,6 @@ this.payload = {
     }
   }
 
-  // Fetch user data from API
-  getUserData() {
-    this.dummyUserService.getCR().subscribe(
-      (response) => {
-        
-        this.data = response; // Populate the user object with fetched data
-      },
-      (error) => {
-        console.error('Error fetching user data:', error);
-      }
-    );
-  }
 
   // Function to determine if the button should be shown based on the userRole
   shouldShowButton(buttonType: string) {
