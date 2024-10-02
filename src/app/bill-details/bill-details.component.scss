@@ -109,4 +109,16 @@
   .history-bills{
     text-align: left;
   }
+  
+}
+
+.payButton{
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.payButton:hover{
+  box-shadow: 1px 1px 1px rgba(36, 36, 36, 0.5);
 }
