@@ -151,7 +151,7 @@
                 <td>{{ item.propertycode }}</td>
                 <td>{{ item.created_at | date: 'YYYY-MM-dd' }}</td>
                 <td>{{ item.status}}</td>
-                <td *ngIf="item.attachment !== null"  pTooltip=" Download Attachment " tooltipPosition="left" (click)="downloadFile(item.attachment)"><i
+                <td *ngIf="item.attachment !== null"  pTooltip="Download Attachment" tooltipPosition="left" (click)="downloadFile(item.attachment)"><i
                         class="pi pi-paperclip" style="color: slateblue"></i></td>
                 <td *ngIf="item.attachment === null "></td>
             </tr>

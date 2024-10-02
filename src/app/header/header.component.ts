@@ -25,18 +25,7 @@ export class HeaderComponent implements OnInit {
   profileForm: FormGroup;
   passwordform: FormGroup;
 
-  // formData: any = {
-  //   USER_ID: "",
-  //   USER_NAME: "",
-  //   MOBILE_NUM: "",
-  //   EMAIL_ID: "",
-  //   user_type: "",
-  //   Revenue_Division:"",
-  //   gst_in:"",
-  //   aadhar_no:"",
-  //   pan_no:"",
-  //   nature_of_bussiness:"",
-  // };
+
 
 
   constructor(private router: Router, private authService: AuthGuardsService,private fb: FormBuilder,private profileService:ProfileSettingsService,private toasterservice:ToastrService) {

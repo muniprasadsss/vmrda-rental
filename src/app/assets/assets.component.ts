@@ -3,7 +3,6 @@ import { FooterComponent } from '../footer/footer.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { HeaderComponent } from '../header/header.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-import { LocationsComponent } from '../locations/locations.component';
 import { LocationDetails } from '../interfaces/location/locationInterface';
 import { AssetsService } from '../services/assets/assets.service';
 import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
@@ -12,7 +11,7 @@ FormsModule
 @Component({
   selector: 'app-assets',
   standalone: true,
-  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent,LocationsComponent,FormsModule,ReactiveFormsModule],
+  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent,FormsModule,ReactiveFormsModule],
   templateUrl: './assets.component.html',
   styleUrl: './assets.component.scss'
 })
@@ -102,8 +101,6 @@ export class AssetsComponent implements OnInit{
       this.dt2.filterGlobal(this.value, 'contains');
     }
     onSelectGlobal(value:any): void {
-      // const target = event.target as HTMLInputElement;
-      // this.value = target.value;
       this.dt2.filterGlobal(value, 'contains');
     }
 
@@ -152,24 +149,6 @@ export class AssetsComponent implements OnInit{
       
       
       this.editForm.patchValue({
-        // LOCATION: location.LOCATION,
-        // LOCATION_CODE: location.LOCATION_CODE,
-        //    editpropertyCode: location.PROPERTY_CODE,
-        //    PROPERTY_NO: location.PROPERTY_NO,
-        //    TYPE_OF_PROPERTY: location.TYPE_OF_PROPERTY,
-        //    FLOOR: location.FLOOR,
-        //    ATTRIBUITE1: location.ATTRIBUITE1,
-        //    EXTENT: location.EXTENT,
-        //    PRESENT_RENT: location.PRESENT_RENT,
-        //    ALLOTTEE_NAME: location.ALLOTTEE_NAME,
-        //    SIZE: location.SIZE,
-        //    LENGTH: location.LENGTH,
-        //    BREDTH: location.BREDTH,
-        //    REVENUE_DIVISION: location.REVENUE_DIVISION,
-        //    POWER_METER_NUMBER: location.POWER_METER_NUMBER,
-        //    WATER_METER_NO: location.WATER_METER_NO,
-        //    DETAILS: location.DETAILS,
-        //    STATUS: location.STATUS: location.LOCATION,
                 editlocation: location.LOCATION,
            editlocationCode: location.LOCATION_CODE,
            editpropertyCode: location.PROPERTY_CODE,

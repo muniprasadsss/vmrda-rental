@@ -46,7 +46,7 @@
           <td style="width: 6%;">{{ customer.GST_IN }}</td>
           <td style="width: 6%;"  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
             <div class="rowbtn">
-              <button class="editButton" (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
+              <button class="editButton" pTooltip="Edit Tenent" tooltipPosition="left" (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
             </div>
           </td>
         </tr>
