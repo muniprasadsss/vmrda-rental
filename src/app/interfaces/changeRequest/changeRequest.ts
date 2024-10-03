@@ -1,5 +1,5 @@
 export interface ChangedFields {
-    action: string; // Example: "Recommend"
+    action: string|null; // Example: "Recommend"
     attachment: string | null; // Example: null
     cr_number: string; // Example: "CRHTZ904"
     created_at: string; // Example: "2024-09-13T05:58:49.000Z"
@@ -17,11 +17,12 @@ export interface ChangedFields {
 
   export interface Payload {
     crno?: number | null ;
-    request_type: string;
-    status: string;
-    stage: string;
+    request_type: string | null;
+    status: string | null;
+    stage: string| null;
     role: string | null;  // Since `localStorage.getItem` can return null
-    action: string;
+    action: string | null;
     remarks?: string;
+    user_id?:string;
   }
   

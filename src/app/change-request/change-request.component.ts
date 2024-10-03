@@ -34,9 +34,9 @@ export class ChangeRequestComponent implements OnInit {
   user: any;
   data: any[] = [];
   userRole: string | null = null; // Role of the user fetched from localStorage
-  action:string = ''
+  action:string = 'Select'
   userID:any;
-  payload!: Payload| Object;
+  payload!: Payload;
   pendingRecordes!:ChangedFields[];
   rejectedRecordes!:ChangedFields[];
   userRecordes!:ChangedFields[];
@@ -50,6 +50,8 @@ export class ChangeRequestComponent implements OnInit {
   fileToUpload: any;
   attachmentUrl:any = null;
   hideSelect:boolean= true;
+  index:number = 0;
+  
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -126,6 +128,12 @@ export class ChangeRequestComponent implements OnInit {
     this.Http.getChangeRequestData(this.userID,this.userRole).subscribe({
       next: (res: any) => {
         this.crData = res.crInfo;
+        this.crData = res.crInfo.map((item: any) => {
+          return {
+            ...item,
+            action: null  // Initialize tempAction as null
+          };
+        });
         this.filterData();
       },
       error: (err: any) => {
@@ -160,22 +168,25 @@ export class ChangeRequestComponent implements OnInit {
   }
 
 
-  changeStatus( crno: any, request_type: any, status: any, stage:any ,action:any) {
-    
+  changeStatus(crno: any, request_type: any, status: any, stage: any, action: any,index:number) {
+    // Update the action with the selected value from the dropdown
+    this.index = index;  // Store the final action after user selects it
+  
+    // Prepare the payload
+    this.payload = {
+      crno: crno,
+      request_type: request_type,
+      status: status,
+      stage: stage,
+      role: this.userRole,
+      action: action,  // Use the updated action value
+      user_id: this.userID
+    };
+  
+    // Show the modal or any additional logic
     this.showModalDiv();
-    // Assuming this.payload is a single Payload object
-this.payload = {
-  crno: crno,  // Corrected to use colon
-  request_type: request_type,
-  status: status,
-  stage: stage,
-  role: this.userRole,
-  action: action,
-  user_id: this.userID
-  };
-
-       
   }
+  
 
   submitChangeAction() {
     if (this.remarks.length > 0) {
@@ -214,17 +225,20 @@ this.payload = {
   onHide() {
     this.isDialogVisible = false;
     this.remarks=''  // remarks form changes to null
+    this.payload = {
+      crno: null,
+      request_type: null,
+      status: null,
+      stage: null,
+      role: this.userRole, // keep role if needed
+      action: null,
+      user_id: this.userID // keep user_id if needed
+    };
+    // Reset item.action to initial value
+    this.tableData[this.index].action = null;
   }
 
 
-  DeleteToasterMessage() {
-    if (this.remarks.length > 0) {
-      this.toasterservice.error("Deleted Successfully");
-      this.onHide();
-    } else {
-      this.toasterservice.warning("Please Enter Remarks");
-    }
-  }
 
 
   // Function to determine if the button should be shown based on the userRole
@@ -259,10 +273,18 @@ this.payload = {
   //       return true; // Disable by default
   //   }
   // }
+
+    // Function to handle key presses
+    handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Enter') {
+        // Submit the form on Enter key press
+        this.submitChangeAction();
+      } else if (event.key === 'Escape') {
+        // Close the modal on Escape key press
+        this.isDialogVisible = false;
+      }
+    }
   
- onChange(crno: any, request_type: any, status: any, stage:any ,action:any) {
-    this.changeStatus(crno,request_type,status,stage, this.selectedValue);
-  }
 
 //  API call for get data based on userid 
 

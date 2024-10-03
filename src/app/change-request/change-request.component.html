@@ -44,7 +44,7 @@
             </tr>
         </ng-template>
 
-        <ng-template pTemplate="body" let-item>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
             <tr style="font-size: 12px;">
                 <!-- <td *ngIf="userRole !== 'USER'">{{ item.id }}</td> -->
                 <td>{{ item.cr_number }}</td>
@@ -58,21 +58,24 @@
                 <td>{{ item.status}}</td>
                 <td *ngIf="userRole !== 'USER'" style="width: 10%;">{{ item.stage}}</td>
                 <td *ngIf="item.attachment !== null" pTooltip=" Download Attachment " tooltipPosition="left"
-                (click)="downloadFile(item.attachment)"><i
-                        class="pi pi-paperclip" style="color: slateblue"></i></td>
+                    (click)="downloadFile(item.attachment)"><i class="pi pi-paperclip" style="color: slateblue"></i>
+                </td>
                 <td *ngIf="item.attachment === null "></td>
                 <td *ngIf="userRole !== 'USER'" style="width: 10%;">
-                    <select class="custom-select" [(ngModel)]="item.action"
-                       
-                        (change)="changeStatus(item.cr_number, item.requesttype, item.status, item.stage, item.action)">
-                        <option disabled [selected]="true">Select</option>
-                        <option value="Recommend" *ngIf="shouldShowButton('Recommend')">Recommend</option>
-                        <option value="Approval" *ngIf="shouldShowButton('Approval')">Approval</option>
-                        <option value="Close" *ngIf="shouldShowButton('Close')">Close</option>
+                    <select class="custom-select" 
+                            [(ngModel)]="item.action" 
+                            (ngModelChange)="changeStatus(item.cr_number, item.requesttype, item.status, item.stage, item.action,rowIndex)">
+                      <!-- Default "Select" option: Disabled and only selected when item.action is null or undefined -->
+                      <option [ngValue]="null" disabled>Select</option>
+                      <!-- Other options -->
+                      <option [ngValue]="'Recommend'" *ngIf="shouldShowButton('Recommend')">Recommend</option>
+                      <option [ngValue]="'Approval'" *ngIf="shouldShowButton('Approval')">Approval</option>
+                      <option [ngValue]="'Close'" *ngIf="shouldShowButton('Close')">Close</option>
                     </select>
-                </td>
+                  </td>
+                  
 
-                <!-- [disabled]="isSelectDisabled(item.stage, item.status)" -->
+
 
 
             </tr>
@@ -89,7 +92,7 @@
 
 <!-- Confirmation Modal  -->
 <p-dialog header="" [(visible)]="isDialogVisible" modal="modal" [style]="{'width': '30vw','height': '60vh'}"
-    [closable]="true" (onHide)="onHide()">
+    (onHide)="onHide()" (keydown)="handleKeyDown($event)">
     <div style="display: flex;flex-direction:column;align-items: center;">
         <div>
             <p>Please Enter Remarks</p>
@@ -131,7 +134,8 @@
                 <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
                 <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
                 <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
-                <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon></th>
+                <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon>
+                </th>
                 <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
                 <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
                 <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
@@ -151,8 +155,9 @@
                 <td>{{ item.propertycode }}</td>
                 <td>{{ item.created_at | date: 'YYYY-MM-dd' }}</td>
                 <td>{{ item.status}}</td>
-                <td *ngIf="item.attachment !== null"  pTooltip="Download Attachment" tooltipPosition="left" (click)="downloadFile(item.attachment)"><i
-                        class="pi pi-paperclip" style="color: slateblue"></i></td>
+                <td *ngIf="item.attachment !== null" pTooltip="Download Attachment" tooltipPosition="left"
+                    (click)="downloadFile(item.attachment)"><i class="pi pi-paperclip" style="color: slateblue"></i>
+                </td>
                 <td *ngIf="item.attachment === null "></td>
             </tr>
         </ng-template>
