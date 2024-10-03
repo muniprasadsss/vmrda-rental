@@ -43,7 +43,7 @@ export class ReceiptDetailsComponent {
       Bill_Period: ['', Validators.required],
       Total: ['', Validators.required],
       Status: ['', Validators.required],
-      paidAmount: ['', Validators.required],
+      amount_paid: ['', Validators.required],
     });
   }
 
