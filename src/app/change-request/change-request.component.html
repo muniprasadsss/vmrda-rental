@@ -63,7 +63,7 @@
                 <td *ngIf="item.attachment === null "></td>
                 <td *ngIf="userRole !== 'USER'" style="width: 10%;">
                     <select class="custom-select" [(ngModel)]="item.action"
-                        [disabled]="isSelectDisabled(item.stage, item.status)"
+                       
                         (change)="changeStatus(item.cr_number, item.requesttype, item.status, item.stage, item.action)">
                         <option disabled [selected]="true">Select</option>
                         <option value="Recommend" *ngIf="shouldShowButton('Recommend')">Recommend</option>
@@ -72,7 +72,7 @@
                     </select>
                 </td>
 
-
+                <!-- [disabled]="isSelectDisabled(item.stage, item.status)" -->
 
 
             </tr>
