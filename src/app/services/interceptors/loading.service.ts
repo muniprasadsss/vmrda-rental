@@ -1,19 +1,27 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { LoadingService } from '../loading/loading.service';
-
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
 
-  constructor(private loadingService: LoadingService) {}
+  constructor(private loadingService: LoadingService, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.loadingService.show();  // Show spinner before the request
+    this.loadingService.show();  // Show loading spinner
+
     return next.handle(request).pipe(
-      finalize(() => this.loadingService.hide())  // Hide spinner after the response
+      catchError((error: HttpErrorResponse) => {
+        // If the server is down or there’s an error, navigate to 404
+        if (error.status === 0 || error.status === 500) {
+          this.router.navigate(['/404']);
+        }
+        return throwError(error); // Re-throw the error after handling it
+      }),
+      finalize(() => this.loadingService.hide())  // Hide loading spinner
     );
   }
 }

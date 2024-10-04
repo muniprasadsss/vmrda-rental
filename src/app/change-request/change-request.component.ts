@@ -158,7 +158,7 @@ export class ChangeRequestComponent implements OnInit {
     }else{
       this.tableData = this.pendingRecordes;
     }
-    
+    this.cdr.detectChanges();
   }
 
   onFilterGlobal(event: Event): void {
@@ -199,7 +199,7 @@ export class ChangeRequestComponent implements OnInit {
           this.getcrInfo();
         },
         error: (err: any) => {
-          this.toasterservice.warning("Please Enter Remarks");
+          this.toasterservice.warning(err.error.message);
         }
       });
      

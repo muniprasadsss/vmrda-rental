@@ -12,11 +12,12 @@ import { AssetsComponent } from './assets/assets.component';
 import { AuthGuardsService } from './services/authGuards/auth-guards.service';
 import { DepartmentUsersComponent } from './department-users/department-users.component';
 import { IssueNoticeComponent } from './issue-notice/issue-notice.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 export const routes: Routes = [
 
-
+    
     {path: '',component:LoginComponent},
     { path: 'dashboard', component: DashboardComponent, 
         canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','USER','ADMIN'] } },
@@ -38,7 +39,7 @@ export const routes: Routes = [
          canActivate: [AuthGuardsService], data: { role: ['RD','AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
     { path: 'departmentusers', component: DepartmentUsersComponent, canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
     { path: 'issueNotice', component: IssueNoticeComponent, canActivate: [AuthGuardsService], data: { role: ['RD','AO','ADMIN'] } },
-    
+    {path:'**',component:PageNotFoundComponent}
 
 
 ];
