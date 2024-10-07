@@ -147,7 +147,8 @@ generatePDF(receipt: any) {
     // ["Lease Amount", receipt.Rental_lease_amount_permonth],
     // ["GST", receipt.GST],
     ["Total Bill Amount", receipt.Total],
-    ["Total Paid", receipt.TotalPaid],
+    // ["Total Paid", receipt.TotalPaid],
+    ["Paid Amount", receipt.Current_Payment],
     // ["Due Amount", receipt.Due],
     ["Payment Status", receipt.Status]
   ];
@@ -311,6 +312,7 @@ generatePDF(receipt: any) {
 createReceipt(receiptData: any) {
 
   this.billDetailService.updateReceipt(receiptData).subscribe((response) => {
+    console.log(response,"bill response from api...");
     if (response.message == "receipt created successfully") {
       console.log('Receipt created successfully!');
       // this.createAndSendReceiptPDF(receiptData);
