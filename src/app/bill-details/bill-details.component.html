@@ -81,7 +81,7 @@
           <td *ngIf="bill.Status !== 'FP' && userRole === 'USER' ">
             <button (click)="payBill(bill)" class="pay-btn">Pay</button>
           </td>
-          <td *ngIf="bill.BillStatus === 'Active'" pTooltip=" Download Bill " tooltipPosition="left"><i class="pi pi-download" (click)="generatePDF(bill)"></i></td>
+          <td *ngIf="bill.BillStatus === 'Active'" pTooltip=" Download Bill " tooltipPosition="left"><i class="pi pi-download" (click)="downloadPDF(bill)"></i></td>
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage" >
