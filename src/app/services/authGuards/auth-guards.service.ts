@@ -22,21 +22,18 @@ export class AuthGuardsService implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    const routeRole = route.data['role']; // Get role from route data
-
-    // Ensure userRole and routeRole are defined
-    if (this.userRole && routeRole) {
-      if (this.isAuthorized(routeRole)) {
+    const routeRole = route.data['role'];
+    const token = localStorage.getItem('token');
+    
+    if (token ) {
+      if (this.userRole && routeRole && this.isAuthorized(routeRole) && this.isAuthenticated()) {
         return true;
       } else {
-        // If not authorized, redirect to login or error page
         this.logout();
         this.router.navigate(['']);
-
         return false;
       }
     }
-
     // Handle case where role is undefined (e.g., not logged in)
     this.logout();
     this.router.navigate(['']);
@@ -61,10 +58,24 @@ export class AuthGuardsService implements CanActivate {
   }
 
   logout() {
+    localStorage.removeItem('token'); 
     localStorage.removeItem('user');
     localStorage.removeItem('role');
     localStorage.removeItem('userId');
     this.authenticated.next(false);
     localStorage.removeItem('userInfo');
   }
+
+// Get the JWT token
+getToken(): string | null {
+  return localStorage.getItem('token');
+}
+
+// Check if user is authenticated
+isAuthenticated(): boolean {
+  const token = this.getToken();
+  // Check token validity (implement your own logic for token expiration)
+  return !!token;
+}
+
 }

@@ -73,17 +73,7 @@
 
 
 
-<div class="dialog">
-  <p-dialog header="Add Manual Receipt" [modal]="true" [(visible)]="visible" position="center"
-    [style]="{ width: '50rem' }">
-    <form [formGroup]="addNewRecept" (ngSubmit)="addNewUser()">
-      <div class="form-container">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="bill-no" class="form-label">Search By Bill No</label>
-            <input type="text" id="bill-no" class="form-input" formControlName="billNo" />
-            <p-iconField iconPosition="right" class="ml-auto">
-              <p-inputIcon (click)="fetchBillDetails(addNewRecept.get('billNo')!.value)">
+
 <div class="dialog">                
   <p-dialog
   header="Add Manual Receipt"
@@ -103,13 +93,6 @@
             </p-inputIcon>
         </p-iconField>
         </div>
-        <!-- <div class="form-group" style="margin-top: 1.2rem;">
-          <p-iconField iconPosition="right" class="ml-auto">
-            <p-inputIcon (click)="fetchBillDetails(addNewRecept.get('billNo')!.value)">
-                <i class="pi pi-search"></i>
-            </p-inputIcon>
-        </p-iconField>
-        </div> -->
       </div>
       <div class="form-row" *ngIf="hideAddNew " >
         <div class="form-group">

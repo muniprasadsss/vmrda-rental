@@ -127,14 +127,17 @@ export class ChangeRequestComponent implements OnInit {
     this.crData = [];
     this.Http.getChangeRequestData(this.userID,this.userRole).subscribe({
       next: (res: any) => {
-        this.crData = res.crInfo;
-        this.crData = res.crInfo.map((item: any) => {
-          return {
-            ...item,
-            action: null  // Initialize tempAction as null
-          };
-        });
-        this.filterData();
+        if(res.message !== 'No Data'){
+          this.crData = res.crInfo;
+          this.crData = res.crInfo.map((item: any) => {
+            return {
+              ...item,
+              action: null  // Initialize tempAction as null
+            };
+          });
+          this.filterData();
+        }
+       
       },
       error: (err: any) => {
         

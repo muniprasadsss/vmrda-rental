@@ -58,6 +58,7 @@ export class LoginComponent {
           next:(res:any)=>{
             this.otpDiv= res.uservalid
             this.startTimer();
+            localStorage.setItem('token', res.token);
           },
           error:(err:any)=>{
             this.toasterservice.warning("Please enter valid userID and password")
@@ -72,13 +73,13 @@ export class LoginComponent {
 
   submitOtp() {
     if (this.otp) {
-      this.LoginService.verifyOTP(this.userID,this.otp).subscribe({
+      this.LoginService.verifyOTP(this.otp,this.userID).subscribe({
         next:(res:any)=>{
-          localStorage.setItem('userInfo', JSON.stringify(res.user));
-      this.authService.login(res.user.user_type,res.user.USER_ID)
+          localStorage.setItem('userInfo', JSON.stringify(res.data));
+      this.authService.login(res.data.user_type,res.data.USER_ID)
       this.toasterservice.success("login successful")
 
-      if(res.user.user_type === 'USER'){
+      if(res.data.user_type === 'USER'){
         this.router.navigateByUrl("billDetails")
       }else{
         this.router.navigateByUrl("user")
@@ -96,9 +97,29 @@ export class LoginComponent {
     }
   
   }
+  forgetPassverifyOtp() {
+    if (this.otp) {
+      this.LoginService.verifyOTPForgetPass(this.userID,this.otp).subscribe({
+        next:(res:any)=>{
+          localStorage.setItem('userInfo', JSON.stringify(res.user));
+        this.isNewPassword = true;
+        this.otpDiv = false;
+        },
+        error:(err:any)=>{
+          this.toasterservice.warning("Please enter valid otp")
+        }
+      })
+      
+    }
+     else {
+      this.toasterservice.warning("Please enter valid otp")
+      
+    }
+  
+  }
   verifyOtp() {
     if (this.otp) {
-      this.LoginService.verifyOTP(this.userID,this.otp).subscribe({
+      this.LoginService.verifyOTP(this.otp,this.userID).subscribe({
         next:(res:any)=>{
           localStorage.setItem('userInfo', JSON.stringify(res.user));
         this.isNewPassword = true;

@@ -101,7 +101,7 @@
           <button class="signin-btn" type="submit" (click)="ForgotPassword(forgotpasswordform)" *ngIf="!otpDiv && !isNewPassword">
             Verify User
           </button>
-          <button class="signin-btn" type="submit" (click)="verifyOtp()" *ngIf="otpDiv && !isNewPassword">
+          <button class="signin-btn" type="submit" (click)="forgetPassverifyOtp()" *ngIf="otpDiv && !isNewPassword">
             Submit OTP
           </button>
           <button class="signin-btn" type="submit" (click)="submitNewPassword()" *ngIf="!otpDiv && isNewPassword">
