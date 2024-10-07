@@ -91,7 +91,6 @@
     </ng-template>
     </p-table>
   </div>
-<!-- </div> -->
 
 <!-- Edit bill details dialog  -->
 
@@ -171,7 +170,7 @@
     </div>
     <div class="btn">
       <div class="save">
-        <p-button label="Generate" (onClick)="onSubmit()" size="small" />
+        <p-button label="Generate" (onClick)="generateBill()" size="small" />
       </div>
       <div class="cancel">
         <p-button label="Cancel" severity="danger" (onClick)="showModel = false" size="small" />
@@ -233,15 +232,14 @@
   <td *ngIf="bill.Attachment_URL === null "></td>
   <td *ngIf="bill.Status === 'FP'">
   </td>
-  <td><i class="pi pi-download"  pTooltip=" Download Bill " tooltipPosition="left"(click)="generatePDF(bill)"></i></td>
+  <td><i class="pi pi-download"  pTooltip=" Download Bill " tooltipPosition="left"(click)="downloadPDF(bill)"></i></td>
   </tr>
   </ng-template>
   </p-table>
     </p-dialog>
   </div>
 
-
-  <!-- Payment Pop for Enter Partial Payment  -->
+<!-- Payment Pop for Enter Partial Payment  -->
 
   <div class="card flex justify-content-center">
     <p-dialog header="Edit Amount" [modal]="true" [(visible)]="showPayPopup" [style]="{ width: '40rem' }">

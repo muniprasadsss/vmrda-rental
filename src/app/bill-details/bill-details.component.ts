@@ -25,7 +25,6 @@ declare var Razorpay: any;
   templateUrl: './bill-details.component.html',
   styleUrls: ['./bill-details.component.scss'],
   providers: [DatePipe], // Add DatePipe here
-
 })
 export class BillDetailsComponent implements OnInit {
   emailData = {
@@ -58,9 +57,15 @@ export class BillDetailsComponent implements OnInit {
   attachmentUrl: any;
   isTds:boolean = true;
   tdsvalue:number = 0
+  userdetails: any;          // initilaise for getting userdata as object from local storage
+  username:any;              // initialise username 
+  
   constructor(private billDetailService: BillDetailsService,
-    private Http: ChangeRequestService,
-     private cd: ChangeDetectorRef, http: ReceptDetailsService, private fb: FormBuilder,private datePipe: DatePipe) {
+              private Http: ChangeRequestService,
+              private cd: ChangeDetectorRef,
+              http: ReceptDetailsService,
+              private fb: FormBuilder,
+              private datePipe: DatePipe) {
     this.PaymentPopupform = this.fb.group({
       billNo: [{ value: '',disabled: true }],
       propertycode: [{ value: '', disabled: true }],
@@ -98,6 +103,9 @@ export class BillDetailsComponent implements OnInit {
 
     this.userRole = localStorage.getItem('role')
     this.userID = localStorage.getItem('userId')
+    this.userdetails=localStorage.getItem("userInfo");
+    const userDetailsObject = JSON.parse(this.userdetails);
+    this.username=userDetailsObject.USER_NAME
     this.getbilldetails();
     this.getPropertyCodes();
   }
@@ -123,10 +131,8 @@ export class BillDetailsComponent implements OnInit {
     this.billDetailService.getPropertyCodes( this.userID,this.userRole).subscribe({
       next:(res:any)=>{
         this.propertyCode = res;
-
       },
       error:(err:any)=>{
-
       }
     })
   }
@@ -148,9 +154,10 @@ export class BillDetailsComponent implements OnInit {
     // Update the total field in the form
     this.form.get('total')?.setValue(total, { emitEvent: false }); 
   }
-  // Updated showDialog method to fetch data based on bill_no
-  showDialog(bill_no: string) {
 
+  // Updated showDialog method to fetch data based on bill_no
+
+  showDialog(bill_no: string) {
     this.visible = true;
     this.showModel = true;
     // Fetch details based on bill_no
@@ -179,10 +186,8 @@ export class BillDetailsComponent implements OnInit {
         this.responseMsg = "Error fetching details";
       }
     });
-
   }
   
-
   getbilldetails() {
     this.dataSource = []
     this.billDetailService.getBillDetailsByUserId(this.userID, this.userRole).subscribe({
@@ -192,7 +197,6 @@ export class BillDetailsComponent implements OnInit {
         if (this.dataSource.length > 0) {
           this.filterBillData();
         }
-
       },
       error: (err: any) => {
         if (err.error?.message) {
@@ -219,29 +223,23 @@ export class BillDetailsComponent implements OnInit {
         return (item.Status !== 'FP' && item.BillStatus === 'Active') //PP and NP only visible changed 27-09-24
       })
     }
-
     this.cd.detectChanges();
-
   }
 
   sendEmail() {
     this.billDetailService.sendEmail(this.emailData).subscribe(
       (response) => {
-
       },
       (error) => {
-
       }
     );
 
   }
 
-onSubmit() {
+  generateBill() {
   this.showModel = true; // Show the modal (if you're using one)
-
   if (this.form.valid) {
     const formData = this.form.getRawValue();
-
     // Get the user ID from the form data
     const userId = formData.user_id; // Ensure this matches your form field name
     const Property=formData.property_code;
@@ -260,13 +258,11 @@ onSubmit() {
       tds:formData.tds,
       attachmentUlr:this.attachmentUrl
     };
-
     console.log(updateData, "....updatedata");
-
     this.billDetailService.updateBillDetails(updateData).subscribe({
       next: (response) => {
         // Generate and send PDF immediately after updating
-        this.createAndSendPDF(updateData); // Call the method to create and send PDF
+        this.BillGeneratePdf(response.data); // Call the method to create and send PDF
         this.showModel = false; // Close the modal after successful update
         this.getbilldetails();
       },
@@ -278,9 +274,9 @@ onSubmit() {
   else {
     console.error('Form is invalid');
   }
-}
+  }
 
-onFileChange(event: any) {
+  onFileChange(event: any) {
   const files = event.target.files;
   if (files.length > 0) { // Check if any file is selected
     const file = files[0];
@@ -289,10 +285,9 @@ onFileChange(event: any) {
   } else {
     console.warn('No file selected');
   }
-}
+  }
 
-
-uploadAttachment(){
+  uploadAttachment(){
   let fd = new FormData();
   fd.append('image',  this.fileToUpload);
   this.Http.uploadAttachment(fd).subscribe({
@@ -301,23 +296,21 @@ uploadAttachment(){
       this.fileToUpload = null;
     },
     error:(err:any)=>{
-
     }
   })
-}
+  }
 
-downloadFile(url: string) {
+  downloadFile(url: string) {
   if (url) {
     // Open the S3 URL in a new tab
     window.open(url, '_blank');
   } else {
     console.error('No attachment URL provided');
   }
-}
+  }
 
-createAndSendPDF(updateData: any) {
+  BillGeneratePdf(updateData: any) {
   this.billDetailService.getPropertyInfo(updateData.BillNo).subscribe({
-
     next: (res: any) => {
       this.propertyData = res;
       this.propertyDetail = this.propertyData.propertyInfo
@@ -381,6 +374,7 @@ createAndSendPDF(updateData: any) {
   currentY += lineHeight * 4;
 
   // Adding billing details in a table
+
   const billingDetails = [
     ["Bill No", updateData.BillNo],
     ["Power Bill", updateData.Power_bill],
@@ -404,6 +398,7 @@ createAndSendPDF(updateData: any) {
   });
 
   // Footer content
+
   currentY = doc.internal.pageSize.height - margins.bottom - 20; // Position for footer
   doc.setFontSize(12);
   doc.setFont('times', 'normal');
@@ -422,6 +417,7 @@ createAndSendPDF(updateData: any) {
   formData.append('userId', updateData.UserId);
 
   // Send the PDF to the backend for emailing
+
   this.billDetailService.sendEmailWithAttachmentBill(formData).subscribe({
     next: (response) => {
       console.log('Email with bill sent successfully!', response);
@@ -432,11 +428,9 @@ createAndSendPDF(updateData: any) {
   });
 }
   }
-)}
+  )}
 
-  generatePDF(bill: any) {
-
-
+  downloadPDF(bill: any) {
     this.billDetailService.getPropertyInfo(bill.BillNo).subscribe({
 
       next: (res: any) => {
@@ -516,7 +510,6 @@ createAndSendPDF(updateData: any) {
           ["Total", bill.Total],
         ];
 
-
         const tableStartY = currentY + 7;
 
         // Using autoTable with proper margins for table alignment inside the border
@@ -554,26 +547,21 @@ createAndSendPDF(updateData: any) {
     )
   }
 
-
   generateChallanNumber(UserID: string): string {
     const currentDate = new Date();
     const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month as a number, padded to 2 digits
     const currentYear = currentDate.getFullYear();
-
-
     return `Rec/VMRDA/${currentMonth}/${currentYear}/${UserID}`;
   }
 
   showDialog1() {
     this.visible1 = true;
-
   }
-
 
   // Popup opening for Partial Payment 
 
   payBill(bill: any) {
-    this.selectedBill = bill; // Store the selected bill
+    this.selectedBill = bill;  // Store the selected bill data
     this.PaymentPopupform.patchValue({
       billNo: bill.BillNo,
       propertycode: bill.Property,
@@ -589,7 +577,7 @@ createAndSendPDF(updateData: any) {
       paymentAmount: bill.TotalPaid,
       due: bill.Due 
     });
-        this.showPayPopup = true; // Show the payment popup
+     this.showPayPopup = true; // Show the payment popup
   }
 
   // Sent Edited Partial Payment amount to Payment Page 
@@ -603,9 +591,9 @@ createAndSendPDF(updateData: any) {
     const waterBill = this.PaymentPopupform.get('waterBillAmount')?.value; // Access the disabled control
     const maintenanceAmount = this.PaymentPopupform.get('maintenance')?.value; // Access the disabled control
     const sentDisabledFieldValues={billNo,powerBill,waterBill,maintenanceAmount}
-    // console.log(billNo,"bill no 1..");
 
     // Call Razorpay payment
+
     this.billDetailService.createOrder(this.amount).subscribe(
       (order) => {
         const options = {
@@ -629,7 +617,6 @@ createAndSendPDF(updateData: any) {
         };
         const rzp1 = new Razorpay(options);
         rzp1.open();
-
         this.showPayPopup = false; // Close the popup after opening Razorpay
       },
       (error) => {
@@ -638,8 +625,7 @@ createAndSendPDF(updateData: any) {
     );
   }
 
-
-   verifyPayment(response: any, bill: any,editedAamount:any, billDetails: any) {
+  verifyPayment(response: any, bill: any,editedAamount:any, billDetails: any) {
     this.billDetailService.verifyPayment(response).subscribe({
       next:  (data) => {
         if (data.message === "Payment verified successfully") {
@@ -676,17 +662,9 @@ createAndSendPDF(updateData: any) {
             "status": data.paymentDetails.status ?? "No Data",
           };
           console.log(transactionData,"transaction data check...");
-          
 
         this.billDetailService.saveTransactionDetails(transactionData).subscribe({
           next:  (response) => {
-            // const updateData = {
-            //   BillNo: bill.BillNo,
-            //   Status: 'FP',
-            //   TotalPaid: bill.Total,
-            //   Due: 0,
-            //   Vmrda_Challan_No: challanNumber,
-            // };
             const updateData={
               p_billid: billDetails.billNo,
               p_payment_amount: transactionData.amount,             
@@ -713,7 +691,7 @@ createAndSendPDF(updateData: any) {
                         Due: 0,
                         Status: 'FP'
                        }
-                    this.createAndSendReceiptPDF(payload);
+                    this.createAndSendReceiptPDF(payload,response.data);
 
                      this.getbilldetails();
                     //  this.cd.markForCheck(); // Changed to markForCheck
@@ -735,10 +713,11 @@ createAndSendPDF(updateData: any) {
       },
     });
   }
-  // to send bill paid receipt pdf to user 
-  createAndSendReceiptPDF(receiptData: any) {
-    const doc = new jsPDF();
 
+  // to send bill paid receipt pdf to user 
+
+  createAndSendReceiptPDF(payload: any,responseData: any) {
+    const doc = new jsPDF();
     // Page margins and initial Y position
     const margins = { top: 15, bottom: 15, left: 20, right: 20 };
     const lineHeight = 8;
@@ -777,7 +756,7 @@ createAndSendPDF(updateData: any) {
     doc.setFont('helvetica', 'normal');
     doc.text(`Receipt No:`, margins.left, currentY);
     doc.setFont('helvetica', 'bold');
-    doc.text(receiptData.ReceiptNo, margins.left + 30, currentY);
+    doc.text(payload.ReceiptNo, margins.left + 30, currentY);
     doc.setFont('helvetica', 'normal');
     doc.text('Date:', doc.internal.pageSize.width - margins.right - 45, currentY);
     doc.setFont('helvetica', 'bold');
@@ -787,13 +766,13 @@ createAndSendPDF(updateData: any) {
     // Add property details
     doc.setFont('helvetica', 'bold');
     doc.text(`Property Name: `, margins.left, currentY);
-    doc.text(receiptData.Property, margins.left + 40, currentY);
+    doc.text(payload.Property, margins.left + 40, currentY);
     currentY += lineHeight;
 
     // Add summary text
     doc.setFont('helvetica', 'normal');
     doc.text(
-      `This receipt acknowledges the payment for property code ${receiptData.Property}, leased to ${receiptData.User}. ` +
+      `This receipt acknowledges the payment for property code ${payload.Property}, leased to ${this.username}. ` +
       `Payment includes the lease amount, GST, and other charges. Summary of payment details:`,
       margins.left, currentY, { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
     );
@@ -801,19 +780,19 @@ createAndSendPDF(updateData: any) {
 
     // Add receipt details in a table format
     const tableRows = [
-      ['Receipt No', receiptData.ReceiptNo],
-      ['User ID', receiptData.User],
-      ['Bill No', receiptData.p_billid],
-      ['Property Code', receiptData.Property],
-      ['Paid Date', new Date(receiptData.paid_date).toLocaleDateString()],
-      ['Lease Amount', receiptData.Rental_lease_amount_permonth],
-      ['Power Bill', receiptData.Power_bill],
-      ['Maintaiance Bill', receiptData.Maintainance_bill],
-      ['Water Bill', receiptData.Water_bill],
-      ['GST', receiptData.GST],
-      ['Total Paid', receiptData.TotalPaid],
-      ['Due Amount', receiptData.Due],
-      ['Payment Status', receiptData.Status]
+      ['Receipt No', responseData.receipt_no],
+      ['User ID', responseData.user],
+      ['Bill No', payload.p_billid],
+      ['Property Code', responseData.property],
+      ['Paid Date', new Date(payload.paid_date).toLocaleDateString()],
+      ['Lease Amount', responseData.rental_lease_amount_permonth],
+      ['Power Bill', responseData.power_bill],
+      ['Maintaiance Bill', responseData.maintainance_bill],
+      ['Water Bill', responseData.water_bill],
+      ['GST', responseData.gst],
+      ['Total Paid', responseData.total_paid],
+      ['Due Amount', responseData.due],
+      ['Payment Status', responseData.status]
     ];
 
     autoTable(doc, {
@@ -849,9 +828,9 @@ createAndSendPDF(updateData: any) {
 
     // Prepare FormData to send the PDF to the backend
     const formData = new FormData();
-    formData.append('pdf', pdfBlob, `Receipt_${receiptData.ReceiptNo}.pdf`);
-    // formData.append('userId', receiptData.User);
-    formData.append('userId', receiptData.User); // Check if 'User' is U00006
+    formData.append('pdf', pdfBlob, `Receipt_${payload.receipt_no}.pdf`);
+    // formData.append('userId', payload.User);
+    formData.append('userId',responseData.user); // Check if 'User' is U00006
 console.log('User ID sent in formData:', formData.get('userId'));
 
     // Send the PDF to the backend for emailing
@@ -865,136 +844,7 @@ console.log('User ID sent in formData:', formData.get('userId'));
     });
   }
 
-  //Function to create a receipt after successful payme
-  createReceipt(receiptData: any) {
-
-    this.billDetailService.updateReceipt(receiptData).subscribe((response) => {
-      if (response.message == "receipt created successfully") {
-        console.log('Receipt created successfully!');
-        // this.createAndSendReceiptPDF(receiptData);
-      }
-       else {
-        console.error('Error creating receipt:', response.message);
-
-      }
-    });
-  }
-
-  generatePDF1(bill: any) {
-    this.billDetailService.getPropertyInfo(bill.BillNo).subscribe({
-      next: (res: any) => {
-        this.propertyData = res;
-        this.propertyDetail = this.propertyData.propertyInfo;
-
-        const doc = new jsPDF();
-        const margins = { top: 15, bottom: 15, left: 20, right: 20 };
-        const lineHeight = 10;
-        let currentY = margins.top;
-        const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png';
-        const logoWidth = 30;
-        const logoHeight = 30;
-        const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
-
-        // Logo
-        doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight, '', 'FAST');
-        currentY += logoHeight + 5;
-
-        // Border
-        doc.setLineWidth(0.5);
-        doc.rect(
-          margins.left - 5,
-          margins.top - 5,
-          doc.internal.pageSize.width - (margins.left + margins.right - 10),
-          doc.internal.pageSize.height - (margins.top + margins.bottom - 10)
-        );
-
-        // Heading
-        doc.setFontSize(12).setFont('helvetica', 'bold');
-        doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
-        currentY += lineHeight + 2;
-
-        doc.setFontSize(12).setFont('helvetica', 'bold');
-        doc.text('Payment Receipt', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
-        currentY += lineHeight;
-
-        // Date and Bill No
-        const currentDate = new Date().toLocaleDateString();
-        doc.setFontSize(12).setFont('helvetica', 'normal');
-        doc.text(`Bill No: `, margins.left, currentY);
-        doc.setFont('helvetica', 'bold');
-        doc.text(`${bill.BillNo}`, margins.left + 20, currentY); // Adjusted position for bold text
-        doc.setFont('helvetica', 'normal');
-        doc.text(`Dt: `, doc.internal.pageSize.width - margins.right - 45, currentY);
-        doc.setFont('helvetica', 'bold');
-        doc.text(`${currentDate}`, doc.internal.pageSize.width - margins.right - 30, currentY); // Adjusted position for bold text
-        currentY += lineHeight * 2;
-
-        // Dynamic content
-        doc.setFontSize(12).setFont('helvetica', 'bold');
-        doc.text(`Property Name: `, margins.left, currentY);
-        doc.setFont('helvetica', 'bold');
-        doc.text(`${bill.Property}`, margins.left + 40, currentY); // Adjusted position for bold text
-        currentY += lineHeight;
-
-        doc.setFont('helvetica', 'normal');
-        doc.text(
-          `The property with code ${bill.Property} for an extent of ${this.propertyDetail.EXTENT} sqft., located in ${this.propertyDetail.LOCATION}, has been successfully paid by ${this.propertyDetail.ALLOTTEE_NAME}. The payment of Rs. ${bill.Total}, including lease and other charges (GST, utility bills), has been completed for the period ${bill.Rental_lease_amount_permonth}. Thank you for your timely payment.`,
-          margins.left, currentY,
-          { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
-        );
-        currentY += lineHeight * 4;
-
-        doc.text(
-          `No further action is required at this time. Please keep this receipt for your records. We appreciate your prompt payment and cooperation.`,
-          margins.left, currentY,
-          { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
-        );
-        currentY += lineHeight * 2;
-
-        // Table
-        const tableRows = [
-          ["Bill No", bill.BillNo],
-          ["Property Code", bill.Property],
-          ["Lease Period", bill.Bill_Period],
-          ["Lease Amount", bill.Rental_lease_amount_permonth],
-          ["GST", bill.GST],
-          ["Power Bill Amount", bill.Power_bill],
-          ["Water Bill Amount", bill.Water_bill],
-          ["Maintenance Amount", bill.Maintainance_bill],
-          ["Total Paid", bill.Total]
-        ];
-
-        const tableStartY = currentY + 7;
-
-        autoTable(doc, {
-          body: tableRows.map(row => [row[0], row[1]]), // Adjust to make labels and values bold in the table
-          startY: tableStartY,
-          margin: { left: margins.left + 10, right: margins.right + 10 },
-          tableWidth: doc.internal.pageSize.width - margins.left - margins.right - 20,
-          theme: 'grid',
-          headStyles: {
-            fillColor: [0, 102, 204],
-            textColor: [255, 255, 255]
-          },
-        });
-
-        // Footer
-        currentY = doc.internal.pageSize.height - margins.bottom - 20;
-        doc.setFontSize(12).setFont('helvetica', 'normal');
-        doc.text('Thank you for your payment. Please retain this receipt for your records.', margins.left, currentY);
-        currentY += lineHeight;
-        doc.text('Regards,', margins.left, currentY);
-        currentY += lineHeight;
-        doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
-
-        // Save the PDF
-        doc.save(`Payment_Receipt_${bill.Property}.pdf`);
-      }
-    });
-  }
-
   showPaymentPopup(){
     this.showPayPopup=true;
-
   }
 }

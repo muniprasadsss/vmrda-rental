@@ -30,7 +30,7 @@
         <th pSortableColumn="GST">GST<p-sortIcon field="GST" /></th>
         <th pSortableColumn="Total_Rent">Total Rent Interest<p-sortIcon field="Total_rental_interest" /></th>
         <th pSortableColumn="Total">Total<p-sortIcon field="Total" /></th>
-        <th pSortableColumn="Total_paid">Total Paid<p-sortIcon field="Total_Paid" /></th>
+        <th pSortableColumn="Total_paid">Amount Paid<p-sortIcon field="Total_Paid" /></th>
         <th pSortableColumn="Due">Due<p-sortIcon field="Due" /></th>
         <th pSortableColumn="Status">Status<p-sortIcon field="Status" /></th>
         <th></th>
@@ -52,7 +52,7 @@
         <td style="width: 8%;">{{ receipt.GST }}</td>
         <td style="width: 6%;">{{ receipt.Total_rental_interest }}</td>
         <td style="width: 10%;">{{ receipt.Total }}</td>
-        <td style="width: 10%;">{{ receipt.TotalPaid }}</td>
+        <td style="width: 10%;">{{ receipt.Current_Payment }}</td>
         <td style="width: 10%;">{{ receipt.Due }}</td>
 
         <td style="width: 10%;">{{ receipt.Status }}</td>
@@ -73,7 +73,7 @@
 
 
 
-<div class="dialog">
+<!-- <div class="dialog">
   <p-dialog header="Add Manual Receipt" [modal]="true" [(visible)]="visible" position="center"
     [style]="{ width: '50rem' }">
     <form [formGroup]="addNewRecept" (ngSubmit)="addNewUser()">
@@ -83,7 +83,7 @@
             <label for="bill-no" class="form-label">Search By Bill No</label>
             <input type="text" id="bill-no" class="form-input" formControlName="billNo" />
             <p-iconField iconPosition="right" class="ml-auto">
-              <p-inputIcon (click)="fetchBillDetails(addNewRecept.get('billNo')!.value)">
+              <p-inputIcon (click)="fetchBillDetails(addNewRecept.get('billNo')!.value)"> -->
 <div class="dialog">                
   <p-dialog
   header="Add Manual Receipt"
