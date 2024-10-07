@@ -88,7 +88,7 @@
       <div class="form-row">
         <div class="form-group">
           <label for="bill-no" class="form-label">Search By Bill No</label>
-          <input type="text" id="bill-no" class="form-input" formControlName="billNo" />
+          <input type="text" id="bill-no" class="form-input" formControlName="billNo" (keydown)="handleKeyDown($event)"/> <!--keydown keybord trigger function  -->
           <p-iconField iconPosition="right" class="ml-auto">
             <p-inputIcon (click)="fetchBillDetails(addNewRecept.get('billNo')!.value)">
                 <i class="pi pi-search"></i>
@@ -106,7 +106,7 @@
       <div class="form-row" *ngIf="hideAddNew " >
         <div class="form-group">
           <label for="bill-no" class="form-label">Property Code</label>
-          <input type="text" id="bill-no" class="form-input" formControlName="Property" [disabled]="bill_status !== 'FP'" />
+          <input type="text" id="bill-no" class="form-input" formControlName="Property" />
         </div>
         <div class="form-group">
           <label for="user-id" class="form-label">User Id</label>

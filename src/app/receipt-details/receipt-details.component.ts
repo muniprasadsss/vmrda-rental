@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderComponent } from '../header/header.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -34,16 +34,17 @@ export class ReceiptDetailsComponent {
     private Http: ChangeRequestService,
     private billDetailService: BillDetailsService,
     private fb: FormBuilder,
-    private toasterservice: ToastrService,){
+    private toasterservice: ToastrService,
+    private cd: ChangeDetectorRef){
 
     this.addNewRecept = this.fb.group({
       billNo: ['', Validators.required],
-      User: ['', Validators.required],
-      Property: ['', Validators.required],
-      Bill_Period: ['', Validators.required],
-      Total: ['', Validators.required],
-      Status: ['', Validators.required],
-      paidAmount: ['', Validators.required],
+      User:[{ value: '', disabled: true }],
+      Property:[{ value: '', disabled: true }],
+      Bill_Period:[{ value: '', disabled: true }],
+      Total:[{ value: '', disabled: true }],
+      Status:[{ value: '', disabled: true }],
+      amount_paid: ['', Validators.required],
     });
   }
 
@@ -202,7 +203,7 @@ generatePDF(receipt: any) {
   }
 
      // Handle file input change
-     onFileChange(event: any) {
+   onFileChange(event: any) {
       const file = event.target.files[0];
       if (file.length > 0) { // Check if any file is selected
         const files = file[0];
@@ -330,7 +331,20 @@ createReceipt(receiptData: any) {
       this.visible = false;
       this.hideAddNew = false;
       this.addNewRecept.reset();
+      
     }
 
 
+    handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Enter') {
+        // Submit the form on Enter key press
+        console.log("Enter clicked...");
+        this.fetchBillDetails(this.addNewRecept.get('billNo')!.value);
+      } else if (event.key === 'Escape') {
+        // Close the modal on Escape key press
+        console.log("Esc clicked...");
+        this.closeDialog(); // Make sure to close the dialog if needed
+      }
+    }
+    
 }
