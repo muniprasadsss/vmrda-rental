@@ -20,13 +20,11 @@ export class HeaderComponent implements OnInit {
   dropdownDiv: boolean = false;
   items: any | undefined;
   userdetails: any;
+  notifications: any;
   viewProfileDialog: boolean = false; // For viewing profile dialog
   changePasswordDialog: boolean = false; // For changing password dialog
   profileForm: FormGroup;
   passwordform: FormGroup;
-
-
-
 
   constructor(private router: Router, private authService: AuthGuardsService,private fb: FormBuilder,private profileService:ProfileSettingsService,private toasterservice:ToastrService) {
     this.profileForm = this.fb.group({
@@ -70,13 +68,29 @@ export class HeaderComponent implements OnInit {
         ]
       }
     ];
+
+    this.notifications = [
+      {
+        items: [
+          {
+            label: 'Notification 1',
+          },
+          {
+            label: 'Notification 2',
+          },
+          {
+            label: 'Notification 3',
+          },
+        ]
+      }
+    ];
+
     this.userType = localStorage.getItem("userId");
     this.userdetails=localStorage.getItem("userInfo");
     this.localStoragePassword = JSON.parse(this.userdetails);
 
     // Load user profile data from localStorage
  
-    
     if (this.userdetails) {
       const userDetails = JSON.parse(this.userdetails);
       this.profileForm.patchValue({
@@ -117,10 +131,8 @@ export class HeaderComponent implements OnInit {
         EMAIL_ID:formData.EMAIL_ID,
         USER_ID:formData.USER_ID,
       }
-      
       this.profileService.updateProfile(payload).subscribe(
         response => {
-          
           this.viewProfileDialog = false; // Close the dialog
         },
         error => {
@@ -128,15 +140,11 @@ export class HeaderComponent implements OnInit {
         }
       );
     } else {
-      
     }
   }
 
-
-
   editPassword() {
     const PasswordinLocal = this.localStoragePassword.Password; // Assume this holds the stored password
-  
     if (this.passwordform.valid) {
       const passwordData = this.passwordform.value; // Get form data
       const old_password = passwordData.oldPassword;
@@ -152,7 +160,6 @@ export class HeaderComponent implements OnInit {
           };
   
           console.log(senddata, "data to send...");
-  
           // API Call
           this.profileService.changePassword(senddata).subscribe(
             response => {
@@ -175,6 +182,5 @@ export class HeaderComponent implements OnInit {
       this.toasterservice.warning("Please fill in all required fields");
     }
   }
-  
   
 }

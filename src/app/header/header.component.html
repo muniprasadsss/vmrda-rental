@@ -1,4 +1,5 @@
 <div class="">
+
     <header class="header">
         <div class="logo">
             <img src="../../assets/vmrda_logo_image.png" alt="Logo"  width="200" height="100" loading="lazy" style="width: 100%; margin-left: 1rem;">
@@ -12,7 +13,8 @@
                 <i class="pi pi-question-circle" style="font-size: 1.3rem;"></i>
             </div>
             <div style="margin-left: 10px;">
-                <i class="pi pi-bell" style="font-size: 1.3rem;"></i>
+              <p-menu #menu [model]="notifications" [popup]="true"></p-menu>
+                <i class="pi pi-bell" style="font-size: 1.3rem;" (click)="menu.toggle($event)" pBadge value="3" severity="danger"></i>
             </div>
             <div style="margin-left: 10px;">
                 <p-menu #menu [model]="items" [popup]="true"></p-menu>
@@ -106,4 +108,5 @@
             </div>
             </form>
     </p-dialog>
+    
 </div>
