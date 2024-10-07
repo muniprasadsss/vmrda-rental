@@ -101,8 +101,6 @@ export class LoginComponent {
       this.LoginService.verifyOTP(this.userID,this.otp).subscribe({
         next:(res:any)=>{
           localStorage.setItem('userInfo', JSON.stringify(res.user));
-      // this.authService.login(res.user.user_type,res.user.USER_ID)
-        // this.toasterservice.success("login successful")
         this.isNewPassword = true;
         this.otpDiv = false;
         },

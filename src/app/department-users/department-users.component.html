@@ -41,12 +41,9 @@
           <td style="width: 8%;">{{ customer.REVENUE_DIVISION }}</td>
           <td style="width: 6%;">
             <div class="rowbtn">
-              <button class="editButton" (click)="showEditDialog(customer)">
+              <button class="editButton" pTooltip="Edit User" tooltipPosition="left" (click)="showEditDialog(customer)">
                 <i class="pi pi-pencil"></i>
               </button>
-              <!-- <button class="deleteButton">
-                <i class="pi pi-trash"></i>
-              </button> -->
             </div>
           </td>
         </tr>
@@ -87,11 +84,6 @@
           <label for="revenueDivision" class="form-label">Revenue Division</label>
           <input type="text" id="revenueDivision" formControlName="revenueDivision" class="form-input" />
         </div>
-        <!-- <div class="form-group">
-          <label for="email_id" class="form-label">Email ID</label>
-          <input type="email" id="email_id" formControlName="email_id" class="form-input" />
-        </div> -->
-        <!-- Email Field (50 characters max, email-valid characters only) -->
         <div class="form-group">
           <label for="email" class="form-label">Email ID</label>
           <input type="email" id="email" formControlName="email_id" class="form-input" (keydown)="validateEmailInput($event)"

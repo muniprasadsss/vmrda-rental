@@ -66,11 +66,10 @@
         <td style="width: 6%;">{{ lease.RENTAL_INTRESET_PERCENT }}</td>
         <td style="width: 6%;">{{ lease.RENTAL_HIKE_PERCENT }}</td>
         <td style="width: 6%;">{{ lease.GST }}</td>
-        <!-- <td style="width: 6%;">{{ lease.GST_INTEREST_PERCENT }}</td> -->
         <td style="width: 6%;">{{ lease.LEASE_DEED_NO }}</td>
         <td  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
           <div class="rowbtn">
-            <button class="editButton" (click)="editUser(lease)"><i class="pi pi-pencil"></i></button>
+            <button class="editButton" pTooltip="Edit Tagging" tooltipPosition="left" (click)="editUser(lease)"><i class="pi pi-pencil"></i></button>
           </div>
         </td>
       </tr>

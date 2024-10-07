@@ -122,21 +122,6 @@ export class DepartmentUsersComponent {
     this.editVisible = false;
   }
 
-  // updateUser() {
-  //   if (this.editForm.valid) {
-  //     const updatedUser = this.editForm.value;
-  //     this.admindetailsservice.updateAdmin(updatedUser).subscribe({
-  //       next: (res: any) => {
-  //         this.getadminInfo(); // Refresh the table data
-  //         this.editVisible = false; // Close the dialog here
-  //       },
-  //       error: (err: any) => {
-  //         console.error("Error updating user", err);
-  //         console.error("Response:", err.response);
-  //       }
-  //     });
-  //   }
-  // }
   
   getAdminDetailsbySno(sl_no: number) {
     this.admindetailsservice.getUserBySlNo(sl_no).subscribe({

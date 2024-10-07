@@ -40,39 +40,6 @@ export class IssueNoticeComponent {
     this.getIssueNoticeDetails();
   }
 
-  // getbilldetails() {
-  //   this.dataSource = []
-  //   this.billDetailService.getOverdueBills(this.userID, this.userRole).subscribe({
-  //     next: (res: any) => {
-  //       this.dataSource = res;
-  //       this.responseMsg = res.message;
-  //       this.filterBillData();
-  //     },
-  //     error: (err: any) => {
-  //       if (err.error?.message) {
-  //         this.responseMsg = err.error?.message;
-  //       } else {
-  //         this.responseMsg = "error";
-  //       }
-  //     }
-  //   });
-  // }
-
-  // filterBillData(){
-  //   this.paidBills = [];
-  //   this.notPaidBills = [];
-  //   this.paidBills = this.dataSource.filter(item=>{
-  //     return item.Status === 'FP'
-  //   })
-
-  //     this.notPaidBills = this.dataSource.filter(item => {
-  //       return item.Status === 'NP'
-  //     })
-    
-  //   this.cd.detectChanges();
-
-  // }
-
   showDialog1() {
     this.visible1 = true;
   }

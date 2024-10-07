@@ -162,13 +162,6 @@ export class UserDetailsComponent implements OnInit {
           }
         }
 
-// limitInputLength(event: KeyboardEvent, maxLength: number): void {
-//   const inputElement = event.target as HTMLInputElement;
-
-//   if (inputElement.value.length >= maxLength && event.key !== 'Backspace' && event.key !== 'Delete') {
-//     event.preventDefault(); // Prevent any more characters from being entered after maxLength
-//   }
-  // }
 
   limitInputLength(event: KeyboardEvent, maxLength: number): void {
   const inputElement = event.target as HTMLInputElement;

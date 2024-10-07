@@ -1,26 +1,23 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
-import { ComplexDetailsComponent } from './complex-details/complex-details.component';
-import { PropertysComponent } from './propertys/propertys.component';
 import { UserTaggingsComponent } from './user-taggings/user-taggings.component';
 import { BillDetailsComponent } from './bill-details/bill-details.component';
 import { ReceiptDetailsComponent } from './receipt-details/receipt-details.component';
 import { TransactionTrackingComponent } from './transaction-tracking/transaction-tracking.component';
 import { ChangeRequestComponent } from './change-request/change-request.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
-import { LocationsComponent } from './locations/locations.component';
 import { ReportsComponent } from './reports/reports.component';
-import { DummyUserComponent } from './dummy-user/dummy-user.component';
 import { AssetsComponent } from './assets/assets.component';
 import { AuthGuardsService } from './services/authGuards/auth-guards.service';
 import { DepartmentUsersComponent } from './department-users/department-users.component';
 import { IssueNoticeComponent } from './issue-notice/issue-notice.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 export const routes: Routes = [
 
-
+    
     {path: '',component:LoginComponent},
     { path: 'dashboard', component: DashboardComponent, 
         canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','USER','ADMIN'] } },
@@ -40,10 +37,9 @@ export const routes: Routes = [
         canActivate: [AuthGuardsService], data: { role: ['RD','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','USER'] } },
     { path: 'reports', component: ReportsComponent,
          canActivate: [AuthGuardsService], data: { role: ['RD','AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
-    { path: 'grievanceRequest', component: DummyUserComponent, canActivate: [AuthGuardsService], data: { role: ['USER','ADMIN'] } },
     { path: 'departmentusers', component: DepartmentUsersComponent, canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
     { path: 'issueNotice', component: IssueNoticeComponent, canActivate: [AuthGuardsService], data: { role: ['RD','AO','ADMIN'] } },
-    
+    {path:'**',component:PageNotFoundComponent}
 
 
 ];

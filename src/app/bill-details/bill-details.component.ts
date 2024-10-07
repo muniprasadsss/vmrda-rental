@@ -570,52 +570,6 @@ createAndSendPDF(updateData: any) {
   }
 
 
-  // payBill(bill: any) {
-  //   this.showPaymentPopup()
-  //  const selectedbill=bill
-  //   this.PaymentPopupform.patchValue({
-  //     Total: selectedbill.Due,
-       // Update this field name as per your data
-    // });
-
-
-    // Set the amount you want to charge
-    // console.log(bill,"bill object")
-    // this.amount = bill.Due; // Razorpay expects the amount in paise
-
-    // Call Razorpay payment
-  //   this.billDetailService.createOrder(this.amount).subscribe(
-  //     (order) => {
-
-  //       const options = {
-  //         key: 'rzp_test_JKpUkmYnatBjUA', // Replace with your Razorpay key ID
-  //         amount: order.data.amount, // Amount in paise
-  //         currency: 'INR',
-  //         name: 'Your Company Name',
-  //         description: `Payment for ${bill.Property}`,
-  //         order_id: order.data.id, // Razorpay order ID
-  //         handler: (response: any) => {
-  //           // On payment success, update bill and create receipt
-  //           this.verifyPayment(response, bill);
-  //         },
-  //         prefill: {
-  //           name: bill.User, // Prefill with user info from the bill
-  //           email: 'user@example.com', // Modify if you have user emails
-  //           contact: '9999999999', // Modify if you have user phone numbers
-  //         },
-  //         theme: {
-  //           color: '#3399cc',
-  //         },
-  //       };
-  //       const rzp1 = new Razorpay(options);
-  //       rzp1.open();
-  //     },
-  //     (error) => {
-
-  //     }
-  //   );
-  // }
-
   // Popup opening for Partial Payment 
 
   payBill(bill: any) {
@@ -1041,9 +995,6 @@ console.log('User ID sent in formData:', formData.get('userId'));
 
   showPaymentPopup(){
     this.showPayPopup=true;
-    // this.PaymentPopupform.patchValue({
-      // Total: selectedbill.Due,
-       // Update this field name as per your data
-    // });
+
   }
 }
