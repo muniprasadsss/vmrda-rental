@@ -211,13 +211,15 @@ visible:boolean =false;
         // this.billNo=this.dataSource.BillNo;
         // this.billPeriod=this.dataSource.Bill_Period;
         // this.property=this.dataSource.Property;
-              
-
       },
       error: (err: any) => {
         this.responseMsg = err.error?.message || "Error";
       }
     });
+  }
+
+  deleteNotification(itemToRemove: any) {
+    this.dataSource = this.dataSource.filter((item: any) => item !== itemToRemove);
   }
  
   

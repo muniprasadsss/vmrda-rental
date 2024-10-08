@@ -19,13 +19,16 @@
                 </div>
               </p-menu> -->
               <div class="card flex justify-content-center">
-                <p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }" [position]="'topright'">
-                  <div class="noticifaction" *ngFor="let item of dataSource">
-                    <p>Your bill has been successfully generated for your property on  {{item.Bill_generated_date | date: 'dd-MM-YYY'}}</p>
+                <p-dialog header="Notifications" [modal]="true" [(visible)]="visible" [style]="{ width: '40rem' }" [position]="'topright'">
+                  <div class="noticifaction" style="display: flex;align-items: center;" *ngFor="let item of dataSource">
+                    <p style="margin-right: 1rem;">Your bill has been successfully generated for your property on  {{item.Bill_generated_date | date: 'MMM-YYY'}}</p>
+                    <i class="pi pi-trash" style="font-size: 1.3rem;color: red;" (click)="deleteNotification(item)"></i>
+                    <hr/>
                   </div>
+                  
                 </p-dialog>
             </div>
-                <i class="pi pi-bell" style="font-size: 1.3rem;" (click)="showDialog()" pBadge value="3" severity="danger"></i>
+                <i class="pi pi-bell" style="font-size: 1.3rem;" (click)="showDialog()" pBadge [value]="dataSource?.length" severity="danger"></i>
             </div>
             <div style="margin-left: 10px;cursor: pointer;">
                 <p-menu #usermenu [model]="items" [popup]="true" [style]="{ width: '16%' }"></p-menu>
