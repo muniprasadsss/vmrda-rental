@@ -12,9 +12,20 @@
             <div style="cursor: pointer;">
                 <i class="pi pi-question-circle" style="font-size: 1.3rem;"></i>
             </div>
-            <div style="margin-left: 10px;cursor: pointer;" *ngFor="let item of notifications">
-              <p-menu #notificationmenu [model]="notifications" [popup]="true" [style]="{ width: '50%' }"></p-menu>
-                <i class="pi pi-bell" style="font-size: 1.3rem;" (click)="notificationmenu.toggle($event)" pBadge value="3" severity="danger"></i>
+            <div style="margin-left: 10px;cursor: pointer;" >
+              <!-- <p-menu #notificationmenu  [popup]="true" [style]="{ width: '50%' }">
+                <div class="noticifaction" *ngFor="let item of dataSource">
+                  <p>Your bill has been successfully generated for your property on  {{item.Bill_generated_date}}</p>
+                </div>
+              </p-menu> -->
+              <div class="card flex justify-content-center">
+                <p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }" [position]="'topright'">
+                  <div class="noticifaction" *ngFor="let item of dataSource">
+                    <p>Your bill has been successfully generated for your property on  {{item.Bill_generated_date | date: 'dd-MM-YYY'}}</p>
+                  </div>
+                </p-dialog>
+            </div>
+                <i class="pi pi-bell" style="font-size: 1.3rem;" (click)="showDialog()" pBadge value="3" severity="danger"></i>
             </div>
             <div style="margin-left: 10px;cursor: pointer;">
                 <p-menu #usermenu [model]="items" [popup]="true" [style]="{ width: '16%' }"></p-menu>

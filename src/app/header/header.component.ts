@@ -15,6 +15,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+visible:boolean =false;
+
   userType: any;
   localStoragePassword: any;
   dropdownDiv: boolean = false;
@@ -113,6 +115,9 @@ export class HeaderComponent implements OnInit {
       this.getNotifications(userDetails);
     }
   }
+  showDialog() {
+    this.visible = true;
+    }
 
   showViewProfileDialog() {
     this.viewProfileDialog = true; // Show profile dialog
@@ -202,10 +207,10 @@ export class HeaderComponent implements OnInit {
         console.log(res.data,"response check...");
         this.dataSource = res.data;
         this.responseMsg = res.message;
-        this.billGeneratedDate=this.dataSource.Bill_generated_date;
-        this.billNo=this.dataSource.BillNo;
-        this.billPeriod=this.dataSource.Bill_Period;
-        this.property=this.dataSource.Property;
+        // this.billGeneratedDate=this.dataSource.Bill_generated_date;
+        // this.billNo=this.dataSource.BillNo;
+        // this.billPeriod=this.dataSource.Bill_Period;
+        // this.property=this.dataSource.Property;
               
 
       },
