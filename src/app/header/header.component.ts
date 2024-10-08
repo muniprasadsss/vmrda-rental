@@ -221,6 +221,10 @@ visible:boolean =false;
   deleteNotification(itemToRemove: any) {
     this.dataSource = this.dataSource.filter((item: any) => item !== itemToRemove);
   }
+
+  clearAllNotifications() {
+    this.dataSource = []; // Clear all notifications
+  }
  
   
 }
