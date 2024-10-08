@@ -18,4 +18,8 @@ export class ProfileSettingsService {
   changePassword(passwordData: any): Observable<any> { 
     return this.http.post(`${this.apiUrl}/changepassword`, passwordData);
   }
+
+  getNotificationsResponse(notificationsData: any): Observable<any> { 
+    return this.http.post(`${this.apiUrl}/getNotices`, notificationsData);
+  }
 }

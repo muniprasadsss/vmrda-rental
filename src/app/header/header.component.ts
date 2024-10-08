@@ -25,6 +25,13 @@ export class HeaderComponent implements OnInit {
   changePasswordDialog: boolean = false; // For changing password dialog
   profileForm: FormGroup;
   passwordform: FormGroup;
+  responseMsg: string | undefined;
+  dataSource:any;
+  billGeneratedDate:any;
+  property:any;
+  billNo:any;
+  billPeriod:any;
+  notifyMessage:any;
 
   constructor(private router: Router, private authService: AuthGuardsService,private fb: FormBuilder,private profileService:ProfileSettingsService,private toasterservice:ToastrService) {
     this.profileForm = this.fb.group({
@@ -73,14 +80,9 @@ export class HeaderComponent implements OnInit {
       {
         items: [
           {
-            label: 'Notification 1',
+            label: 'Your bill has been successfully generated for your property on '+ this.billGeneratedDate,
           },
-          {
-            label: 'Notification 2',
-          },
-          {
-            label: 'Notification 3',
-          },
+
         ]
       }
     ];
@@ -88,6 +90,8 @@ export class HeaderComponent implements OnInit {
     this.userType = localStorage.getItem("userId");
     this.userdetails=localStorage.getItem("userInfo");
     this.localStoragePassword = JSON.parse(this.userdetails);
+    console.log(this.userType);
+    
 
     // Load user profile data from localStorage
  
@@ -106,6 +110,7 @@ export class HeaderComponent implements OnInit {
         NATURE_OF_BUSINESS: userDetails.NATURE_OF_BUSINESS ,
         // password: userDetails.Password ,
       });
+      this.getNotifications(userDetails);
     }
   }
 
@@ -182,5 +187,33 @@ export class HeaderComponent implements OnInit {
       this.toasterservice.warning("Please fill in all required fields");
     }
   }
+
+  getNotifications(userdetails :any) {
+    const payload={
+      user_id: userdetails.USER_ID,
+      revenue_division: userdetails.REVENUE_DIVISION,
+      user_type: userdetails.user_type
+    }
+    console.log(payload,"payload check...");
+    
+    this.dataSource = [];
+    this.profileService.getNotificationsResponse(payload).subscribe({
+      next: (res: any) => {
+        console.log(res.data,"response check...");
+        this.dataSource = res.data;
+        this.responseMsg = res.message;
+        this.billGeneratedDate=this.dataSource.Bill_generated_date;
+        this.billNo=this.dataSource.BillNo;
+        this.billPeriod=this.dataSource.Bill_Period;
+        this.property=this.dataSource.Property;
+              
+
+      },
+      error: (err: any) => {
+        this.responseMsg = err.error?.message || "Error";
+      }
+    });
+  }
+ 
   
 }
