@@ -209,4 +209,15 @@ export class LoginComponent {
       this.toasterservice.warning('Please enter a valid User ID.');
     }
   }
+
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      // Submit the form on Enter key press
+      this.submitOtp();
+      console.log("Enter clicked...");
+    }
+     else if (event.key === 'Escape') {
+      console.log("Esc clicked...");
+    }
+  }
 }

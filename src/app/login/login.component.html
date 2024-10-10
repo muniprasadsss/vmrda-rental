@@ -44,7 +44,7 @@
       <!-- OTP section if required -->
       <div *ngIf="otpDiv"  class="otp-div">
           <p-inputOtp id="otp" type="number"  style="background: none;border: none;" 
-          placeholder="Enter Otp" pInputText [(ngModel)]="otp" name="otp" required></p-inputOtp>
+          placeholder="Enter Otp" pInputText [(ngModel)]="otp" name="otp" (keydown)="handleKeyDown($event)" required></p-inputOtp>
           
           <div class="timer-container">
             <button pButton label="Resend OTP" (click)="resendOtp()" [disabled]="isTimerActive"></button>
