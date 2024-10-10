@@ -51,6 +51,7 @@ export class ChangeRequestComponent implements OnInit {
   attachmentUrl:any = null;
   hideSelect:boolean= true;
   index:number = 0;
+  propertyList:any;
   
   constructor(
     private router: Router,
@@ -127,7 +128,7 @@ export class ChangeRequestComponent implements OnInit {
     this.crData = [];
     this.Http.getChangeRequestData(this.userID,this.userRole).subscribe({
       next: (res: any) => {
-        if(res.message !== 'No Data'){
+        if(res.crInfo ){
           this.crData = res.crInfo;
           this.crData = res.crInfo.map((item: any) => {
             return {
@@ -291,35 +292,33 @@ export class ChangeRequestComponent implements OnInit {
 
 //  API call for get data based on userid 
 
-  getUserDatabyId(userID:any) {
-    this.UserService.getUserDetailsByID(userID).subscribe(  
-      (response) => {
-        this.data = response; // Populate the user object with fetched data
-        const nameofuser=response.USER_NAME;
-        const idofuser=response.USER_ID;
-        this.addRequestForm.patchValue({
-          propertyCode: response.PROPERTY_CODE
-        });
-      },
-      (error) => {
-        console.error('Error fetching user data:', error);
-      }
-    );
-  }
+getUserDatabyId(userID: any) {
+  this.UserService.getUserDetailsByID(userID).subscribe({
+    next: (response) => {
+      this.propertyList = response; // Populate the user object with fetched data
+    },
+    error: (error) => {
+      console.error('Error fetching user data:', error);
+    }
+
+  });
+}
 
   // api call for get data for select request type 
 
   getRequestType() {
-    this.Http.getChangeRequestType().subscribe(
-      (response) => {
+    this.Http.getChangeRequestType().subscribe({
+      next: (response) => {
         this.data = response; // Populate the user object with fetched data
+        console.log('Change request type data fetched successfully:', this.data);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching change request type:', error);
       }
-    );
-  }
 
+    });
+  }
+  
 
   onSubmit() {
     if (this.addRequestForm.valid) {
