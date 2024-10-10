@@ -262,9 +262,9 @@ export class BillDetailsComponent implements OnInit {
     this.billDetailService.updateBillDetails(updateData).subscribe({
       next: (response) => {
         // Generate and send PDF immediately after updating
-        this.BillGeneratePdf(response.data); // Call the method to create and send PDF
         this.showModel = false; // Close the modal after successful update
         this.getbilldetails();
+        this.BillGeneratePdf(response.data); // Call the method to create and send PDF
       },
       error: (error) => {
         console.error('Error submitting form:', error);
