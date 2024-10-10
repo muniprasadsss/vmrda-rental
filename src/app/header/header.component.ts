@@ -15,8 +15,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-visible:boolean =false;
-
+  visible:boolean =false;
   userType: any;
   localStoragePassword: any;
   dropdownDiv: boolean = false;
@@ -29,11 +28,7 @@ visible:boolean =false;
   passwordform: FormGroup;
   responseMsg: string | undefined;
   dataSource:any;
-  billGeneratedDate:any;
-  property:any;
-  billNo:any;
-  billPeriod:any;
-  notifyMessage:any;
+
 
   constructor(private router: Router, private authService: AuthGuardsService,private fb: FormBuilder,private profileService:ProfileSettingsService,private toasterservice:ToastrService) {
     this.profileForm = this.fb.group({
@@ -77,24 +72,11 @@ visible:boolean =false;
         ]
       }
     ];
-
-    this.notifications = [
-      {
-        items: [
-          {
-            label: 'Your bill has been successfully generated for your property on '+ this.billGeneratedDate,
-          },
-
-        ]
-      }
-    ];
-
     this.userType = localStorage.getItem("userId");
     this.userdetails=localStorage.getItem("userInfo");
     this.localStoragePassword = JSON.parse(this.userdetails);
     console.log(this.userType);
-    
-
+  
     // Load user profile data from localStorage
  
     if (this.userdetails) {
@@ -115,9 +97,10 @@ visible:boolean =false;
       this.getNotifications(userDetails);
     }
   }
-  showDialog() {
+  
+  showNotificationDialog() {
     this.visible = true;
-    }
+  }
 
   showViewProfileDialog() {
     this.viewProfileDialog = true; // Show profile dialog
@@ -199,18 +182,12 @@ visible:boolean =false;
       revenue_division: userdetails.REVENUE_DIVISION,
       user_type: userdetails.user_type
     }
-    console.log(payload,"payload check...");
-    
     this.dataSource = [];
     this.profileService.getNotificationsResponse(payload).subscribe({
       next: (res: any) => {
         console.log(res.data,"response check...");
         this.dataSource = res.data;
         this.responseMsg = res.message;
-        // this.billGeneratedDate=this.dataSource.Bill_generated_date;
-        // this.billNo=this.dataSource.BillNo;
-        // this.billPeriod=this.dataSource.Bill_Period;
-        // this.property=this.dataSource.Property;
       },
       error: (err: any) => {
         this.responseMsg = err.error?.message || "Error";
@@ -218,13 +195,21 @@ visible:boolean =false;
     });
   }
 
+  // Clear notifications automatically after viewed
+
+  closeNotificationDialog() {
+    this.visible = false;
+    this.dataSource = []; 
+  }
+
   deleteNotification(itemToRemove: any) {
     this.dataSource = this.dataSource.filter((item: any) => item !== itemToRemove);
   }
 
   clearAllNotifications() {
-    this.dataSource = []; // Clear all notifications
+    this.dataSource = [];   // Clear all notifications
+    this.toasterservice.success("Notifications cleared successfully")
+    this.visible=false;
   }
- 
   
 }
