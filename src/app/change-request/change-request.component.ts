@@ -261,21 +261,21 @@ export class ChangeRequestComponent implements OnInit {
   }
 
 
-  // isSelectDisabled(stage: string, status: string): boolean {
-  //   switch (this.userRole) {
-  //     case 'RD':
-  //       return !(stage === 'Pending with RI' && status === 'Pending');
-  //     case 'AO':
-  //       return !((stage === 'recommended for ao' || stage === 'Waiting for AO Approval' ) &&
-  //       status === 'Pending');
-  //     case 'SECRETARY':
-  //       return !(stage === 'Recommended for Secretray' && status === 'Pending');
-  //     case 'COMISSIONER':
-  //       return !(stage === 'Recommended for Comissioner' && status === 'Pending');
-  //     default:
-  //       return true; // Disable by default
-  //   }
-  // }
+  isSelectDisabled(stage: string, status: string): boolean {
+    switch (this.userRole) {
+      case 'RD':
+        return !(stage === 'Pending with RI' && status === 'Pending');
+      case 'AO':
+        return !((stage === 'recommended for ao' || stage === 'Waiting for AO Approval' ) &&
+        status === 'Pending');
+      case 'SECRETARY':
+        return !(stage === 'Recommended for Secretray' && status === 'Pending');
+      case 'COMISSIONER':
+        return !(stage === 'Recommended for Comissioner' && status === 'Pending');
+      default:
+        return true; // Disable by default
+    }
+  }
 
     // Function to handle key presses
     handleKeyDown(event: KeyboardEvent) {
