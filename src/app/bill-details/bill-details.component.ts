@@ -717,6 +717,7 @@ export class BillDetailsComponent implements OnInit {
   // to send bill paid receipt pdf to user 
 
   createAndSendReceiptPDF(payload: any,responseData: any) {
+    
     const doc = new jsPDF();
     // Page margins and initial Y position
     const margins = { top: 15, bottom: 15, left: 20, right: 20 };
@@ -790,6 +791,7 @@ export class BillDetailsComponent implements OnInit {
       ['Maintaiance Bill', responseData.maintainance_bill],
       ['Water Bill', responseData.water_bill],
       ['GST', responseData.gst],
+      ['Total Amount', responseData.total],
       ['Total Paid', responseData.total_paid],
       ['Due Amount', responseData.due],
       ['Payment Status', responseData.status]
