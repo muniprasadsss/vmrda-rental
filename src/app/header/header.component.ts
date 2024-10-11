@@ -231,14 +231,37 @@ export class HeaderComponent implements OnInit {
     this.dataSource = []; 
   }
 
-  deleteNotification(itemToRemove: any) {
-    this.dataSource = this.dataSource.filter((item: any) => item !== itemToRemove);
+  deleteNotification(id: any) {
+    let payload = {
+      Id : id
+    }
+    this.profileService.clearNotification(payload).subscribe({
+      next:(res:any)=>{
+        this.dataSource = this.dataSource.filter((item: any) => item.ID !== id);
+        this.toasterservice.success("Notifications cleared successfully")
+      },
+      error:(err:any)=>{
+        this.toasterservice.success(err)
+      }
+    })
+
   }
 
   clearAllNotifications() {
-    this.dataSource = [];   // Clear all notifications
-    this.toasterservice.success("Notifications cleared successfully")
-    this.visible=false;
+    let payload = {
+      UserId : this.userType
+    }
+    this.profileService.clearAllNotifications(payload).subscribe({
+      next:(res:any)=>{
+        this.dataSource = [];   // Clear all notifications
+        this.toasterservice.success("Notifications cleared successfully")
+        this.visible=false;
+      },
+      error:(err:any)=>{
+        this.toasterservice.success(err)
+      }
+    })
+
   }
 
   navigateToUrl() {
