@@ -86,7 +86,7 @@ export class ChangeRequestComponent implements OnInit {
       userId: [{ value: this.userID, disabled: true }, Validators.required],
       requestType: [{ value: ''}, Validators.required],
       attachment: [{ value: null }, Validators.required],
-      propertyCode: [{ value: this.propertyList}],
+      propertyCode: [{ value: null }, Validators.required],
       description: ['', Validators.required]
     });
   }
@@ -330,10 +330,10 @@ getUserDatabyId(userID: any) {
       const payload = {
         username: this.userInfo.USER_NAME,
         userId: this.userInfo.USER_ID,
-        requesttype: this.requestType,
+        requesttype: formData.requestType,
         revenuedivision: this.userInfo.REVENUE_DIVISION,
         attachment: this.attachmentUrl,
-        propertycode: this.propertyCode,
+        propertycode: formData.propertyCode, 
         description: formData.description,
         action: 'new'
       };

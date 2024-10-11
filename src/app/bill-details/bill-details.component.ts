@@ -691,7 +691,7 @@ export class BillDetailsComponent implements OnInit {
                         Total_rental_interest: bill.Total_rental_interest,
                         Total: bill.Total,
                         TotalPaid: bill.Total,
-                        TDS: bill.TDS,
+                        
                         Due: 0,
                         Status: 'Fully Paid'
                        }
