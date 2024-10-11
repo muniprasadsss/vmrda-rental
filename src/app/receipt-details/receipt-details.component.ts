@@ -25,7 +25,7 @@ export class ReceiptDetailsComponent {
   addNewRecept: FormGroup;
   hideAddNew:boolean= false;
   bill_status:string = '';
-  @ViewChild('dt2') dt!: any;
+  @ViewChild('dt2') dt2!: any;
   value: any;
   fileToUpload: any;
   attachmentUrl:any = null
@@ -60,7 +60,7 @@ export class ReceiptDetailsComponent {
 onFilterGlobal(event: Event): void {
   const target = event.target as HTMLInputElement;
   this.value = target.value;
-  this.dt.filterGlobal(this.value, 'contains');
+  this.dt2.filterGlobal(this.value, 'contains');
 }
 
 
