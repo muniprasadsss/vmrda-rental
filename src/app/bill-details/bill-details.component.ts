@@ -473,7 +473,7 @@ export class BillDetailsComponent implements OnInit {
         doc.setFontSize(12);
         doc.setFont('times', 'normal');
         doc.text(`Bill No.. ${bill.BillNo}`, margins.left, currentY);
-        doc.text(`Dt: ${currentDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
+        doc.text(`Date: ${currentDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
         currentY += lineHeight * 2;
 
         // Dynamic content based on form data
