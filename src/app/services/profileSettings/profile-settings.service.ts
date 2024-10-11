@@ -22,4 +22,11 @@ export class ProfileSettingsService {
   getNotificationsResponse(notificationsData: any): Observable<any> { 
     return this.http.post(`${this.apiUrl}/getNotices`, notificationsData);
   }
+  clearNotification(notificationsData: any): Observable<any> { 
+    return this.http.post(`${this.apiUrl}/clearNotification`, notificationsData);
+  }
+  clearAllNotifications(notificationsData: any): Observable<any> { 
+    return this.http.post(`${this.apiUrl}/clearAllNotifications`, notificationsData);
+  }
+
 }
