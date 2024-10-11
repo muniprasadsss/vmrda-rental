@@ -469,12 +469,26 @@ export class BillDetailsComponent implements OnInit {
         currentY += lineHeight * 1;
 
         // Adding date and reference (aligned inside border)
-        const currentDate = new Date().toLocaleDateString();
-        doc.setFontSize(12);
-        doc.setFont('times', 'normal');
-        doc.text(`Bill No.. ${bill.BillNo}`, margins.left, currentY);
-        doc.text(`Date: ${currentDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
-        currentY += lineHeight * 2;
+        // const currentDate = new Date().toLocaleDateString();
+        // doc.setFontSize(12);
+        // doc.setFont('times', 'normal');
+        // doc.text(`Bill No.. ${bill.BillNo}`, margins.left, currentY);
+        // doc.text(`Date: ${currentDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
+        // currentY += lineHeight * 2;
+
+
+        const currentDate = new Date();
+        const formattedDate = 
+    String(currentDate.getDate()).padStart(2, '0') + '-' + 
+    String(currentDate.getMonth() + 1).padStart(2, '0') + '-' + 
+    currentDate.getFullYear();
+
+doc.setFontSize(12);
+doc.setFont('times', 'normal');
+doc.text(`Bill No: ${bill.BillNo}`, margins.left, currentY);
+doc.text(`Date: ${formattedDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
+currentY += lineHeight * 2;
+
 
         // Dynamic content based on form data
         doc.setFontSize(12);

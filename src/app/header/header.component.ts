@@ -115,26 +115,55 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
+  // saveData() {
+  //   if (this.profileForm.valid) {
+  //     const formData = { ...this.profileForm.getRawValue()};
+  //     const payload= {
+  //       USER_NAME:formData.USER_NAME,
+  //       MOBILE_NUM:formData.MOBILE_NUM,
+  //       EMAIL_ID:formData.EMAIL_ID,
+  //       USER_ID:formData.USER_ID,
+  //     }
+  //     this.profileService.updateProfile(payload).subscribe(
+  //       response => {
+  //         this.viewProfileDialog = false; // Close the dialog
+  //       },
+  //       error => {
+  //         console.error('Error updating profile:', error);
+  //       }
+  //     );
+  //   } else {
+  //   }
+  // }
+
   saveData() {
     if (this.profileForm.valid) {
-      const formData = { ...this.profileForm.getRawValue()};
-      const payload= {
-        USER_NAME:formData.USER_NAME,
-        MOBILE_NUM:formData.MOBILE_NUM,
-        EMAIL_ID:formData.EMAIL_ID,
-        USER_ID:formData.USER_ID,
-      }
+      const formData = { ...this.profileForm.getRawValue() };
+      const payload = {
+        USER_NAME: formData.USER_NAME,
+        MOBILE_NUM: formData.MOBILE_NUM,
+        EMAIL_ID: formData.EMAIL_ID,
+        USER_ID: formData.USER_ID,
+      };
+      
       this.profileService.updateProfile(payload).subscribe(
         response => {
+          // Assuming 'response' contains the updated user data
+          localStorage.setItem('userInfo', JSON.stringify(response)); // Update local storage
+          
           this.viewProfileDialog = false; // Close the dialog
+          this.toasterservice.success('Profile updated successfully!'); // Show success message
         },
         error => {
           console.error('Error updating profile:', error);
+          this.toasterservice.error('Error updating profile. Please try again.'); // Show error message
         }
       );
     } else {
+      this.toasterservice.warning('Please fill in all required fields');
     }
   }
+  
 
   editPassword() {
     const PasswordinLocal = this.localStoragePassword.Password; // Assume this holds the stored password
@@ -145,7 +174,7 @@ export class HeaderComponent implements OnInit {
       const confirm_new_password = passwordData.ConfirmnewPassword;
   
       if (old_password === PasswordinLocal) {
-        if (new_password === confirm_new_password) {
+        if (new_password === confirm_new_password && new_password !== PasswordinLocal) {
           const senddata = {
             old_password,
             new_password,
@@ -210,6 +239,50 @@ export class HeaderComponent implements OnInit {
     this.dataSource = [];   // Clear all notifications
     this.toasterservice.success("Notifications cleared successfully")
     this.visible=false;
+  }
+
+  navigateToUrl() {
+    window.open("http://vmrda.gov.in/", "_blank"); // Open in a new tab
+  }
+
+  limitInputLength(event: KeyboardEvent, maxLength: number): void {
+    const inputElement = event.target as HTMLInputElement;
+  
+    if (inputElement.value.length >= maxLength && event.key !== 'Backspace' && event.key !== 'Delete') {
+      event.preventDefault();
+    }
+  }
+  
+  validateNumericInput(event: KeyboardEvent) {
+    const key = event.key;
+    if (!/[0-9]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
+      event.preventDefault();
+    }
+  }
+
+  validateEmailInput(event: KeyboardEvent): void {
+    const key = event.key;
+    // Allow letters, numbers, special characters typically used in emails
+    const allowedKeys = /[a-zA-Z0-9@._-]/;
+  
+    // Allow Backspace, Delete, and Tab keys for usability
+    if (!allowedKeys.test(key) && key !== 'Backspace' && key !== 'Delete' && key !== 'Tab') {
+      event.preventDefault();
+    }
+  }
+
+  // Prevent copy paste for password 
+  
+  preventPaste(event: ClipboardEvent) {
+    event.preventDefault();
+  }
+  
+  preventCopy(event: ClipboardEvent) {
+    event.preventDefault();
+  }
+  
+  preventCut(event: ClipboardEvent) {
+    event.preventDefault();
   }
   
 }

@@ -220,4 +220,19 @@ export class LoginComponent {
       console.log("Esc clicked...");
     }
   }
+
+  // Prevent copy paste for password 
+
+  preventPaste(event: ClipboardEvent) {
+    event.preventDefault();
+  }
+  
+  preventCopy(event: ClipboardEvent) {
+    event.preventDefault();
+  }
+  
+  preventCut(event: ClipboardEvent) {
+    event.preventDefault();
+  }
+  
 }

@@ -33,7 +33,7 @@
       </div>
       <div class="input-group" style="margin-top: 1rem;">
         <input id="password" type="password" pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
-          required placeholder="Enter Password" />
+          required placeholder="Enter Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" />
         <div *ngIf="
             (passwordCtrl.invalid && passwordCtrl.touched) ||
             (usernameCtrl.invalid && usernameCtrl.touched)" class="error" style="margin-top: 2rem;color:red; background: white;">

@@ -326,6 +326,14 @@ getUserDatabyId(userID: any) {
   onSubmit() {
     if (this.addRequestForm.valid) {
       const formData = this.addRequestForm.value;
+
+        // Check if a file has been uploaded
+      if (!this.attachmentUrl) {
+      console.error('File is required.');
+      this.toasterservice.error("File is required."); // Notify user
+      return; // Exit early if no file is uploaded
+      }
+
       // Prepare the payload to be sent to the API
       const payload = {
         username: this.userInfo.USER_NAME,
