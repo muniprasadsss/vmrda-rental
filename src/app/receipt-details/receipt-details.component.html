@@ -1,6 +1,7 @@
 <div class="card custom-table">
-  <p-table #dt2 [value]="receiptData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
-    <ng-template pTemplate="caption">
+  <p-table #dt2 [value]="receiptData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+  [globalFilterFields]="['User', 'UserId', 'BillNo', 'Property', 'Paid_Date', 'Rental_lease_amount_permonth', 'GST', 'Total_rental_interest', 'Total', 'Due', 'Total_paid', 'Status']">
+  <ng-template pTemplate="caption">
       <div class="searchbar">
         <div class="search">
           <p-iconField iconPosition="left" class="ml-auto">
@@ -18,20 +19,20 @@
     <ng-template pTemplate="header">
       <tr style="font-size: 12px; padding: 0;">
         <!-- <th pSortableColumn="ID">S No</th> -->
-        <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th>
+        <th pSortableColumn="ReceiptNo">Receipt No<p-sortIcon field="ReceiptNo" /></th>
         <!-- <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th> -->
         <th pSortableColumn="User" *ngIf="userRole !== 'USER'">User Id<p-sortIcon field="User" /></th>
         <!-- <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th> -->
         <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
         <th pSortableColumn="Property">Property Code<p-sortIcon field="Property" /></th>
-        <th pSortableColumn="Paid_Date">Paid date<p-sortIcon field="BillNo" /></th>
+        <th pSortableColumn="paid_date">Paid date<p-sortIcon field="paid_date" /></th>
         <th pSortableColumn="Rental_lease_amount_permonth">Lease Amount<p-sortIcon
             field="Rental_lease_amount_permonth" /></th>
         <th pSortableColumn="GST">GST<p-sortIcon field="GST" /></th>
-        <th pSortableColumn="Total_Rent">Total Rent Interest<p-sortIcon field="Total_rental_interest" /></th>
+        <th pSortableColumn="Total_rental_interest">Total Rent Interest<p-sortIcon field="Total_rental_interest" /></th>
         <th pSortableColumn="Total">Total<p-sortIcon field="Total" /></th>
         <th pSortableColumn="Due">Due<p-sortIcon field="Due" /></th>
-        <th pSortableColumn="Total_paid">Amount Paid<p-sortIcon field="Total_Paid" /></th>
+        <th pSortableColumn="Current_Payment">Amount Paid<p-sortIcon field="Current_Payment" /></th>
         <th pSortableColumn="Status">Status<p-sortIcon field="Status" /></th>
         <th></th>
 

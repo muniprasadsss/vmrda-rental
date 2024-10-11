@@ -52,7 +52,7 @@
                 <td *ngIf="userRole !== 'USER'">{{ item.userId }}</td>
                 <td>{{ item.requesttype }}</td>
                 <td>{{ item.revenuedivision }}</td>
-                <td>{{ item.description }}</td>
+                <td class="wrap-text">{{ item.description }}</td>
                 <td>{{ item.propertycode }}</td>
                 <td>{{ item.created_at | date: 'YYYY-MM-dd'}}</td>
                 <td>{{ item.status}}</td>

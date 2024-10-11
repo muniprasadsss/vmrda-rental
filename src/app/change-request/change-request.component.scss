@@ -175,3 +175,26 @@
 .custom-select {
   border: 2px solid #343a40; /* Dark border when enabled */
 }
+
+// .wrap-text {
+//   white-space: normal; /* Allows text to wrap */
+//   word-break: break-word; /* Breaks long words if necessary */
+//   max-width: 10rem; /* Adjust the width as needed */
+// }
+
+.wrap-text {
+  white-space: normal;               /* Allows text to wrap */
+  word-break: break-word;           /* Breaks long words if necessary */
+  max-width: 15rem;                 /* Adjust the width as needed */
+  overflow: hidden;                  /* Hides overflow content */
+  display: -webkit-box;              /* For older browsers */
+  display: box;                       /* Fallback for other browsers */
+  -webkit-box-orient: vertical;      /* Specifies vertical orientation for WebKit */
+  box-orient: vertical;               /* Fallback for other browsers */
+  -webkit-line-clamp: 3;             /* Limits to two lines for WebKit */
+  line-clamp: 2;                     /* Note: no standard implementation yet */
+}
+
+.wrap-text:hover {
+  overflow: auto; /* Shows scrollbar on hover */
+}
