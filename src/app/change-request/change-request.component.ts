@@ -52,6 +52,9 @@ export class ChangeRequestComponent implements OnInit {
   hideSelect:boolean= true;
   index:number = 0;
   propertyList:any;
+  propertyCode:any;
+  requestType:any
+
   
   constructor(
     private router: Router,
@@ -83,7 +86,7 @@ export class ChangeRequestComponent implements OnInit {
       userId: [{ value: this.userID, disabled: true }, Validators.required],
       requestType: [{ value: ''}, Validators.required],
       attachment: [{ value: null }, Validators.required],
-      propertyCode: [{ value: this.userID}],
+      propertyCode: [{ value: this.propertyList}],
       description: ['', Validators.required]
     });
   }
@@ -327,10 +330,10 @@ getUserDatabyId(userID: any) {
       const payload = {
         username: this.userInfo.USER_NAME,
         userId: this.userInfo.USER_ID,
-        requesttype: formData.requestType,
+        requesttype: this.requestType,
         revenuedivision: this.userInfo.REVENUE_DIVISION,
         attachment: this.attachmentUrl,
-        propertycode: formData.propertyCode,
+        propertycode: this.propertyCode,
         description: formData.description,
         action: 'new'
       };

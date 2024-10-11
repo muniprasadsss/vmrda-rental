@@ -79,6 +79,7 @@ export class BillDetailsComponent implements OnInit {
       billGeneratedDate: [{ value: '', disabled: true }],
       total: [{ value: '', disabled: true }],
       paymentAmount: [{ value: '', disabled: true }],
+      tds: [{ value: '', disabled: true }],
       due: [{ value: '' }]
     });
    }
@@ -212,15 +213,15 @@ export class BillDetailsComponent implements OnInit {
     this.paidBills = [];
     this.notPaidBills = [];
     this.paidBills = this.dataSource.filter(item=>{
-      return item.Status === 'FP'
+      return item.Status === 'Fully Paid'
     })
     if (this.userRole !== 'USER') {
       this.notPaidBills = this.dataSource.filter(item => {
-        return item.Status === 'NP'
+        return item.Status === 'Not Paid'
       })
     } else {
       this.notPaidBills = this.dataSource.filter(item => {
-        return (item.Status !== 'FP' && item.BillStatus === 'Active') //PP and NP only visible changed 27-09-24
+        return (item.Status !== 'Fully Paid' && item.BillStatus === 'Active') //PP and NP only visible changed 27-09-24
       })
     }
     this.cd.detectChanges();
@@ -575,7 +576,8 @@ export class BillDetailsComponent implements OnInit {
       billGeneratedDate: this.datePipe.transform(bill.Bill_generated_date, 'yyyy-MM-dd'), // Format the date using data pipe
       total: bill.Total,
       paymentAmount: bill.TotalPaid,
-      due: bill.Due 
+      due: bill.Due ,
+      tds:bill.TDS
     });
      this.showPayPopup = true; // Show the payment popup
   }
@@ -590,7 +592,8 @@ export class BillDetailsComponent implements OnInit {
     const powerBill = this.PaymentPopupform.get('powerBillAmount')?.value; // Access the disabled control
     const waterBill = this.PaymentPopupform.get('waterBillAmount')?.value; // Access the disabled control
     const maintenanceAmount = this.PaymentPopupform.get('maintenance')?.value; // Access the disabled control
-    const sentDisabledFieldValues={billNo,powerBill,waterBill,maintenanceAmount}
+    const tds = this.PaymentPopupform.get('tds')?.value; // Access the disabled control
+    const sentDisabledFieldValues={billNo,powerBill,waterBill,maintenanceAmount,tds}
 
     // Call Razorpay payment
 
@@ -688,8 +691,9 @@ export class BillDetailsComponent implements OnInit {
                         Total_rental_interest: bill.Total_rental_interest,
                         Total: bill.Total,
                         TotalPaid: bill.Total,
+                        TDS: bill.TDS,
                         Due: 0,
-                        Status: 'FP'
+                        Status: 'Fully Paid'
                        }
                     this.createAndSendReceiptPDF(payload,response.data);
 

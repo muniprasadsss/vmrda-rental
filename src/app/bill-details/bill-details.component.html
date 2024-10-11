@@ -78,7 +78,7 @@
           (click)="downloadFile(bill.Attachment_URL)"><i
             class="pi pi-paperclip" style="color: slateblue"></i></td>
           <td *ngIf="bill.Attachment_URL === null "></td>
-          <td *ngIf="bill.Status !== 'FP' && userRole === 'USER' ">
+          <td *ngIf="bill.Status !== 'Fully Paid' && userRole === 'USER' ">
             <button (click)="payBill(bill)" class="pay-btn">Pay</button>
           </td>
           <td *ngIf="bill.BillStatus === 'Active'" pTooltip=" Download Bill " tooltipPosition="left"><i class="pi pi-download" (click)="downloadPDF(bill)"></i></td>
@@ -210,7 +210,7 @@
   </tr>
   </ng-template>
   <ng-template pTemplate="body" let-bill>
-  <tr style="font-size: 12px;" *ngIf="bill.Status === 'FP'">
+  <tr style="font-size: 12px;" *ngIf="bill.Status === 'Fully Paid'">
   <td style="width: 4%;">{{ bill.BillNo }}</td>
   <td style="width: 8%;">{{ bill.Property }}</td>
   <td style="width: 8%;">{{ bill.BillNo }}</td>
@@ -230,7 +230,7 @@
   (click)="downloadFile(bill.Attachment_URL)"><i
     class="pi pi-paperclip" style="color: slateblue"></i></td>
   <td *ngIf="bill.Attachment_URL === null "></td>
-  <td *ngIf="bill.Status === 'FP'">
+  <td *ngIf="bill.Status === 'Fully Paid'">
   </td>
   <td><i class="pi pi-download"  pTooltip=" Download Bill " tooltipPosition="left"(click)="downloadPDF(bill)"></i></td>
   </tr>
@@ -302,6 +302,10 @@
            </div>
         </div>
         <div class="form-row">
+          <div class="form-group">
+            <label for="due" class="form-label">TDS</label>
+            <input type="number" id="due" class="form-input" formControlName="tds" />
+          </div>
           <div class="form-group">
             <label for="due" class="form-label">Total Due</label>
             <input type="number" id="due" class="form-input" formControlName="due" />
