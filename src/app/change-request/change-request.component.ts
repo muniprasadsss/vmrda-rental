@@ -358,11 +358,6 @@ getUserDatabyId(userID: any) {
           console.error('Error sending data:', error);
         }
       });
-
-      this.addrequestdata = false;
-      this.toasterservice.success("Change request raised successfully");
-      this.addRequestForm.reset(); // Reset the form after successful submission
-      this.getcrInfo(); // Refresh the data
     } 
   }
   

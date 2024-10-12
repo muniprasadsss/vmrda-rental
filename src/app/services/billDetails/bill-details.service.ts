@@ -44,9 +44,7 @@ updateBillDetails(billData: any): Observable<any> {
         console.log(updateData,"Updated data to procedure after click on pay...");
         return this.http.post<any>(`${this.apiUrl}/update-bill-status`, updateData); // Updated endpoint
       }
-      updateReceipt(receiptData: any): Observable<any> {
-        return this.http.post<any>(`${this.apiUrl}/update-bill-status`, receiptData); // Updated endpoint
-  }
+
 
   getPropertyInfo(BillNo: any): Observable<any> {
 

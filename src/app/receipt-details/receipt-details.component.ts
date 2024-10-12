@@ -233,7 +233,7 @@ generatePDF(receipt: any) {
   fetchBillDetails(billNo:any){
     this.http.getBillDetails(billNo).subscribe({
       next:(res:any)=>{
-        if(res.Status !== 'FP'){
+        if(res.Status !== 'Not Paid'){
           this.bill = res;
           this.bill_status = res.Status;
           this.addNewRecept.patchValue({
@@ -248,27 +248,30 @@ generatePDF(receipt: any) {
         }
         else{
           this.toasterservice.warning('Bill already paid')
+          this.bill_status = '';
+          this.bill= null;
+
         }
        
       }
     })
   }
-  generateChallanNumber(UserID: string): string {
-    const currentDate = new Date();
-    const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month as a number, padded to 2 digits
-    const currentYear = currentDate.getFullYear();
+  // generateChallanNumber(UserID: string): string {
+  //   const currentDate = new Date();
+  //   const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month as a number, padded to 2 digits
+  //   const currentYear = currentDate.getFullYear();
 
 
-    return `REC/VMRDA/${currentMonth}/${currentYear}/${UserID}`;
-  }
+  //   return `REC/VMRDA/${currentMonth}/${currentYear}/${UserID}`;
+  // }
   addReciept(){
     if (true) {
       // Print the form values to the console
-      if(this.bill_status !== 'FP' ){
-        this.bill_status = 'FP';
+      if(this.bill_status !== 'Not Paid' ){
+        // this.bill_status = 'FP';
         const form = this.addNewRecept.value
         const updateData = {
-            p_billid: this.bill.billNo,
+            p_billid: this.bill.BillNo,
             p_payment_amount: this.addNewRecept.get('amount_paid')?.value,               
           }
 
@@ -276,33 +279,42 @@ generatePDF(receipt: any) {
       this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
         next:  (response) => {
           if (response.status === 200) {
-             this.createReceipt({
-              BillNo: this.bill.BillNo,
-              ReceiptNo: this.generateChallanNumber(this.bill.Property),
-              User: form.User,
-              Property: this.bill.Property,
-              paid_date: new Date().toISOString(),
-              Rental_lease_amount_permonth: this.bill.Rental_lease_amount_permonth,
-              GST: this.bill.GST,
-              Total_rental_interest: this.bill.Total_rental_interest,
-              Total: this.bill.Total,
-              TotalPaid: this.bill.Total,
-              Due: 0,
-              Status: 'FP'
-            });
-
+            //  this.createReceipt({
+            //   BillNo: this.bill.BillNo,
+            //   ReceiptNo: this.generateChallanNumber(this.bill.Property),
+            //   User: form.User,
+            //   Property: this.bill.Property,
+            //   paid_date: new Date().toISOString(),
+            //   Rental_lease_amount_permonth: this.bill.Rental_lease_amount_permonth,
+            //   GST: this.bill.GST,
+            //   Total_rental_interest: this.bill.Total_rental_interest,
+            //   Total: this.bill.Total,
+            //   TotalPaid: this.bill.Total,
+            //   Due: 0,
+            //   Status: 'FP'
+            // });
+            this.toasterservice.success('Receipt Successfully Added')
+            this.bill_status = '';
+            this.bill= null;
 
           } else {
+            this.bill_status = '';
+            this.bill= null;
             console.error('Error updating bill:', response.message);
           }
         },
         error: (err:any) => {
+          this.toasterservice.warning(err)
+          this.bill_status = '';
+          this.bill= null;
           console.error('Error updating bill:', err);
         },
       });
 
     } 
     else{
+      this.bill_status = '';
+      this.bill= null;
       this.toasterservice.warning('Bill already paid')
     }
   }
@@ -311,7 +323,7 @@ generatePDF(receipt: any) {
 
 createReceipt(receiptData: any) {
 
-  this.billDetailService.updateReceipt(receiptData).subscribe((response) => {
+  this.billDetailService.updateBillDetailsByBillNo(receiptData).subscribe((response) => {
     console.log(response,"bill response from api...");
     if (response.message == "receipt created successfully") {
       console.log('Receipt created successfully!');

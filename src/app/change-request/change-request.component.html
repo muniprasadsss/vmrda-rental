@@ -63,7 +63,7 @@
                 <td *ngIf="item.attachment === null "></td>
                 <td *ngIf="userRole !== 'USER'" style="width: 10%;" >
                     <select class="custom-select" 
-                            [(ngModel)]="item.action" disabled="isSelectDisabled(item.stage,item.status)"
+                            [(ngModel)]="item.action" [disabled]="isSelectDisabled(item.stage,item.status)"
                             (ngModelChange)="changeStatus(item.cr_number, item.requesttype, item.status, item.stage, item.action,rowIndex)">
                       <!-- Default "Select" option: Disabled and only selected when item.action is null or undefined -->
                       <option [ngValue]="null" disabled>Select</option>

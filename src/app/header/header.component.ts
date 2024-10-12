@@ -228,7 +228,7 @@ export class HeaderComponent implements OnInit {
 
   closeNotificationDialog() {
     this.visible = false;
-    this.dataSource = []; 
+    
   }
 
   deleteNotification(id: any) {
