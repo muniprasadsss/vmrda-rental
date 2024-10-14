@@ -215,13 +215,13 @@ export class BillDetailsComponent implements OnInit {
     this.paidBills = this.dataSource.filter(item=>{
       return item.Status === 'Fully Paid'
     })
-    if (this.userRole !== 'USER') {
+    if (this.userRole === 'USER') {
       this.notPaidBills = this.dataSource.filter(item => {
-        return item.Status === 'Not Paid'
+        return (item.Status !== 'Fully Paid' && item.BillStatus === 'Active')
       })
     } else {
       this.notPaidBills = this.dataSource.filter(item => {
-        return (item.Status !== 'Fully Paid' && item.BillStatus === 'Active') //PP and NP only visible changed 27-09-24
+        return (item.Status !== 'Fully Paid' ) //PP and NP only visible changed 27-09-24
       })
     }
     this.cd.detectChanges();
