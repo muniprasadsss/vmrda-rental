@@ -709,7 +709,7 @@ currentY += lineHeight * 2;
                         Due: 0,
                         Status: 'Fully Paid'
                        }
-                    this.createAndSendReceiptPDF(payload,response.data);
+                    this.createAndSendReceiptPDF(payload,response);
 
                      this.getbilldetails();
                     //  this.cd.markForCheck(); // Changed to markForCheck
@@ -734,14 +734,12 @@ currentY += lineHeight * 2;
 
   // to send bill paid receipt pdf to user 
 
-  createAndSendReceiptPDF(payload: any,responseData: any) {
-    
+  createAndSendReceiptPDF(payload: any, responseData: any) {
     const doc = new jsPDF();
-    // Page margins and initial Y position
     const margins = { top: 15, bottom: 15, left: 20, right: 20 };
     const lineHeight = 8;
     let currentY = margins.top;
-
+  
     // Add logo
     const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png';
     const logoWidth = 20;
@@ -749,7 +747,7 @@ currentY += lineHeight * 2;
     const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
     doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight, '', 'FAST');
     currentY += logoHeight + 5;
-
+  
     // Add border
     doc.setLineWidth(0.5);
     doc.rect(
@@ -757,7 +755,7 @@ currentY += lineHeight * 2;
       doc.internal.pageSize.width - (margins.left + margins.right - 10),
       doc.internal.pageSize.height - (margins.top + margins.bottom - 10)
     );
-
+  
     // Add headings
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
@@ -766,10 +764,10 @@ currentY += lineHeight * 2;
       doc.internal.pageSize.width / 2, currentY, { align: 'center' }
     );
     currentY += lineHeight + 2;
-
+  
     doc.text('Receipt', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
     currentY += lineHeight;
-
+  
     // Add date and receipt reference
     const currentDate = new Date().toLocaleDateString();
     doc.setFont('helvetica', 'normal');
@@ -781,13 +779,13 @@ currentY += lineHeight * 2;
     doc.setFont('helvetica', 'bold');
     doc.text(currentDate, doc.internal.pageSize.width - margins.right - 30, currentY);
     currentY += lineHeight * 2;
-
+  
     // Add property details
     doc.setFont('helvetica', 'bold');
     doc.text(`Property Name: `, margins.left, currentY);
     doc.text(payload.Property, margins.left + 40, currentY);
     currentY += lineHeight;
-
+  
     // Add summary text
     doc.setFont('helvetica', 'normal');
     doc.text(
@@ -796,26 +794,37 @@ currentY += lineHeight * 2;
       margins.left, currentY, { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
     );
     currentY += lineHeight * 3;
-
+  
     // Add receipt details in a table format
     const tableRows = [
-      ['Receipt No', responseData.receipt_no],
-      ['User ID', responseData.user],
-      ['Bill No', payload.p_billid],
-      ['Property Code', responseData.property],
-      ['Paid Date', new Date(payload.paid_date).toLocaleDateString()],
-      ['Lease Amount', responseData.rental_lease_amount_permonth],
-      ['Power Bill', responseData.power_bill],
-      ['Maintaiance Bill', responseData.maintainance_bill],
-      ['Water Bill', responseData.water_bill],
-      ['GST', responseData.gst],
-      ['Total Amount', responseData.total],
-      ['Total Paid', responseData.total_paid],
-      ['Due Amount', responseData.due],
-      ['Payment Status', responseData.status]
-    ];
+      ['Receipt No', responseData.data.receipt_no, ''],
+      ['User ID', responseData.data.user, ''],
+      ['Bill No', responseData.bill.BillNo, ''],
+      ['Property Code', responseData.data.property, ''],
+      ['Paid Date', new Date(payload.paid_date).toLocaleDateString(), ''],
+      
+      // Add a row for "Amount" and "Due" column headers after "Paid Date"
+      ['', 'Amount', 'Due'],
+  
+  // New row for Amount and Due
+  ['Rent', responseData.bill.Rental_lease_amount_permonth, (responseData.bill.Rental_lease_amount_permonth - responseData.data.rental_amount).toFixed(2)],
+  ['Water Bill', responseData.bill.Water_bill, (responseData.bill.Water_bill - responseData.data.water_bill).toFixed(2)],
+  ['Intrest', responseData.bill.Total_rental_interest, (responseData.bill.Total_rental_interest - responseData.data.total_rental_interest).toFixed(2)],
+  ['Power Bill', responseData.bill.Power_bill, (responseData.bill.Power_bill - responseData.data.power_bill).toFixed(2)],
+  ['Maintenance Bill', responseData.bill.Maintainance_bill, (responseData.bill.Maintainance_bill - responseData.data.maintainance_bill).toFixed(2)],
+  ['GST', responseData.bill.GST, (responseData.bill.GST - responseData.data.gst).toFixed(2)],
 
+  // Summary rows
+  ['Total Amount', responseData.bill.Total, responseData.data.due],
+  ['Total Paid', responseData.bill.TotalPaid, ''],
+  ['Payment Status', '', responseData.data.status]
+
+      
+    ];
+  
+    // Adjust columns for 'Amount' and 'Due'
     autoTable(doc, {
+      head: [['Fields', 'Amount', 'Due']],
       body: tableRows,
       startY: currentY,
       margin: { left: margins.left + 10, right: margins.right + 10 },
@@ -831,10 +840,9 @@ currentY += lineHeight * 2;
         cellPadding: 1
       }
     });
-
-    // Move to position for the footer
+  
     currentY = doc.internal.pageSize.height - margins.bottom - 40;
-
+  
     // Add footer text
     doc.setFont('helvetica', 'normal');
     doc.text('Thank you for your payment. Please retain this receipt for your records.', margins.left, currentY);
@@ -842,17 +850,16 @@ currentY += lineHeight * 2;
     doc.text('Regards,', margins.left, currentY);
     currentY += lineHeight;
     doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
-
+  
     // Generate the PDF as a Blob
     const pdfBlob = doc.output('blob');
-
+  
     // Prepare FormData to send the PDF to the backend
     const formData = new FormData();
     formData.append('pdf', pdfBlob, `Receipt_${payload.receipt_no}.pdf`);
-    // formData.append('userId', payload.User);
-    formData.append('userId',responseData.user); // Check if 'User' is U00006
-console.log('User ID sent in formData:', formData.get('userId'));
-
+    formData.append('userId', responseData.data.user);
+    console.log('User ID sent in formData:', formData.get('userId'));
+  
     // Send the PDF to the backend for emailing
     this.billDetailService.sendEmailWithAttachment(formData).subscribe({
       next: (response) => {
@@ -863,6 +870,7 @@ console.log('User ID sent in formData:', formData.get('userId'));
       }
     });
   }
+  
 
   showPaymentPopup(){
     this.showPayPopup=true;
