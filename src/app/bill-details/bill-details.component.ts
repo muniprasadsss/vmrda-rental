@@ -59,6 +59,7 @@ export class BillDetailsComponent implements OnInit {
   tdsvalue:number = 0
   userdetails: any;          // initilaise for getting userdata as object from local storage
   username:any;              // initialise username 
+  userDetailsObject: any;
   
   constructor(private billDetailService: BillDetailsService,
               private Http: ChangeRequestService,
@@ -105,8 +106,8 @@ export class BillDetailsComponent implements OnInit {
     this.userRole = localStorage.getItem('role')
     this.userID = localStorage.getItem('userId')
     this.userdetails=localStorage.getItem("userInfo");
-    const userDetailsObject = JSON.parse(this.userdetails);
-    this.username=userDetailsObject.USER_NAME
+    this.userDetailsObject = JSON.parse(this.userdetails);
+    this.username=this.userDetailsObject.USER_NAME
     this.getbilldetails();
     this.getPropertyCodes();
   }
@@ -614,7 +615,7 @@ currentY += lineHeight * 2;
     this.billDetailService.createOrder(this.amount).subscribe(
       (order) => {
         const options = {
-          key: 'rzp_test_JKpUkmYnatBjUA',
+          key: 'rzp_test_78EnBQiViIHp01',
           amount: order.data.amount, // Amount in paise
           currency: 'INR',
           name: 'VMRDA Rental',
@@ -624,9 +625,9 @@ currentY += lineHeight * 2;
             this.verifyPayment(response, this.selectedBill,this.amount,sentDisabledFieldValues);
           },
           prefill: {
-            name: this.selectedBill.User,
-            email: 'user@example.com',
-            contact: '9999999999',
+            name: this.userDetailsObject.USER_NAME,
+            email: this.userDetailsObject.EMAIL_ID,
+            contact: this.userDetailsObject.MOBILE_NUM,
           },
           theme: {
             color: '#3399cc',

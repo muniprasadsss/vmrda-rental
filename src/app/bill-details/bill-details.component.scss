@@ -118,6 +118,11 @@
   border: none;
   padding: 8px 12px;
   cursor: pointer;
+
+}
+.pay{
+  display: flex;
+  justify-content: center;
 }
 .payButton:hover{
   box-shadow: 1px 1px 1px rgba(36, 36, 36, 0.5);

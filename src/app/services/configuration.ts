@@ -4,9 +4,9 @@ export const environment = {
     // test-envi
     // apiUrl: 'http://vmrda-demo.ap-south-1.elasticbeanstalk.com'
 
-    // apiUrl: 'http://localhost:3000'
+    apiUrl: 'http://localhost:3000'
 
     // vmrdarental.com domain 
-    apiUrl: 'https://api.vmrdarental.com'
+    // apiUrl: 'https://api.vmrdarental.com'
 
 };
