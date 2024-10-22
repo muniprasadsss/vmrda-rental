@@ -97,7 +97,17 @@ export class UserDetailsComponent implements OnInit {
 
         addNewUser() {
       if (this.addNewForm.valid) {
-        this.userdetailsservice.createUser(this.addNewForm.value).subscribe({
+        const payload={
+          username:this.addNewForm.value.username,
+          mobileNo:this.addNewForm.value.mobileNo,
+          aadharNo:this.addNewForm.value.aadhar,
+          email_id:this.addNewForm.value.email_id,
+          revenueDivision:null,
+          natureOfBusiness:this.addNewForm.value.natureOfBusiness,
+          pan:this.addNewForm.value.pan,
+          gstIn:this.addNewForm.value.gstIn
+        }
+        this.userdetailsservice.createUser(payload).subscribe({
           next: (response: any) => {
             this.toasterservice.success('User created successfully');
             // Optionally reset the form or show a success message
