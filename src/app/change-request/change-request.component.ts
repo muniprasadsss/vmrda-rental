@@ -324,10 +324,10 @@ getUserDatabyId(userID: any) {
   
 
   onSubmit() {
+    this.addRequestForm.markAllAsTouched();
     if (this.addRequestForm.valid) {
       const formData = this.addRequestForm.value;
-
-        // Check if a file has been uploaded
+       // Check if a file has been uploaded
       if (!this.attachmentUrl) {
       console.error('File is required.');
       this.toasterservice.error("File is required."); // Notify user
@@ -360,8 +360,5 @@ getUserDatabyId(userID: any) {
       });
     } 
   }
-  
-  
-
 
 }

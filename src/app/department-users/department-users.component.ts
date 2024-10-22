@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { DepartmentUsersService } from '../services/departmentUsers/department-users.service';
 import { departmentusers } from '../interfaces/departmentUserInterfaces/departmentuserinterfaces';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-department-users',
@@ -27,16 +27,13 @@ export class DepartmentUsersComponent {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      user_id: [''],
-      username: [''],
-      mobileNo: [''],
-      email_id: [''],
-      userType: [''],
-      password: [''],
-      revenueDivision: [''],
-      natureOfBusiness: [''],
-      idNo: [''],
-      gstIn: ['']
+      user_id: ['',Validators.required],
+      username: ['',Validators.required],
+      mobileNo: ['',Validators.required],
+      email_id: ['',Validators.required,Validators.email],
+      userType: ['',Validators.required],
+      password: ['',Validators.required],
+      revenueDivision: ['',Validators.required],
     });
 
     this.editForm = this.fb.group({
@@ -73,6 +70,7 @@ export class DepartmentUsersComponent {
   }
 
   saveUser() {
+    this.form.markAllAsTouched();
     if (this.form.valid) {
       this.admindetailsservice.createAdmin(this.form.value).subscribe({
         next: (res: any) => {
@@ -122,7 +120,6 @@ export class DepartmentUsersComponent {
     this.editVisible = false;
   }
 
-  
   getAdminDetailsbySno(sl_no: number) {
     this.admindetailsservice.getUserBySlNo(sl_no).subscribe({
       next: (res: any) => {
@@ -169,4 +166,5 @@ export class DepartmentUsersComponent {
     event.preventDefault();
   }
   }
+
 }

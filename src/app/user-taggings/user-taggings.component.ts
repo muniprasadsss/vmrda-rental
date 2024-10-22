@@ -26,7 +26,7 @@ export class UserTaggingsComponent implements OnInit {
   addNewForm!: FormGroup;
   editVisible: boolean = false; // For the edit dialog
   editForm: any;
-  unoccupiedProprertys:any;
+  unoccupiedProprertys: any;
   @ViewChild('dt2') dt!: any;
   value: any;
   constructor(
@@ -37,11 +37,11 @@ export class UserTaggingsComponent implements OnInit {
     private cd: ChangeDetectorRef
   ) {
     this.addNewForm = this.fb.group({
-      username: [''],
-      user_id: [''],
-      property: [''],
-      start_date: [''],
-      end_date: ['']
+      username: ['', Validators.required],
+      user_id: ['', Validators.required],
+      property: ['', Validators.required],
+      start_date: ['', Validators.required],
+      end_date: ['', Validators.required]
     });
     this.editForm = this.fb.group({
       username: ['', Validators.required],
@@ -69,12 +69,12 @@ export class UserTaggingsComponent implements OnInit {
       }
     });
   }
+  
   onFilterGlobal(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.value = target.value;
     this.dt.filterGlobal(this.value, 'contains');
   }
-
 
   getUserTaggingDetails() {
     this.dataSource = [];
@@ -94,34 +94,34 @@ export class UserTaggingsComponent implements OnInit {
     this.visible = true;
   }
 
-// In user-taggings.component.ts
-addNewUser() {
-  if (this.addNewForm.valid) {
-    
-    this.usertaggingservice.createUserTagging(this.addNewForm.value).subscribe({
-      next: (res) => {
-        this.toasterservice.success("User added successfully");
-        this.visible = false; // Close the dialog
-        this.getUserTaggingDetails(); // Refresh data
-      },
-      error: (err) => {
-        this.toasterservice.error(err.error?.message || "Error adding user");
-      }
-    });
-  } else {
-  }
-}
+  // In user-taggings.component.ts
 
+  addNewUser() {
+    this.addNewForm.markAllAsTouched(); // checking all form fields are touched or not
+    if (this.addNewForm.valid) {
+      this.usertaggingservice.createUserTagging(this.addNewForm.value).subscribe({
+        next: (res) => {
+          this.toasterservice.success("User added successfully");
+          this.visible = false; // Close the dialog
+          this.getUserTaggingDetails(); // Refresh data
+        },
+        error: (err) => {
+          this.toasterservice.error(err.error?.message || "Error adding user");
+        }
+      });
+    } else {
+    }
+  }
 
   formatDate(date: any): string {
     if (!date) return '';
     const d = new Date(date);
     return d.toISOString().split('T')[0]; // Returns YYYY-MM-DD
   }
-  
+
   editUser(lease: usertagging) {
     const startDate = this.formatDate(lease.START_DATE);
-  const endDate = this.formatDate(lease.END_DATE);
+    const endDate = this.formatDate(lease.END_DATE);
     this.editForm.patchValue({
       username: lease.USER_NAME,
       user_id: lease.USER_ID,
@@ -132,23 +132,23 @@ addNewUser() {
     this.editVisible = true; // Show the edit dialog
   }
 
-// In user-taggings.component.ts
-updateUser() {
-  if (this.editForm.valid) {   
-    // Call the service to update the user tagging
-    this.usertaggingservice.editUserTagging(this.editForm.value).subscribe({
-      next: (res) => {
-        this.toasterservice.success("User updated successfully");
-        this.editVisible = false; // Close the edit dialog
-        this.getUserTaggingDetails(); // Refresh data
-        
-      },
-      error: (err) => {
-        this.toasterservice.error(err.error?.message || "Error updating user");
-      }
-    });
-  } else {
+  // In user-taggings.component.ts
+
+  updateUser() {
+    if (this.editForm.valid) {
+      // Call the service to update the user tagging
+      this.usertaggingservice.editUserTagging(this.editForm.value).subscribe({
+        next: (res) => {
+          this.toasterservice.success("User updated successfully");
+          this.editVisible = false; // Close the edit dialog
+          this.getUserTaggingDetails(); // Refresh data
+        },
+        error: (err) => {
+          this.toasterservice.error(err.error?.message || "Error updating user");
+        }
+      });
+    } else {
+    }
   }
-}
-    
+
 }

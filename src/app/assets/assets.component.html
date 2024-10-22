@@ -1,6 +1,6 @@
 <div class="card custom-table">
     <p-table #dt2 [value]="assetsData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
-    [globalFilterFields]="['Sl_NO', 'ALLOTTEE_NAME', 'LOCATION', 'LOCATION_CODE', 'EXTENT', 'FLOOR', 'PRESENT_RENT', 'PROPERTY_CODE', 'REVENUE_DIVISION', 'STATUS', 'TYPE_OF_PROPERTY']">
+        [globalFilterFields]="['Sl_NO', 'ALLOTTEE_NAME', 'LOCATION', 'LOCATION_CODE', 'EXTENT', 'FLOOR', 'PRESENT_RENT', 'PROPERTY_CODE', 'REVENUE_DIVISION', 'STATUS', 'TYPE_OF_PROPERTY']">
         <ng-template pTemplate="caption">
             <div class="searchbar">
                 <div class="search">
@@ -8,16 +8,16 @@
                         <p-inputIcon>
                             <i class="pi pi-search"></i>
                         </p-inputIcon>
-                        <input pInputText type="text"  (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+                        <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
                     </p-iconField>
                 </div>
                 <div class="search">
-                    <p-dropdown 
-                    [options]="complex" 
-                    (onChange)="onSelectGlobal($event.value)"
-                    placeholder="Select Location" />
+                    <p-dropdown [options]="complex" (onChange)="onSelectGlobal($event.value)"
+                        placeholder="Select Location" />
                 </div>
-                <p-button (onClick)="showDialog()"  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')" label=" + Add New" severity="success" size="small" />
+                <p-button (onClick)="showDialog()"
+                    *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"
+                    label=" + Add New" severity="success" size="small" />
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -32,35 +32,36 @@
                 <th pSortableColumn="REVENUE_DIVISION">Revenue Division <p-sortIcon field="REVENUE_DIVISION" /></th>
                 <th pSortableColumn="STATUS">Status <p-sortIcon field="STATUS" /></th>
                 <th>Type of Property</th>
-                <th  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
-                
-                
+                <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
+
+
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-location>
             <tr style="font-size: 12px; margin-bottom: 1rem;">
-              <td style="width: 6%;">{{ location.Sl_NO }}</td>
-              <td style="width: 14%;">{{ location.ALLOTTEE_NAME }}</td>
-              <td style="width: 8%;">{{ location.LOCATION }}</td>
-              <td style="width: 6%;">{{ location.EXTENT }}</td>
-              <td style="width: 6%;">{{ location.FLOOR }}</td>
-              <td style="width: 8%;">{{ location.PRESENT_RENT }}</td>
-              <td style="width: 12%;">{{ location.PROPERTY_CODE }}</td>
-              <td style="width: 12%;">{{ location.REVENUE_DIVISION }}</td>
-              <td style="width: 7%;">{{ location.STATUS }}</td>
-              <td style="width: 10%;">{{ location.TYPE_OF_PROPERTY }}</td>
-              <td  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
-                <div class="rowbtn" >
-                  <button class="editButton" pTooltip="Edit Asset" tooltipPosition="left" (click)="onEdit(location)">
-                    <i class="pi pi-pencil"></i>
-                  </button>
+                <td style="width: 6%;">{{ location.Sl_NO }}</td>
+                <td style="width: 14%;">{{ location.ALLOTTEE_NAME }}</td>
+                <td style="width: 8%;">{{ location.LOCATION }}</td>
+                <td style="width: 6%;">{{ location.EXTENT }}</td>
+                <td style="width: 6%;">{{ location.FLOOR }}</td>
+                <td style="width: 8%;">{{ location.PRESENT_RENT }}</td>
+                <td style="width: 12%;">{{ location.PROPERTY_CODE }}</td>
+                <td style="width: 12%;">{{ location.REVENUE_DIVISION }}</td>
+                <td style="width: 7%;">{{ location.STATUS }}</td>
+                <td style="width: 10%;">{{ location.TYPE_OF_PROPERTY }}</td>
+                <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+                    <div class="rowbtn">
+                        <button class="editButton" pTooltip="Edit Asset" tooltipPosition="left"
+                            (click)="onEdit(location)">
+                            <i class="pi pi-pencil"></i>
+                        </button>
 
-                </div>
-              </td>
+                    </div>
+                </td>
             </tr>
-          </ng-template>
-          
-        <ng-template pTemplate="emptymessage" >
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
             <tr>
                 <td colspan="13">No data found.</td>
             </tr>
@@ -94,7 +95,7 @@
                     <input formControlName="editpropertyCode" type="text" class="form-input" />
                     <small class="input-format-info">Format: UBC-ABC-01</small>
                 </div>
-            </div>                                                   
+            </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="property-no" class="form-label">Property No</label>
@@ -108,7 +109,7 @@
                     <label for="floor" class="form-label">Floor</label>
                     <input formControlName="editfloor" type="text" class="form-input" />
                 </div>
-            </div>                   
+            </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="attribuite1" class="form-label">Attribute 1</label>
@@ -136,7 +137,7 @@
                     <label for="length" class="form-label">Length</label>
                     <input formControlName="editlength" type="number" class="form-input" />
                 </div>
-               
+
             </div>
             <div class="form-row">
                 <div class="form-group">
@@ -151,8 +152,8 @@
                     <label for="power-meter-number" class="form-label">Power Meter Number</label>
                     <input formControlName="editpowerMeterNumber" type="text" class="form-input" />
                 </div>
-                
-            </div>                 
+
+            </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="water-meter-no" class="form-label">Water Meter No</label>
@@ -169,7 +170,7 @@
                         <option>Vacant</option>
                     </select>
                 </div>
-            </div> 
+            </div>
         </div>
         <div class="btn">
             <p-button label="Update" type="submit" size="small" />
@@ -180,8 +181,10 @@
 
 
 <!-- add new dialog -->
+ 
 <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
-    <p-dialog header="Add New Asset" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
+    <p-dialog header="Add New Asset" [modal]="true" [(visible)]="visible" position="center"
+        [style]="{ width: '50rem' }">
         <form [formGroup]="locationForm" (ngSubmit)="onSave()">
             <div class="form-container">
                 <div class="form-row">
@@ -191,6 +194,9 @@
                             <option value="" disabled selected>Select Location</option>
                             <option *ngFor="let loc of location" [value]="loc">{{ loc }}</option>
                         </select>
+                        <div *ngIf="locationForm.get('location')?.invalid && locationForm.get('location')?.touched">
+                            <small class="text-danger">Location is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="location-code" class="form-label">Location Code</label>
@@ -198,79 +204,136 @@
                             <option value="" disabled selected>Select Location Code</option>
                             <option *ngFor="let code of complex" [value]="code">{{ code }}</option>
                         </select>
+                        <div
+                            *ngIf="locationForm.get('locationCode')?.invalid && locationForm.get('locationCode')?.touched">
+                            <small class="text-danger">Location Code is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="property-code" class="form-label">Property Code</label>
                         <input formControlName="propertyCode" type="text" class="form-input" />
                         <small class="input-format-info">Format: UBC-ABC-01</small>
+                        <div
+                            *ngIf="locationForm.get('propertyCode')?.invalid && locationForm.get('propertyCode')?.touched">
+                            <small class="text-danger">Property Code is required.</small>
+                        </div>
                     </div>
-                </div>                                                   
+                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="property-no" class="form-label">Property No</label>
                         <input formControlName="propertyNo" type="text" class="form-input" />
+                        <div *ngIf="locationForm.get('propertyNo')?.invalid && locationForm.get('propertyNo')?.touched">
+                            <small class="text-danger">Property No is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="type-of-property" class="form-label">Type of Property</label>
                         <input formControlName="typeOfProperty" type="text" class="form-input" />
+                        <div
+                            *ngIf="locationForm.get('typeOfProperty')?.invalid && locationForm.get('typeOfProperty')?.touched">
+                            <small class="text-danger">Type of Property is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="floor" class="form-label">Floor</label>
                         <input formControlName="floor" type="text" class="form-input" />
+                        <div *ngIf="locationForm.get('floor')?.invalid && locationForm.get('floor')?.touched">
+                            <small class="text-danger">Floor is required.</small>
+                        </div>
                     </div>
-                </div>                   
+                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="attribuite1" class="form-label">Attribute 1</label>
                         <input formControlName="attribuite1" type="text" class="form-input" />
+                        <div
+                            *ngIf="locationForm.get('attribuite1')?.invalid && locationForm.get('attribuite1')?.touched">
+                            <small class="text-danger">Attribute 1 is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="extent" class="form-label">Extent</label>
                         <input formControlName="extent" type="text" class="form-input" />
+                        <div *ngIf="locationForm.get('extent')?.invalid && locationForm.get('extent')?.touched">
+                            <small class="text-danger">Extent is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="present-rent" class="form-label">Present Rent</label>
                         <input formControlName="presentRent" type="number" class="form-input" />
+                        <div
+                            *ngIf="locationForm.get('presentRent')?.invalid && locationForm.get('presentRent')?.touched">
+                            <small class="text-danger">Present Rent is required.</small>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="allottee-name" class="form-label">Allottee Name</label>
                         <input formControlName="allotteeName" type="text" class="form-input" />
+                        <div
+                            *ngIf="locationForm.get('allotteeName')?.invalid && locationForm.get('allotteeName')?.touched">
+                            <small class="text-danger">Allottee Name is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="size" class="form-label">Size</label>
                         <input formControlName="size" type="text" class="form-input" />
+                        <div *ngIf="locationForm.get('size')?.invalid && locationForm.get('size')?.touched">
+                            <small class="text-danger">Size is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="length" class="form-label">Length</label>
                         <input formControlName="length" type="number" class="form-input" />
+                        <div *ngIf="locationForm.get('length')?.invalid && locationForm.get('length')?.touched">
+                            <small class="text-danger">Length is required.</small>
+                        </div>
                     </div>
-                   
+
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="breadth" class="form-label">Breadth</label>
                         <input formControlName="breadth" type="number" class="form-input" />
+                        <div *ngIf="locationForm.get('breadth')?.invalid && locationForm.get('breadth')?.touched">
+                            <small class="text-danger">Breadth is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="revenue-division" class="form-label">Revenue Division</label>
                         <input formControlName="revenueDivision" type="text" class="form-input" />
+                        <div
+                            *ngIf="locationForm.get('revenueDivision')?.invalid && locationForm.get('revenueDivision')?.touched">
+                            <small class="text-danger">Revenue Division is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="power-meter-number" class="form-label">Power Meter Number</label>
                         <input formControlName="powerMeterNumber" type="text" class="form-input" />
+                        <div
+                            *ngIf="locationForm.get('powerMeterNumber')?.invalid && locationForm.get('powerMeterNumber')?.touched">
+                            <small class="text-danger">Power Meter Number is required.</small>
+                        </div>
                     </div>
-                    
-                </div>                 
+
+                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="water-meter-no" class="form-label">Water Meter No</label>
                         <input formControlName="waterMeterNo" type="text" class="form-input" />
+                        <div
+                            *ngIf="locationForm.get('waterMeterNo')?.invalid && locationForm.get('waterMeterNo')?.touched">
+                            <small class="text-danger">Water Meter No is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="details" class="form-label">Details</label>
                         <input formControlName="details" type="text" class="form-input" />
+                        <div *ngIf="locationForm.get('details')?.invalid && locationForm.get('details')?.touched">
+                            <small class="text-danger">Details is required.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="status" class="form-label">Status</label>
@@ -278,6 +341,9 @@
                             <option>Occupied</option>
                             <option>Vacant</option>
                         </select>
+                        <div *ngIf="locationForm.get('status')?.invalid && locationForm.get('status')?.touched">
+                            <small class="text-danger">Status is required.</small>
+                        </div>
                     </div>
                 </div>
             </div>

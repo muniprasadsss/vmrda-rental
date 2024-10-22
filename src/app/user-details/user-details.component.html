@@ -1,7 +1,7 @@
 <div class="content">
   <div class="card">
     <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
-    [globalFilterFields]="['SL_NO', 'USER_ID', 'USER_NAME', 'MOBILE_NUM', 'NATURE_OF_BUSINESS', 'Aadhaar_No', 'PAN', 'EMAIL_ID', 'GST_IN']"
+      [globalFilterFields]="['SL_NO', 'USER_ID', 'USER_NAME', 'MOBILE_NUM', 'NATURE_OF_BUSINESS', 'Aadhaar_No', 'PAN', 'EMAIL_ID', 'GST_IN']"
       [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
       <ng-template pTemplate="caption">
         <div class="searchbar">
@@ -13,7 +13,7 @@
               <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
             </p-iconField>
           </div>
-          <div class="dialog"  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+          <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
             <p-button (click)="showDialog()" label=" + Add New" severity="success" size="small" />
           </div>
         </div>
@@ -30,7 +30,7 @@
           <th>Email Id</th>
           <th>GSTIN</th>
           <!-- <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th> -->
-          <th  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
+          <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-customer>
@@ -44,9 +44,11 @@
           <td style="width: 6%;">{{ customer.PAN }}</td>
           <td style="width: 9%;">{{ customer.EMAIL_ID }}</td>
           <td style="width: 6%;">{{ customer.GST_IN }}</td>
-          <td style="width: 6%;"  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+          <td style="width: 6%;"
+            *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
             <div class="rowbtn">
-              <button class="editButton" pTooltip="Edit Tenent" tooltipPosition="left" (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
+              <button class="editButton" pTooltip="Edit Tenent" tooltipPosition="left"
+                (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
             </div>
           </td>
         </tr>
@@ -63,48 +65,69 @@
     <div class="form-container">
       <div class="form-row">
         <div class="form-group">
-          <label for="username" class="form-label">Username</label>
+          <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
           <input type="text" id="username" formControlName="username" class="form-input" />
+          <div *ngIf="addNewForm.get('username')?.invalid && addNewForm.get('username')?.touched">
+            <small class="text-danger">Username is required.</small>
+          </div>
         </div>
         <div class="form-group">
-          <label for="mobile" class="form-label">Mobile No</label>
+          <label for="mobile" class="form-label">Mobile No <span class="text-danger">*</span></label>
           <input type="tel" id="mobile" formControlName="mobileNo" class="form-input" inputmode="numeric"
             (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+          <div *ngIf="addNewForm.get('mobileNo')?.invalid && addNewForm.get('mobileNo')?.touched">
+            <small class="text-danger">Mobile No is required.</small>
+          </div>
         </div>
 
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="business" class="form-label">Business</label>
+          <label for="business" class="form-label">Business <span class="text-danger">*</span></label>
           <input type="text" id="business" formControlName="natureOfBusiness" class="form-input" />
+          <div *ngIf="addNewForm.get('natureOfBusiness')?.invalid && addNewForm.get('natureOfBusiness')?.touched">
+            <small class="text-danger">Business is required.</small>
+          </div>
         </div>
         <div class="form-group">
-          <label for="aadhar" class="form-label">Aadhar No</label>
+          <label for="aadhar" class="form-label">Aadhar No <span class="text-danger">*</span></label>
           <input type="text" id="aadhar" formControlName="aadhar" class="form-input" inputmode="numeric"
-            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)"  />
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+          <div *ngIf="addNewForm.get('aadhar')?.invalid && addNewForm.get('aadhar')?.touched">
+            <small class="text-danger">Aadhar No is required.</small>
+          </div>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="pan" class="form-label">PAN No</label>
+          <label for="pan" class="form-label">PAN No <span class="text-danger">*</span></label>
           <input type="text" id="pan" class="form-input" formControlName="pan" maxlength="10"
             (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" />
+          <div *ngIf="addNewForm.get('pan')?.invalid && addNewForm.get('pan')?.touched">
+            <small class="text-danger">PAN No is required.</small>
+          </div>
         </div>
         <div class="form-group">
-          <label for="email" class="form-label">Email ID</label>
-          <input type="email" id="email" formControlName="email_id" class="form-input" (keydown)="validateEmailInput($event)"
-            (keydown)="limitInputLength($event, 50)" />
+          <label for="email" class="form-label">Email ID <span class="text-danger">*</span></label>
+          <input type="email" id="email" formControlName="email_id" class="form-input"
+            (keydown)="validateEmailInput($event)" (keydown)="limitInputLength($event, 50)" />
+          <div *ngIf="addNewForm.get('email_id')?.invalid && addNewForm.get('email_id')?.touched">
+            <small class="text-danger">Email ID is required.</small>
+          </div>
         </div>
 
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="gstin" class="form-label">GST IN</label>
-          <input type="text" id="gstin" formControlName="gstIn" class="form-input"  inputmode="numeric"
-            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)"/>
+          <label for="gstin" class="form-label">GST IN <span class="text-danger">*</span></label>
+          <input type="text" id="gstin" formControlName="gstIn" class="form-input" inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+          <div *ngIf="addNewForm.get('gstIn')?.invalid && addNewForm.get('gstIn')?.touched">
+            <small class="text-danger">GST IN is required.</small>
+          </div>
         </div>
         <!-- <div class="form-group">
           <label for="revenue" class="form-label">Revenue Division</label>
@@ -140,7 +163,7 @@
           <label for="editMobile" class="form-label">Mobile No</label>
 
           <input type="number" id="editMobile" formControlName="editMobile" class="form-input" inputmode="numeric"
-            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)"/>
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
           <div *ngIf="editForm.get('editMobile')?.invalid && editForm.get('editMobile')?.touched">
             <small class="error">Please enter a valid 10-digit mobile number.</small>
           </div>
@@ -160,13 +183,13 @@
       <div class="form-row">
         <div class="form-group">
           <label for="editPan" class="form-label">PAN No</label>
-          <input type="text" id="editPan" formControlName="editPan" class="form-input"  maxlength="10"
+          <input type="text" id="editPan" formControlName="editPan" class="form-input" maxlength="10"
             (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" />
         </div>
         <div class="form-group">
           <label for="editEmail" class="form-label">Email ID</label>
-          <input type="email" id="editEmail" formControlName="editEmail"   class="form-input" (keydown)="validateEmailInput($event)"
-            (keydown)="limitInputLength($event, 50)"/>
+          <input type="email" id="editEmail" formControlName="editEmail" class="form-input"
+            (keydown)="validateEmailInput($event)" (keydown)="limitInputLength($event, 50)" />
         </div>
       </div>
       <div class="form-row">

@@ -172,21 +172,27 @@
         <form [formGroup]="addRequestForm">
             <div class="form-row">
                 <div class="form-group">
-                    <label for="propertycode" class="form-label">Property Code</label>
+                    <label for="propertycode" class="form-label">Property Code <span class="text-danger" >*</span></label>
                     <select class="form-input"  formControlName="propertyCode">
                         <option value="" selected>Select Request</option>
                         <option *ngFor="let property of propertyList" [value]="property">{{property}}</option>
                     </select>
+                    <div *ngIf="addRequestForm.get('propertyCode')?.invalid && addRequestForm.get('propertyCode')?.touched">
+                        <small class="text-danger">Property Code is required.</small>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="requesttype" class="form-label">Request Type</label>
+                    <label for="requesttype" class="form-label">Request Type <span class="text-danger" >*</span></label>
                     <select class="form-input"  formControlName="requestType">
                         <option value="" selected>Select Request</option>
                         <option *ngFor="let property of data" [value]="property">{{property}}</option>
                     </select>
+                    <div *ngIf="addRequestForm.get('requestType')?.invalid && addRequestForm.get('requestType')?.touched">
+                        <small class="text-danger">Request Type is required.</small>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="fileupload" class="form-label">Upload<span class="text-danger" >*</span></label>
+                    <label for="fileupload" class="form-label">Upload <span class="text-danger" >*</span></label>
                     <input type="file" id="fileupload" class="form-input" (change)="onFileChange($event)" />
                     <small class="input-format-info">Upload file size limit: 10MB</small>
                 </div>
@@ -196,9 +202,12 @@
             </div>
             <div class="form-row" style="justify-content: center;">
                 <div class="form-group">
-                    <label for="description" class="form-label">Description</label>
+                    <label for="description" class="form-label">Description <span class="text-danger" >*</span></label>
                     <textarea rows="10" cols="100" id="description" class="form-input"
                         formControlName="description"></textarea>
+                        <div *ngIf="addRequestForm.get('description')?.invalid && addRequestForm.get('description')?.touched">
+                            <small class="text-danger">Description is required.</small>
+                        </div>
                 </div>
             </div>
             <div class="btn">

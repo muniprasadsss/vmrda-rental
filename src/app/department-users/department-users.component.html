@@ -1,5 +1,5 @@
 <div class="content">
-  <div class="card" >
+  <div class="card">
     <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
       [globalFilterFields]="['S_No', 'User_ID', 'User_Name', 'Mobile_No', 'Nature_of_Business', 'Aadhaar_No', 'PAN_No', 'Email_Id', 'GSTIN', 'Revenue_Dvision']"
       [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
@@ -53,6 +53,7 @@
 </div>
 
 <!-- Add Dialog -->
+ 
 <p-dialog header="Add Dept. User" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '35rem' }">
   <div class="form-container">
     <form [formGroup]="form" (ngSubmit)="saveUser()">
@@ -60,34 +61,51 @@
         <div class="form-group">
           <label for="user_id" class="form-label">User ID</label>
           <input type="text" id="user_id" formControlName="user_id" class="form-input" />
+          <div *ngIf="form.get('user_id')?.invalid && form.get('user_id')?.touched">
+            <small class="text-danger">User ID is required.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="username" class="form-label">Username</label>
           <input type="text" id="username" formControlName="username" class="form-input" />
+          <div *ngIf="form.get('username')?.invalid && form.get('username')?.touched">
+            <small class="text-danger">Username is required.</small>
+          </div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label for="mobileNo" class="form-label">Mobile No</label>
-          <input type="tel" id="mobileNo" formControlName="mobileNo" class="form-input"
-          inputmode="numeric"
+          <input type="tel" id="mobileNo" formControlName="mobileNo" class="form-input" inputmode="numeric"
             (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+          <div *ngIf="form.get('mobileNo')?.invalid && form.get('mobileNo')?.touched">
+            <small class="text-danger">Mobile No is required.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="userType" class="form-label">User Type</label>
           <input type="text" id="userType" formControlName="userType" class="form-input" />
           <small class="input-format-info">Format: AO/RD-1/SECRETARY</small>
+          <div *ngIf="form.get('userType')?.invalid && form.get('userType')?.touched">
+            <small class="text-danger">User Type is required.</small>
+          </div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label for="revenueDivision" class="form-label">Revenue Division</label>
           <input type="text" id="revenueDivision" formControlName="revenueDivision" class="form-input" />
+          <div *ngIf="form.get('revenueDivision')?.invalid && form.get('revenueDivision')?.touched">
+            <small class="text-danger">Revenue Division is required.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="email" class="form-label">Email ID</label>
-          <input type="email" id="email" formControlName="email_id" class="form-input" (keydown)="validateEmailInput($event)"
-            (keydown)="limitInputLength($event, 50)" />
+          <input type="email" id="email" formControlName="email_id" class="form-input"
+            (keydown)="validateEmailInput($event)" (keydown)="limitInputLength($event, 50)" />
+          <div *ngIf="form.get('email_id')?.invalid && form.get('email_id')?.touched">
+            <small class="text-danger">Email ID is required.</small>
+          </div>
         </div>
 
       </div>
@@ -95,6 +113,9 @@
         <div class="form-group">
           <label for="password" class="form-label">Password</label>
           <input type="text" id="password" formControlName="password" class="form-input" />
+          <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+            <small class="text-danger">Password is required.</small>
+          </div>
         </div>
       </div>
 
@@ -108,7 +129,9 @@
 
 
 <!-- Edit Dialog -->
-<p-dialog header="Edit Dept. User" [modal]="true" [(visible)]="editVisible" position="center" [style]="{ width: '30rem' }">
+
+<p-dialog header="Edit Dept. User" [modal]="true" [(visible)]="editVisible" position="center"
+  [style]="{ width: '30rem' }">
   <div class="form-container">
     <form [formGroup]="editForm" (ngSubmit)="updateUser()">
       <div class="form-row">
@@ -124,9 +147,8 @@
       <div class="form-row">
         <div class="form-group">
           <label for="mobileNo" class="form-label">Mobile No</label>
-          <input type="tel" id="mobileNo" formControlName="MOBILE_NUM" class="form-input" 
-          inputmode="numeric"
-            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)"/>
+          <input type="tel" id="mobileNo" formControlName="MOBILE_NUM" class="form-input" inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
         </div>
         <div class="form-group">
           <label for="usertype" class="form-label">User Type</label>

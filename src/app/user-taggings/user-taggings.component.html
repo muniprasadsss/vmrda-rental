@@ -24,7 +24,7 @@
             <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
           </p-iconField>
         </div>
-        <div class="dialog"  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+        <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
           <p-button (onClick)="showDialog()" label=" + Add New" severity="success" size="small"></p-button>
         </div>
       </div>
@@ -38,16 +38,18 @@
         <th>Property Code</th>
         <th pSortableColumn="START_DATE">Start Date<p-sortIcon field="START_DATE"></p-sortIcon></th>
         <th pSortableColumn="END_DATE">End Date<p-sortIcon field="END_DATE"></p-sortIcon></th>
-        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">DATE OF RENEWAL<p-sortIcon field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
+        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">DATE OF RENEWAL<p-sortIcon
+            field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
         <th>Lease Amount</th>
         <th>Lease Go Live</th>
         <th>LEASE PERIOD</th>
-        <th pSortableColumn="RENTAL_INTRESET_PERCENT">Lease Interest%<p-sortIcon field="RENTAL_INTRESET_PERCENT"></p-sortIcon></th>
+        <th pSortableColumn="RENTAL_INTRESET_PERCENT">Lease Interest%<p-sortIcon
+            field="RENTAL_INTRESET_PERCENT"></p-sortIcon></th>
         <th pSortableColumn="RENTAL_HIKE_PERCENT">Lease Hike%<p-sortIcon field="RENTAL_HIKE_PERCENT"></p-sortIcon></th>
         <th>GST%</th>
         <!-- <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th> -->
         <th pSortableColumn="LEASE_DEED_NO">LEASE DEED Number<p-sortIcon field="LEASE_DEED_NO"></p-sortIcon></th>
-        <th  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
+        <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
       </tr>
     </ng-template>
 
@@ -67,9 +69,10 @@
         <td style="width: 6%;">{{ lease.RENTAL_HIKE_PERCENT }}</td>
         <td style="width: 6%;">{{ lease.GST }}</td>
         <td style="width: 6%;">{{ lease.LEASE_DEED_NO }}</td>
-        <td  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+        <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
           <div class="rowbtn">
-            <button class="editButton" pTooltip="Edit Tagging" tooltipPosition="left" (click)="editUser(lease)"><i class="pi pi-pencil"></i></button>
+            <button class="editButton" pTooltip="Edit Tagging" tooltipPosition="left" (click)="editUser(lease)"><i
+                class="pi pi-pencil"></i></button>
           </div>
         </td>
       </tr>
@@ -79,54 +82,60 @@
 
 <!-- AddNew Dialog  -->
 
-<p-dialog 
-  header="Tag New Asset" 
-  [modal]="true"
-  [(visible)]="visible" 
-  position="center" 
-  [style]="{ width: '50rem' }">
+<p-dialog header="Tag New Asset" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
   <form [formGroup]="addNewForm" (ngSubmit)="addNewUser()">
     <div class="form-container">
       <div class="form-row">
         <div class="form-group">
           <label for="username" class="form-label">Username</label>
           <input type="text" id="username" formControlName="username" class="form-input" />
+          <div *ngIf="addNewForm.get('username')?.invalid && addNewForm.get('username')?.touched">
+            <small class="text-danger">Username is required.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="userId" class="form-label">User Id</label>
           <input type="text" id="userId" formControlName="user_id" class="form-input" />
+          <div *ngIf="addNewForm.get('user_id')?.invalid && addNewForm.get('user_id')?.touched">
+            <small class="text-danger">User Id is required.</small>
+          </div>
         </div>
       </div>
-    
+
       <div class="form-row">
         <div class="form-group">
           <label for="startdate" class="form-label">Start Date</label>
           <input type="date" id="startdate" formControlName="start_date" class="form-input" />
+          <div *ngIf="addNewForm.get('start_date')?.invalid && addNewForm.get('start_date')?.touched">
+            <small class="text-danger">Start Date is required.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="enddate" class="form-label">End Date</label>
           <input type="date" id="enddate" formControlName="end_date" class="form-input" />
+          <div *ngIf="addNewForm.get('end_date')?.invalid && addNewForm.get('end_date')?.touched">
+            <small class="text-danger">End Date is required.</small>
+          </div>
         </div>
       </div>
-    
+
       <div class="form-row">
         <div class="form-group">
           <label for="property" class="form-label">Property</label>
-          <p-dropdown [options]="unoccupiedProprertys" placeholder="Select Property"
-           id="property"
-           appendTo="body" 
-          [autoZIndex]="true" 
-          [autoDisplayFirst]="false"
-            formControlName="property" />
+          <p-dropdown [options]="unoccupiedProprertys" placeholder="Select Property" id="property" appendTo="body"
+            [autoZIndex]="true" [autoDisplayFirst]="false" formControlName="property" />
+          <div *ngIf="addNewForm.get('property')?.invalid && addNewForm.get('property')?.touched">
+            <small class="text-danger">Property is required.</small>
+          </div>
         </div>
       </div>
     </div>
     <div class="btn">
       <div class="save">
-        <p-button type="submit" label="Save" size="small"/>
+        <p-button type="submit" label="Save" size="small" />
       </div>
       <div class="save">
-        <p-button label="Cancel" severity="danger" (click)="visible = false" size="small"/>
+        <p-button label="Cancel" severity="danger" (click)="visible = false" size="small" />
       </div>
     </div>
   </form>
@@ -135,11 +144,7 @@
 
 <!-- Edit Dialog -->
 
-<p-dialog 
-  header="Edit Asset Tagging" 
-  [modal]="true"
-  [(visible)]="editVisible" 
-  position="center" 
+<p-dialog header="Edit Asset Tagging" [modal]="true" [(visible)]="editVisible" position="center"
   [style]="{ width: '50rem' }">
   <form [formGroup]="editForm" (ngSubmit)="updateUser()">
     <div class="form-container">
@@ -173,10 +178,10 @@
     </div>
     <div class="btn">
       <div class="save">
-        <p-button type="submit" label="Update" size="small"/>
+        <p-button type="submit" label="Update" size="small" />
       </div>
       <div class="save">
-        <p-button label="Cancel" severity="danger" (click)="editVisible = false" size="small"/>
+        <p-button label="Cancel" severity="danger" (click)="editVisible = false" size="small" />
       </div>
     </div>
   </form>
