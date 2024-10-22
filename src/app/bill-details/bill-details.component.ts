@@ -625,7 +625,7 @@ currentY += lineHeight * 2;
             this.verifyPayment(response, this.selectedBill,this.amount,sentDisabledFieldValues);
           },
           prefill: {
-            name: this.userDetailsObject.USER_NAME,
+            name: '',
             email: this.userDetailsObject.EMAIL_ID,
             contact: this.userDetailsObject.MOBILE_NUM,
           },
