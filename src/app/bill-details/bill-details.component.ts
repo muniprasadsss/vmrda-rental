@@ -16,6 +16,7 @@ import html2canvas from 'html2canvas';
 import autoTable from 'jspdf-autotable';
 import { DatePipe } from '@angular/common';
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
+import { ToastrService } from 'ngx-toastr';
 declare var Razorpay: any;
 
 @Component({
@@ -66,6 +67,7 @@ export class BillDetailsComponent implements OnInit {
               private cd: ChangeDetectorRef,
               http: ReceptDetailsService,
               private fb: FormBuilder,
+              private toastrService : ToastrService,
               private datePipe: DatePipe) {
     this.PaymentPopupform = this.fb.group({
       billNo: [{ value: '',disabled: true }],
@@ -865,6 +867,7 @@ currentY += lineHeight * 2;
     this.billDetailService.sendEmailWithAttachment(formData).subscribe({
       next: (response) => {
         console.log('Email sent successfully!', response);
+        this.toastrService.success('Payment done successfully')
       },
       error: (error) => {
         console.error('Error sending email:', error);
