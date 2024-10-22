@@ -879,4 +879,31 @@ currentY += lineHeight * 2;
   showPaymentPopup(){
     this.showPayPopup=true;
   }
+
+  downloadGSTBill(billNo: string) {
+    this.billDetailService.getGst(billNo).subscribe(
+      (response: Blob) => {
+        console.log('GST Bill downloaded successfully', response);
+  
+        // Create a blob object from the response
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+  
+        // Create a temporary anchor element to trigger the download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `GST_Bill_${billNo}.pdf`; // File name
+        a.click(); // Trigger download
+  
+        // Clean up the URL object
+        window.URL.revokeObjectURL(url);
+      },
+      (error: any) => {
+        console.error('Error while downloading GST Bill', error);
+      }
+    );
+  }
+  
+
+
 }

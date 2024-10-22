@@ -71,4 +71,10 @@ sendEmailWithAttachmentBill(formData: FormData) : Observable<any>{
   return this.http.post<any>(`${this.apiUrl}/sendEmailWithAttachmentBill`, formData);
 }
 
+getGst(BillNo: string): Observable<any> {
+  console.log("BillNo",BillNo)
+  return this.http.post(`${this.apiUrl}/gst`, { BillNo }, { responseType: 'blob' });
+
+}
+
 }

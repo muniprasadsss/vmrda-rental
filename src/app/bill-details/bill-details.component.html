@@ -47,6 +47,7 @@
           <th></th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-bill >
@@ -67,6 +68,11 @@
           <td style="width: 8%;">{{ bill.Due }}</td>
           <td style="width: 8%;">{{ bill.Status }}</td>
           <td style="width: 8%;">{{ bill.BillStatus }}</td>
+          <td>
+            <button *ngIf=" userRole !== 'USER' " pTooltip="Download GST Bill" tooltipPosition="left" (click)="downloadGSTBill(bill.BillNo)">
+              <i class="pi pi-file-pdf" style="color: red;"></i>
+            </button>
+          </td>
           <td *ngIf="userRole !== 'USER'" pTooltip=" Generate Bill " tooltipPosition="left">
             <div class="rowbtn">
               <button class="editButton" *ngIf="bill.BillStatus !== 'Active'" (click)="showDialog(bill.BillNo)">
@@ -207,6 +213,7 @@
   <th></th>
   <th></th>
   <th></th>
+  <th></th>
   </tr>
   </ng-template>
   <ng-template pTemplate="body" let-bill>
@@ -226,6 +233,12 @@
   <td style="width: 8%;">{{ bill.TotalPaid }}</td>
   <td style="width: 8%;">{{ bill.Due }}</td>
   <td style="width: 8%;">{{ bill.Status }}</td>
+  <td>
+    <button *ngIf=" userRole !== 'USER' " pTooltip="Download GST Bill" tooltipPosition="left" (click)="downloadGSTBill(bill.BillNo)">
+      <i class="pi pi-file-pdf" style="color: red;"></i>
+    </button>
+  </td>
+
   <td *ngIf="bill.Attachment_URL !== null" pTooltip=" Download Form 16 " tooltipPosition="left"
   (click)="downloadFile(bill.Attachment_URL)"><i
     class="pi pi-paperclip" style="color: slateblue"></i></td>
