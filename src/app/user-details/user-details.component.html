@@ -22,13 +22,13 @@
         <tr style="font-size: 12px;">
           <!-- <th pSortableColumn="SL_NO">S.No <p-sortIcon field="SL_NO" /></th> -->
           <th pSortableColumn="USER_ID">User ID <p-sortIcon field="USER_ID" /></th>
-          <th pSortableColumn="USER_NAME">User Name</th>
-          <th pSortableColumn="MOBILE_NUM">Mobile No</th>
-          <th pSortableColumn="NATURE_OF_BUSINESS"> Nature of Business</th>
-          <th pSortableColumn="Aadhaar_No">Aadhar No</th>
-          <th pSortableColumn="PAN">PAN No</th>
-          <th pSortableColumn="EMAIL_ID">Email Id</th>
-          <th pSortableColumn="GST_IN">GSTIN</th>
+          <th>User Name</th>
+          <th>Mobile No</th>
+          <th> Nature of Business</th>
+          <th>Aadhar No</th>
+          <th>PAN No</th>
+          <th>Email Id</th>
+          <th>GSTIN</th>
           <!-- <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th> -->
           <th  *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
         </tr>
