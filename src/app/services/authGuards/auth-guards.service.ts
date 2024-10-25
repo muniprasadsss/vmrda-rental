@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
-
-import { BehaviorSubject } from 'rxjs';
+import { environment } from '../configuration';
+import { BehaviorSubject, interval, Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +10,10 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthGuardsService implements CanActivate {
   private authenticated = new BehaviorSubject<boolean>(false);
   private userRole: string | null = null;
-
-  constructor(private router: Router ) {
+  private apiUrl = environment.apiUrl
+  private tokenCheckInterval: Subscription | undefined;
+  
+  constructor(private router: Router,private http: HttpClient ) {
     this.checkInitialAuth();
   }
 
@@ -44,6 +47,40 @@ export class AuthGuardsService implements CanActivate {
     return routeRole.includes(this.userRole!);  // This line is safer now because we check for `userRole` earlier.
   }
 
+  checkTokenValidity() {
+    this.http.get(`${this.apiUrl}/check-token`).subscribe({
+      next:(res)=>{
+        if(res !== 'user session is valid'){
+          this.router.navigate(['session-expired']);
+          this.stopTokenValidationCheck();
+        }
+        
+      },
+
+      error:(err)=>{
+        if(err.error.message === "Invalid Token"){
+          this.router.navigate(['session-expired']);
+          this.stopTokenValidationCheck();
+        }
+          
+      }
+    }
+    )}
+
+  startTokenValidationCheck() {
+    // Set interval to check token validity every 5 minutes
+    this.tokenCheckInterval = interval(300000).subscribe(() => {
+      this.checkTokenValidity();
+    });
+  }
+
+  stopTokenValidationCheck() {
+    // Clear the interval when no longer needed
+    this.tokenCheckInterval?.unsubscribe();
+  }
+
+
+
   get isAuthenticated$() {
     return this.authenticated.asObservable();
   }
@@ -62,8 +99,10 @@ export class AuthGuardsService implements CanActivate {
     localStorage.removeItem('user');
     localStorage.removeItem('role');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userType');
     this.authenticated.next(false);
     localStorage.removeItem('userInfo');
+    this.stopTokenValidationCheck();
   }
 
 // Get the JWT token

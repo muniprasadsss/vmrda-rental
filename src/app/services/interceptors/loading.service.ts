@@ -27,8 +27,15 @@ export class LoadingInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         // If the server is down or there’s an error, navigate to 404
-        if (error.status === 0 || error.status === 500) {
-          this.router.navigate(['/404']);
+        if (error.status === 0 || error.status === 500 || error.status === 401) {
+          console.log(error.status)
+          if(error.error.message === 'Invalid Token'){
+            console.log(error.error.message)
+            this.router.navigate(['session-expired']);
+          }else{
+            this.router.navigate(['/404']);
+          }
+          
         }
         return throwError(error); // Re-throw the error after handling it
       }),

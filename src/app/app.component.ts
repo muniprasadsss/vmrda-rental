@@ -35,9 +35,12 @@ export class AppComponent {
   ngOnInit() {
     this.authService.isAuthenticated$.subscribe(auth => {
       this.isAuthenticated = auth;
+      if(this.isAuthenticated){
+        this.authService.startTokenValidationCheck();
+      }
+      
     });
     this.userType = localStorage.getItem('role')
-
     if(this.userType !== undefined){
       if(this.userType === 'USER'){
         this.router.navigateByUrl("billDetails")
@@ -47,4 +50,10 @@ export class AppComponent {
     }
     
   }
+
+  ngOnDestroy(): void {
+    this.authService.stopTokenValidationCheck();
+  }
+
+
 }
