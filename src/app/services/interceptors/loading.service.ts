@@ -32,7 +32,7 @@ export class LoadingInterceptor implements HttpInterceptor {
           if(error.error.message === 'Invalid Token'){
             console.log(error.error.message)
             this.router.navigate(['session-expired']);
-          }else{
+          }else if(error.status === 0 || error.status === 500){
             this.router.navigate(['/404']);
           }
           
