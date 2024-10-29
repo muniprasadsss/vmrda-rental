@@ -728,6 +728,57 @@ currentY += lineHeight * 2;
             },
           });
         }
+        else if (data.message === "Invalid signature sent!") {
+          const challanNumber = this.generateChallanNumber(bill.Property);
+
+          const transactionData = {
+            "id": data.paymentDetails.id ?? "No Data",
+            "invoice_id": bill.BillNo ?? "No Data",
+            "order_id": data.paymentDetails.order_id ?? "No Data",
+            "method": data.paymentDetails.method ?? "No Data",
+            "upi_transaction_id": data.paymentDetails.acquirer_data.upi_transaction_id ?? "No Data",
+            "amount": editedAamount ?? "No Data",
+            "amount_refunded": data.paymentDetails.amount_refunded ?? "No Data",
+            "fee": data.paymentDetails.fee ?? "No Data",
+            "bank": data.paymentDetails.bank ?? "No Data",
+            "captured": data.paymentDetails.captured ?? "No Data",
+            "card_id": data.paymentDetails.card_id ?? "No Data",
+            "contact": data.paymentDetails.contact ?? "No Data",
+            "currency": data.paymentDetails.currency ?? "No Data",
+            "description": data.paymentDetails.description ?? "No Data",
+            "email": data.paymentDetails.email ?? "No Data",
+            "entity": data.paymentDetails.entity ?? "No Data",
+            "error_description": data.paymentDetails.error_description ?? "No Data",
+            "error_reason": data.paymentDetails.error_reason ?? "No Data",
+            "error_source": data.paymentDetails.error_source ?? "No Data",
+            "error_step": data.paymentDetails.error_step ?? "No Data",
+            "international": data.paymentDetails.international ?? "No Data",
+            "tax": data.paymentDetails.tax ?? "No Data",
+            "upi": "razorpay",
+            "vpa": "razorpay",
+            "rrn": data.paymentDetails.acquirer_data.rrn ?? "No Data",
+            "notes": "No Data",
+            "refund_status": data.paymentDetails.refund_status ?? "No Data",
+            "status": data.paymentDetails.status ?? "No Data",
+          };
+          console.log(transactionData,"transaction data check...");
+
+        this.billDetailService.saveTransactionDetails(transactionData).subscribe({
+          next:  (response) => {
+            const updateData={
+              p_billid: billDetails.billNo,
+              p_payment_amount: transactionData.amount,             
+            }
+            console.log(updateData,"payload data sent");
+            this.getbilldetails();
+            //  this.cd.markForCheck(); // Changed to markForCheck
+            this.cd.detectChanges();
+            },
+            error: (error) => {
+              console.error('Error saving transaction:', error);
+            },
+          });
+        }
       },
       error: (error) => {
         console.error('Payment Verification Failed', error);

@@ -1,7 +1,7 @@
 <div class="not-found">
     <p-dialog header="Your session has expired " [(visible)]="changeDialog" [modal]="true" [closable]="false"  [style]="{ width: '30rem' }">
         <div class="not-found-content">
-            <p>Please log in again to continue using app.</p>
+            <p>{{message}}</p>
             <div style="float: right;">
                 <p-button (onClick)="logOut()" label="Log in" severity="success"   />
             </div>

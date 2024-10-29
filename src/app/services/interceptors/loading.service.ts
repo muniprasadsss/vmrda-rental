@@ -4,11 +4,12 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LoadingService } from '../loading/loading.service';
+import { AuthGuardsService } from '../authGuards/auth-guards.service';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
 
-  constructor(private loadingService: LoadingService, private router: Router) {}
+  constructor(private loadingService: LoadingService, private router: Router,private authService: AuthGuardsService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -28,13 +29,28 @@ export class LoadingInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         // If the server is down or there’s an error, navigate to 404
         if (error.status === 0 || error.status === 500 || error.status === 401) {
-          console.log(error.status)
-          if(error.error.message === 'Invalid Token'){
-            console.log(error.error.message)
-            this.router.navigate(['session-expired']);
-          }else if(error.status === 0 || error.status === 500){
-            this.router.navigate(['/404']);
+          // console.log(error.status)
+          // if(error.error.message === 'Token expired due to 1-hour validity'){
+          //   console.log(error.error.message)
+          //   this.router.navigate(['session-expired']);
+          // }
+          // else if(error.error.message === 'Token expired due to another active login'){
+          //     console.log("Token expired due to another active login")
+          // }
+          // else if(error.status === 0 || error.status === 500){
+          //   this.router.navigate(['/404']);
+          // }
+          let message = 'Please log in again to continue using the app.';
+
+          if (error.error.message === 'Token expired due to 1-hour validity') {
+            message = 'Your session has expired. Please log in again to continue using the app.';
           }
+           else if (error.error.message === 'Token expired due to another active login') {
+            message = 'Your session was terminated due to another active login. Please log in again.';
+          }
+  
+          this.authService.sessionMessageSource.next(message); // Set the message
+          this.router.navigate(['session-expired']);
           
         }
         return throwError(error); // Re-throw the error after handling it

@@ -14,16 +14,18 @@ export class SessionPageComponent {
   constructor(private router: Router, private authService: AuthGuardsService){}
 
   changeDialog:boolean = true;
-
+  message:string = ''
   ngOnInit(){
     console.log(this.changeDialog)
-    
+    this.message = this.authService.sessionMessageSource.getValue()
   }
 
   logOut(){
     this.authService.logout();
     this.router.navigateByUrl('/');
     this.changeDialog = false;
+    this.message = '';
+    this.authService.sessionMessageSource.next('')
   }
 
 }

@@ -16,7 +16,7 @@ export class LoginService {
   userLogin(USER_ID: string, Password: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = { USER_ID, Password };
-    return this.http.post(`${this.apiUrl}/login`, body, { headers });
+    return this.http.post(`${this.apiUrl}/login-session`, body, { headers });
   }
   adminLogin(USER_ID: string, Password: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

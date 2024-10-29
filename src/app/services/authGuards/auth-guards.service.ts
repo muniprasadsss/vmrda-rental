@@ -12,7 +12,8 @@ export class AuthGuardsService implements CanActivate {
   private userRole: string | null = null;
   private apiUrl = environment.apiUrl
   private tokenCheckInterval: Subscription | undefined;
-  
+   sessionMessageSource = new BehaviorSubject<string>(''); // Holds session message
+
   constructor(private router: Router,private http: HttpClient ) {
     this.checkInitialAuth();
   }
@@ -48,20 +49,36 @@ export class AuthGuardsService implements CanActivate {
   }
 
   checkTokenValidity() {
-    this.http.get(`${this.apiUrl}/check-token`).subscribe({
+    this.http.get(`${this.apiUrl}/check-token-session`).subscribe({
       next:(res)=>{
-        if(res !== 'user session is valid'){
+        if(res !== 'User session is valid'){
           this.router.navigate(['session-expired']);
           this.stopTokenValidationCheck();
         }
         
       },
 
-      error:(err)=>{
-        if(err.error.message === "Invalid Token"){
-          this.router.navigate(['session-expired']);
-          this.stopTokenValidationCheck();
+      error:(error)=>{
+        // if(error.error.message === "Token expired due to 1-hour validity"){
+        //   this.sessionMessageSource.next()
+        //   this.router.navigate(['session-expired']);
+        //   this.stopTokenValidationCheck();
+        // }
+        // else if(error.error.message === 'Token expired due to another active login'){
+        //   console.log("Token expired due to another active login")
+        //   this.stopTokenValidationCheck();
+        // }
+        let message = 'Please log in again to continue using the app.';
+
+        if (error.error.message === 'Token expired due to 1-hour validity') {
+          message = 'Your session has expired. Please log in again to continue using the app.';
         }
+         else if (error.error.message === 'Token expired due to another active login') {
+          message = 'Your session was terminated due to another active login. Please log in again.';
+        }
+
+        this.sessionMessageSource.next(message); // Set the message
+        this.router.navigate(['session-expired']);
           
       }
     }
