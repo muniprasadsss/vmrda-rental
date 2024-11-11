@@ -335,17 +335,16 @@
         <input type="hidden" name="amount" value= />
         <input type="hidden" name="currency" value="INR"/>
         <input type="hidden" name="order_id" value={{orderID}}/>
-        <input type="hidden" name="name" value="Acme Corp"/>
-        <input type="hidden" name="description" value="A Wild Sheep Chase"/>
-        <input type="hidden" name="image" value="https://cdn.razorpay.com/logos/BUVwvgaqVByGp2_large.jpg"/>
-        <input type="hidden" name="prefill[name]" value="Gaurav Kumar"/>
-        <input type="hidden" name="prefill[contact]" value="9123456780"/>
-        <input type="hidden" name="prefill[email]" value="gaurav.kumar@example.com"/>
-        <input type="hidden" name="notes[shipping address]" value="L-16, The Business Centre, 61 Wellfield Road, New Delhi - 110001"/>
+        <input type="hidden" name="name" value="VMRDA"/>
+        <input type="hidden" name="description" value="Rental Services"/>
+        <input type="hidden" name="image" value="https://vmrdavenuebooking-images.s3.ap-south-1.amazonaws.com/VMRDA+Logo.png"/>
+        <input type="hidden" name="prefill[name]" value={{userDetailsObject.USER_NAME}}/>
+        <input type="hidden" name="prefill[contact]" value={{userDetailsObject.MOBILE_NUM}}/>
+        <input type="hidden" name="prefill[email]" value={{userDetailsObject.EMAIL_ID}}/>
         <input type="hidden" name="cancel_url" value="https://api.vmrdarental.com/payment/verify"/>
         <input type="hidden" name="callback_url" value="https://api.vmrdarental.com/payment/verify"/>
   
-        <button class="payButton">Submit</button>
+        <button class="payButton">Pay</button>
       </form>
       </div>
         </form>

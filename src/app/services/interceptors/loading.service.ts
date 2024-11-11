@@ -28,18 +28,8 @@ export class LoadingInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         // If the server is down or there’s an error, navigate to 404
-        if (error.status === 0 || error.status === 500 || error.status === 401) {
-          // console.log(error.status)
-          // if(error.error.message === 'Token expired due to 1-hour validity'){
-          //   console.log(error.error.message)
-          //   this.router.navigate(['session-expired']);
-          // }
-          // else if(error.error.message === 'Token expired due to another active login'){
-          //     console.log("Token expired due to another active login")
-          // }
-          // else if(error.status === 0 || error.status === 500){
-          //   this.router.navigate(['/404']);
-          // }
+        if ( error.status === 500 || error.status === 403) {
+
           let message = 'Please log in again to continue using the app.';
 
           if (error.error.message === 'Token expired due to 1-hour validity') {
@@ -52,6 +42,9 @@ export class LoadingInterceptor implements HttpInterceptor {
           this.authService.sessionMessageSource.next(message); // Set the message
           this.router.navigate(['session-expired']);
           
+        }
+        else if(error.status === 0 ){
+          this.router.navigate(['404']);
         }
         return throwError(error); // Re-throw the error after handling it
       }),

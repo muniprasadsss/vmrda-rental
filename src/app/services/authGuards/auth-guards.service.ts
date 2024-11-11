@@ -59,15 +59,6 @@ export class AuthGuardsService implements CanActivate {
       },
 
       error:(error)=>{
-        // if(error.error.message === "Token expired due to 1-hour validity"){
-        //   this.sessionMessageSource.next()
-        //   this.router.navigate(['session-expired']);
-        //   this.stopTokenValidationCheck();
-        // }
-        // else if(error.error.message === 'Token expired due to another active login'){
-        //   console.log("Token expired due to another active login")
-        //   this.stopTokenValidationCheck();
-        // }
         let message = 'Please log in again to continue using the app.';
 
         if (error.error.message === 'Token expired due to 1-hour validity') {

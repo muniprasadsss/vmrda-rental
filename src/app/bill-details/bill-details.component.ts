@@ -23,7 +23,7 @@ declare var Razorpay: any;
 @Component({
   selector: 'app-bill-details',
   standalone: true,
-  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent, ReactiveFormsModule],
+  imports: [PrimeNgModule, ReactiveFormsModule],
   templateUrl: './bill-details.component.html',
   styleUrls: ['./bill-details.component.scss'],
   providers: [DatePipe], // Add DatePipe here
