@@ -79,7 +79,7 @@ export class AuthGuardsService implements CanActivate {
 
         this.sessionMessageSource.next(message); // Set the message
         this.router.navigate(['session-expired']);
-          
+        this.stopTokenValidationCheck();
       }
     }
     )}

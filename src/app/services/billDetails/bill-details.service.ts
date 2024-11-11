@@ -52,8 +52,8 @@ updateBillDetails(billData: any): Observable<any> {
 
   }
 
-    createOrder(amount: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/payment/orders`, { amount });
+    createOrder(amount:any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/payment/orders`, amount );
   }
 
   verifyPayment(paymentDetails: any): Observable<any> {
