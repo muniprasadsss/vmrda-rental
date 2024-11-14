@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent, ReactiveFormsModule],
+  imports: [PrimeNgModule, ReactiveFormsModule],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
@@ -157,6 +157,7 @@ export class UserDetailsComponent implements OnInit {
           // Optionally reset the form or show a success message
           this.editForm.reset();
           this.editVisible = false; // Close the edit dialog
+          this.getuserdetails()
         },
         error: (err) => {
           console.error('Error updating user:', err);
@@ -184,9 +185,14 @@ export class UserDetailsComponent implements OnInit {
 
   validatePanInput(event: KeyboardEvent) {
     const key = event.key;
-    if (!/[A-Z0-9]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
+    if (!/[a-zA-Z0-9]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
       event.preventDefault();
     }
+  }
+
+  toUpperCase(event: Event) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.toUpperCase();
   }
 
   validateEmailInput(event: KeyboardEvent): void {

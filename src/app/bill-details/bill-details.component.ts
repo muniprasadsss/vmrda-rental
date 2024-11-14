@@ -118,7 +118,10 @@ export class BillDetailsComponent implements OnInit {
     this.userDetailsObject = JSON.parse(this.userdetails);
     this.username=this.userDetailsObject.USER_NAME
     this.getbilldetails();
-    this.getPropertyCodes();
+    if(this.userRole !== 'USER'){
+      this.getPropertyCodes();
+    }
+
 
   }
 
@@ -169,35 +172,49 @@ export class BillDetailsComponent implements OnInit {
 
   // Updated showDialog method to fetch data based on bill_no
 
-  showDialog(bill_no: string) {
+  showDialog(bill_no: any) {
     this.visible = true;
     this.showModel = true;
-    // Fetch details based on bill_no
-    this.billDetailService.getBillDetailsByBillNo(bill_no).subscribe({
-      next: (res: any) => {
-
-        if (res) {
-          this.form.patchValue({
-            s_no: res.ID,
-            bill_no: res.BillNo,
-            user_id: res.User,
-            property_code: res.Property,
-            lease_period: res.BillNo,
-            lease_Amount: res.Rental_lease_amount_permonth,
-            gst: res.GST,
-            power_bill_amount: res.Power_bill,
-            water_bill_amount: res.Water_bill,
-            maintenance_amount: res.Maintainance_bill,
-            lease_interests: res.Total_rental_interest,
-            total: res.Total
-          });
-        }
-      },
-      error: (err: any) => {
-        console.error('Error fetching bill details by bill_no:', err);
-        this.responseMsg = "Error fetching details";
-      }
+    this.form.patchValue({
+      s_no: bill_no.ID,
+      bill_no: bill_no.BillNo,
+      user_id: bill_no.User,
+      property_code: bill_no.Property,
+      lease_period: bill_no.BillNo,
+      lease_Amount: bill_no.Rental_lease_amount_permonth,
+      gst: bill_no.GST,
+      power_bill_amount: bill_no.Power_bill,
+      water_bill_amount: bill_no.Water_bill,
+      maintenance_amount: bill_no.Maintainance_bill,
+      lease_intebill_nots: bill_no.Total_rental_interest,
+      total: bill_no.Total
     });
+    // Fetch details based on bill_no
+    // this.billDetailService.getBillDetailsByBillNo(bill_no).subscribe({
+    //   next: (res: any) => {
+
+    //     if (res) {
+    //       this.form.patchValue({
+    //         s_no: res.ID,
+    //         bill_no: res.BillNo,
+    //         user_id: res.User,
+    //         property_code: res.Property,
+    //         lease_period: res.BillNo,
+    //         lease_Amount: res.Rental_lease_amount_permonth,
+    //         gst: res.GST,
+    //         power_bill_amount: res.Power_bill,
+    //         water_bill_amount: res.Water_bill,
+    //         maintenance_amount: res.Maintainance_bill,
+    //         lease_interests: res.Total_rental_interest,
+    //         total: res.Total
+    //       });
+    //     }
+    //   },
+    //   error: (err: any) => {
+    //     console.error('Error fetching bill details by bill_no:', err);
+    //     this.responseMsg = "Error fetching details";
+    //   }
+    // });
   }
   
   getbilldetails() {

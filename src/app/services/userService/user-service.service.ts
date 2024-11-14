@@ -17,20 +17,20 @@ export class UserServiceService {
   
   getUserDetailsByRole(USER_ID:any,USER_TYPE:any):Observable<any>{
 
-    return this.http.post(`${this.apiUrl}/getUserInfo`,{USER_ID,USER_TYPE})
+    return this.http.post(`${this.apiUrl}/user/getUserInfo`,{USER_ID,USER_TYPE})
   }
 
   getUserDetailsByID(sl_no: number): Observable<any> {
     
-    return this.http.get<any>(`${this.apiUrl}/getuser/${sl_no}`)   
+    return this.http.get<any>(`${this.apiUrl}/user/getuser/${sl_no}`)   
   }
   
   createUser(data: any): Observable<any> {
 
-    return this.http.post(`${this.apiUrl}/createuser`, data); // Pass data as the second argument
+    return this.http.post(`${this.apiUrl}/user/createuser`, data); // Pass data as the second argument
   }
   
   editUserDetails(data: any) {    
-    return this.http.put(`${this.apiUrl}/updateuser`, data);
+    return this.http.put(`${this.apiUrl}/user/updateuser`, data);
   }
 }

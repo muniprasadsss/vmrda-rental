@@ -94,13 +94,6 @@ export class DepartmentUsersComponent {
       REVENUE_DIVISION: customer.REVENUE_DIVISION,
     })
 
-    this.getAdminDetailsbySno(customer.SL_NO);
-    // this.form = this.fb.group({
-    //   user_id: [''],
-    //   username: [''],
-    //   mobileNo: [''],
-    //   userType: [''],
-    // });
   }
 
   updateUser() {

@@ -93,7 +93,7 @@
         <div class="form-group">
           <label for="aadhar" class="form-label">Aadhar No <span class="text-danger">*</span></label>
           <input type="text" id="aadhar" formControlName="aadhar" class="form-input" inputmode="numeric"
-            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 12)" />
           <div *ngIf="addNewForm.get('aadhar')?.invalid && addNewForm.get('aadhar')?.touched">
             <small class="text-danger">Aadhar No is required.</small>
           </div>
@@ -104,7 +104,7 @@
         <div class="form-group">
           <label for="pan" class="form-label">PAN No <span class="text-danger">*</span></label>
           <input type="text" id="pan" class="form-input" formControlName="pan" maxlength="10"
-            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" />
+            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)"  (input)="toUpperCase($event)"/>
           <div *ngIf="addNewForm.get('pan')?.invalid && addNewForm.get('pan')?.touched">
             <small class="text-danger">PAN No is required.</small>
           </div>
@@ -124,20 +124,16 @@
         <div class="form-group">
           <label for="gstin" class="form-label">GST IN <span class="text-danger">*</span></label>
           <input type="text" id="gstin" formControlName="gstIn" class="form-input" inputmode="numeric"
-            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+            (keydown)="validatePanInput($event)" (input)="toUpperCase($event)" (keydown)="limitInputLength($event, 15)" />
           <div *ngIf="addNewForm.get('gstIn')?.invalid && addNewForm.get('gstIn')?.touched">
             <small class="text-danger">GST IN is required.</small>
           </div>
         </div>
-        <!-- <div class="form-group">
-          <label for="revenue" class="form-label">Revenue Division</label>
-          <input type="text" id="revenue" formControlName="revenueDivision" class="form-input" />
-        </div> -->
       </div>
     </div>
     <div class="btn">
       <div class="save">
-        <p-button type="submit" label="Save" size="small" />
+        <p-button type="submit" label="Save" size="small"  />
       </div>
       <div class="save">
         <p-button label="Cancel" severity="danger" (click)="visible = false" size="small" />
