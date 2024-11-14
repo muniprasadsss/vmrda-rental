@@ -12,12 +12,12 @@ export class ReceptDetailsService {
   constructor(private http:HttpClient) { }
 
   getReciptDetails(USER_ID: string,USER_TYPE:string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/getReceiptInfo`,{USER_ID,USER_TYPE});
+    return this.http.post(`${this.apiUrl}/receipt/getReceiptInfo`,{USER_ID,USER_TYPE});
   }
 
 
   getBillDetails(BillNo: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/getbillsByBillNo`,{BillNo});
+    return this.http.post(`${this.apiUrl}/bills/getbillsByBillNo`,{BillNo});
   }
 
   addReceipt(value:any): Observable<any> {

@@ -17,11 +17,11 @@ export class BillDetailsService {
     }
 
     getPropertyCodes(USER_ID:string,USER_TYPE:string): Observable<any> {
-      return this.http.post<any>(`${this.apiUrl}/Allproperty`,{USER_ID,USER_TYPE})
+      return this.http.post<any>(`${this.apiUrl}/property/getPropertiesCodes`,{USER_ID,USER_TYPE})
     }
            // New method to get bill details by userid
   getBillDetailsByUserId(USER_ID: string,USER_TYPE:string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/getBillingInfo`,{USER_ID,USER_TYPE});
+    return this.http.post(`${this.apiUrl}/bills/getBillingInfo`,{USER_ID,USER_TYPE});
   }
   getOverdueBills(USER_ID: string,USER_TYPE:string): Observable<any> {
     return this.http.post(`${this.apiUrl}/overdueBills`,{USER_ID,USER_TYPE});
@@ -29,11 +29,11 @@ export class BillDetailsService {
 
        // New method to get bill details by bill_no
        getBillDetailsByBillNo(BillNo: string): Observable<any> {
-        return this.http.post<any>(`${this.apiUrl}/getbillsByBillNo`, { BillNo });
+        return this.http.post<any>(`${this.apiUrl}/bills/getbillsByBillNo`, { BillNo });
       }
 
 updateBillDetails(billData: any): Observable<any> {
-  return this.http.post<any>(`${this.apiUrl}/updatebill`, billData); // Updated endpoint
+  return this.http.post<any>(`${this.apiUrl}/bills/updatebill`, billData); // Updated endpoint
 }
 
       sendEmail(emailData: { to: string; subject: string; text: string }): Observable<any> {
@@ -42,7 +42,7 @@ updateBillDetails(billData: any): Observable<any> {
 
       updateBillDetailsByBillNo(updateData: any): Observable<any> {
         console.log(updateData,"Updated data to procedure after click on pay...");
-        return this.http.post<any>(`${this.apiUrl}/update-bill-status`, updateData); // Updated endpoint
+        return this.http.post<any>(`${this.apiUrl}/bills/updateManualBill`, updateData); // Updated endpoint
       }
 
 

@@ -36,7 +36,7 @@ export class AppComponent {
     this.authService.isAuthenticated$.subscribe(auth => {
       this.isAuthenticated = auth;
       if(this.isAuthenticated){
-        this.authService.startTokenValidationCheck();
+        // this.authService.startTokenValidationCheck();
       }
       
     });

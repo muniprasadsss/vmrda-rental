@@ -13,18 +13,18 @@ export class UserTaggingService {
   constructor(private http: HttpClient) {}
 
   createUserTagging(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/createusertagging`, userData);
+    return this.http.post(`${this.apiUrl}/user/createusertagging`, userData);
   }
 
   getUserTagging(USER_ID:string,USER_TYPE:string):Observable<any>{
-    return this.http.post(`${this.apiUrl}/getUserTagging`,{USER_ID,USER_TYPE})
+    return this.http.post(`${this.apiUrl}/user/getUserTagging`,{USER_ID,USER_TYPE})
   }
 
   editUserTagging(data: any) {    
-    return this.http.put(`${this.apiUrl}/updateusertagging`, data);
+    return this.http.put(`${this.apiUrl}/user/updateusertagging`, data);
   }
 
   getPropertys() {    
-    return this.http.get(`${this.apiUrl}/propertyNotoccupied`);
+    return this.http.get(`${this.apiUrl}/property/propertyNotoccupied`);
   }
 }
