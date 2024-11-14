@@ -1,0 +1,219 @@
+<div class="card custom-table">
+    <p-table #dt2 [value]="tableData" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+        [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
+      'description', 'propertycode', 'created_at', 'status', 'stage']">
+        <ng-template pTemplate="caption">
+            <div class="flex" style="display: flex;justify-content: space-between;">
+                <div>
+                    <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+                    </p-iconField>
+                </div>
+                <div>
+                    <button class="closedButton" (click)="RejectedDiv()">Closed Tickets</button>
+                    <span style="border-left: 5px solid white;height: 1rem;"></span>
+                    <button *ngIf="userRole === 'USER'" class="addNewButton" (click)="addRequestDiv()">New
+                        Request</button>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr style="font-size: 12px; padding: 0;">
+                <!-- <th pSortableColumn="id" *ngIf="userRole !== 'USER'">ID <p-sortIcon field="id"></p-sortIcon></th> -->
+                <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
+                <th pSortableColumn="username" *ngIf="userRole !== 'USER'">Username <p-sortIcon
+                        field="username"></p-sortIcon></th>
+                <th pSortableColumn="userId" *ngIf="userRole !== 'USER'">User ID <p-sortIcon
+                        field="userId"></p-sortIcon></th>
+                <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
+                <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon>
+                </th>
+                <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
+                <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
+                <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                <th *ngIf="userRole !== 'USER'" pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon>
+                </th>
+                <th></th>
+                <th *ngIf="userRole !== 'USER'">Change Status</th>
+
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+            <tr style="font-size: 12px;">
+                <!-- <td *ngIf="userRole !== 'USER'">{{ item.id }}</td> -->
+                <td>{{ item.cr_number }}</td>
+                <td *ngIf="userRole !== 'USER'">{{ item.username }}</td>
+                <td *ngIf="userRole !== 'USER'">{{ item.userId }}</td>
+                <td>{{ item.requesttype }}</td>
+                <td>{{ item.revenuedivision }}</td>
+                <td class="wrap-text">{{ item.description }}</td>
+                <td>{{ item.propertycode }}</td>
+                <td>{{ item.created_at | date: 'YYYY-MM-dd'}}</td>
+                <td>{{ item.status}}</td>
+                <td *ngIf="userRole !== 'USER'" style="width: 10%;">{{ item.stage}}</td>
+                <td *ngIf="item.attachment !== null" pTooltip=" Download Attachment " tooltipPosition="left"
+                    (click)="downloadFile(item.attachment)"><i class="pi pi-paperclip" style="color: slateblue"></i>
+                </td>
+                <td *ngIf="item.attachment === null "></td>
+                <td *ngIf="userRole !== 'USER'" style="width: 10%;" >
+                    <select class="custom-select" 
+                            [(ngModel)]="item.action" [disabled]="isSelectDisabled(item.stage,item.status)"
+                            (ngModelChange)="changeStatus(item.cr_number, item.requesttype, item.status, item.stage, item.action,rowIndex)">
+                      <!-- Default "Select" option: Disabled and only selected when item.action is null or undefined -->
+                      <option [ngValue]="null" disabled>Select</option>
+                      <!-- Other options -->
+                      <option [ngValue]="'Recommend'" *ngIf="shouldShowButton('Recommend')">Recommend</option>
+                      <option [ngValue]="'Approval'" *ngIf="shouldShowButton('Approval')">Approval</option>
+                      <option [ngValue]="'Close'" *ngIf="shouldShowButton('Close')">Close</option>
+                    </select>
+                  </td>
+                  
+
+
+
+
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="13">No data found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+<!-- Confirmation Modal  -->
+<p-dialog header="" [(visible)]="isDialogVisible" modal="modal" [style]="{'width': '30vw','height': '60vh'}"
+    (onHide)="onHide()" (keydown)="handleKeyDown($event)">
+    <div style="display: flex;flex-direction:column;align-items: center;">
+        <div>
+            <p>Please Enter Remarks</p>
+        </div>
+        <div class="card flex justify-content-center">
+            <textarea rows="5" cols="30" variant="filled" pInputTextarea required [(ngModel)]="remarks">
+            </textarea>
+        </div>
+        <div style="margin-top: 20px;">
+            <button style="padding: 10px 20px;border: none;background-color: green;color: white;"
+                (click)="submitChangeAction()">Save</button>
+        </div>
+    </div>
+</p-dialog>
+
+
+<!-- popup only for user with rejected status -->
+
+<p-dialog header="Closed Tickets" [modal]="true" [(visible)]="showrejecteddata" [style]="{ width: '75rem' }">
+    <p-table #dt2 [value]="rejectedRecordes" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+        [paginator]="true" [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
+     'attachment', 'description', 'propertycode', 'created_at', 'status', 'stage']">
+        <ng-template pTemplate="caption">
+            <div class="flex" style="display: flex;justify-content: space-between;">
+                <div>
+                    <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+                    </p-iconField>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr style="font-size: 12px; padding: 0;">
+                <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
+                <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
+                <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
+                <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
+                <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon>
+                </th>
+                <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
+                <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
+                <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-item>
+            <tr style="font-size: 12px;">
+                <td>{{ item.cr_number }}</td>
+                <td>{{ item.username }}</td>
+                <td>{{ item.userId }}</td>
+                <td>{{ item.requesttype }}</td>
+                <td>{{ item.revenuedivision }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.propertycode }}</td>
+                <td>{{ item.created_at | date: 'YYYY-MM-dd' }}</td>
+                <td>{{ item.status}}</td>
+                <td *ngIf="item.attachment !== null" pTooltip="Download Attachment" tooltipPosition="left"
+                    (click)="downloadFile(item.attachment)"><i class="pi pi-paperclip" style="color: slateblue"></i>
+                </td>
+                <td *ngIf="item.attachment === null "></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<!-- Popup form for adding request  -->
+
+
+<p-dialog header="Request Form" [modal]="true" [(visible)]="addrequestdata" [style]="{ width: '50rem' }">
+    <div class="form-container">
+        <form [formGroup]="addRequestForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="propertycode" class="form-label">Property Code <span class="text-danger" >*</span></label>
+                    <select class="form-input"  formControlName="propertyCode">
+                        <option value="" selected>Select Request</option>
+                        <option *ngFor="let property of propertyList" [value]="property">{{property}}</option>
+                    </select>
+                    <div *ngIf="addRequestForm.get('propertyCode')?.invalid && addRequestForm.get('propertyCode')?.touched">
+                        <small class="text-danger">Property Code is required.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="requesttype" class="form-label">Request Type <span class="text-danger" >*</span></label>
+                    <select class="form-input"  formControlName="requestType">
+                        <option value="" selected>Select Request</option>
+                        <option *ngFor="let property of data" [value]="property">{{property}}</option>
+                    </select>
+                    <div *ngIf="addRequestForm.get('requestType')?.invalid && addRequestForm.get('requestType')?.touched">
+                        <small class="text-danger">Request Type is required.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fileupload" class="form-label">Upload <span class="text-danger" >*</span></label>
+                    <input type="file" id="fileupload" class="form-input" (change)="onFileChange($event)" />
+                    <small class="input-format-info">Upload file size limit: 10MB</small>
+                </div>
+
+            </div>
+            <div class="form-row">
+            </div>
+            <div class="form-row" style="justify-content: center;">
+                <div class="form-group">
+                    <label for="description" class="form-label">Description <span class="text-danger" >*</span></label>
+                    <textarea rows="10" cols="100" id="description" class="form-input"
+                        formControlName="description"></textarea>
+                        <div *ngIf="addRequestForm.get('description')?.invalid && addRequestForm.get('description')?.touched">
+                            <small class="text-danger">Description is required.</small>
+                        </div>
+                </div>
+            </div>
+            <div class="btn">
+                <p-button type="submit" label="Submit" size="small" (click)="onSubmit()"></p-button>
+                <p-button label="Cancel" severity="danger" size="small" (click)="addrequestdata = false"></p-button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
