@@ -30,7 +30,7 @@ export class DepartmentUsersComponent {
       user_id: ['',Validators.required],
       username: ['',Validators.required],
       mobileNo: ['',Validators.required],
-      email_id: ['',Validators.required,Validators.email],
+      email_id: ['',[Validators.required,Validators.email]],
       userType: ['',Validators.required],
       password: ['',Validators.required],
       revenueDivision: ['',Validators.required],

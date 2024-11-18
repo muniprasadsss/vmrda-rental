@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent, ReactiveFormsModule],
+  imports: [PrimeNgModule, ReactiveFormsModule],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
@@ -43,7 +43,7 @@ export class UserDetailsComponent implements OnInit {
       natureOfBusiness: ['', Validators.required],
       aadhar: ['', Validators.required],
       pan: ['', Validators.required],
-      email_id: ['', Validators.required,Validators.email],
+      email_id: ['', [Validators.required,Validators.email]],
       gstIn: ['', Validators.required],
     });
     this.editForm = this.fb.group({
