@@ -11,7 +11,7 @@ FormsModule
 @Component({
   selector: 'app-assets',
   standalone: true,
-  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent, FormsModule, ReactiveFormsModule],
+  imports: [PrimeNgModule, FormsModule, ReactiveFormsModule],
   templateUrl: './assets.component.html',
   styleUrl: './assets.component.scss'
 })

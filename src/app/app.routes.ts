@@ -14,12 +14,15 @@ import { DepartmentUsersComponent } from './department-users/department-users.co
 import { IssueNoticeComponent } from './issue-notice/issue-notice.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SessionPageComponent } from './session-expired/session-page/session-page.component';
+import { LunchVideoComponent } from './lunch-video/lunch-video.component';
 
 
 export const routes: Routes = [
 
     
-    {path: '',component:LoginComponent},
+    
+    { path: '', component: LunchVideoComponent },
+    {path: 'login',component:LoginComponent},
     { path: 'dashboard', component: DashboardComponent, 
         canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','USER','ADMIN'] } },
     { path: 'assets', component: AssetsComponent, 

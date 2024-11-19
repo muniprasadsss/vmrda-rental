@@ -1,0 +1,16 @@
+<div *ngIf="!videoEnded">
+    <video #videoPlayer width="300" autoplay muted  (ended)="onVideoEnd()">
+      <source src="../../assets/VMRDA Application Launch.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <button *ngIf="!videoPlaying" class="launch-btn" (click)="playVideo()">Launch Application</button>
+  </div>
+  
+  <!-- lunch-video.component.html -->
+<!-- <div *ngIf="!videoEnded">
+  <video width="600" controls (ended)="onVideoEnd()">
+    <source src="../../assets/VMRDA - Google Chrome 2024-10-25 14-54-08.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <button (click)="onVideoEnd()">Skip Video</button>
+</div> -->
