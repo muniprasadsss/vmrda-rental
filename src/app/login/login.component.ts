@@ -155,6 +155,7 @@ export class LoginComponent {
           response => {
             console.log('Password changed successfully:', response);
             this.toasterservice.success('Password changed successfully!'); // Show success message
+            
             this.forgotPasswordDiv = false;
             this.isNewPassword = false;
           },

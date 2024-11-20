@@ -182,9 +182,15 @@ export class UserDetailsComponent implements OnInit {
     }
   }
 
+  // This method ensures the input value is always uppercase
+convertToUpperCase(event: Event): void {
+  const inputElement = event.target as HTMLInputElement;
+  inputElement.value = inputElement.value.toUpperCase();
+}
+
   validatePanInput(event: KeyboardEvent) {
     const key = event.key;
-    if (!/[A-Z0-9]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
+    if (!/[a-zA-Z0-9]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
       event.preventDefault();
     }
   }

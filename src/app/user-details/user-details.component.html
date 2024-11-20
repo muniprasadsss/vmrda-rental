@@ -13,7 +13,7 @@
               <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
             </p-iconField>
           </div>
-          <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+          <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN')">
             <p-button (click)="showDialog()" label=" + Add New" severity="success" size="small" />
           </div>
         </div>
@@ -30,7 +30,7 @@
           <th>Email Id</th>
           <th>GSTIN</th>
           <!-- <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th> -->
-          <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
+          <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' )"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-customer>
@@ -45,9 +45,9 @@
           <td style="width: 9%;">{{ customer.EMAIL_ID }}</td>
           <td style="width: 6%;">{{ customer.GST_IN }}</td>
           <td style="width: 6%;"
-            *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+            *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN')">
             <div class="rowbtn">
-              <button class="editButton" pTooltip="Edit Tenent" tooltipPosition="left"
+              <button class="editButton" pTooltip="Edit Tenant" tooltipPosition="left"
                 (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
             </div>
           </td>
@@ -93,7 +93,7 @@
         <div class="form-group">
           <label for="aadhar" class="form-label">Aadhar No <span class="text-danger">*</span></label>
           <input type="text" id="aadhar" formControlName="aadhar" class="form-input" inputmode="numeric"
-            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 12)" />
           <div *ngIf="addNewForm.get('aadhar')?.invalid && addNewForm.get('aadhar')?.touched">
             <small class="text-danger">Aadhar No is required.</small>
           </div>
@@ -104,7 +104,7 @@
         <div class="form-group">
           <label for="pan" class="form-label">PAN No <span class="text-danger">*</span></label>
           <input type="text" id="pan" class="form-input" formControlName="pan" maxlength="10"
-            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" />
+            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" (input)="convertToUpperCase($event)" />
           <div *ngIf="addNewForm.get('pan')?.invalid && addNewForm.get('pan')?.touched">
             <small class="text-danger">PAN No is required.</small>
           </div>
