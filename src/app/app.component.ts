@@ -50,7 +50,7 @@ export class AppComponent implements OnInit{
     this.userType = localStorage.getItem('role')
     if(this.userType !== undefined){
       if(this.userType === 'USER'){
-        this.router.navigateByUrl("billDetails")
+        this.router.navigateByUrl("billDetails");
       }else{
         this.router.navigateByUrl("user")
       }
