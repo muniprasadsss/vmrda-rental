@@ -13,7 +13,7 @@ import { BillDetailsService } from '../services/billDetails/bill-details.service
 @Component({
   selector: 'app-receipt-details',
   standalone: true,
-  imports: [PrimeNgModule,HeaderComponent,DashboardComponent,FooterComponent,ReactiveFormsModule],
+  imports: [PrimeNgModule,ReactiveFormsModule],
   templateUrl: './receipt-details.component.html',
   styleUrl: './receipt-details.component.scss'
 })

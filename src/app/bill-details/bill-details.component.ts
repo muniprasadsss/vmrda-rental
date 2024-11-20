@@ -34,6 +34,7 @@ export class BillDetailsComponent implements OnInit {
     subject: 'Test Email from Angular',
     text: 'Hello! This is a test email sent from the Angular frontend using Nodemailer backend.',
   };
+  razorpay_key_id:string = 'rzp_live_SoaxyQXKUe6WFi';
   visible: boolean = false;
   responseMsg: string | undefined;
   dataSource!: billDetails[];

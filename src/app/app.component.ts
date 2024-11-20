@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeaderComponent } from "./header/header.component";
@@ -16,12 +16,12 @@ import { filter } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'VMRDA';
   isAuthenticated: boolean = false;
   showComponents: boolean = false;
   constructor(private authService: AuthGuardsService, private cdr: ChangeDetectorRef,private router:Router) {
-       // Listen to route changes
+      //  Listen to route changes
        this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: any) => {
         // Check if the current URL is the 404 page
         if (event.url === '/page-not-found' || event.url === '/404') {
@@ -33,6 +33,13 @@ export class AppComponent {
   }
     userType:any;
   ngOnInit() {
+    const videoPlayed = localStorage.getItem('videoPlayed');
+    if (videoPlayed === undefined) {
+      this.router.navigateByUrl('');
+    }
+    else{
+      this.router.navigateByUrl('/login');
+    }
     this.authService.isAuthenticated$.subscribe(auth => {
       this.isAuthenticated = auth;
       if(this.isAuthenticated){

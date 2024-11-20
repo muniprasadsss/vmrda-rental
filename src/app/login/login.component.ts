@@ -12,7 +12,7 @@ import { ProfileSettingsService } from '../services/profileSettings/profile-sett
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,PrimeNgModule,RouterOutlet],
+  imports: [FormsModule,PrimeNgModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

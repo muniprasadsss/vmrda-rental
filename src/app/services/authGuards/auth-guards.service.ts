@@ -13,9 +13,20 @@ export class AuthGuardsService implements CanActivate {
   private apiUrl = environment.apiUrl
   private tokenCheckInterval: Subscription | undefined;
    sessionMessageSource = new BehaviorSubject<string>(''); // Holds session message
-
+   private hasVisited: boolean;
   constructor(private router: Router,private http: HttpClient ) {
     this.checkInitialAuth();
+    this.hasVisited = localStorage.getItem('hasVisited') === 'true';
+  }
+
+
+  isFirstTime(): boolean {
+    return !this.hasVisited;
+  }
+
+  markAsVisited(): void {
+    this.hasVisited = true;
+    localStorage.setItem('hasVisited', 'true');
   }
 
   private checkInitialAuth() {
