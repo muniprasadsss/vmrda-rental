@@ -15,7 +15,7 @@ import { UserServiceService } from '../services/userService/user-service.service
 @Component({
   selector: 'app-change-request',
   standalone: true,
-  imports: [PrimeNgModule, FormsModule, HeaderComponent, DashboardComponent, FooterComponent, ReactiveFormsModule],
+  imports: [PrimeNgModule, FormsModule, ReactiveFormsModule],
   templateUrl: './change-request.component.html',
   styleUrl: './change-request.component.scss'
 })

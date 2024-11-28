@@ -73,7 +73,7 @@
               <i class="pi pi-file-pdf" style="color: red;"></i>
             </button>
           </td>
-          <td *ngIf="userRole !== 'USER'" pTooltip=" Generate Bill " tooltipPosition="left">
+          <td *ngIf="userRole !== 'USER' && userRole !== 'IT-TEAM'" pTooltip=" Generate Bill " tooltipPosition="left">
             <div class="rowbtn">
               <button class="editButton" *ngIf="bill.BillStatus !== 'Active'" (click)="showDialog(bill.BillNo)">
                 <i class="pi pi-pencil"></i>
@@ -306,11 +306,11 @@
             <input type="text" id="billGeneratedDate" class="form-input" formControlName="billGeneratedDate" />
           </div>
           <div class="form-group">
-            <label for="total" class="form-label">Total</label>
+            <label for="total" class="form-label">Total Due</label>
             <input type="number" id="total"  class="form-input" formControlName="total"/>
            </div>
            <div class="form-group">
-            <label for="paymentAmount" class="form-label">Payment Amount</label>
+            <label for="paymentAmount" class="form-label">Partial Amount Paid</label>
             <input type="number" id="paymentAmount"  class="form-input" formControlName="paymentAmount"/>
            </div>
         </div>
@@ -320,7 +320,7 @@
             <input type="number" id="due" class="form-input" formControlName="tds" />
           </div>
           <div class="form-group">
-            <label for="due" class="form-label">Total Due</label>
+            <label for="due" class="form-label">Payment Amount</label>
             <input type="number" id="due" class="form-input" formControlName="due" />
           </div>
         </div>

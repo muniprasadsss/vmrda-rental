@@ -21,11 +21,12 @@ export class DepartmentUsersComponent {
   form!: FormGroup;
   editForm!: FormGroup;
   selectedUser: departmentusers | null = null;
+  userRole: string| null = '';
 
   constructor(private admindetailsservice: DepartmentUsersService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-
+    this.userRole = localStorage.getItem('role')
     this.form = this.fb.group({
       user_id: ['',Validators.required],
       username: ['',Validators.required],

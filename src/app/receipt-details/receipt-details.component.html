@@ -11,7 +11,7 @@
             <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
           </p-iconField>
         </div>
-        <p-button *ngIf=" userRole !== 'USER'" (click)="showDialog()" label=" + Add New" severity="success"
+        <p-button *ngIf=" userRole !== 'USER' && userRole !== 'IT-TEAM' " (click)="showDialog()" label=" + Add New" severity="success"
           size="small" />
 
       </div>

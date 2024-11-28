@@ -14,7 +14,7 @@
             </p-iconField>
           </div>
           <div class="dialog">
-            <p-button (click)="showAddDialog()" label=" + Add New" severity="success" size="small" />
+            <p-button (click)="showAddDialog()" *ngIf="userRole !== 'IT-TEAM' " label=" + Add New" severity="success" size="small" />
           </div>
         </div>
       </ng-template>
@@ -39,8 +39,8 @@
           <td style="width: 8%;">{{ customer.EMAIL_ID }}</td>
           <td style="width: 6%;">{{ customer.USER_TYPE }}</td>
           <td style="width: 8%;">{{ customer.REVENUE_DIVISION }}</td>
-          <td style="width: 6%;">
-            <div class="rowbtn">
+          <td style="width: 6%;" >
+            <div class="rowbtn" *ngIf="userRole !== 'IT-TEAM' ">
               <button class="editButton" pTooltip="Edit User" tooltipPosition="left" (click)="showEditDialog(customer)">
                 <i class="pi pi-pencil"></i>
               </button>

@@ -33,13 +33,6 @@ export class AppComponent implements OnInit{
   }
     userType:any;
   ngOnInit() {
-    const videoPlayed = localStorage.getItem('videoPlayed');
-    if (videoPlayed === undefined) {
-      this.router.navigateByUrl('');
-    }
-    else{
-      this.router.navigateByUrl('/login');
-    }
     this.authService.isAuthenticated$.subscribe(auth => {
       this.isAuthenticated = auth;
       if(this.isAuthenticated){

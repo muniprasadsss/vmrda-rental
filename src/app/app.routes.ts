@@ -14,35 +14,31 @@ import { DepartmentUsersComponent } from './department-users/department-users.co
 import { IssueNoticeComponent } from './issue-notice/issue-notice.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SessionPageComponent } from './session-expired/session-page/session-page.component';
-import { LunchVideoComponent } from './lunch-video/lunch-video.component';
+
 
 
 export const routes: Routes = [
-
-    
-    
-    { path: '', component: LunchVideoComponent },
-    {path: 'login',component:LoginComponent},
+    {path: '',component:LoginComponent},
     { path: 'dashboard', component: DashboardComponent, 
-        canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','USER','ADMIN'] } },
+        canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','USER','ADMIN','IT-TEAM'] } },
     { path: 'assets', component: AssetsComponent, 
-        canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
+        canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','ADMIN','IT-TEAM'] } },
     { path: 'user', component: UserDetailsComponent,
-        canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
+        canActivate: [AuthGuardsService], data: { role: ['RD', 'AO', 'SECRETARY', 'COMMISSIONER','ADMIN','IT-TEAM'] } },
     { path: 'userTagging', component: UserTaggingsComponent,
-         canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER','RD','ADMIN'] } },
+         canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER','RD','ADMIN','IT-TEAM'] } },
     { path: 'billDetails', component: BillDetailsComponent,
-         canActivate: [AuthGuardsService], data: { role: ['RD', 'AO','USER','ADMIN'] } },
+         canActivate: [AuthGuardsService], data: { role: ['RD', 'AO','USER','ADMIN','IT-TEAM'] } },
     { path: 'receptDetails', component: ReceiptDetailsComponent, 
-        canActivate: [AuthGuardsService], data: { role: ['RD', 'AO','USER','ADMIN'] } },
+        canActivate: [AuthGuardsService], data: { role: ['RD', 'AO','USER','ADMIN','IT-TEAM'] } },
     { path: 'transactionTracking', component: TransactionTrackingComponent, 
-        canActivate: [AuthGuardsService], data: { role: ['RD', 'AO','ADMIN'] } },
+        canActivate: [AuthGuardsService], data: { role: ['RD', 'AO','ADMIN','IT-TEAM'] } },
     { path: 'changeRequest', component: ChangeRequestComponent, 
-        canActivate: [AuthGuardsService], data: { role: ['RD','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','USER'] } },
+        canActivate: [AuthGuardsService], data: { role: ['RD','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','USER','IT-TEAM'] } },
     { path: 'reports', component: ReportsComponent,
-         canActivate: [AuthGuardsService], data: { role: ['RD','AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
-    { path: 'departmentusers', component: DepartmentUsersComponent, canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER','ADMIN'] } },
-    { path: 'issueNotice', component: IssueNoticeComponent, canActivate: [AuthGuardsService], data: { role: ['RD','AO','ADMIN'] } },
+         canActivate: [AuthGuardsService], data: { role: ['RD','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','IT-TEAM'] } },
+    { path: 'departmentusers', component: DepartmentUsersComponent, canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER','ADMIN','IT-TEAM'] } },
+    { path: 'issueNotice', component: IssueNoticeComponent, canActivate: [AuthGuardsService], data: { role: ['RD','AO','ADMIN','IT-TEAM'] } },
     { path: 'session-expired', component: SessionPageComponent},
     {path:'**',component:PageNotFoundComponent}
 

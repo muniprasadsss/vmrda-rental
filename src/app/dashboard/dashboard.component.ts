@@ -8,7 +8,7 @@ import { HeaderComponent } from "../header/header.component";
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [PrimeNgModule, RouterOutlet, FooterComponent, HeaderComponent],
+  imports: [PrimeNgModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
