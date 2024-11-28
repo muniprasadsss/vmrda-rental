@@ -21,7 +21,8 @@
             placeholder="Select Property" />
         </div>
           <div class="dialog">
-            <p-button (onClick)="showDialog1()" label="History" severity="success" size="small" />
+            <!-- <p-button (onClick)="showDialog1()" label="History" severity="success" size="small" /> -->
+            <button  class="addbutton" (click)="showDialog1()">History</button>
           </div>
 
         </div>
@@ -69,7 +70,7 @@
           <td style="width: 8%;">{{ bill.Status }}</td>
           <td style="width: 8%;">{{ bill.BillStatus }}</td>
           <td>
-            <button *ngIf=" userRole !== 'USER' " pTooltip="Download GST Bill" tooltipPosition="left" (click)="downloadGSTBill(bill.BillNo)">
+            <button *ngIf=" userRole !== 'USER' " pTooltip="Download GST Bill" tooltipPosition="left" (click)="downloadGSTBill(bill.BillNo)" style="border: none;background: none;">
               <i class="pi pi-file-pdf" style="color: red;"></i>
             </button>
           </td>
@@ -188,7 +189,7 @@
 <!-- history -->
 
   <div class="dialog">
-    <p-dialog header="History"  [modal]="true" [(visible)]="visible1" position="center" [style]="{ width: '80rem' }">
+    <p-dialog header="History"  [modal]="true" [(visible)]="visible1" position="center" [style]="{ width: '72rem' }">
   <p-table [value]="paidBills" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
   <ng-template pTemplate="caption">
   </ng-template>

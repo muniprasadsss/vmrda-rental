@@ -106,3 +106,29 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: red;
 }
 
+// .addbutton{
+//   border: none;
+//   // background: none;
+//   padding: 10px 12px;
+//   color: white;
+//   background-color: #4CAF50;
+// }
+
+.addbutton {
+  display: inline-block;
+  // background-color: #1fac3f; /* Bootstrap success color */
+  background-color: #1ebc41; 
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.6rem 0.7rem;
+  font-size: 14px;
+  font-weight: 700 !important;
+  cursor: pointer;
+}
+.addbutton:hover {
+  background-color: #17a34a; /* Darken the green slightly */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+}
+
+

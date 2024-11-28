@@ -24,8 +24,10 @@
             <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
           </p-iconField>
         </div>
-        <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN')">
-          <p-button (onClick)="showDialog()" label=" + Add New" severity="success" size="small"></p-button>
+        <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
+          <!-- <p-button (onClick)="showDialog()" label=" + Add New" severity="success" size="small"></p-button> -->
+          <button  class="addbutton" (click)="showDialog()">+ Tag New Assets</button>
+
         </div>
       </div>
     </ng-template>
@@ -38,18 +40,18 @@
         <th>Property Code</th>
         <th pSortableColumn="START_DATE">Start Date<p-sortIcon field="START_DATE"></p-sortIcon></th>
         <th pSortableColumn="END_DATE">End Date<p-sortIcon field="END_DATE"></p-sortIcon></th>
-        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">DATE OF RENEWAL<p-sortIcon
+        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">Date of Renewal<p-sortIcon
             field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
         <th>Lease Amount</th>
         <th>Lease Go Live</th>
-        <th>LEASE PERIOD</th>
+        <th>Lease Period</th>
         <th pSortableColumn="RENTAL_INTRESET_PERCENT">Lease Interest%<p-sortIcon
             field="RENTAL_INTRESET_PERCENT"></p-sortIcon></th>
         <th pSortableColumn="RENTAL_HIKE_PERCENT">Lease Hike%<p-sortIcon field="RENTAL_HIKE_PERCENT"></p-sortIcon></th>
         <th>GST%</th>
         <!-- <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th> -->
-        <th pSortableColumn="LEASE_DEED_NO">LEASE DEED Number<p-sortIcon field="LEASE_DEED_NO"></p-sortIcon></th>
-        <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN')"></th>
+        <th pSortableColumn="LEASE_DEED_NO">Lease Deed Number<p-sortIcon field="LEASE_DEED_NO"></p-sortIcon></th>
+        <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"></th>
       </tr>
     </ng-template>
 
@@ -69,7 +71,7 @@
         <td style="width: 6%;">{{ lease.RENTAL_HIKE_PERCENT }}</td>
         <td style="width: 6%;">{{ lease.GST }}</td>
         <td style="width: 6%;">{{ lease.LEASE_DEED_NO }}</td>
-        <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN')">
+        <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
           <div class="rowbtn">
             <button class="editButton" pTooltip="Edit Tagging" tooltipPosition="left" (click)="editUser(lease)"><i
                 class="pi pi-pencil"></i></button>

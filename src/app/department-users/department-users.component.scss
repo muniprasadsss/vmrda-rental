@@ -12,7 +12,7 @@
     flex-direction: row;
     justify-content: center;
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 /* Container to center the form */
 .form-container {
@@ -24,7 +24,7 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;           // changed to overcome scroller in department users
   }
   
   .form-group {

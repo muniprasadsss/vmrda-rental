@@ -1,0 +1,106 @@
+<div class="content">
+    <div class="card" style="padding: 1rem;">
+      <p-table #dt2 [value]="dataSource" [globalFilterFields]="['PROPERTY_NO', 'PROPERTY_CODE', 'LOCATION', 'EXTENT', 'FLOOR', 'Status', 'Type of Property', 'AUCTION_DATE']" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+          <tr style="font-size: 12px;">
+              <th>Property NO</th>
+              <th>Property Code</th>
+              <th>Location</th>
+              <th>Extent (sqm)</th>
+              <th>Floor</th>
+              <th>Status</th>
+              <th>Type of Property</th>
+              <th *ngIf="( userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')" pSortableColumn="AUCTION_DATE">Auction Date<p-sortIcon field="AUCTION_DATE"/></th>
+              <th>Actions</th>
+          </tr>
+      </ng-template>   
+      <ng-template pTemplate="body" let-data>
+        <tr style="font-size: 12px;">
+            <td>{{ data.PROPERTY_NO }}</td>
+            <td>{{ data.PROPERTY_CODE }}</td>
+            <td>{{ data.LOCATION }}</td>
+            <td>{{ data.EXTENT }} sqm</td>
+            <td>{{ data.FLOOR }}</td>
+            <td>{{ data.STATUS }}</td>
+            <td>{{ data.TYPE_OF_PROPERTY }}</td>
+            <td>{{ data.AUCTION_DATE | date:'dd-MM-yyyy' }}</td>
+            <td  *ngIf="( userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
+                <button class="editButton" (click)="openEditDialog(data)" pTooltip="Edit Auction Date" tooltipPosition="bottom">
+                  <i class="pi pi-pencil"></i>
+                </button>
+                <!-- <span class="toltip">Edit Auction Date</span> -->
+
+            </td>
+        </tr>
+    </ng-template>       
+        <ng-template pTemplate="caption">
+      
+          <div class="searchbar">
+            <div class="search">
+              <p-iconField iconPosition="left" class="ml-auto">
+                <p-inputIcon>
+                  <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+              </p-iconField>
+            </div>
+          </div>
+
+        </ng-template>
+      </p-table>
+    </div>
+</div>
+
+<!-- Edit Dialog  -->
+
+<p-dialog header="Edit Property" [(visible)]="editVisible" [modal]="true" position="center" [style]="{ width: '50rem' }">
+    <form [formGroup]="editForm" (ngSubmit)="updateUser()">
+      <div class="form-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="PropertyNo" class="form-label">Property No</label>
+            <input type="text" id="PropertyNo" formControlName="editPropertyNo" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="PropertyCode" class="form-label">Property Code</label>
+            <input type="text" id="PropertyCode" formControlName="editPropertyCode" class="form-input" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="Location" class="form-label">Location</label>
+            <input type="text" id="Location" formControlName="editLocation" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="Extent" class="form-label">Extent (sqm)</label>
+            <input type="number" id="Extent" formControlName="editExtent" class="form-input" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="Floor" class="form-label">Floor</label>
+            <input type="text" id="Floor" formControlName="editFloor" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="Status" class="form-label">Status</label>
+            <input type="text" id="Status" formControlName="editStatus" class="form-input" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="TypeOfProperty" class="form-label">Type of Property</label>
+            <input type="text" id="TypeOfProperty" formControlName="editTypeOfProperty" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="AuctionDate" class="form-label">Auction Date</label>
+            <input type="date" id="AuctionDate" formControlName="editAuctionDate" class="form-input" [min]="currentdate"/>
+          </div>
+        </div>
+      </div>
+      <div class="btn">
+        <div class="save">
+          <p-button type="submit" label="Update" size="small"></p-button>
+        </div>
+      </div>
+    </form>
+  </p-dialog>

@@ -27,7 +27,7 @@
           <th>Email ID</th>
           <th>User Type</th>
           <th pSortableColumn="REVENUE_DIVISION">Revenue Division<p-sortIcon field="REVENUE_DIVISION" /></th>
-          <th></th>
+          <th *ngIf="userRole !== 'IT-TEAM' && userRole !== 'CAOCC'"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-customer>
@@ -40,7 +40,7 @@
           <td style="width: 6%;">{{ customer.USER_TYPE }}</td>
           <td style="width: 8%;">{{ customer.REVENUE_DIVISION }}</td>
           <td style="width: 6%;" >
-            <div class="rowbtn" *ngIf="userRole !== 'IT-TEAM' ">
+            <div class="rowbtn" *ngIf="userRole !== 'IT-TEAM' && userRole !== 'CAOCC'">
               <button class="editButton" pTooltip="Edit User" tooltipPosition="left" (click)="showEditDialog(customer)">
                 <i class="pi pi-pencil"></i>
               </button>

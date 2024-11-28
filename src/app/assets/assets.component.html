@@ -15,9 +15,13 @@
                     <p-dropdown [options]="complex" (onChange)="onSelectGlobal($event.value)"
                         placeholder="Select Location" />
                 </div>
-                <p-button (onClick)="showDialog()"
-                    *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"
-                    label=" + Add New" severity="success" size="small" />
+                <!-- <p-button (onClick)="showDialog()"
+                    *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"
+                    label=" + Add New" severity="success" size="small" /> -->
+<div *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
+             <button  class="addbutton" (click)="showDialog()">+ Add New Assets</button>
+</div>
+
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -32,7 +36,7 @@
                 <th pSortableColumn="REVENUE_DIVISION">Revenue Division <p-sortIcon field="REVENUE_DIVISION" /></th>
                 <th pSortableColumn="STATUS">Status <p-sortIcon field="STATUS" /></th>
                 <th>Type of Property</th>
-                <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
+                <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"></th>
 
 
             </tr>
@@ -49,7 +53,7 @@
                 <td style="width: 12%;">{{ location.REVENUE_DIVISION }}</td>
                 <td style="width: 7%;">{{ location.STATUS }}</td>
                 <td style="width: 10%;">{{ location.TYPE_OF_PROPERTY }}</td>
-                <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+                <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
                     <div class="rowbtn">
                         <button class="editButton" pTooltip="Edit Asset" tooltipPosition="left"
                             (click)="onEdit(location)">
