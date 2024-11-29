@@ -270,7 +270,7 @@ export class ChangeRequestComponent implements OnInit {
       case 'RD':
         return !(stage === 'Pending with RI' && status === 'Pending');
       case 'AO':
-        return !((stage === 'recommended for ao' || stage === 'Waiting for AO Approval' ) &&
+        return !((stage === 'Recommended for AO' || stage === 'Waiting for AO Approval' ) &&
         status === 'Pending');
       case 'SECRETARY':
         return !(stage === 'Recommended for Secretray' && status === 'Pending');
