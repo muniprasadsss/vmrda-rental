@@ -65,11 +65,6 @@ export class AuthGuardsService implements CanActivate {
   checkTokenValidity() {
     this.http.get<TokenValidityResponse>(`${this.apiUrl}/check-token-session`).subscribe({
       next:(res)=>{
-        if(res.success !== true){
-          this.router.navigate(['session-expired']);
-          this.stopTokenValidationCheck();
-        }
-        
       },
 
       error:(error)=>{
