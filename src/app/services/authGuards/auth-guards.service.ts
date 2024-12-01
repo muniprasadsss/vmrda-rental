@@ -3,10 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { environment } from '../configuration';
 import { BehaviorSubject, interval, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-interface TokenValidityResponse {
-  success: boolean;
-  message: string;
-}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -63,7 +60,7 @@ export class AuthGuardsService implements CanActivate {
   }
 
   checkTokenValidity() {
-    this.http.get<TokenValidityResponse>(`${this.apiUrl}/check-token-session`).subscribe({
+    this.http.get(`${this.apiUrl}/check-token-session`).subscribe({
       next:(res)=>{
       },
 
