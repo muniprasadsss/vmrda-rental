@@ -38,23 +38,23 @@ export class UserDetailsComponent implements OnInit {
               private fb: FormBuilder, private toasterservice: ToastrService)
   {
     this.addNewForm = this.fb.group({
-      username: ['', Validators.required],
-      mobileNo: ['', Validators.required],
-      natureOfBusiness: ['', Validators.required],
-      aadhar: ['', Validators.required],
-      pan: ['', Validators.required],
-      email_id: ['', [Validators.required,Validators.email]],
-      gstIn: ['', Validators.required],
+      username: [null, Validators.required],
+      mobileNo: [null, Validators.required],
+      natureOfBusiness: [null, Validators.required],
+      aadhar: [null, Validators.required],
+      pan: [null, Validators.required],
+      email_id: [null, [Validators.email]],
+      gstIn: [null],
     });
     this.editForm = this.fb.group({
-      editUsername: [''],
-      editMobile: [''],
-      editBusiness: [''],
-      editAadhar: [''],
-      editPan: [''],
-      editEmail: [''],
-      editGstin: [''],
-      editRevenue: ['']
+      editUsername: [null],
+      editMobile: [null],
+      editBusiness: [null],
+      editAadhar: [null],
+      editPan: [null],
+      editEmail: [null],
+      editGstin: [null],
+      editRevenue: [null]
     });
   }
 

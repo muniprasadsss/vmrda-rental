@@ -16,7 +16,7 @@ FormsModule
   styleUrl: './assets.component.scss'
 })
 export class AssetsComponent implements OnInit {
-  visible: boolean = false;
+  addvisible: boolean = false;
   editVisible: boolean = false;
   assetsData!: LocationDetails[];
   complex: any;
@@ -104,8 +104,8 @@ export class AssetsComponent implements OnInit {
   }
 
   showDialog() {
-    this.visible = true;
-
+    console.log('button clicked');
+    this.addvisible = true;
   }
 
   onSave() {
@@ -133,7 +133,7 @@ export class AssetsComponent implements OnInit {
     this.assetsservice.addAssets(propertyData).subscribe({
       next: (response) => {
         this.getLocationInfo(); // Refresh the list if needed
-        this.visible = false; // Close the dialog
+        this.addvisible = false; // Close the dialog
         this.locationForm.reset(); // Reset the form
       },
       error: (error) => {

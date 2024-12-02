@@ -38,7 +38,7 @@ export class DepartmentUsersComponent {
     });
 
     this.editForm = this.fb.group({
-      USER_ID: [''],
+      USER_ID: [{ value: '', disabled: true }],
       editUserName: [{ value: '', disabled: true }],
       MOBILE_NUM: [''],
       user_type: [''],
@@ -108,7 +108,14 @@ export class DepartmentUsersComponent {
     if (this.editForm.valid) {
       const updatedUser = this.editForm.value;
       // console.log("Updated User Data:", updatedUser);
-      this.admindetailsservice.updateAdmin(updatedUser).subscribe({
+      const payload={
+         MOBILE_NUM :this.editForm.value.MOBILE_NUM,
+         user_type :this.editForm.value.user_type,
+         REVENUE_DIVISION :this.editForm.value.REVENUE_DIVISION,
+         USER_ID :this.editForm.get('USER_ID')?.value
+      }
+      console.log(payload,'payload'); 
+      this.admindetailsservice.updateAdmin(payload).subscribe({
         next: (res: any) => {
           this.getadminInfo(); // Refresh the table data
           this.editVisible = false; // Close the dialog

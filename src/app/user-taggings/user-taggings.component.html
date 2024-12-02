@@ -13,7 +13,7 @@
   'RENTAL_INTRESET_PERCENT', 
   'RENTAL_HIKE_PERCENT', 
   'GST', 
-  'LEASE_DEED_NO']" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [scrollable]="true">
+  'LEASE_DEED_NO']" [tableStyle]="{ 'min-width': '75rem' }" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
     <ng-template pTemplate="caption">
       <div class="searchbar">
         <div class="search">
@@ -34,43 +34,43 @@
 
     <ng-template pTemplate="header">
       <tr style="font-size: 12px;">
-        <th pSortableColumn="SL_NO">S No<p-sortIcon field="SL_NO"></p-sortIcon></th>
-        <th pSortableColumn="USER_ID">User Id<p-sortIcon field="USER_ID"></p-sortIcon></th>
-        <th>User Name</th>
-        <th>Property Code</th>
-        <th pSortableColumn="START_DATE">Start Date<p-sortIcon field="START_DATE"></p-sortIcon></th>
-        <th pSortableColumn="END_DATE">End Date<p-sortIcon field="END_DATE"></p-sortIcon></th>
-        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">Date of Renewal<p-sortIcon
+        <th style="width: 6%;" pSortableColumn="SL_NO">S No<p-sortIcon field="SL_NO"></p-sortIcon></th>
+        <th style="width: 8%;" pSortableColumn="USER_ID">User Id<p-sortIcon field="USER_ID"></p-sortIcon></th>
+        <th style="width: 15%;">User Name</th>
+        <th style="width: 9%;">Property Code</th>
+        <th style="width: 9%;" pSortableColumn="START_DATE">Start Date<p-sortIcon field="START_DATE"></p-sortIcon></th>
+        <th style="width: 9%;" pSortableColumn="END_DATE">End Date<p-sortIcon field="END_DATE"></p-sortIcon></th>
+        <th style="width: 13%;" pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">Date of Renewal<p-sortIcon
             field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
-        <th>Lease Amount</th>
-        <th>Lease Go Live</th>
-        <th>Lease Period</th>
-        <th pSortableColumn="RENTAL_INTRESET_PERCENT">Lease Interest%<p-sortIcon
+        <th style="width: 9%;">Lease Amount</th>
+        <th style="width: 9%;">Lease Go Live</th>
+        <th style="width: 9%;">Lease Period</th>
+        <th style="width: 9%;" pSortableColumn="RENTAL_INTRESET_PERCENT">Lease Interest%<p-sortIcon
             field="RENTAL_INTRESET_PERCENT"></p-sortIcon></th>
-        <th pSortableColumn="RENTAL_HIKE_PERCENT">Lease Hike%<p-sortIcon field="RENTAL_HIKE_PERCENT"></p-sortIcon></th>
-        <th>GST%</th>
+        <th style="width: 9%;" pSortableColumn="RENTAL_HIKE_PERCENT">Lease Hike%<p-sortIcon field="RENTAL_HIKE_PERCENT"></p-sortIcon></th>
+        <th style="width: 9%;">GST%</th>
         <!-- <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th> -->
-        <th pSortableColumn="LEASE_DEED_NO">Lease Deed Number<p-sortIcon field="LEASE_DEED_NO"></p-sortIcon></th>
-        <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"></th>
+        <th style="width: 9%;" pSortableColumn="LEASE_DEED_NO">Lease Deed Number<p-sortIcon field="LEASE_DEED_NO"></p-sortIcon></th>
+        <th style="width: 9%;" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"></th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-lease>
       <tr style="font-size: 12px;">
-        <td style="width: 6%;">{{ lease.SL_NO }}</td>
-        <td style="width: 7%;">{{ lease.USER_ID }}</td>
-        <td style="width: 9%;">{{ lease.USER_NAME }}</td>
-        <td style="width: 11%;">{{ lease.PROPERTY }}</td>
-        <td style="width: 9%;">{{ lease.START_DATE | date: 'yyyy-MM-dd' }}</td>
-        <td style="width: 8%;">{{ lease.END_DATE | date: 'yyyy-MM-dd' }}</td>
-        <td style="width: 8%;">{{ lease.DATE_OF_RENEWAL_OF_LICENSE | date: 'yyyy-MM-dd'}}</td>
-        <td style="width: 6%;">{{ lease.RENTAL_LEASE_AMOUNT_PERMONTH }}</td>
-        <td style="width: 6%;">{{ lease.RENT_GO_LIVE }}</td>
-        <td style="width: 6%;">{{ lease.RENTAL_LEASE_PERIOD }}</td>
-        <td style="width: 6%;">{{ lease.RENTAL_INTRESET_PERCENT }}</td>
-        <td style="width: 6%;">{{ lease.RENTAL_HIKE_PERCENT }}</td>
-        <td style="width: 6%;">{{ lease.GST }}</td>
-        <td style="width: 6%;">{{ lease.LEASE_DEED_NO }}</td>
+        <td >{{ lease.SL_NO }}</td>
+        <td >{{ lease.USER_ID }}</td>
+        <td >{{ lease.USER_NAME }}</td>
+        <td >{{ lease.PROPERTY }}</td>
+        <td >{{ lease.START_DATE | date: 'dd-MM-yyyy' }}</td>
+        <td >{{ lease.END_DATE | date: 'dd-MM-yyyy' }}</td>
+        <td >{{ lease.DATE_OF_RENEWAL_OF_LICENSE | date: 'dd-MM-yyyy'}}</td>
+        <td >{{ lease.RENTAL_LEASE_AMOUNT_PERMONTH }}</td>
+        <td >{{ lease.RENT_GO_LIVE }}</td>
+        <td >{{ lease.RENTAL_LEASE_PERIOD }}</td>
+        <td >{{ lease.RENTAL_INTRESET_PERCENT }}</td>
+        <td >{{ lease.RENTAL_HIKE_PERCENT }}</td>
+        <td >{{ lease.GST }}</td>
+        <td >{{ lease.LEASE_DEED_NO }}</td>
         <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
           <div class="rowbtn">
             <button class="editButton" pTooltip="Edit Tagging" tooltipPosition="left" (click)="editUser(lease)"><i
@@ -84,19 +84,19 @@
 
 <!-- AddNew Dialog  -->
 
-<p-dialog header="Tag New Asset" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
+<p-dialog header="Tag New Asset" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '35rem' }">
   <form [formGroup]="addNewForm" (ngSubmit)="addNewUser()">
     <div class="form-container">
       <div class="form-row">
         <div class="form-group">
-          <label for="username" class="form-label">Username</label>
+          <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
           <input type="text" id="username" formControlName="username" class="form-input" />
           <div *ngIf="addNewForm.get('username')?.invalid && addNewForm.get('username')?.touched">
             <small class="text-danger">Username is required.</small>
           </div>
         </div>
         <div class="form-group">
-          <label for="userId" class="form-label">User Id</label>
+          <label for="userId" class="form-label">User Id <span class="text-danger">*</span></label>
           <input type="text" id="userId" formControlName="user_id" class="form-input" />
           <div *ngIf="addNewForm.get('user_id')?.invalid && addNewForm.get('user_id')?.touched">
             <small class="text-danger">User Id is required.</small>
@@ -106,14 +106,14 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label for="startdate" class="form-label">Start Date</label>
+          <label for="startdate" class="form-label">Start Date <span class="text-danger">*</span></label>
           <input type="date" id="startdate" formControlName="start_date" class="form-input" />
           <div *ngIf="addNewForm.get('start_date')?.invalid && addNewForm.get('start_date')?.touched">
             <small class="text-danger">Start Date is required.</small>
           </div>
         </div>
         <div class="form-group">
-          <label for="enddate" class="form-label">End Date</label>
+          <label for="enddate" class="form-label">End Date <span class="text-danger">*</span></label>
           <input type="date" id="enddate" formControlName="end_date" class="form-input" />
           <div *ngIf="addNewForm.get('end_date')?.invalid && addNewForm.get('end_date')?.touched">
             <small class="text-danger">End Date is required.</small>
@@ -123,7 +123,7 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label for="property" class="form-label">Property</label>
+          <label for="property" class="form-label">Property <span class="text-danger">*</span></label>
           <p-dropdown [options]="unoccupiedProprertys" placeholder="Select Property" id="property" appendTo="body"
             [autoZIndex]="true" [autoDisplayFirst]="false" formControlName="property" />
           <div *ngIf="addNewForm.get('property')?.invalid && addNewForm.get('property')?.touched">
