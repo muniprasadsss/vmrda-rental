@@ -140,17 +140,17 @@
             <input type="number" id="gst" class="form-input" formControlName="gst" />
           </div>
           <div class="form-group">
-            <label for="power_bill_amount" class="form-label">Power Bill Amount</label>
+            <label for="power_bill_amount" class="form-label">Power Bill Amount <span class="text-danger">*</span></label>
             <input type="number" id="power_bill_amount" class="form-input" (change)="calculateTotal()" formControlName="power_bill_amount" />
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label for="water_bill_amount" class="form-label">Water Bill Amount</label>
+            <label for="water_bill_amount" class="form-label">Water Bill Amount <span class="text-danger">*</span></label>
             <input type="number" id="water_bill_amount" class="form-input" (change)="calculateTotal()" formControlName="water_bill_amount" />
           </div>
           <div class="form-group">
-            <label for="maintenance_amount" class="form-label">Maintenance Amount</label>
+            <label for="maintenance_amount" class="form-label">Maintenance Amount <span class="text-danger">*</span></label>
             <input type="number" id="maintenance_amount" class="form-input" (change)="calculateTotal()" formControlName="maintenance_amount" />
           </div>
           <div class="form-group">

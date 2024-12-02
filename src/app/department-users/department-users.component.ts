@@ -28,21 +28,21 @@ export class DepartmentUsersComponent {
   ngOnInit(): void {
     this.userRole = localStorage.getItem('role')
     this.form = this.fb.group({
-      user_id: ['',Validators.required],
-      username: ['',Validators.required],
-      mobileNo: ['',Validators.required],
-      email_id: ['',[Validators.required,Validators.email]],
-      userType: ['',Validators.required],
-      password: ['',Validators.required],
-      revenueDivision: ['',Validators.required],
+      user_id: [null,Validators.required],
+      username: [null,Validators.required],
+      mobileNo: [null,Validators.required],
+      email_id: [null,Validators.email],
+      userType: [null,Validators.required],
+      password: [null,Validators.required],
+      revenueDivision: [null,Validators.required],
     });
 
     this.editForm = this.fb.group({
-      USER_ID: [{ value: '', disabled: true }],
-      editUserName: [{ value: '', disabled: true }],
-      MOBILE_NUM: [''],
-      user_type: [''],
-      REVENUE_DIVISION: [''],
+      USER_ID: [{ value: null, disabled: true }],
+      editUserName: [{ value: null, disabled: true }],
+      MOBILE_NUM: [null],
+      user_type: [null],
+      REVENUE_DIVISION: [null],
     });
 
     this.getadminInfo();

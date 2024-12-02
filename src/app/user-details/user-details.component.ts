@@ -42,19 +42,19 @@ export class UserDetailsComponent implements OnInit {
       mobileNo: [null, Validators.required],
       natureOfBusiness: [null, Validators.required],
       aadhar: [null, Validators.required],
-      pan: [null, Validators.required],
-      email_id: [null, [Validators.email]],
+      pan: [null],
+      email_id: [null],
       gstIn: [null],
     });
     this.editForm = this.fb.group({
-      editUsername: [null],
-      editMobile: [null],
-      editBusiness: [null],
-      editAadhar: [null],
+      editUsername: [null, Validators.required],
+      editMobile: [null, Validators.required],
+      editBusiness: [null, Validators.required],
+      editAadhar: [null, Validators.required],
       editPan: [null],
       editEmail: [null],
       editGstin: [null],
-      editRevenue: [null]
+      editRevenue: [null, Validators.required]
     });
   }
 

@@ -98,19 +98,19 @@ export class BillDetailsComponent implements OnInit {
   ngOnInit(): void {
       
     this.form = new FormGroup({
-      s_no: new FormControl({ value: '', disabled: true }),
-      bill_no: new FormControl({ value: '', disabled: true }),
-      user_id: new FormControl({ value: '', disabled: true }),
-      property_code: new FormControl({ value: '', disabled: true }),
-      lease_period: new FormControl({ value: '', disabled: true }),
-      lease_Amount: new FormControl({ value: '', disabled: true }),
-      gst: new FormControl({ value: '', disabled: true }),
+      s_no: new FormControl({ value: null, disabled: true }),
+      bill_no: new FormControl({ value: null, disabled: true }),
+      user_id: new FormControl({ value: null, disabled: true }),
+      property_code: new FormControl({ value: null, disabled: true }),
+      lease_period: new FormControl({ value: null, disabled: true }),
+      lease_Amount: new FormControl({ value: null, disabled: true }),
+      gst: new FormControl({ value: null, disabled: true }),
       power_bill_amount: new FormControl(),
-      water_bill_amount: new FormControl(''),
-      maintenance_amount: new FormControl(''),
-      lease_interests: new FormControl({ value: '', disabled: true }),
-      total: new FormControl(''),
-      tds: new FormControl(''),
+      water_bill_amount: new FormControl(null),
+      maintenance_amount: new FormControl(null),
+      lease_interests: new FormControl({ value: null, disabled: true }),
+      total: new FormControl(null),
+      tds: new FormControl(null),
     });
 
     this.userRole = localStorage.getItem('role')
@@ -647,191 +647,6 @@ currentY += lineHeight * 2;
     );
     
   }
-
-  // verifyPayment(response: any, bill: any,editedAamount:any, billDetails: any) {
-  //   this.billDetailService.verifyPayment(response).subscribe({
-  //     next:  (data) => {
-  //       if (data.message === "Payment verified successfully") {
-  //         const challanNumber = this.generateChallanNumber(bill.Property);
-
-  //         const transactionData = {
-  //           "id": data.paymentDetails.id ?? "No Data",
-  //           "invoice_id": bill.BillNo ?? "No Data",
-  //           "order_id": data.paymentDetails.order_id ?? "No Data",
-  //           "method": data.paymentDetails.method ?? "No Data",
-  //           "upi_transaction_id": data.paymentDetails.acquirer_data.upi_transaction_id ?? "No Data",
-  //           "amount": editedAamount ?? "No Data",
-  //           "amount_refunded": data.paymentDetails.amount_refunded ?? "No Data",
-  //           "fee": data.paymentDetails.fee ?? "No Data",
-  //           "bank": data.paymentDetails.bank ?? "No Data",
-  //           "captured": data.paymentDetails.captured ?? "No Data",
-  //           "card_id": data.paymentDetails.card_id ?? "No Data",
-  //           "contact": data.paymentDetails.contact ?? "No Data",
-  //           "currency": data.paymentDetails.currency ?? "No Data",
-  //           "description": data.paymentDetails.description ?? "No Data",
-  //           "email": data.paymentDetails.email ?? "No Data",
-  //           "entity": data.paymentDetails.entity ?? "No Data",
-  //           "error_description": data.paymentDetails.error_description ?? "No Data",
-  //           "error_reason": data.paymentDetails.error_reason ?? "No Data",
-  //           "error_source": data.paymentDetails.error_source ?? "No Data",
-  //           "error_step": data.paymentDetails.error_step ?? "No Data",
-  //           "international": data.paymentDetails.international ?? "No Data",
-  //           "tax": data.paymentDetails.tax ?? "No Data",
-  //           "upi": "razorpay",
-  //           "vpa": "razorpay",
-  //           "rrn": data.paymentDetails.acquirer_data.rrn ?? "No Data",
-  //           "notes": "No Data",
-  //           "refund_status": data.paymentDetails.refund_status ?? "No Data",
-  //           "status": data.paymentDetails.status ?? "No Data",
-  //         };
-  //         console.log(transactionData,"transaction data check...");
-
-  //       this.billDetailService.saveTransactionDetails(transactionData).subscribe({
-  //         next:  (response) => {
-  //           const updateData={
-  //             p_billid: billDetails.billNo,
-  //             p_payment_amount: transactionData.amount,             
-  //           }
-  //           console.log(updateData,"payload data sent");
-          
-  //             this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
-  //               next:  (response) => {
-  //                   let payload = {
-  //                       p_billid: billDetails.billNo,
-  //                       Power_bill: billDetails.powerBill,
-  //                       Water_bill: billDetails.waterBill,
-  //                       Maintainance_bill: billDetails.maintenanceAmount,
-  //                       p_payment_amount: transactionData.amount,
-  //                       ReceiptNo: challanNumber,
-  //                       User: bill.User,
-  //                       Property: bill.Property,
-  //                       paid_date: new Date().toISOString(),
-  //                       Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
-  //                       GST: bill.GST,
-  //                       Total_rental_interest: bill.Total_rental_interest,
-  //                       Total: bill.Total,
-  //                       TotalPaid: bill.Total,
-                        
-  //                       Due: 0,
-  //                       Status: 'Fully Paid'
-  //                      }
-  //                   this.createAndSendReceiptPDF(payload,response);
-
-  //                    this.getbilldetails();
-  //                   //  this.cd.markForCheck(); // Changed to markForCheck
-  //                   this.cd.detectChanges();
-  //               },
-  //               error: (err) => {
-  //                 console.error('Error updating bill:', err);
-  //               },
-  //             });
-  //           },
-  //           error: (error) => {
-  //             console.error('Error saving transaction:', error);
-  //           },
-  //         });
-  //       }
-  //       else if (data.message === "Invalid signature sent!") {
-  //         const challanNumber = this.generateChallanNumber(bill.Property);
-
-  //         const transactionData = {
-  //           "id": data.paymentDetails.id ?? "No Data",
-  //           "invoice_id": bill.BillNo ?? "No Data",
-  //           "order_id": data.paymentDetails.order_id ?? "No Data",
-  //           "method": data.paymentDetails.method ?? "No Data",
-  //           "upi_transaction_id": data.paymentDetails.acquirer_data.upi_transaction_id ?? "No Data",
-  //           "amount": editedAamount ?? "No Data",
-  //           "amount_refunded": data.paymentDetails.amount_refunded ?? "No Data",
-  //           "fee": data.paymentDetails.fee ?? "No Data",
-  //           "bank": data.paymentDetails.bank ?? "No Data",
-  //           "captured": data.paymentDetails.captured ?? "No Data",
-  //           "card_id": data.paymentDetails.card_id ?? "No Data",
-  //           "contact": data.paymentDetails.contact ?? "No Data",
-  //           "currency": data.paymentDetails.currency ?? "No Data",
-  //           "description": data.paymentDetails.description ?? "No Data",
-  //           "email": data.paymentDetails.email ?? "No Data",
-  //           "entity": data.paymentDetails.entity ?? "No Data",
-  //           "error_description": data.paymentDetails.error_description ?? "No Data",
-  //           "error_reason": data.paymentDetails.error_reason ?? "No Data",
-  //           "error_source": data.paymentDetails.error_source ?? "No Data",
-  //           "error_step": data.paymentDetails.error_step ?? "No Data",
-  //           "international": data.paymentDetails.international ?? "No Data",
-  //           "tax": data.paymentDetails.tax ?? "No Data",
-  //           "upi": "razorpay",
-  //           "vpa": "razorpay",
-  //           "rrn": data.paymentDetails.acquirer_data.rrn ?? "No Data",
-  //           "notes": "No Data",
-  //           "refund_status": data.paymentDetails.refund_status ?? "No Data",
-  //           "status": data.paymentDetails.status ?? "No Data",
-  //         };
-  //         console.log(transactionData,"transaction data check...");
-
-  //       this.billDetailService.saveTransactionDetails(transactionData).subscribe({
-  //         next:  (response) => {
-  //           const updateData={
-  //             p_billid: billDetails.billNo,
-  //             p_payment_amount: transactionData.amount,             
-  //           }
-  //           console.log(updateData,"payload data sent");
-  //           this.getbilldetails();
-  //           //  this.cd.markForCheck(); // Changed to markForCheck
-  //           this.cd.detectChanges();
-  //           },
-  //           error: (error) => {
-  //             console.error('Error saving transaction:', error);
-  //           },
-  //         });
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.error('Payment Verification Failed', error);
-  //     },
-  //   });
-  // }
-
-  // to send bill paid receipt pdf to user 
-
-  // verifyPayment(response: any, bill: any, editedAmount: any, billDetails: any) {
-  //   this.billDetailService.verifyPayment(response).subscribe({
-  //     next: (data) => {
-  //       if (data.message === 'Payment verified successfully') {
-  //         this.handleSuccess(data, bill, editedAmount, billDetails);
-  //       } else if (data.message === 'Invalid signature sent!') {
-  //         this.handleFailure(data.message);
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.error('Payment Verification Failed', error);
-  //       this.handleFailure('Payment verification failed. Please try again.');
-  //     }
-  //   });
-  // }
-
-  // handleSuccess(data: any, bill: any, editedAmount: any, billDetails: any) {
-  //   const challanNumber = this.generateChallanNumber(bill.Property);
-  //   const transactionData = {
-  //     id: data.paymentDetails.id ?? 'No Data',
-  //     invoice_id: bill.BillNo ?? 'No Data',
-  //     order_id: data.paymentDetails.order_id ?? 'No Data',
-  //     method: data.paymentDetails.method ?? 'No Data',
-  //     upi_transaction_id: data.paymentDetails.acquirer_data.upi_transaction_id ?? 'No Data',
-  //     amount: editedAmount ?? 'No Data',
-  //     status: data.paymentDetails.status ?? 'No Data'
-  //     // Additional fields as needed
-  //   };
-
-  //   this.billDetailService.saveTransactionDetails(transactionData).subscribe({
-  //     next: () => {
-  //       this.paymentMessage = 'Payment was successful!';
-  //       this.isDialogVisible = true;
-  //       // this.router.navigate(['/billDetails']);
-  //     },
-  //     error: (error) => {
-  //       console.error('Error saving transaction:', error);
-  //       this.handleFailure('An error occurred while saving the transaction.');
-  //     }
-  //   });
-  // }
 
 
   handleFailure(message: string) {

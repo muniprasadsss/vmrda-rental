@@ -78,36 +78,36 @@
         <div class="form-container">
             <div class="form-row">
                 <div class="form-group">
-                    <label for="location" class="form-label">Location</label>
+                    <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
                     <select formControlName="editlocation" class="form-input">
                         <option value="" disabled selected>Select Location</option>
                         <option *ngFor="let loc of location" [value]="loc">{{ loc }}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="location-code" class="form-label">Location Code</label>
+                    <label for="location-code" class="form-label">Location Code <span class="text-danger">*</span></label>
                     <select formControlName="editlocationCode" class="form-input">
                         <option value="" disabled selected>Select Location Code</option>
                         <option *ngFor="let code of complex" [value]="code">{{ code }}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="property-code" class="form-label">Property Code</label>
+                    <label for="property-code" class="form-label">Property Code <span class="text-danger">*</span></label>
                     <input formControlName="editpropertyCode" type="text" class="form-input" />
                     <small class="input-format-info">Format: UBC-ABC-01</small>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="property-no" class="form-label">Property No</label>
+                    <label for="property-no" class="form-label">Property No <span class="text-danger">*</span></label>
                     <input formControlName="editpropertyNo" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="type-of-property" class="form-label">Type of Property</label>
+                    <label for="type-of-property" class="form-label">Type of Property <span class="text-danger">*</span></label>
                     <input formControlName="edittypeOfProperty" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="floor" class="form-label">Floor</label>
+                    <label for="floor" class="form-label">Floor <span class="text-danger">*</span></label>
                     <input formControlName="editfloor" type="text" class="form-input" />
                 </div>
             </div>
@@ -117,11 +117,11 @@
                     <input formControlName="editattribuite1" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="extent" class="form-label">Extent</label>
+                    <label for="extent" class="form-label">Extent <span class="text-danger">*</span></label>
                     <input formControlName="editextent" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="present-rent" class="form-label">Present Rent</label>
+                    <label for="present-rent" class="form-label">Present Rent <span class="text-danger">*</span></label>
                     <input formControlName="editpresentRent" type="number" class="form-input" />
                 </div>
             </div>
@@ -146,7 +146,7 @@
                     <input formControlName="editbreadth" type="number" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="revenue-division" class="form-label">Revenue Division</label>
+                    <label for="revenue-division" class="form-label">Revenue Division <span class="text-danger">*</span></label>
                     <input formControlName="editrevenueDivision" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
@@ -165,7 +165,7 @@
                     <input formControlName="editdetails" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="status" class="form-label">Status</label>
+                    <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
                     <select formControlName="editstatus" class="form-input">
                         <option>Occupied</option>
                         <option>Vacant</option>

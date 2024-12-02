@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 @Component({
   selector: 'app-user-taggings',
   standalone: true,
-  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent, ReactiveFormsModule],
+  imports: [PrimeNgModule, ReactiveFormsModule],
   templateUrl: './user-taggings.component.html',
   styleUrls: ['./user-taggings.component.scss'],
   providers: [DatePipe]
@@ -37,18 +37,18 @@ export class UserTaggingsComponent implements OnInit {
     private cd: ChangeDetectorRef
   ) {
     this.addNewForm = this.fb.group({
-      username: ['', Validators.required],
-      user_id: ['', Validators.required],
-      property: ['', Validators.required],
-      start_date: ['', Validators.required],
-      end_date: ['', Validators.required]
+      username: [null, Validators.required],
+      user_id: [null, Validators.required],
+      property: [null, Validators.required],
+      start_date: [null, Validators.required],
+      end_date: [null, Validators.required]
     });
     this.editForm = this.fb.group({
-      username: ['', Validators.required],
-      user_id: ['', Validators.required],
-      property: ['', Validators.required],
-      start_date: ['', Validators.required],
-      end_date: ['', Validators.required]
+      username: [null, Validators.required],
+      user_id: [null, Validators.required],
+      property: [null, Validators.required],
+      start_date: [null, Validators.required],
+      end_date: [null, Validators.required]
     });
   }
 

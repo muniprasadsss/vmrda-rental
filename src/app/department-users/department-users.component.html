@@ -16,7 +16,7 @@
           <div class="dialog">
             <!-- <p-button (click)="showAddDialog()" *ngIf="userRole !== 'IT-TEAM' " label=" + Add New" severity="success" size="small" /> -->
             <div *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
-              <button class="addbutton" (click)="showAddDialog()">+ Add New User</button>
+              <button class="addbutton" (click)="showAddDialog()">+ Add Dept. User</button>
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="email" class="form-label">Email ID <span class="text-danger">*</span></label>
+          <label for="email" class="form-label">Email ID </label>
           <input type="email" id="email" formControlName="email_id" class="form-input"
             (keydown)="validateEmailInput($event)" (keydown)="limitInputLength($event, 50)" />
           <div *ngIf="form.get('email_id')?.invalid && form.get('email_id')?.touched">
@@ -149,19 +149,21 @@
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label for="mobileNo" class="form-label">Mobile No</label>
+          <label for="mobileNo" class="form-label">Mobile No <span class="text-danger">*</span></label>
           <input type="tel" id="mobileNo" formControlName="MOBILE_NUM" class="form-input" inputmode="numeric"
             (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
         </div>
         <div class="form-group">
-          <label for="usertype" class="form-label">User Type</label>
+          <label for="usertype" class="form-label">User Type <span class="text-danger">*</span></label>
           <input type="text" id="usertype" formControlName="user_type" class="form-input" />
+          <small>   Ex: RD-1,AO,SECRETARY</small>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label for="revenuedivision" class="form-label">Revenue Division</label>
+          <label for="revenuedivision" class="form-label">Revenue Division <span class="text-danger">*</span></label>
           <input type="text" id="revenuedivision" formControlName="REVENUE_DIVISION" class="form-input" />
+          <small>  EX: RD-1,RD-2</small>
         </div>
       </div>
       <div class="btn">
