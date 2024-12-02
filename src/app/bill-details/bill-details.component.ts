@@ -98,20 +98,21 @@ export class BillDetailsComponent implements OnInit {
   ngOnInit(): void {
       
     this.form = new FormGroup({
-      s_no: new FormControl({ value: null, disabled: true }),
-      bill_no: new FormControl({ value: null, disabled: true }),
-      user_id: new FormControl({ value: null, disabled: true }),
-      property_code: new FormControl({ value: null, disabled: true }),
-      lease_period: new FormControl({ value: null, disabled: true }),
-      lease_Amount: new FormControl({ value: null, disabled: true }),
-      gst: new FormControl({ value: null, disabled: true }),
-      power_bill_amount: new FormControl(),
-      water_bill_amount: new FormControl(null),
-      maintenance_amount: new FormControl(null),
-      lease_interests: new FormControl({ value: null, disabled: true }),
-      total: new FormControl(null),
+      s_no: new FormControl({ value: null, disabled: true }, Validators.required),
+      bill_no: new FormControl({ value: null, disabled: true }, Validators.required),
+      user_id: new FormControl({ value: null, disabled: true }, Validators.required),
+      property_code: new FormControl({ value: null, disabled: true }, Validators.required),
+      lease_period: new FormControl({ value: null, disabled: true }, Validators.required),
+      lease_Amount: new FormControl({ value: null, disabled: true }, Validators.required),
+      gst: new FormControl({ value: null, disabled: true }, Validators.required),
+      power_bill_amount: new FormControl(null, Validators.required),
+      water_bill_amount: new FormControl(null, Validators.required),
+      maintenance_amount: new FormControl(null, Validators.required),
+      lease_interests: new FormControl({ value: null, disabled: true }, Validators.required),
+      total: new FormControl(null, Validators.required),
       tds: new FormControl(null),
     });
+    
 
     this.userRole = localStorage.getItem('role')
     this.userID = localStorage.getItem('userId')
