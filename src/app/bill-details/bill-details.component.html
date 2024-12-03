@@ -70,8 +70,8 @@
           <td style="width: 8%;">{{ bill.Status }}</td>
           <td style="width: 8%;">{{ bill.BillStatus }}</td>
           <td>
-            <button *ngIf=" userRole !== 'USER' " pTooltip="Download GST Bill" tooltipPosition="left" (click)="downloadGSTBill(bill.BillNo)" style="border: none;background: none;">
-              <i class="pi pi-file-pdf" style="color: red;"></i>
+            <button *ngIf=" userRole !== 'USER' " pTooltip="Download GST Bill" tooltipPosition="left" (click)="downloadGSTBill(bill.BillNo)" style="border: none;background: none;color: red;">
+              <i class="pi pi-file-pdf"></i>
             </button>
           </td>
           <td *ngIf="userRole !== 'USER' && userRole !== 'IT-TEAM'" pTooltip=" Generate Bill " tooltipPosition="left">
@@ -235,8 +235,8 @@
   <td style="width: 8%;">{{ bill.Due }}</td>
   <td style="width: 8%;">{{ bill.Status }}</td>
   <td>
-    <button *ngIf=" userRole !== 'USER' " pTooltip="Download GST Bill" tooltipPosition="left" (click)="downloadGSTBill(bill.BillNo)">
-      <i class="pi pi-file-pdf" style="color: red;"></i>
+    <button *ngIf=" userRole !== 'USER' " pTooltip="Download GST Bill" tooltipPosition="left" (click)="downloadGSTBill(bill.BillNo)" style="border: none;background: none;color: red;">
+      <i class="pi pi-file-pdf"></i>
     </button>
   </td>
 

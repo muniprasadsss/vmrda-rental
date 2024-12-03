@@ -74,24 +74,19 @@
   </p-table>
 </div>
 
-
-
-
-
-
 <div class="dialog">                
   <p-dialog
   header="Add Manual Receipt"
   [modal]="true"
   [(visible)]="visible"
   position="center"
-  [style]="{ width: '50rem' }">
+  [style]="{ width: '50rem' }" (onHide)="closeDialog()">
   <form [formGroup]="addNewRecept" (ngSubmit)="addNewUser()">
     <div class="form-container">
       <div class="form-row">
         <div class="form-group">
           <label for="bill-no" class="form-label">Search By Bill No</label>
-          <input type="text" id="bill-no" class="form-input" formControlName="billNo" (keydown)="handleKeyDown($event)"/> <!--keydown keybord trigger function  -->
+          <input type="text" id="bill-no" class="form-input" formControlName="billNo" (keydown)="handleKeyDown($event)" style="width: 94% !important;"/> <!--keydown keybord trigger function  -->
           <p-iconField iconPosition="right" class="ml-auto">
             <p-inputIcon (click)="fetchBillDetails(addNewRecept.get('billNo')!.value)">
                 <i class="pi pi-search"></i>
@@ -134,8 +129,11 @@
       </div>
       <div class="form-row" *ngIf="hideAddNew">
         <div class="form-group">
-          <label for="amount_paid" class="form-label">Amount Paid</label>
+          <label for="amount_paid" class="form-label">Amount Paid <span class="text-danger">*</span></label>
           <input type="text" id="amount_paid" class="form-input" formControlName="amount_paid"/>
+          <div *ngIf="addNewRecept.get('amount_paid')?.invalid && (addNewRecept.get('amount_paid')?.touched || submitted)">
+            <small class="text-danger">Amount Paid is required.</small>
+          </div>
         </div>
       </div>
     </div>

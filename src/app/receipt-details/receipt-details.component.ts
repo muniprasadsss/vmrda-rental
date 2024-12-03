@@ -1,8 +1,5 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-import { HeaderComponent } from '../header/header.component';
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { FooterComponent } from '../footer/footer.component';
 import { ReceptDetailsService } from '../services/receptDetails/recept-details.service';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -30,6 +27,8 @@ export class ReceiptDetailsComponent {
   fileToUpload: any;
   attachmentUrl:any = null
   bill:any;
+  submitted = false; // track amountpaid input field
+
   constructor(private http:ReceptDetailsService,
     private Http: ChangeRequestService,
     private billDetailService: BillDetailsService,
@@ -227,7 +226,6 @@ generatePDF(receipt: any) {
           this.fileToUpload = null;
         },
         error:(err:any)=>{
-  
         }
       })
     }
@@ -236,7 +234,7 @@ generatePDF(receipt: any) {
   fetchBillDetails(billNo:any){
     this.http.getBillDetails(billNo).subscribe({
       next:(res:any)=>{
-        if(res.Status !== 'Not Paid'){
+        if(res.Status !== 'Fully Paid'){
           this.bill = res;
           this.bill_status = res.Status;
           this.addNewRecept.patchValue({
@@ -267,69 +265,59 @@ generatePDF(receipt: any) {
 
   //   return `REC/VMRDA/${currentMonth}/${currentYear}/${UserID}`;
   // }
-  addReciept(){
-    if (true) {
-      // Print the form values to the console
-      if(this.bill_status !== 'Not Paid' ){
-        // this.bill_status = 'FP';
-        const form = this.addNewRecept.value
-        const updateData = {
-            p_billid: this.bill.BillNo,
-            p_payment_amount: this.addNewRecept.get('amount_paid')?.value,               
-          }
-
-
+  addReciept() {
+    this.submitted=true;
+    // Get the form values
+    const form = this.addNewRecept.value;
+  
+    // Check if the required fields are present
+    const p_billid = this.bill?.BillNo;
+    const p_payment_amount = this.addNewRecept.get('amount_paid')?.value;
+  
+    if (!p_billid || !p_payment_amount) {
+      // If either of the required fields is missing, show a toaster warning
+      // this.toasterservice.warning('Amount Paid is required');
+      return; // Exit the method early if validation fails
+    }
+  
+    // If validation passes, proceed with API call
+    if (this.bill_status !== 'Fully Paid') {
+      const updateData = {
+        p_billid: p_billid,
+        p_payment_amount: p_payment_amount,
+      };
+  
       this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
-        next:  (response) => {
+        next: (response) => {
           if (response.status === 200) {
-            //  this.createReceipt({
-            //   BillNo: this.bill.BillNo,
-            //   ReceiptNo: this.generateChallanNumber(this.bill.Property),
-            //   User: form.User,
-            //   Property: this.bill.Property,
-            //   paid_date: new Date().toISOString(),
-            //   Rental_lease_amount_permonth: this.bill.Rental_lease_amount_permonth,
-            //   GST: this.bill.GST,
-            //   Total_rental_interest: this.bill.Total_rental_interest,
-            //   Total: this.bill.Total,
-            //   TotalPaid: this.bill.Total,
-            //   Due: 0,
-            //   Status: 'FP'
-            // });
-            this.toasterservice.success('Receipt Successfully Added')
+            this.toasterservice.success('Receipt Successfully Added');
             this.bill_status = '';
-            this.bill= null;
-
+            this.bill = null;
           } else {
             this.bill_status = '';
-            this.bill= null;
+            this.bill = null;
             console.error('Error updating bill:', response.message);
           }
         },
-        error: (err:any) => {
-          this.toasterservice.warning(err)
+        error: (err: any) => {
+          this.toasterservice.warning(err);
           this.bill_status = '';
-          this.bill= null;
+          this.bill = null;
           console.error('Error updating bill:', err);
         },
       });
-
-    } 
-    else{
+    } else {
       this.bill_status = '';
-      this.bill= null;
-      this.toasterservice.warning('Bill already paid')
+      this.bill = null;
+      this.toasterservice.warning('Bill already paid');
     }
   }
-
-}
+  
 
 createReceipt(receiptData: any) {
 
   this.billDetailService.updateBillDetailsByBillNo(receiptData).subscribe((response) => {
-    console.log(response,"bill response from api...");
     if (response.message == "receipt created successfully") {
-      console.log('Receipt created successfully!');
       // this.createAndSendReceiptPDF(receiptData);
       this.visible = false; // Close the edit dialog
       this.hideAddNew = true;
@@ -342,7 +330,6 @@ createReceipt(receiptData: any) {
   });
 }
 
-
     closeDialog(){
       this.bill_status = '';
       this.visible = false;
@@ -351,15 +338,12 @@ createReceipt(receiptData: any) {
       
     }
 
-
     handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Enter') {
         // Submit the form on Enter key press
-        console.log("Enter clicked...");
         this.fetchBillDetails(this.addNewRecept.get('billNo')!.value);
       } else if (event.key === 'Escape') {
         // Close the modal on Escape key press
-        console.log("Esc clicked...");
         this.closeDialog(); // Make sure to close the dialog if needed
       }
     }

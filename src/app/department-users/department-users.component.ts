@@ -107,14 +107,12 @@ export class DepartmentUsersComponent {
   updateUser() {
     if (this.editForm.valid) {
       const updatedUser = this.editForm.value;
-      // console.log("Updated User Data:", updatedUser);
       const payload={
          MOBILE_NUM :this.editForm.value.MOBILE_NUM,
          user_type :this.editForm.value.user_type,
          REVENUE_DIVISION :this.editForm.value.REVENUE_DIVISION,
          USER_ID :this.editForm.get('USER_ID')?.value
       }
-      console.log(payload,'payload'); 
       this.admindetailsservice.updateAdmin(payload).subscribe({
         next: (res: any) => {
           this.getadminInfo(); // Refresh the table data

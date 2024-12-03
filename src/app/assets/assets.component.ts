@@ -104,7 +104,6 @@ export class AssetsComponent implements OnInit {
   }
 
   showDialog() {
-    console.log('button clicked');
     this.addvisible = true;
   }
 
