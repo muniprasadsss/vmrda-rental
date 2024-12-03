@@ -26,6 +26,8 @@ export class AssetsComponent implements OnInit {
   value: string | undefined;
   locationForm: FormGroup;
   editForm: FormGroup;
+  submitted = false; // track input fields befor submit
+
   @ViewChild('dt2') dt2!: any;
   selectedPropertyCode!: string;
   constructor(private http: AssetsService, private auth: AuthGuardsService, private assetsservice: AssetsService, private fb: FormBuilder) {
@@ -108,7 +110,14 @@ export class AssetsComponent implements OnInit {
   }
 
   onSave() {
+    this.submitted=true;
     this.locationForm.markAllAsTouched(); // checking all form fields are touched or not
+      const propertyFormData = this.locationForm.value;
+      if (!propertyFormData.LOCATION || !propertyFormData.LOCATION_CODE) {
+        console.error('Required fields missing');
+        return;
+      }
+
     const propertyData = {
       LOCATION: this.locationForm.value.location,
       LOCATION_CODE: this.locationForm.value.locationCode,
@@ -129,6 +138,7 @@ export class AssetsComponent implements OnInit {
       DETAILS: this.locationForm.value.details,
       STATUS: this.locationForm.value.status
     };
+    
     this.assetsservice.addAssets(propertyData).subscribe({
       next: (response) => {
         this.getLocationInfo(); // Refresh the list if needed

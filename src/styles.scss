@@ -61,7 +61,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #6c757d; /* Adjust color as needed */
+    color: #6c757d; 
   }
   
   .form-input {
@@ -97,26 +97,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding: 0rem 1rem;
 }
 .p-tooltip {
-  font-size: 0.75rem; /* Adjusts the font size */
-  padding: 4px 4px; /* Adjusts padding */
-  max-width: 150px; /* Limits the width of the tooltip */
+  padding: 0.25rem 0.25rem; 
+  font-size: 0.75rem; 
+  max-width: 150px; 
+}
+ .p-tooltip-text  {
+  background-color: #333 ;
+  color: #fff ;
 }
 
 .text-danger {
   color: red;
 }
 
-// .addbutton{
-//   border: none;
-//   // background: none;
-//   padding: 10px 12px;
-//   color: white;
-//   background-color: #4CAF50;
-// }
-
 .addbutton {
   display: inline-block;
-  // background-color: #1fac3f; /* Bootstrap success color */
   background-color: #1ebc41; 
   color: #fff;
   border: none;
@@ -127,8 +122,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   cursor: pointer;
 }
 .addbutton:hover {
-  background-color: #17a34a; /* Darken the green slightly */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+  background-color: #17a34a; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
 }
 
 

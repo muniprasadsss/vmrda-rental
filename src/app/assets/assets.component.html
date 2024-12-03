@@ -206,7 +206,7 @@
                             <option *ngFor="let code of complex" [value]="code">{{ code }}</option>
                         </select>
                         <div
-                            *ngIf="locationForm.get('locationCode')?.invalid && locationForm.get('locationCode')?.touched">
+                            *ngIf="locationForm.get('locationCode')?.invalid && locationForm.get('locationCode')?.touched || submitted">
                             <small class="text-danger">Location Code is required.</small>
                         </div>
                     </div>
@@ -215,7 +215,7 @@
                         <input formControlName="propertyCode" type="text" class="form-input" />
                         <small class="input-format-info">Format: UBC-ABC-01</small>
                         <div
-                            *ngIf="locationForm.get('propertyCode')?.invalid && locationForm.get('propertyCode')?.touched">
+                            *ngIf="locationForm.get('propertyCode')?.invalid && locationForm.get('propertyCode')?.touched || submitted">
                             <small class="text-danger">Property Code is required.</small>
                         </div>
                     </div>
@@ -224,7 +224,7 @@
                     <div class="form-group">
                         <label for="property-no" class="form-label">Property No <span class="text-danger">*</span></label>
                         <input formControlName="propertyNo" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('propertyNo')?.invalid && locationForm.get('propertyNo')?.touched">
+                        <div *ngIf="locationForm.get('propertyNo')?.invalid && locationForm.get('propertyNo')?.touched || submitted">
                             <small class="text-danger">Property No is required.</small>
                         </div>
                     </div>
@@ -232,14 +232,14 @@
                         <label for="type-of-property" class="form-label">Type of Property <span class="text-danger">*</span></label>
                         <input formControlName="typeOfProperty" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('typeOfProperty')?.invalid && locationForm.get('typeOfProperty')?.touched">
+                            *ngIf="locationForm.get('typeOfProperty')?.invalid && locationForm.get('typeOfProperty')?.touched || submitted">
                             <small class="text-danger">Type of Property is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="floor" class="form-label">Floor</label>
                         <input formControlName="floor" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('floor')?.invalid && locationForm.get('floor')?.touched">
+                        <div *ngIf="locationForm.get('floor')?.invalid && locationForm.get('floor')?.touched || submitted">
                             <small class="text-danger">Floor is required.</small>
                         </div>
                     </div>
@@ -249,14 +249,14 @@
                         <label for="attribuite1" class="form-label">Attribute 1</label>
                         <input formControlName="attribuite1" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('attribuite1')?.invalid && locationForm.get('attribuite1')?.touched">
+                            *ngIf="locationForm.get('attribuite1')?.invalid && locationForm.get('attribuite1')?.touched || submitted">
                             <small class="text-danger">Attribute 1 is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="extent" class="form-label">Extent <span class="text-danger">*</span></label>
                         <input formControlName="extent" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('extent')?.invalid && locationForm.get('extent')?.touched">
+                        <div *ngIf="locationForm.get('extent')?.invalid && locationForm.get('extent')?.touched || submitted">
                             <small class="text-danger">Extent is required.</small>
                         </div>
                     </div>
@@ -264,7 +264,7 @@
                         <label for="present-rent" class="form-label">Present Rent <span class="text-danger">*</span></label>
                         <input formControlName="presentRent" type="number" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('presentRent')?.invalid && locationForm.get('presentRent')?.touched">
+                            *ngIf="locationForm.get('presentRent')?.invalid && locationForm.get('presentRent')?.touched || submitted">
                             <small class="text-danger">Present Rent is required.</small>
                         </div>
                     </div>
@@ -274,21 +274,21 @@
                         <label for="allottee-name" class="form-label">Allottee Name <span class="text-danger">*</span></label>
                         <input formControlName="allotteeName" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('allotteeName')?.invalid && locationForm.get('allotteeName')?.touched">
+                            *ngIf="locationForm.get('allotteeName')?.invalid && locationForm.get('allotteeName')?.touched || submitted">
                             <small class="text-danger">Allottee Name is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="size" class="form-label">Size</label>
                         <input formControlName="size" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('size')?.invalid && locationForm.get('size')?.touched">
+                        <div *ngIf="locationForm.get('size')?.invalid && locationForm.get('size')?.touched || submitted">
                             <small class="text-danger">Size is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="length" class="form-label">Length </label>
                         <input formControlName="length" type="number" class="form-input" />
-                        <div *ngIf="locationForm.get('length')?.invalid && locationForm.get('length')?.touched">
+                        <div *ngIf="locationForm.get('length')?.invalid && locationForm.get('length')?.touched || submitted">
                             <small class="text-danger">Length is required.</small>
                         </div>
                     </div>
@@ -298,7 +298,7 @@
                     <div class="form-group">
                         <label for="breadth" class="form-label">Breadth</label>
                         <input formControlName="breadth" type="number" class="form-input" />
-                        <div *ngIf="locationForm.get('breadth')?.invalid && locationForm.get('breadth')?.touched">
+                        <div *ngIf="locationForm.get('breadth')?.invalid && locationForm.get('breadth')?.touched || submitted">
                             <small class="text-danger">Breadth is required.</small>
                         </div>
                     </div>
@@ -306,7 +306,7 @@
                         <label for="revenue-division" class="form-label">Revenue Division <span class="text-danger">*</span></label>
                         <input formControlName="revenueDivision" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('revenueDivision')?.invalid && locationForm.get('revenueDivision')?.touched">
+                            *ngIf="locationForm.get('revenueDivision')?.invalid && locationForm.get('revenueDivision')?.touched || submitted">
                             <small class="text-danger">Revenue Division is required.</small>
                         </div>
                     </div>
@@ -314,7 +314,7 @@
                         <label for="power-meter-number" class="form-label">Power Meter Number</label>
                         <input formControlName="powerMeterNumber" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('powerMeterNumber')?.invalid && locationForm.get('powerMeterNumber')?.touched">
+                            *ngIf="locationForm.get('powerMeterNumber')?.invalid && locationForm.get('powerMeterNumber')?.touched || submitted">
                             <small class="text-danger">Power Meter Number is required.</small>
                         </div>
                     </div>
@@ -325,14 +325,14 @@
                         <label for="water-meter-no" class="form-label">Water Meter No</label>
                         <input formControlName="waterMeterNo" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('waterMeterNo')?.invalid && locationForm.get('waterMeterNo')?.touched">
+                            *ngIf="locationForm.get('waterMeterNo')?.invalid && locationForm.get('waterMeterNo')?.touched || submitted">
                             <small class="text-danger">Water Meter No is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="details" class="form-label">Details</label>
                         <input formControlName="details" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('details')?.invalid && locationForm.get('details')?.touched">
+                        <div *ngIf="locationForm.get('details')?.invalid && locationForm.get('details')?.touched || submitted">
                             <small class="text-danger">Details is required.</small>
                         </div>
                     </div>
@@ -342,7 +342,7 @@
                             <option>Occupied</option>
                             <option>Vacant</option>
                         </select>
-                        <div *ngIf="locationForm.get('status')?.invalid && locationForm.get('status')?.touched">
+                        <div *ngIf="locationForm.get('status')?.invalid && locationForm.get('status')?.touched || submitted">
                             <small class="text-danger">Status is required.</small>
                         </div>
                     </div>

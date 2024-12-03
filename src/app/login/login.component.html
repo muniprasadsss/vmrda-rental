@@ -30,6 +30,10 @@
       <div class="input-group">
         <input id="username" type="text" pInputText [(ngModel)]="userID" name="username" #usernameCtrl="ngModel"
           required placeholder="Enter User Id" />
+          <div *ngIf="usernameCtrl.invalid && usernameCtrl.touched" class="error" >
+            Username is required
+          </div>
+          
       </div>
       <div class="input-group" style="margin-top: 1rem;">
         <input id="password" type="password" pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
@@ -37,11 +41,14 @@
           <!-- <p-password [feedback]="false" [toggleMask]="true"  pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
           required placeholder="Enter Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" /> -->
 
-        <div *ngIf="
+          <div *ngIf="passwordCtrl.invalid && passwordCtrl.touched" class="error" >
+            Password is required
+          </div>
+        <!-- <div *ngIf="
             (passwordCtrl.invalid && passwordCtrl.touched) ||
             (usernameCtrl.invalid && usernameCtrl.touched)" class="error" style="margin-top: 2rem;color:red; background: white;">
           Invalid Username and Password.
-        </div>
+        </div> -->
       </div>
 
       <!-- OTP section if required -->

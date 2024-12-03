@@ -1,6 +1,6 @@
 
   <div class="card" >
-    <p-table #dt2 [value]="notPaidBills" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+    <p-table #dt2  [value]="notPaidBills" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
     [globalFilterFields]="['BillNo','Property','Bill_Period','Rental_lease_amount_permonth','GST','Power_bill','Water_bill','Maintainance_bill','Total_rental_interest','Bill_generated_date','Total','TotalPaid','Due','Status','BillStatus']"
     [paginator]="true">
 
@@ -22,6 +22,9 @@
         </div>
           <div class="dialog">
             <!-- <p-button (onClick)="showDialog1()" label="History" severity="success" size="small" /> -->
+            <button class="excelButton" (click)="downloadExcel()" pTooltip="Download All Bills" tooltipPosition="bottom">
+              <i class="pi pi-file-excel"></i>
+            </button>
             <button  class="addbutton" (click)="showDialog1()">History</button>
           </div>
 

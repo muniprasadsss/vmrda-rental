@@ -11,13 +11,13 @@ import { ChangeDetectorRef } from '@angular/core';
 // import { billDetails } from '../interfaces/billDetails/billDetailsInterfaces';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
 // import autoTable from 'jspdf-autotable';
 import autoTable from 'jspdf-autotable';
 import { DatePipe } from '@angular/common';
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import * as XLSX from 'xlsx';
 declare var Razorpay: any;
 
 @Component({
@@ -827,7 +827,13 @@ currentY += lineHeight * 2;
       }
     );
   }
+
+  downloadExcel(){
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.notPaidBills); // Convert table to sheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+    XLSX.writeFile(wb, 'bills-data.xlsx'); // Write the file
+
+  }
   
-
-
 }
