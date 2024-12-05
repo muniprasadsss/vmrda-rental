@@ -28,7 +28,7 @@
         <th pSortableColumn="User" *ngIf="userRole !== 'USER'">User Id<p-sortIcon field="User" /></th>
         <!-- <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th> -->
         <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
-        <th pSortableColumn="Property">Property Code<p-sortIcon field="Property" /></th>
+        <th pSortableColumn="Property">Property Name<p-sortIcon field="Property" /></th>
         <th>Paid Date</th>
         <th>Lease Amount</th>
         <th>GST</th>
@@ -48,7 +48,7 @@
         <td  *ngIf="userRole !== 'USER'">{{ receipt.User }}</td>
         <!-- <td style="width: 8%;">{{ receipt.ReceiptNo }}</td> -->
         <td >{{ receipt.BillNo }}</td>
-        <td >{{ receipt.Property }}</td>
+        <td >{{ receipt.property_name }}</td>
         <td >{{ receipt.paid_date | date: 'dd/MM/yyyy' }}</td>
         <td >{{ receipt.Rental_lease_amount_permonth }}</td>
         <td >{{ receipt.GST }}</td>
@@ -90,7 +90,7 @@
       </div>
       <div class="form-row" *ngIf="hideAddNew " >
         <div class="form-group">
-          <label for="bill-no" class="form-label">Property Code</label>
+          <label for="bill-no" class="form-label">Property Name</label>
           <input type="text" id="bill-no" class="form-input" formControlName="Property" />
         </div>
         <div class="form-group">

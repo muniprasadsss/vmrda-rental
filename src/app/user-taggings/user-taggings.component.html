@@ -37,7 +37,7 @@
         <th>S No</th>
         <th>User Id</th>
         <th>User Name</th>
-        <th>Property Code</th>
+        <th>Property Name</th>
         <th>Start Date</th>
         <th>End Date</th>
         <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">Date of Renewal<p-sortIcon
@@ -59,7 +59,7 @@
         <td >{{ lease.SL_NO }}</td>
         <td >{{ lease.USER_ID }}</td>
         <td >{{ lease.USER_NAME }}</td>
-        <td >{{ lease.PROPERTY }}</td>
+        <td >{{ lease.property_name }}</td>
         <td >{{ lease.START_DATE | date: 'dd-MM-yyyy' }}</td>
         <td >{{ lease.END_DATE | date: 'dd-MM-yyyy' }}</td>
         <td >{{ lease.DATE_OF_RENEWAL_OF_LICENSE | date: 'dd-MM-yyyy'}}</td>

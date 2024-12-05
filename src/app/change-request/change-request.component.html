@@ -52,7 +52,7 @@
                 <td>{{ item.requesttype }}</td>
                 <td>{{ item.revenuedivision }}</td>
                 <td class="wrap-text">{{ item.description }}</td>
-                <td>{{ item.propertycode }}</td>
+                <td>{{ item.property_name }}</td>
                 <td>{{ item.created_at | date: 'YYYY-MM-dd'}}</td>
                 <td>{{ item.status}}</td>
                 <td *ngIf="userRole !== 'USER'" style="width: 10%;">{{ item.stage}}</td>
@@ -136,7 +136,7 @@
                 <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon>
                 </th>
                 <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
-                <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
+                <th pSortableColumn="propertycode">Property Name<p-sortIcon field="propertycode"></p-sortIcon></th>
                 <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
                 <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
                 <th></th>
@@ -151,7 +151,7 @@
                 <td>{{ item.requesttype }}</td>
                 <td>{{ item.revenuedivision }}</td>
                 <td>{{ item.description }}</td>
-                <td>{{ item.propertycode }}</td>
+                <td>{{ item.property_name }}</td>
                 <td>{{ item.created_at | date: 'YYYY-MM-dd' }}</td>
                 <td>{{ item.status}}</td>
                 <td *ngIf="item.attachment !== null" pTooltip="Download Attachment" tooltipPosition="left"

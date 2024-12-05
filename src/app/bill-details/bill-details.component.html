@@ -40,7 +40,7 @@
       <ng-template pTemplate="header">
         <tr style="font-size: 12px; padding: 0;">
           <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
-          <th >Property Code</th>
+          <th >property Name</th>
           <th >Lease Period</th>
           <th>Lease Amount</th>
           <th >GST</th>
@@ -63,8 +63,8 @@
       </ng-template>
       <ng-template pTemplate="body" let-bill >
         <tr style="font-size: 12px;" >
-          <td style="width: 8%;">{{ bill.BillNo }}</td>
-          <td style="width: 8%;">{{ bill.Property }}</td>
+          <td style="width: 6%;">{{ bill.BillNo }}</td>
+          <td style="width: 15%;">{{ bill.property_name }}</td>
           <td style="width: 8%;">{{ bill.Bill_Period }}</td>
           <td style="width: 8%;">{{ bill.Rental_lease_amount_permonth }}</td>
           <td style="width: 6%;">{{ bill.GST }}</td>
@@ -80,7 +80,7 @@
           <td style="width: 8%;">{{ bill.Status }}</td>
           <td style="width: 8%;">{{ bill.BillStatus }}</td>
           <td>
-            <button class="gstButton" *ngIf=" (userRole === 'USER' || userRole === 'RD' || userRole === 'ADMIN' || userRole === 'CO_ADMIN') && (bill.GST > '0.00') " pTooltip="Download GST Bill" tooltipPosition="left"
+            <button class="gstButton" *ngIf=" (userRole === 'USER' || userRole === 'RD' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'|| userRole === 'IT-TEAM') && (bill.GST > '0.00') " pTooltip="Download GST Bill" tooltipPosition="left"
                (click)="downloadGSTBill(bill.BillNo)">
               <i class="pi pi-file-pdf"></i>
             </button>
@@ -133,7 +133,7 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label for="property_code" class="form-label">Property Code</label>
+            <label for="property_code" class="form-label">property Name</label>
             <input type="text" id="property_code" class="form-input" formControlName="property_code" />
           </div>
           <div class="form-group">
@@ -207,7 +207,7 @@
   <ng-template pTemplate="header">
   <tr style="font-size: 12px; padding: 0;">
   <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
-  <th>Property Code</th>
+  <th>property Name</th>
   <th>Lease Period</th>
   <th>Lease Amount</th>
   <th>GST</th>
@@ -230,7 +230,7 @@
   <ng-template pTemplate="body" let-bill>
   <tr style="font-size: 12px;" >
   <td style="width: 4%;">{{ bill.BillNo }}</td>
-  <td style="width: 8%;">{{ bill.Property }}</td>
+  <td style="width: 8%;">{{ bill.property_name }}</td>
   <td style="width: 8%;">{{ bill.BillNo }}</td>
   <td style="width: 8%;">{{ bill.Rental_lease_amount_permonth }}</td>
   <td style="width: 6%;">{{ bill.GST }}</td>
@@ -275,7 +275,7 @@
             <input type="text" id="BillNo" class="form-input" formControlName="billNo"  />
           </div>
           <div class="form-group">
-            <label for="propertycode" class="form-label">Property Code</label>
+            <label for="propertycode" class="form-label">property Name</label>
             <input type="text" id="propertycode"  class="form-input" formControlName="propertycode"/>
            </div>
            <div class="form-group">

@@ -4,7 +4,7 @@
         <ng-template pTemplate="header">
           <tr style="font-size: 12px;" >
               <th>Property NO</th>
-              <th>Property Code</th>
+              <th>Property Name</th>
               <th>Location</th>
               <th>Extent (sqm)</th>
               <th>Floor</th>
@@ -17,7 +17,7 @@
       <ng-template pTemplate="body" let-data>
         <tr style="font-size: 12px;">
             <td>{{ data.PROPERTY_NO }}</td>
-            <td>{{ data.PROPERTY_CODE }}</td>
+            <td>{{ data.property_name }}</td>
             <td>{{ data.LOCATION }}</td>
             <td>{{ data.EXTENT }} sqm</td>
             <td>{{ data.FLOOR }}</td>
@@ -62,7 +62,7 @@
             <input type="text" id="PropertyNo" formControlName="editPropertyNo" class="form-input" />
           </div>
           <div class="form-group">
-            <label for="PropertyCode" class="form-label">Property Code</label>
+            <label for="PropertyCode" class="form-label">Property Name</label>
             <input type="text" id="PropertyCode" formControlName="editPropertyCode" class="form-input" />
           </div>
         </div>
