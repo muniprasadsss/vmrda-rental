@@ -62,11 +62,10 @@
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 0.6rem 0.7rem;
-    font-size: 14px;
+    padding: 0.5rem;
+    font-size: 11px;
     font-weight: 700 !important;
     cursor: pointer;
-    margin-right: 10px;
   }
   .excelButton:hover{
     background-color: #17a34a; /* Darken the green slightly */
@@ -144,4 +143,11 @@
 }
 .payButton:hover{
   box-shadow: 1px 1px 1px rgba(36, 36, 36, 0.5);
+}
+
+.dialog{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 22rem;
 }

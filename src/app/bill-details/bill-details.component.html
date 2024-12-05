@@ -20,12 +20,19 @@
             (onChange)="onSelectGlobal($event.value)"
             placeholder="Select Property" />
         </div>
+
           <div class="dialog">
-            <!-- <p-button (onClick)="showDialog1()" label="History" severity="success" size="small" /> -->
-            <button class="excelButton" (click)="downloadExcel()" pTooltip="Download All Bills" tooltipPosition="bottom">
-              <i class="pi pi-file-excel"></i>
-            </button>
-            <button  class="addbutton" (click)="showDialog1()">History</button>
+            <div class="generate-all-bills"  *ngIf="userRole === 'RD' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'">
+              <button  class="addbutton" (click)="generateAllBills()">Generate All Bills</button>
+            </div>
+              <div class="excel">
+                <button class="addbutton" (click)="downloadExcel()" pTooltip="Download All Bills" tooltipPosition="bottom">
+                  <i class="pi pi-file-excel"></i> Download All
+                </button>
+              </div>
+            <div class="history">
+              <button  class="addbutton" (click)="showDialog1()">History</button>
+            </div>
           </div>
 
         </div>
@@ -73,7 +80,8 @@
           <td style="width: 8%;">{{ bill.Status }}</td>
           <td style="width: 8%;">{{ bill.BillStatus }}</td>
           <td>
-            <button *ngIf=" userRole !== 'USER' " pTooltip="Download GST Bill" tooltipPosition="left" (click)="downloadGSTBill(bill.BillNo)" style="border: none;background: none;color: red;">
+            <button *ngIf=" (userRole === 'USER' || userRole === 'RD' || userRole === 'ADMIN' || userRole === 'CO_ADMIN') && (bill.GST > '0.00') " pTooltip="Download GST Bill" tooltipPosition="left"
+               (click)="downloadGSTBill(bill.BillNo)" style="border: none;background: none;color: red;">
               <i class="pi pi-file-pdf"></i>
             </button>
           </td>
@@ -180,7 +188,7 @@
     </div>
     <div class="btn">
       <div class="save">
-        <p-button label="Generate" (onClick)="generateBill()" size="small" />
+        <p-button label="Save" (onClick)="generateBill()" size="small" />
       </div>
       <div class="cancel">
         <p-button label="Cancel" severity="danger" (onClick)="showModel = false" size="small" />

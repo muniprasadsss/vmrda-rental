@@ -51,6 +51,9 @@ updateBillDetails(billData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/getBillAndPropertyInfo`, {BillNo: BillNo })
 
   }
+  generateAllBills(revenueDivision:any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/generate-all-bills`, {revenueDivision: revenueDivision })
+  }
 
     createOrder(amount:any): Observable<any> {
     return this.http.post(`${this.apiUrl}/payment/orders`, amount );

@@ -585,6 +585,16 @@ currentY += lineHeight * 2;
   showDialog1() {
     this.visible1 = true;
   }
+  generateAllBills() {
+    this.billDetailService.generateAllBills(this.userID).subscribe({
+      next:(res:any)=>{
+        this.toastrService.success('Bills Generated Successfully')
+      },
+      error:(err:any)=>{
+        this.toastrService.warning(err.error.message)
+      }
+    })
+  }
 
   selectBillToPay(bill:any){
     this.selectedBill = bill;
