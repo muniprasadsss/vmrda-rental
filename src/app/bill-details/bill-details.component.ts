@@ -183,7 +183,7 @@ export class BillDetailsComponent implements OnInit {
             s_no: res.ID,
             bill_no: res.BillNo,
             user_id: res.User,
-            property_code: res.Property,
+            property_code: res.property_name,
             lease_period: res.BillNo,
             lease_Amount: res.Rental_lease_amount_permonth,
             gst: res.GST,
@@ -506,11 +506,11 @@ currentY += lineHeight * 2;
         // Dynamic content based on form data
         doc.setFontSize(12);
         doc.setFont('times', 'bold');
-        doc.text(`Property Name: ${bill.Property}`, margins.left, currentY);
+        doc.text(`Property Name: ${bill.property_name}`, margins.left, currentY);
         currentY += lineHeight * 1;
 
         doc.setFont('times', 'normal');
-        doc.text(` The Property with ${bill.Property} for an extent of ${this.propertyDetail.EXTENT} sqft. located in the ${this.propertyDetail.LOCATION} has been alloted to  ${this.propertyDetail.ALLOTTEE_NAME} vide reference cited  leased to ${bill.Rental_lease_amount_permonth}, located in ${bill.Property}, in  has a monthly lease amount of ${bill.Rental_lease_amount_permonth} with additional charges such as GST and utility bills.The license of the shop shall have to pay lease amount on or before 10th of every month. Whereas the license has failed to pay monthly lease as per the stipulated time and an amount ${bill.Total} is overdue against the said shop as detailed below`,
+        doc.text(` The Property with ${bill.property_name} for an extent of ${this.propertyDetail.EXTENT} sqft. located in the ${this.propertyDetail.LOCATION} has been alloted to  ${this.propertyDetail.ALLOTTEE_NAME} vide reference cited  leased to ${bill.Rental_lease_amount_permonth}, located in ${bill.Property}, in  has a monthly lease amount of ${bill.Rental_lease_amount_permonth} with additional charges such as GST and utility bills.The license of the shop shall have to pay lease amount on or before 10th of every month. Whereas the license has failed to pay monthly lease as per the stipulated time and an amount ${bill.Total} is overdue against the said shop as detailed below`,
 
 
           margins.left, currentY,
