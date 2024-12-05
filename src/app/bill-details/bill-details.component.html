@@ -38,11 +38,11 @@
         </div>
       </ng-template>
       <ng-template pTemplate="header">
-        <tr style="font-size: 12px; padding: 0;">
+        <tr style="font-size: 12px; padding: 0;white-space:nowrap;">
           <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
           <th >Property Code</th>
           <th >Lease Period</th>
-          <th pSortableColumn="Rental_lease_amount_permonth">Lease Amount<p-sortIcon field="Rental_lease_amount_permonth" /></th>
+          <th>Lease Amount</th>
           <th >GST</th>
           <th >Power Bill Amount</th>
           <th >Water Bill Amount</th>
@@ -80,8 +80,8 @@
           <td style="width: 8%;">{{ bill.Status }}</td>
           <td style="width: 8%;">{{ bill.BillStatus }}</td>
           <td>
-            <button *ngIf=" (userRole === 'USER' || userRole === 'RD' || userRole === 'ADMIN' || userRole === 'CO_ADMIN') && (bill.GST > '0.00') " pTooltip="Download GST Bill" tooltipPosition="left"
-               (click)="downloadGSTBill(bill.BillNo)" style="border: none;background: none;color: red;">
+            <button class="gstButton" *ngIf=" (userRole === 'USER' || userRole === 'RD' || userRole === 'ADMIN' || userRole === 'CO_ADMIN') && (bill.GST > '0.00') " pTooltip="Download GST Bill" tooltipPosition="left"
+               (click)="downloadGSTBill(bill.BillNo)">
               <i class="pi pi-file-pdf"></i>
             </button>
           </td>
@@ -205,23 +205,22 @@
   <ng-template pTemplate="caption">
   </ng-template>
   <ng-template pTemplate="header">
-  <tr style="font-size: 12px; padding: 0;">
+  <tr style="font-size: 12px; padding: 0;white-space:nowrap;">
   <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
-  <th pSortableColumn="Property">Property Code<p-sortIcon field="Property" /></th>
-  <th pSortableColumn="BillNo">Lease Period<p-sortIcon field="BillNo" /></th>
-  <th pSortableColumn="Rental_lease_amount_permonth">Lease Amount<p-sortIcon field="Rental_lease_amount_permonth" />
-  </th>
-  <th pSortableColumn="GST">GST<p-sortIcon field="GST" /></th>
-  <th pSortableColumn="Power_bill">Power Bill Amount</th>
-  <th pSortableColumn="Water_bill">Water Bill Amount</th>
-  <th pSortableColumn="Maintainance_bill">Maintenance Amount</th>
-  <th pSortableColumn="Total_rental_interest">Interest<p-sortIcon field="Total_rental_interest" /></th>
-  <th >TDS</th>
+  <th>Property Code</th>
+  <th>Lease Period</th>
+  <th>Lease Amount</th>
+  <th>GST</th>
+  <th>Power Bill Amount</th>
+  <th>Water Bill Amount</th>
+  <th>Maintenance Amount</th>
+  <th>Interest</th>
+  <th>TDS</th>
   <th pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
-  <th pSortableColumn="Total">Total</th>
-  <th pSortableColumn="TotalPaid">Payment Amount</th>
-  <th pSortableColumn="Total">Total Due</th>
-  <th pSortableColumn="BillStatus">Status</th>
+  <th>Total</th>
+  <th>Payment Amount</th>
+  <th>Total Due</th>
+  <th>Status</th>
   <th></th>
   <th></th>
   <th></th>

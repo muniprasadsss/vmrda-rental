@@ -20,7 +20,7 @@
         </div>
       </ng-template>
       <ng-template pTemplate="header">
-        <tr style="font-size: 12px;">
+        <tr style="font-size: 12px;white-space: nowrap;">
           <!-- <th pSortableColumn="SL_NO">S.No <p-sortIcon field="SL_NO" /></th> -->
           <th pSortableColumn="USER_ID">User ID <p-sortIcon field="USER_ID" /></th>
           <th>User Name</th>
@@ -37,15 +37,15 @@
       <ng-template pTemplate="body" let-customer>
         <tr style="font-size: 12px;">
           <!-- <td style="width: 5%;">{{ customer.SL_NO }}</td> -->
-          <td style="width: 7%;">{{ customer.USER_ID }}</td>
-          <td style="width: 9%;">{{ customer.USER_NAME }}</td>
-          <td style="width: 6%;">{{ customer.MOBILE_NUM }}</td>
-          <td style="width: 8%;">{{ customer.NATURE_OF_BUSINESS }}</td>
-          <td style="width: 8%;">{{ customer.Aadhaar_No }}</td>
-          <td style="width: 6%;">{{ customer.PAN }}</td>
-          <td style="width: 9%;">{{ customer.EMAIL_ID }}</td>
-          <td style="width: 6%;">{{ customer.GST_IN }}</td>
-          <td style="width: 6%;"
+          <td >{{ customer.USER_ID }}</td>
+          <td >{{ customer.USER_NAME }}</td>
+          <td >{{ customer.MOBILE_NUM }}</td>
+          <td >{{ customer.NATURE_OF_BUSINESS }}</td>
+          <td >{{ customer.Aadhaar_No }}</td>
+          <td >{{ customer.PAN }}</td>
+          <td >{{ customer.EMAIL_ID }}</td>
+          <td >{{ customer.GST_IN }}</td>
+          <td 
             *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
             <div class="rowbtn">
               <button class="editButton" pTooltip="Edit Tenant" tooltipPosition="left"

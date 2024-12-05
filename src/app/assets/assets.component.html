@@ -24,12 +24,12 @@
             </div>
         </ng-template>
         <ng-template pTemplate="header">
-            <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="Sl_NO">S No <p-sortIcon field="Sl_NO" /></th>
-                <th pSortableColumn="ALLOTTEE_NAME">Tenant Name <p-sortIcon field="ALLOTTEE_NAME" /></th>
+            <tr style="font-size: 12px; padding: 0;white-space: nowrap;">
+                <th>S No</th>
+                <th>User Name</th>
                 <th>Location</th>
                 <th>Extent</th>
-                <th pSortableColumn="FLOOR">Floor <p-sortIcon field="FLOOR" /></th>
+                <th>Floor</th>
                 <th>Present Rent</th>
                 <th>Property Code</th>
                 <th pSortableColumn="REVENUE_DIVISION">Revenue Division <p-sortIcon field="REVENUE_DIVISION" /></th>
@@ -40,16 +40,16 @@
         </ng-template>
         <ng-template pTemplate="body" let-location>
             <tr style="font-size: 12px; margin-bottom: 1rem;">
-                <td style="width: 8%;">{{ location.Sl_NO }}</td>
-                <td style="width: 14%;">{{ location.ALLOTTEE_NAME }}</td>
-                <td style="width: 8%;">{{ location.LOCATION }}</td>
-                <td style="width: 6%;">{{ location.EXTENT }}</td>
-                <td style="width: 8%;">{{ location.FLOOR }}</td>
-                <td style="width: 8%;">{{ location.PRESENT_RENT }}</td>
-                <td style="width: 12%;">{{ location.PROPERTY_CODE }}</td>
-                <td style="width: 15%;">{{ location.REVENUE_DIVISION }}</td>
-                <td style="width: 9%;">{{ location.STATUS }}</td>
-                <td style="width: 10%;">{{ location.TYPE_OF_PROPERTY }}</td>
+                <td >{{ location.Sl_NO }}</td>
+                <td >{{ location.ALLOTTEE_NAME }}</td>
+                <td >{{ location.LOCATION }}</td>
+                <td >{{ location.EXTENT }}</td>
+                <td >{{ location.FLOOR }}</td>
+                <td >{{ location.PRESENT_RENT }}</td>
+                <td >{{ location.PROPERTY_CODE }}</td>
+                <td >{{ location.REVENUE_DIVISION }}</td>
+                <td >{{ location.STATUS }}</td>
+                <td >{{ location.TYPE_OF_PROPERTY }}</td>
                 <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
                     <div class="rowbtn">
                         <button class="editButton" pTooltip="Edit Asset" tooltipPosition="left"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderComponent } from '../header/header.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -14,11 +14,15 @@ import { TransactionTrackingDetails } from '../interfaces/transactionTracking/tr
   styleUrl: './transaction-tracking.component.scss'
 })
 export class TransactionTrackingComponent {
+  @ViewChild('dt2') dt!: any;
+
   constructor(private transactionTrackingservice:TransactionTrackingService){}
 
   dataSource!: any;
   responseMsg: string | undefined;
   visible: boolean = false;
+  value: string = '';
+
   ngOnInit(): void {
     this.getTransactionTrackingDetails()
   }
@@ -43,5 +47,11 @@ export class TransactionTrackingComponent {
         }
       }
     });
+  }
+
+  onFilterGlobal(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.value = target.value;
+    this.dt.filterGlobal(this.value, 'contains');
   }
 }

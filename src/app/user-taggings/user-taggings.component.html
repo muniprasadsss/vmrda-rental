@@ -33,25 +33,24 @@
     </ng-template>
 
     <ng-template pTemplate="header">
-      <tr style="font-size: 12px;">
-        <th style="width: 6%;" pSortableColumn="SL_NO">S No<p-sortIcon field="SL_NO"></p-sortIcon></th>
-        <th style="width: 8%;" pSortableColumn="USER_ID">User Id<p-sortIcon field="USER_ID"></p-sortIcon></th>
-        <th style="width: 15%;">User Name</th>
-        <th style="width: 9%;">Property Code</th>
-        <th style="width: 9%;" pSortableColumn="START_DATE">Start Date<p-sortIcon field="START_DATE"></p-sortIcon></th>
-        <th style="width: 9%;" pSortableColumn="END_DATE">End Date<p-sortIcon field="END_DATE"></p-sortIcon></th>
-        <th style="width: 13%;" pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">Date of Renewal<p-sortIcon
+      <tr style="font-size: 12px;white-space:nowrap ;">
+        <th>S No</th>
+        <th>User Id</th>
+        <th>User Name</th>
+        <th>Property Code</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">Date of Renewal<p-sortIcon
             field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
-        <th style="width: 9%;">Lease Amount</th>
-        <th style="width: 9%;">Lease Go Live</th>
-        <th style="width: 9%;">Lease Period</th>
-        <th style="width: 9%;" pSortableColumn="RENTAL_INTRESET_PERCENT">Lease Interest%<p-sortIcon
-            field="RENTAL_INTRESET_PERCENT"></p-sortIcon></th>
-        <th style="width: 9%;" pSortableColumn="RENTAL_HIKE_PERCENT">Lease Hike%<p-sortIcon field="RENTAL_HIKE_PERCENT"></p-sortIcon></th>
-        <th style="width: 9%;">GST%</th>
+        <th>Lease Amount</th>
+        <th>Lease Go Live</th>
+        <th>Lease Period</th>
+        <th>Lease Interest%</th>
+        <th>Lease Hike%</th>
+        <th>GST%</th>
         <!-- <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th> -->
-        <th style="width: 9%;" pSortableColumn="LEASE_DEED_NO">Lease Deed Number<p-sortIcon field="LEASE_DEED_NO"></p-sortIcon></th>
-        <th style="width: 9%;" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"></th>
+        <th>Lease Deed Number</th>
+        <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"></th>
       </tr>
     </ng-template>
 

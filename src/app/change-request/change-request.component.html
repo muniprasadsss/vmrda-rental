@@ -22,18 +22,17 @@
         </ng-template>
 
         <ng-template pTemplate="header">
-            <tr style="font-size: 12px; padding: 0;">
+            <tr style="font-size: 12px; padding: 0;white-space: nowrap;">
                 <!-- <th pSortableColumn="id" *ngIf="userRole !== 'USER'">ID <p-sortIcon field="id"></p-sortIcon></th> -->
-                <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
-                <th pSortableColumn="username" *ngIf="userRole !== 'USER'">Username <p-sortIcon
-                        field="username"></p-sortIcon></th>
-                <th pSortableColumn="userId" *ngIf="userRole !== 'USER'">User ID <p-sortIcon
-                        field="userId"></p-sortIcon></th>
-                <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
+                <th>Cr No </th>
+                <th *ngIf="userRole !== 'USER'">Username</th>
+                <!-- <th pSortableColumn="userId" *ngIf="userRole !== 'USER'">User ID <p-sortIcon
+                        field="userId"></p-sortIcon></th> -->
+                <th>Request Type </th>
                 <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon>
                 </th>
-                <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
-                <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
+                <th>Description</th>
+                <th>Property Code</th>
                 <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
                 <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
                 <th *ngIf="userRole !== 'USER'" pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon>

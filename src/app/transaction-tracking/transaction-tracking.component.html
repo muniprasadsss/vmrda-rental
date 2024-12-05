@@ -1,5 +1,6 @@
 <div class="card custom-table">
   <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" 
+  [globalFilterFields]="['id', 'invoice_id', 'order_id', 'method', 'upi_transaction_id', 'amount', 'amount_refunded', 'currency', 'status','created_at']"
            [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
     <ng-template pTemplate="caption">
       <div class="searchbar">
@@ -8,24 +9,24 @@
             <p-inputIcon>
               <i class="pi pi-search"></i>
             </p-inputIcon>
-            <input pInputText type="text" placeholder="Search keyword" />
+            <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
           </p-iconField>
         </div>
 
       </div>
     </ng-template>
     <ng-template pTemplate="header">
-      <tr style="font-size: 12px; padding: 0;">
+      <tr style="font-size: 12px; padding: 0;white-space: nowrap;">
         <th pSortableColumn="SL_No">ID<p-sortIcon field="SL_No"></p-sortIcon></th>
         <th pSortableColumn="invoice_id">Invoice ID<p-sortIcon field="invoice_id"></p-sortIcon></th>
         <th pSortableColumn="order_id">Order ID<p-sortIcon field="order_id"></p-sortIcon></th>
-        <th pSortableColumn="method">Payment Method<p-sortIcon field="method"></p-sortIcon></th>
-        <th pSortableColumn="upi_transaction_id">UPI Transaction ID<p-sortIcon field="upi_transaction_id"></p-sortIcon></th>
-        <th pSortableColumn="amount">Amount<p-sortIcon field="amount"></p-sortIcon></th>
-        <th pSortableColumn="amount_refunded">Amount Refunded<p-sortIcon field="amount_refunded"></p-sortIcon></th>
-        <th pSortableColumn="currency">Currency<p-sortIcon field="currency"></p-sortIcon></th>
-        <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon></th>
-        <th pSortableColumn="created_at">Created At<p-sortIcon field="created_at"></p-sortIcon></th>
+        <th >Payment Method</th>
+        <th >UPI Transaction ID</th>
+        <th >Amount</th>
+        <th>Amount Refunded</th>
+        <th>Currency</th>
+        <th>Status</th>
+        <th>Created At</th>
         
       </tr>
     </ng-template>
