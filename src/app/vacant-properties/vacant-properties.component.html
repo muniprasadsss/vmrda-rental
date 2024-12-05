@@ -2,7 +2,7 @@
     <div class="card" style="padding: 1rem;">
       <p-table #dt2 [value]="dataSource" [globalFilterFields]="['PROPERTY_NO', 'PROPERTY_CODE', 'LOCATION', 'EXTENT', 'FLOOR', 'Status', 'Type of Property', 'AUCTION_DATE']" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
-          <tr style="font-size: 12px;white-space: nowrap;" >
+          <tr style="font-size: 12px;" >
               <th>Property NO</th>
               <th>Property Code</th>
               <th>Location</th>

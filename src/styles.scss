@@ -132,4 +132,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   cursor: pointer;
  }
 
+ .p-datatable-thead{
+  white-space: nowrap;          // for adjust width of th based on content
+ }
+ 
+ .p-datatable .p-datatable-tbody > tr{
+  white-space: nowrap;           // for adjust width of td based on content  
+ }
+
 
