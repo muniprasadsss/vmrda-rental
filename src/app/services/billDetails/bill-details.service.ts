@@ -32,8 +32,12 @@ export class BillDetailsService {
         return this.http.post<any>(`${this.apiUrl}/getbillsByBillNo`, { BillNo });
       }
 
-updateBillDetails(billData: any): Observable<any> {
-  return this.http.post<any>(`${this.apiUrl}/updatebill`, billData); // Updated endpoint
+saveBill(billData: any): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/save-bill`, billData); // Updated endpoint
+}
+
+generateBill(billData: any): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/generate-bill`, billData); // Updated endpoint
 }
 
       sendEmail(emailData: { to: string; subject: string; text: string }): Observable<any> {

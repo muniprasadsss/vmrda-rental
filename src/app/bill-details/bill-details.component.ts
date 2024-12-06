@@ -250,6 +250,45 @@ export class BillDetailsComponent implements OnInit {
 
   }
 
+  saveBill() {
+  this.showModel = true; // Show the modal (if you're using one)
+  if (this.form.valid) {
+    const formData = this.form.getRawValue();
+    // Get the user ID from the form data
+    const userId = formData.user_id; // Ensure this matches your form field name
+    const Property=formData.property_code;
+    const lease_Amount=formData.lease_Amount;
+    // Create the updateData object, including userId
+    const updateData = {
+      BillNo: formData.bill_no, // Ensure correct parameter name
+      Power_bill: formData.power_bill_amount,
+      Water_bill: formData.water_bill_amount,
+      Maintainance_bill: formData.maintenance_amount,
+      Total: formData.total,
+      Due: formData.total,
+      UserId: userId ,// Include userId here for sending with email
+      Property:Property,
+      lease_Amount:lease_Amount,
+      tds:formData.tds,
+      attachmentUlr:this.attachmentUrl
+    };
+    console.log(updateData, "....updatedata");
+    this.billDetailService.saveBill(updateData).subscribe({
+      next: (response) => {
+        // Generate and send PDF immediately after updating
+        this.showModel = false; // Close the modal after successful update
+        this.getbilldetails();
+        this.BillGeneratePdf(response.data); // Call the method to create and send PDF
+      },
+      error: (error) => {
+        console.error('Error submitting form:', error);
+      }
+    });
+  } 
+  else {
+    console.error('Form is invalid');
+  }
+  }
   generateBill() {
   this.showModel = true; // Show the modal (if you're using one)
   if (this.form.valid) {
@@ -273,7 +312,7 @@ export class BillDetailsComponent implements OnInit {
       attachmentUlr:this.attachmentUrl
     };
     console.log(updateData, "....updatedata");
-    this.billDetailService.updateBillDetails(updateData).subscribe({
+    this.billDetailService.generateBill(updateData).subscribe({
       next: (response) => {
         // Generate and send PDF immediately after updating
         this.showModel = false; // Close the modal after successful update

@@ -22,9 +22,9 @@
         </div>
 
           <div class="dialog">
-            <div class="generate-all-bills"  *ngIf="userRole === 'RD' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'">
+            <!-- <div class="generate-all-bills"  *ngIf="userRole === 'RD' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'">
               <button  class="addbutton" (click)="generateAllBills()">Generate All Bills</button>
-            </div>
+            </div> -->
               <div class="excel">
                 <button class="addbutton" (click)="downloadExcel()" pTooltip="Download All Bills" tooltipPosition="bottom">
                   <i class="pi pi-file-excel"></i> Download All
@@ -188,7 +188,10 @@
     </div>
     <div class="btn">
       <div class="save">
-        <p-button label="Save" (onClick)="generateBill()" size="small" />
+        <p-button label="Save" (onClick)="saveBill()" size="small" />
+      </div>
+      <div class="generate-btn">
+        <p-button label="Generate Bill" severity="success" (onClick)="generateBill()" size="small" />
       </div>
       <div class="cancel">
         <p-button label="Cancel" severity="danger" (onClick)="showModel = false" size="small" />
