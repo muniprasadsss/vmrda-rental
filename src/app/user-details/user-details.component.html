@@ -179,6 +179,9 @@
           <label for="editAadhar" class="form-label">Aadhar No <span class="text-danger">*</span></label>
           <input type="number" id="editAadhar" formControlName="editAadhar" class="form-input" inputmode="numeric"
             (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+            <div *ngIf="editForm.get('editAadhar')?.invalid && editForm.get('editAadhar')?.touched">
+              <small class="error">Aadhar number is required.</small>
+            </div>
         </div>
       </div>
       <div class="form-row">
@@ -209,7 +212,7 @@
         <p-button type="submit" label="Update" size="small"></p-button>
       </div>
       <div class="save">
-        <p-button label="Cancel" severity="danger" (click)="editVisible = false" size="small"></p-button>
+        <p-button label="Cancel" severity="danger" (click)="closeEditForm()" size="small"></p-button>
       </div>
     </div>
   </form>

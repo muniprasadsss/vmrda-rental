@@ -109,6 +109,7 @@ export class UserDetailsComponent implements OnInit {
           // Optionally reset the form or show a success message
           this.addNewForm.reset();
           this.visible = false;
+          this.editForm.reset();
         },
         error: (err) => {
           console.error('Error creating user:', err);
@@ -116,6 +117,11 @@ export class UserDetailsComponent implements OnInit {
         }
       });
     }
+  }
+
+  closeEditForm (){
+    this.editVisible = false;
+    this.editForm.reset();
   }
 
   openEditDialog(user: userdetails) {
@@ -135,7 +141,13 @@ export class UserDetailsComponent implements OnInit {
   }
 
   updateUser() {
-    const editFormData = this.editForm.value
+    if (this.editForm.invalid) {
+      // Mark all controls as touched to trigger validation messages
+      this.editForm.markAllAsTouched();
+      return; // Stop execution as the form is invalid
+    }
+  
+    const editFormData = this.editForm.value;
     const payload = {
       user_id: this.selectedUser.USER_ID,
       username: editFormData.editUsername,
@@ -148,24 +160,20 @@ export class UserDetailsComponent implements OnInit {
       userType: editFormData.user_type,
       revenueDivision: editFormData.editRevenue,
     };
-
-    if (this.editForm.valid) {
-      this.userdetailsservice.editUserDetails(payload).subscribe({
-        next: (response: any) => {
-
-          this.toasterservice.success("Updated successful")
-          // Optionally reset the form or show a success message
-          this.editForm.reset();
-          this.editVisible = false; // Close the edit dialog
-        },
-        error: (err) => {
-          console.error('Error updating user:', err);
-          this.toasterservice.error("Error updating user")
-          // Optionally show an error message
-        }
-      });
-    }
+  
+    this.userdetailsservice.editUserDetails(payload).subscribe({
+      next: (response: any) => {
+        this.toasterservice.success("Updated successfully");
+        this.editForm.reset();
+        this.editVisible = false; // Close the edit dialog
+      },
+      error: (err) => {
+        console.error('Error updating user:', err);
+        this.toasterservice.error("Error updating user");
+      },
+    });
   }
+  
 
   limitInputLength(event: KeyboardEvent, maxLength: number): void {
     const inputElement = event.target as HTMLInputElement;
