@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from "../footer/footer.component";
-import { HeaderComponent } from "../header/header.component";
+
 
 @Component({
   selector: 'app-dashboard',

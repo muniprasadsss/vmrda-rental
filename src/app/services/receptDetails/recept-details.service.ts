@@ -23,4 +23,10 @@ export class ReceptDetailsService {
   addReceipt(value:any): Observable<any> {
     return this.http.post(`${this.apiUrl}/manualReceipt`,value);
   }
+
+  filterReceiptData(updateData: any): Observable<any> {
+    console.log(updateData,"Updated data to procedure after click on pay...");
+    return this.http.post<any>(`${this.apiUrl}/filterReceiptData`, updateData); // Updated endpoint
+  }
+
 }

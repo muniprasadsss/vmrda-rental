@@ -1,13 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-import { HeaderComponent } from '../header/header.component';
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { FooterComponent } from '../footer/footer.component';
 import { ToastrService } from 'ngx-toastr';
 import { UserTaggingService } from '../services/userTagging/user-tagging.service';
 import { usertagging } from '../interfaces/userTagging/usertagginginterface';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-user-taggings',
@@ -29,10 +27,10 @@ export class UserTaggingsComponent implements OnInit {
   unoccupiedProprertys: any;
   @ViewChild('dt2') dt!: any;
   value: any;
+  propertyCode:any;
   constructor(
     private toasterservice: ToastrService,
     private usertaggingservice: UserTaggingService,
-    private datepipe: DatePipe,
     private fb: FormBuilder,
     private cd: ChangeDetectorRef
   ) {
@@ -57,6 +55,7 @@ export class UserTaggingsComponent implements OnInit {
     this.userID = localStorage.getItem('userId');
     this.getUnoccupiedPropertys();
     this.getUserTaggingDetails();
+    this.getPropertyCodes();
   }
 
   getUnoccupiedPropertys() {
@@ -74,6 +73,28 @@ export class UserTaggingsComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     this.value = target.value;
     this.dt.filterGlobal(this.value, 'contains');
+  }
+
+  onSelectGlobal(field: string, selectedValues: any[]): void {
+    if (!selectedValues || selectedValues.length === 0) {
+      // Clear the global filter when no selection
+      this.dt.filterGlobal('', 'contains');
+    } else {
+      // Use the last selected item's specific field for filtering
+      const lastSelected = selectedValues[selectedValues.length - 1][field];
+      this.dt.filterGlobal(lastSelected, 'contains');
+    }
+  }
+  
+  
+  getPropertyCodes(){
+    this.usertaggingservice.getPropertyCodes( this.userID,this.userRole).subscribe({
+      next:(res:any)=>{
+        this.propertyCode = res;
+      },
+      error:(err:any)=>{
+      }
+    })
   }
 
   getUserTaggingDetails() {

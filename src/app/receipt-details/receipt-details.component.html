@@ -4,17 +4,55 @@
   <ng-template pTemplate="caption">
       <div class="searchbar">
         <div class="search">
-          <p-iconField iconPosition="left" class="ml-auto">
-            <p-inputIcon>
-              <i class="pi pi-search"></i>
-            </p-inputIcon>
-            <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
-          </p-iconField>
+          <div class="filters">
+            <div class="search" *ngIf=" userRole !== 'USER'">
+              <p-multiSelect 
+              [options]="locationList" 
+              placeholder="Complex"
+              [(ngModel)]="locationFilter"
+              optionLabel = "LOCATION_CODE"
+              [filter]="false"
+              (onChange)="applyFilters()"
+               >
+               <ng-template let-selectedValue pTemplate="selectedItem">
+                {{ selectedValue.LOCATION }}
+            </ng-template>
+            </p-multiSelect>
+          </div>
+            <div class="search" *ngIf=" userRole !== 'USER'">
+              <p-multiSelect 
+              [options]="complexList" 
+              placeholder="Property"
+              [(ngModel)]="propertyFilter"
+              optionLabel = "PROPERTY_CODE"
+              [filter]="false"
+              (onChange)="applyFilters()"
+               >
+               <ng-template let-selectedValue pTemplate="selectedItem">
+                {{ selectedValue.PROPERTY_CODE }}
+            </ng-template>
+            </p-multiSelect>
+          </div>
+          <div class="search" *ngIf="userRole !== 'USER'">
+            <p-multiSelect
+                [options]="allAlloteList"
+                placeholder="Allote Name"
+                [(ngModel)]="alloteFilter"
+                [filter]="false"
+                (onChange)="applyFilters()"
+            >
+                <!-- Custom template for dropdown items -->
+                <ng-template let-option pTemplate="item">
+                    {{ option | slice:0:14 }} <!-- Limit dropdown item to 5 characters -->
+                </ng-template>
+                <ng-template let-selectedValue pTemplate="selectedItem">
+                  {{ selectedValue | slice:0:14 }}
+              </ng-template>
+            </p-multiSelect>
         </div>
-        <!-- <p-button *ngIf=" userRole !== 'USER' && userRole !== 'IT-TEAM' " (click)="showDialog()" label=" + Add New" severity="success"
-          size="small" /> -->
-        <!-- <p-button *ngIf=" userRole !== 'USER'" (click)="showDialog()" label=" + Add Receipt" severity="success"
-          size="small" /> -->
+        
+          </div>
+        </div>
           <div *ngIf=" userRole !== 'USER'">
             <button  class="addbutton" (click)="showDialog()">+ Add Receipt</button>
           </div>
@@ -64,6 +102,9 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="16">No data found.</td>
+    </tr>
     </ng-template>
   </p-table>
 </div>

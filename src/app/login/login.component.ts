@@ -82,7 +82,7 @@ export class LoginComponent {
       if(res.data.user_type === 'USER'){
         this.router.navigateByUrl("billDetails")
       }else{
-        this.router.navigateByUrl("user")
+        this.router.navigateByUrl("billDetails")
       }
         },
         error:(err:any)=>{

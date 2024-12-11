@@ -61,3 +61,10 @@
     gap: 1rem;
   }
   
+  .filters{
+    display: flex;
+    flex-direction: row;
+  }
+  .search{
+    padding-right: 0.5rem;
+  }

@@ -45,7 +45,7 @@ export class AppComponent implements OnInit{
       if(this.userType === 'USER'){
         this.router.navigateByUrl("billDetails");
       }else{
-        this.router.navigateByUrl("user")
+        this.router.navigateByUrl("billDetails")
       }
     }
     

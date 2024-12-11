@@ -1,6 +1,5 @@
 .searchbar{
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
 }
 .btn{
@@ -145,5 +144,14 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 22rem;
+  width: 16rem;
+  align-items: center;
+}
+
+.filters{
+  display: flex;
+  flex-direction: row;
+}
+.search{
+  padding-right: 0.5rem;
 }

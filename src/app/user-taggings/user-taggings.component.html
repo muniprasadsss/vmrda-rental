@@ -16,18 +16,48 @@
   'LEASE_DEED_NO']" [tableStyle]="{ 'min-width': '75rem' }" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
     <ng-template pTemplate="caption">
       <div class="searchbar">
-        <div class="search">
-          <p-iconField iconPosition="left" class="ml-auto">
-            <p-inputIcon>
-              <i class="pi pi-search"></i>
-            </p-inputIcon>
-            <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
-          </p-iconField>
-        </div>
+          <div class="filters">
+            <div class="search">
+              <p-iconField iconPosition="left" class="ml-auto">
+                <p-inputIcon>
+                  <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+              </p-iconField>
+            </div>
+            <div class="search">
+              <p-multiSelect 
+                [options]="propertyCode" 
+                placeholder="Property"
+                optionLabel="PROPERTY_CODE"
+                display="chip"
+                [filter]="false"
+                (onChange)="onSelectGlobal('PROPERTY_CODE', $event.value)"
+              >
+              </p-multiSelect>
+            </div>
+            
+            <div class="search">
+              <p-multiSelect 
+                [options]="propertyCode" 
+                placeholder="Allote"
+                optionLabel="USER_NAME"
+                display="chip"
+                [filter]="false"
+                (onChange)="onSelectGlobal('USER_NAME', $event.value)"
+              >
+                <ng-template let-option pTemplate="item">
+                  {{ option.USER_NAME | slice:0:14 }} <!-- Limit dropdown item to 14 characters -->
+                </ng-template>
+                <ng-template let-selectedValue pTemplate="selectedItem">
+                  {{ selectedValue.USER_NAME | slice:0:14 }}
+                </ng-template>
+              </p-multiSelect>
+            </div>
+            
+          </div>
         <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
-          <!-- <p-button (onClick)="showDialog()" label=" + Add New" severity="success" size="small"></p-button> -->
           <button  class="addbutton" (click)="showDialog()">+ Tag New Assets</button>
-
         </div>
       </div>
     </ng-template>

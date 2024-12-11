@@ -3,14 +3,14 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { ReceptDetailsService } from '../services/receptDetails/recept-details.service';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators,FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
 import { BillDetailsService } from '../services/billDetails/bill-details.service';
 @Component({
   selector: 'app-receipt-details',
   standalone: true,
-  imports: [PrimeNgModule,ReactiveFormsModule],
+  imports: [PrimeNgModule,ReactiveFormsModule,FormsModule],
   templateUrl: './receipt-details.component.html',
   styleUrl: './receipt-details.component.scss'
 })
@@ -28,7 +28,12 @@ export class ReceiptDetailsComponent {
   attachmentUrl:any = null
   bill:any;
   submitted = false; // track amountpaid input field
-
+  complexList:[] = [];
+  locationList:[] = [];
+  allAlloteList:[] = [];
+  propertyFilter:any[] = [];
+  locationFilter:any[] = [];
+  alloteFilter:any[]=[];
   constructor(private http:ReceptDetailsService,
     private Http: ChangeRequestService,
     private billDetailService: BillDetailsService,
@@ -67,11 +72,15 @@ onFilterGlobal(event: Event): void {
     this.http.getReciptDetails(this.userID,this.userRole).subscribe({
       next:(res:any)=>{
         this.receiptData = res.receiptData;
+        this.locationList = res.location;
+        this.complexList = res.complex;
+        this.allAlloteList = res.allAlloteNames;
       },
       error:(err:any)=>{
 
       }
     })
+    this.cd.detectChanges();
   }
 
 generatePDF(receipt: any) {
@@ -192,7 +201,6 @@ generatePDF(receipt: any) {
   doc.save(`Receipt_${receipt.ReceiptNo}.pdf`);
 }
 
-
   addNewUser() {
     if (this.addNewRecept.valid) {
 
@@ -204,7 +212,6 @@ generatePDF(receipt: any) {
 
     }
   }
-
      // Handle file input change
    onFileChange(event: any) {
       const file = event.target.files[0];
@@ -257,14 +264,7 @@ generatePDF(receipt: any) {
       }
     })
   }
-  // generateChallanNumber(UserID: string): string {
-  //   const currentDate = new Date();
-  //   const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month as a number, padded to 2 digits
-  //   const currentYear = currentDate.getFullYear();
 
-
-  //   return `REC/VMRDA/${currentMonth}/${currentYear}/${UserID}`;
-  // }
   addReciept() {
     this.submitted=true;
     // Get the form values
@@ -346,6 +346,26 @@ createReceipt(receiptData: any) {
         // Close the modal on Escape key press
         this.closeDialog(); // Make sure to close the dialog if needed
       }
+    }
+
+
+    applyFilters() {
+      const filters = {
+        locationCodes: this.locationFilter.map(item => item.LOCATION_CODE),
+        propertyCodes: this.propertyFilter.map(item => item.PROPERTY_CODE),
+        alloteNames: this.alloteFilter,
+        userType: this.userRole,
+        revenueDivision: this.userID
+      };
+      this.http.filterReceiptData(filters).subscribe({
+        next:(res)=>{
+          this.receiptData = res.receiptData;
+          this.locationList = res.locationList;
+          this.complexList = res.complexList;
+          this.allAlloteList = res.allAlloteNames;
+            this.cd.detectChanges();
+        }
+      })
     }
     
 }

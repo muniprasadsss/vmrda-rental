@@ -2,16 +2,10 @@ import { ReceptDetailsService } from './../services/receptDetails/recept-details
 import { billDetails } from './../interfaces/billDetails/billDetailsInterfaces';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-import { HeaderComponent } from '../header/header.component';
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { FooterComponent } from '../footer/footer.component';
 import { BillDetailsService } from '../services/billDetails/bill-details.service';
-// import { ReceptDetailsService } from '../services/receptDetails/recept-details.service';
 import { ChangeDetectorRef } from '@angular/core';
-// import { billDetails } from '../interfaces/billDetails/billDetailsInterfaces';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { jsPDF } from 'jspdf';
-// import autoTable from 'jspdf-autotable';
 import autoTable from 'jspdf-autotable';
 import { DatePipe } from '@angular/common';
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
@@ -23,7 +17,7 @@ declare var Razorpay: any;
 @Component({
   selector: 'app-bill-details',
   standalone: true,
-  imports: [PrimeNgModule, ReactiveFormsModule],
+  imports: [PrimeNgModule, ReactiveFormsModule,FormsModule],
   templateUrl: './bill-details.component.html',
   styleUrls: ['./bill-details.component.scss'],
   providers: [DatePipe], // Add DatePipe here
@@ -49,7 +43,6 @@ export class BillDetailsComponent implements OnInit {
   receiptData: any;
   notPaidBills!: billDetails[];
   paidBills!: billDetails[];
-  propertyCode:any;
   showPayPopup:boolean=false;
   PaymentPopupform!: FormGroup;
   selectedBill: any;
@@ -68,6 +61,16 @@ export class BillDetailsComponent implements OnInit {
   sentDisabledFieldValues:any
   isDialogVisible: boolean = false;
   paymentMessage: string = '';
+  complexList:[] = [];
+  locationList:[] = [];
+  billPeriod:[] = [];
+  allAlloteList:[] = [];
+  propertyFilter:any[] = [];
+  locationFilter:any[] = [];
+  alloteFilter:any[]=[];
+  billPeriodFilter:any[] = [];
+  billGenetaredCount: number = 0;
+  billnotpaidCount: number = 0;
   constructor(private billDetailService: BillDetailsService,
               private Http: ChangeRequestService,
               private cd: ChangeDetectorRef,
@@ -120,7 +123,6 @@ export class BillDetailsComponent implements OnInit {
     this.userDetailsObject = JSON.parse(this.userdetails);
     this.username=this.userDetailsObject.USER_NAME
     this.getbilldetails();
-    this.getPropertyCodes();
 
   }
 
@@ -139,16 +141,6 @@ export class BillDetailsComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     this.value = target.value;
     this.dt2.filterGlobal(this.value, 'contains');
-  }
-
-  getPropertyCodes(){
-    this.billDetailService.getPropertyCodes( this.userID,this.userRole).subscribe({
-      next:(res:any)=>{
-        this.propertyCode = res;
-      },
-      error:(err:any)=>{
-      }
-    })
   }
 
   calculateTotal(): void {
@@ -207,6 +199,10 @@ export class BillDetailsComponent implements OnInit {
     this.billDetailService.getBillDetailsByUserId(this.userID, this.userRole).subscribe({
       next: (res: any) => {
         this.dataSource = res.billingData;
+        this.locationList = res.location;
+        this.complexList = res.complex;
+        this.billPeriod = res.billperiod;
+        this.allAlloteList = res.allAlloteNames;
         this.responseMsg = res.message;
         if (this.dataSource.length > 0) {
           this.filterBillData();
@@ -225,17 +221,15 @@ export class BillDetailsComponent implements OnInit {
   filterBillData(){
     this.paidBills = [];
     this.notPaidBills = [];
-    this.paidBills = this.dataSource.filter(item=>{
-      return item.Status === 'Fully Paid'
-    })
+    this.paidBills = this.dataSource.filter(item=>{return item.Status === 'Fully Paid'})
+    this.billGenetaredCount = this.dataSource.length
     if (this.userRole === 'USER') {
       this.notPaidBills = this.dataSource.filter(item => {
         return (item.Status !== 'Fully Paid' && item.BillStatus === 'Active')
       })
     } else {
-      this.notPaidBills = this.dataSource.filter(item => {
-        return (item.Status !== 'Fully Paid' ) //PP and NP only visible changed 27-09-24
-      })
+      this.notPaidBills = this.dataSource.filter(item => {return (item.Status !== 'Fully Paid' ) })
+      this.billnotpaidCount = this.notPaidBills.length
     }
     this.cd.detectChanges();
   }
@@ -520,15 +514,6 @@ export class BillDetailsComponent implements OnInit {
         doc.text('Bill', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
         currentY += lineHeight * 1;
 
-        // Adding date and reference (aligned inside border)
-        // const currentDate = new Date().toLocaleDateString();
-        // doc.setFontSize(12);
-        // doc.setFont('times', 'normal');
-        // doc.text(`Bill No.. ${bill.BillNo}`, margins.left, currentY);
-        // doc.text(`Date: ${currentDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
-        // currentY += lineHeight * 2;
-
-
         const currentDate = new Date();
         const formattedDate = 
     String(currentDate.getDate()).padStart(2, '0') + '-' + 
@@ -614,16 +599,11 @@ currentY += lineHeight * 2;
     )
   }
 
-  generateChallanNumber(UserID: string): string {
-    const currentDate = new Date();
-    const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month as a number, padded to 2 digits
-    const currentYear = currentDate.getFullYear();
-    return `Rec/VMRDA/${currentMonth}/${currentYear}/${UserID}`;
-  }
 
   showDialog1() {
     this.visible1 = true;
   }
+
   generateAllBills() {
     this.billDetailService.generateAllBills(this.userID).subscribe({
       next:(res:any)=>{
@@ -708,147 +688,6 @@ currentY += lineHeight * 2;
     this.isDialogVisible = false;
   }
 
-
-
-  createAndSendReceiptPDF(payload: any, responseData: any) {
-    const doc = new jsPDF();
-    const margins = { top: 15, bottom: 15, left: 20, right: 20 };
-    const lineHeight = 8;
-    let currentY = margins.top;
-  
-    // Add logo
-    const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png';
-    const logoWidth = 20;
-    const logoHeight = 20;
-    const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
-    doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight, '', 'FAST');
-    currentY += logoHeight + 5;
-  
-    // Add border
-    doc.setLineWidth(0.5);
-    doc.rect(
-      margins.left - 5, margins.top - 5,
-      doc.internal.pageSize.width - (margins.left + margins.right - 10),
-      doc.internal.pageSize.height - (margins.top + margins.bottom - 10)
-    );
-  
-    // Add headings
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'bold');
-    doc.text(
-      'VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY',
-      doc.internal.pageSize.width / 2, currentY, { align: 'center' }
-    );
-    currentY += lineHeight + 2;
-  
-    doc.text('Receipt', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
-    currentY += lineHeight;
-  
-    // Add date and receipt reference
-    const currentDate = new Date().toLocaleDateString();
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Receipt No:`, margins.left, currentY);
-    doc.setFont('helvetica', 'bold');
-    doc.text(payload.ReceiptNo, margins.left + 30, currentY);
-    doc.setFont('helvetica', 'normal');
-    doc.text('Date:', doc.internal.pageSize.width - margins.right - 45, currentY);
-    doc.setFont('helvetica', 'bold');
-    doc.text(currentDate, doc.internal.pageSize.width - margins.right - 30, currentY);
-    currentY += lineHeight * 2;
-  
-    // Add property details
-    doc.setFont('helvetica', 'bold');
-    doc.text(`Property Name: `, margins.left, currentY);
-    doc.text(payload.Property, margins.left + 40, currentY);
-    currentY += lineHeight;
-  
-    // Add summary text
-    doc.setFont('helvetica', 'normal');
-    doc.text(
-      `This receipt acknowledges the payment for property code ${payload.Property}, leased to ${this.username}. ` +
-      `Payment includes the lease amount, GST, and other charges. Summary of payment details:`,
-      margins.left, currentY, { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
-    );
-    currentY += lineHeight * 3;
-  
-    // Add receipt details in a table format
-    const tableRows = [
-      ['Receipt No', responseData.data.receipt_no, ''],
-      ['User ID', responseData.data.user, ''],
-      ['Bill No', responseData.bill.BillNo, ''],
-      ['Property Code', responseData.data.property, ''],
-      ['Paid Date', new Date(payload.paid_date).toLocaleDateString(), ''],
-      
-      // Add a row for "Amount" and "Due" column headers after "Paid Date"
-      ['', 'Amount', 'Due'],
-  
-  // New row for Amount and Due
-  ['Rent', responseData.bill.Rental_lease_amount_permonth, (responseData.bill.Rental_lease_amount_permonth - responseData.data.rental_amount).toFixed(2)],
-  ['Water Bill', responseData.bill.Water_bill, (responseData.bill.Water_bill - responseData.data.water_bill).toFixed(2)],
-  ['Intrest', responseData.bill.Total_rental_interest, (responseData.bill.Total_rental_interest - responseData.data.total_rental_interest).toFixed(2)],
-  ['Power Bill', responseData.bill.Power_bill, (responseData.bill.Power_bill - responseData.data.power_bill).toFixed(2)],
-  ['Maintenance Bill', responseData.bill.Maintainance_bill, (responseData.bill.Maintainance_bill - responseData.data.maintainance_bill).toFixed(2)],
-  ['GST', responseData.bill.GST, (responseData.bill.GST - responseData.data.gst).toFixed(2)],
-
-  // Summary rows
-  ['Total Amount', responseData.bill.Total, responseData.data.due],
-  ['Total Paid', responseData.bill.TotalPaid, ''],
-  ['Payment Status', '', responseData.data.status]
-
-      
-    ];
-  
-    // Adjust columns for 'Amount' and 'Due'
-    autoTable(doc, {
-      head: [['Fields', 'Amount', 'Due']],
-      body: tableRows,
-      startY: currentY,
-      margin: { left: margins.left + 10, right: margins.right + 10 },
-      tableWidth: doc.internal.pageSize.width - margins.left - margins.right - 20,
-      theme: 'grid',
-      headStyles: {
-        fillColor: [0, 102, 204],
-        textColor: [255, 255, 255],
-        fontSize: 12
-      },
-      styles: {
-        fontSize: 12,
-        cellPadding: 1
-      }
-    });
-  
-    currentY = doc.internal.pageSize.height - margins.bottom - 40;
-  
-    // Add footer text
-    doc.setFont('helvetica', 'normal');
-    doc.text('Thank you for your payment. Please retain this receipt for your records.', margins.left, currentY);
-    currentY += lineHeight;
-    doc.text('Regards,', margins.left, currentY);
-    currentY += lineHeight;
-    doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
-  
-    // Generate the PDF as a Blob
-    const pdfBlob = doc.output('blob');
-  
-    // Prepare FormData to send the PDF to the backend
-    const formData = new FormData();
-    formData.append('pdf', pdfBlob, `Receipt_${payload.receipt_no}.pdf`);
-    formData.append('userId', responseData.data.user);
-    console.log('User ID sent in formData:', formData.get('userId'));
-  
-    // Send the PDF to the backend for emailing
-    this.billDetailService.sendEmailWithAttachment(formData).subscribe({
-      next: (response) => {
-        console.log('Email sent successfully!', response);
-        this.toastrService.success('Payment done successfully')
-      },
-      error: (error) => {
-        console.error('Error sending email:', error);
-      }
-    });
-  }
-  
-
   showPaymentPopup(){
     this.showPayPopup=true;
   }
@@ -883,6 +722,38 @@ currentY += lineHeight * 2;
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
     XLSX.writeFile(wb, 'bills-data.xlsx'); // Write the file
 
+  }
+
+  applyFilters() {
+    const filters = {
+      locationCodes: this.locationFilter.map(item => item.LOCATION_CODE),
+      propertyCodes: this.propertyFilter.map(item => item.PROPERTY_CODE),
+      alloteNames: this.alloteFilter,
+      billPeriods: this.billPeriodFilter.map(item => item),
+      userType: this.userRole,
+      revenueDivision: this.userID
+    };
+    this.billDetailService.filterBillingData(filters).subscribe({
+      next:(res)=>{
+        this.dataSource = res.billingData;
+        this.locationList = res.locationList;
+        this.complexList = res.complexList;
+        this.billPeriod = res.billPeriod;
+        this.allAlloteList = res.allAlloteNames;
+        if (this.dataSource.length > 0) {
+          this.filterBillData();
+        }
+        else{
+          this.billnotpaidCount = 0
+          this.billnotpaidCount = 0
+          this.dataSource = [];
+          this.paidBills = [];
+          this.notPaidBills = [];
+          this.cd.detectChanges();
+        }
+      }
+
+    })
   }
   
 }
