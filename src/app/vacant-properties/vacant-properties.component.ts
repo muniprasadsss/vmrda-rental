@@ -61,8 +61,9 @@ export class VacantPropertiesComponent {
 
   loadData(): void {
     this.vacantPropertiesService.getVacantProperties().subscribe({
-      next: (data) => {
-        this.dataSource = data; // Update dataSource with API response
+      next: (res) => {
+        this.dataSource = res.data
+        ; // Update dataSource with API response
         // console.log(this.dataSource,"data check..");  
       },
       error: (error) => {

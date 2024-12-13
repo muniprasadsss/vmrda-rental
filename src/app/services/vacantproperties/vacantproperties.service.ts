@@ -12,9 +12,9 @@ export class VacantpropertiesService {
   constructor(private http: HttpClient) { }
   
   getVacantProperties(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/vacantProperties`)
+    return this.http.get<any>(`${this.apiUrl}/vacantProperties-without-bills`)
   }
 
   editAuctionDate(data: any):Observable<any> {    
-    return this.http.put<any>(`${this.apiUrl}/updateAuctionDate`, data);
+    return this.http.put<any>(`${this.apiUrl}/update-auction-date`, data);
   }}
