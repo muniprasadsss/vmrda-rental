@@ -42,13 +42,14 @@ export class ReceiptDetailsComponent {
     private cd: ChangeDetectorRef){
 
     this.addNewRecept = this.fb.group({
-      billNo: ['', Validators.required],
-      User:[{ value: '', disabled: true }],
-      Property:[{ value: '', disabled: true }],
-      Bill_Period:[{ value: '', disabled: true }],
-      Total:[{ value: '', disabled: true }],
-      Status:[{ value: '', disabled: true }],
-      amount_paid: ['', Validators.required],
+      billNo: [null, Validators.required],
+      User:[{ value: null, disabled: true }],
+      Property:[{ value: null, disabled: true }],
+      Bill_Period:[{ value: null, disabled: true }],
+      Total:[{ value: null, disabled: true }],
+      Status:[{ value: null, disabled: true }],
+      challanaNumber: {value: null },
+      amount_paid: [null, Validators.required],
     });
   }
 
@@ -251,6 +252,7 @@ generatePDF(receipt: any) {
             Bill_Period:  res.Bill_Period,
             Total: res.Total,
             Status: res.Status,
+            challanaNumber:res.challana_number
           })
               this.hideAddNew = true;
         }
@@ -273,6 +275,7 @@ generatePDF(receipt: any) {
     // Check if the required fields are present
     const p_billid = this.bill?.BillNo;
     const p_payment_amount = this.addNewRecept.get('amount_paid')?.value;
+    const challana_number = this.addNewRecept.get('challanaNumber')?.value;
   
     if (!p_billid || !p_payment_amount) {
       // If either of the required fields is missing, show a toaster warning
@@ -285,6 +288,7 @@ generatePDF(receipt: any) {
       const updateData = {
         p_billid: p_billid,
         p_payment_amount: p_payment_amount,
+        challana_number:challana_number
       };
   
       this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({

@@ -113,6 +113,7 @@ export class BillDetailsComponent implements OnInit {
       maintenance_amount: new FormControl(null, Validators.required),
       lease_interests: new FormControl({ value: null, disabled: true }, Validators.required),
       total: new FormControl(null, Validators.required),
+      Arrears: new FormControl(null, Validators.required),
       tds: new FormControl(null),
     });
     
@@ -146,6 +147,7 @@ export class BillDetailsComponent implements OnInit {
   calculateTotal(): void {
     const leaseAmount = parseFloat(this.form.get('lease_Amount')?.value) || 0;
     const gst = parseFloat(this.form.get('gst')?.value) || 0;
+    const Arrears = parseFloat(this.form.get('Arrears')?.value) || 0;
     const powerBillAmount = parseFloat(this.form.get('power_bill_amount')?.value) || 0;
     const waterBillAmount = parseFloat(this.form.get('water_bill_amount')?.value) || 0;
     const maintenanceAmount = parseFloat(this.form.get('maintenance_amount')?.value) || 0;
@@ -155,7 +157,7 @@ export class BillDetailsComponent implements OnInit {
       this.isTds = false;
     }
     // Calculate the total
-    const total = leaseAmount + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests + this.tdsvalue;
+    const total = leaseAmount + Arrears + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests + this.tdsvalue;
 
     // Update the total field in the form
     this.form.get('total')?.setValue(total, { emitEvent: false }); 
@@ -176,7 +178,7 @@ export class BillDetailsComponent implements OnInit {
             bill_no: res.BillNo,
             user_id: res.User,
             property_code: res.property_name,
-            lease_period: res.BillNo,
+            lease_period: res.Bill_Period,
             lease_Amount: res.Rental_lease_amount_permonth,
             gst: res.GST,
             power_bill_amount: res.Power_bill,
