@@ -2,28 +2,22 @@ import { ReceptDetailsService } from './../services/receptDetails/recept-details
 import { billDetails } from './../interfaces/billDetails/billDetailsInterfaces';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-import { HeaderComponent } from '../header/header.component';
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { FooterComponent } from '../footer/footer.component';
 import { BillDetailsService } from '../services/billDetails/bill-details.service';
-// import { ReceptDetailsService } from '../services/receptDetails/recept-details.service';
 import { ChangeDetectorRef } from '@angular/core';
-// import { billDetails } from '../interfaces/billDetails/billDetailsInterfaces';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
-// import autoTable from 'jspdf-autotable';
 import autoTable from 'jspdf-autotable';
 import { DatePipe } from '@angular/common';
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import * as XLSX from 'xlsx';
 declare var Razorpay: any;
 
 @Component({
   selector: 'app-bill-details',
   standalone: true,
-  imports: [PrimeNgModule, ReactiveFormsModule],
+  imports: [PrimeNgModule, ReactiveFormsModule,FormsModule],
   templateUrl: './bill-details.component.html',
   styleUrls: ['./bill-details.component.scss'],
   providers: [DatePipe], // Add DatePipe here
@@ -34,6 +28,7 @@ export class BillDetailsComponent implements OnInit {
     subject: 'Test Email from Angular',
     text: 'Hello! This is a test email sent from the Angular frontend using Nodemailer backend.',
   };
+  razorpay_key_id:string = 'rzp_live_SoaxyQXKUe6WFi';
   visible: boolean = false;
   responseMsg: string | undefined;
   dataSource!: billDetails[];
@@ -48,7 +43,6 @@ export class BillDetailsComponent implements OnInit {
   receiptData: any;
   notPaidBills!: billDetails[];
   paidBills!: billDetails[];
-  propertyCode:any;
   showPayPopup:boolean=false;
   PaymentPopupform!: FormGroup;
   selectedBill: any;
@@ -67,6 +61,16 @@ export class BillDetailsComponent implements OnInit {
   sentDisabledFieldValues:any
   isDialogVisible: boolean = false;
   paymentMessage: string = '';
+  complexList:[] = [];
+  locationList:[] = [];
+  billPeriod:[] = [];
+  allAlloteList:[] = [];
+  propertyFilter:any[] = [];
+  locationFilter:any[] = [];
+  alloteFilter:any[]=[];
+  billPeriodFilter:any[] = [];
+  billGenetaredCount: number = 0;
+  billnotpaidCount: number = 0;
   constructor(private billDetailService: BillDetailsService,
               private Http: ChangeRequestService,
               private cd: ChangeDetectorRef,
@@ -97,20 +101,22 @@ export class BillDetailsComponent implements OnInit {
   ngOnInit(): void {
       
     this.form = new FormGroup({
-      s_no: new FormControl({ value: '', disabled: true }),
-      bill_no: new FormControl({ value: '', disabled: true }),
-      user_id: new FormControl({ value: '', disabled: true }),
-      property_code: new FormControl({ value: '', disabled: true }),
-      lease_period: new FormControl({ value: '', disabled: true }),
-      lease_Amount: new FormControl({ value: '', disabled: true }),
-      gst: new FormControl({ value: '', disabled: true }),
-      power_bill_amount: new FormControl(),
-      water_bill_amount: new FormControl(''),
-      maintenance_amount: new FormControl(''),
-      lease_interests: new FormControl({ value: '', disabled: true }),
-      total: new FormControl(''),
-      tds: new FormControl(''),
+      s_no: new FormControl({ value: null, disabled: true }, Validators.required),
+      bill_no: new FormControl({ value: null, disabled: true }, Validators.required),
+      user_id: new FormControl({ value: null, disabled: true }, Validators.required),
+      property_code: new FormControl({ value: null, disabled: true }, Validators.required),
+      lease_period: new FormControl({ value: null, disabled: true }, Validators.required),
+      lease_Amount: new FormControl({ value: null, disabled: true }, Validators.required),
+      gst: new FormControl({ value: null, disabled: true }, Validators.required),
+      power_bill_amount: new FormControl(null, Validators.required),
+      water_bill_amount: new FormControl(null, Validators.required),
+      maintenance_amount: new FormControl(null, Validators.required),
+      lease_interests: new FormControl({ value: null, disabled: true }, Validators.required),
+      total: new FormControl(null, Validators.required),
+      Arrears: new FormControl(null, Validators.required),
+      tds: new FormControl(null),
     });
+    
 
     this.userRole = localStorage.getItem('role')
     this.userID = localStorage.getItem('userId')
@@ -118,10 +124,6 @@ export class BillDetailsComponent implements OnInit {
     this.userDetailsObject = JSON.parse(this.userdetails);
     this.username=this.userDetailsObject.USER_NAME
     this.getbilldetails();
-    if(this.userRole !== 'USER'){
-      this.getPropertyCodes();
-    }
-
 
   }
 
@@ -142,19 +144,10 @@ export class BillDetailsComponent implements OnInit {
     this.dt2.filterGlobal(this.value, 'contains');
   }
 
-  getPropertyCodes(){
-    this.billDetailService.getPropertyCodes( this.userID,this.userRole).subscribe({
-      next:(res:any)=>{
-        this.propertyCode = res;
-      },
-      error:(err:any)=>{
-      }
-    })
-  }
-
   calculateTotal(): void {
     const leaseAmount = parseFloat(this.form.get('lease_Amount')?.value) || 0;
     const gst = parseFloat(this.form.get('gst')?.value) || 0;
+    const Arrears = parseFloat(this.form.get('Arrears')?.value) || 0;
     const powerBillAmount = parseFloat(this.form.get('power_bill_amount')?.value) || 0;
     const waterBillAmount = parseFloat(this.form.get('water_bill_amount')?.value) || 0;
     const maintenanceAmount = parseFloat(this.form.get('maintenance_amount')?.value) || 0;
@@ -164,7 +157,7 @@ export class BillDetailsComponent implements OnInit {
       this.isTds = false;
     }
     // Calculate the total
-    const total = leaseAmount + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests + this.tdsvalue;
+    const total = leaseAmount + Arrears + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests + this.tdsvalue;
 
     // Update the total field in the form
     this.form.get('total')?.setValue(total, { emitEvent: false }); 
@@ -175,46 +168,32 @@ export class BillDetailsComponent implements OnInit {
   showDialog(bill_no: any) {
     this.visible = true;
     this.showModel = true;
-    this.form.patchValue({
-      s_no: bill_no.ID,
-      bill_no: bill_no.BillNo,
-      user_id: bill_no.User,
-      property_code: bill_no.Property,
-      lease_period: bill_no.BillNo,
-      lease_Amount: bill_no.Rental_lease_amount_permonth,
-      gst: bill_no.GST,
-      power_bill_amount: bill_no.Power_bill,
-      water_bill_amount: bill_no.Water_bill,
-      maintenance_amount: bill_no.Maintainance_bill,
-      lease_intebill_nots: bill_no.Total_rental_interest,
-      total: bill_no.Total
-    });
     // Fetch details based on bill_no
-    // this.billDetailService.getBillDetailsByBillNo(bill_no).subscribe({
-    //   next: (res: any) => {
+    this.billDetailService.getBillDetailsByBillNo(bill_no).subscribe({
+      next: (res: any) => {
 
-    //     if (res) {
-    //       this.form.patchValue({
-    //         s_no: res.ID,
-    //         bill_no: res.BillNo,
-    //         user_id: res.User,
-    //         property_code: res.Property,
-    //         lease_period: res.BillNo,
-    //         lease_Amount: res.Rental_lease_amount_permonth,
-    //         gst: res.GST,
-    //         power_bill_amount: res.Power_bill,
-    //         water_bill_amount: res.Water_bill,
-    //         maintenance_amount: res.Maintainance_bill,
-    //         lease_interests: res.Total_rental_interest,
-    //         total: res.Total
-    //       });
-    //     }
-    //   },
-    //   error: (err: any) => {
-    //     console.error('Error fetching bill details by bill_no:', err);
-    //     this.responseMsg = "Error fetching details";
-    //   }
-    // });
+        if (res) {
+          this.form.patchValue({
+            s_no: res.ID,
+            bill_no: res.BillNo,
+            user_id: res.User,
+            property_code: res.property_name,
+            lease_period: res.Bill_Period,
+            lease_Amount: res.Rental_lease_amount_permonth,
+            gst: res.GST,
+            power_bill_amount: res.Power_bill,
+            water_bill_amount: res.Water_bill,
+            maintenance_amount: res.Maintainance_bill,
+            lease_interests: res.Total_rental_interest,
+            total: res.Total
+          });
+        }
+      },
+      error: (err: any) => {
+        console.error('Error fetching bill details by bill_no:', err);
+        this.responseMsg = "Error fetching details";
+      }
+    });
   }
   
   getbilldetails() {
@@ -222,6 +201,10 @@ export class BillDetailsComponent implements OnInit {
     this.billDetailService.getBillDetailsByUserId(this.userID, this.userRole).subscribe({
       next: (res: any) => {
         this.dataSource = res.billingData;
+        this.locationList = res.location;
+        this.complexList = res.complex;
+        this.billPeriod = res.billperiod;
+        this.allAlloteList = res.allAlloteNames;
         this.responseMsg = res.message;
         if (this.dataSource.length > 0) {
           this.filterBillData();
@@ -240,17 +223,15 @@ export class BillDetailsComponent implements OnInit {
   filterBillData(){
     this.paidBills = [];
     this.notPaidBills = [];
-    this.paidBills = this.dataSource.filter(item=>{
-      return item.Status === 'Fully Paid'
-    })
+    this.paidBills = this.dataSource.filter(item=>{return item.Status === 'Fully Paid'})
+    this.billGenetaredCount = this.dataSource.length
     if (this.userRole === 'USER') {
       this.notPaidBills = this.dataSource.filter(item => {
         return (item.Status !== 'Fully Paid' && item.BillStatus === 'Active')
       })
     } else {
-      this.notPaidBills = this.dataSource.filter(item => {
-        return (item.Status !== 'Fully Paid' ) //PP and NP only visible changed 27-09-24
-      })
+      this.notPaidBills = this.dataSource.filter(item => {return (item.Status !== 'Fully Paid' ) })
+      this.billnotpaidCount = this.notPaidBills.length
     }
     this.cd.detectChanges();
   }
@@ -265,6 +246,45 @@ export class BillDetailsComponent implements OnInit {
 
   }
 
+  saveBill() {
+  this.showModel = true; // Show the modal (if you're using one)
+  if (this.form.valid) {
+    const formData = this.form.getRawValue();
+    // Get the user ID from the form data
+    const userId = formData.user_id; // Ensure this matches your form field name
+    const Property=formData.property_code;
+    const lease_Amount=formData.lease_Amount;
+    // Create the updateData object, including userId
+    const updateData = {
+      BillNo: formData.bill_no, // Ensure correct parameter name
+      Power_bill: formData.power_bill_amount,
+      Water_bill: formData.water_bill_amount,
+      Maintainance_bill: formData.maintenance_amount,
+      Total: formData.total,
+      Due: formData.total,
+      UserId: userId ,// Include userId here for sending with email
+      Property:Property,
+      lease_Amount:lease_Amount,
+      tds:formData.tds,
+      attachmentUlr:this.attachmentUrl
+    };
+    console.log(updateData, "....updatedata");
+    this.billDetailService.saveBill(updateData).subscribe({
+      next: (response) => {
+        // Generate and send PDF immediately after updating
+        this.showModel = false; // Close the modal after successful update
+        this.getbilldetails();
+        this.BillGeneratePdf(response.data); // Call the method to create and send PDF
+      },
+      error: (error) => {
+        console.error('Error submitting form:', error);
+      }
+    });
+  } 
+  else {
+    console.error('Form is invalid');
+  }
+  }
   generateBill() {
   this.showModel = true; // Show the modal (if you're using one)
   if (this.form.valid) {
@@ -288,7 +308,7 @@ export class BillDetailsComponent implements OnInit {
       attachmentUlr:this.attachmentUrl
     };
     console.log(updateData, "....updatedata");
-    this.billDetailService.updateBillDetails(updateData).subscribe({
+    this.billDetailService.generateBill(updateData).subscribe({
       next: (response) => {
         // Generate and send PDF immediately after updating
         this.showModel = false; // Close the modal after successful update
@@ -496,15 +516,6 @@ export class BillDetailsComponent implements OnInit {
         doc.text('Bill', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
         currentY += lineHeight * 1;
 
-        // Adding date and reference (aligned inside border)
-        // const currentDate = new Date().toLocaleDateString();
-        // doc.setFontSize(12);
-        // doc.setFont('times', 'normal');
-        // doc.text(`Bill No.. ${bill.BillNo}`, margins.left, currentY);
-        // doc.text(`Date: ${currentDate}`, doc.internal.pageSize.width - margins.right - 45, currentY);
-        // currentY += lineHeight * 2;
-
-
         const currentDate = new Date();
         const formattedDate = 
     String(currentDate.getDate()).padStart(2, '0') + '-' + 
@@ -521,11 +532,11 @@ currentY += lineHeight * 2;
         // Dynamic content based on form data
         doc.setFontSize(12);
         doc.setFont('times', 'bold');
-        doc.text(`Property Name: ${bill.Property}`, margins.left, currentY);
+        doc.text(`Property Name: ${bill.property_name}`, margins.left, currentY);
         currentY += lineHeight * 1;
 
         doc.setFont('times', 'normal');
-        doc.text(` The Property with ${bill.Property} for an extent of ${this.propertyDetail.EXTENT} sqft. located in the ${this.propertyDetail.LOCATION} has been alloted to  ${this.propertyDetail.ALLOTTEE_NAME} vide reference cited  leased to ${bill.Rental_lease_amount_permonth}, located in ${bill.Property}, in  has a monthly lease amount of ${bill.Rental_lease_amount_permonth} with additional charges such as GST and utility bills.The license of the shop shall have to pay lease amount on or before 10th of every month. Whereas the license has failed to pay monthly lease as per the stipulated time and an amount ${bill.Total} is overdue against the said shop as detailed below`,
+        doc.text(` The Property with ${bill.property_name} for an extent of ${this.propertyDetail.EXTENT} sqft. located in the ${this.propertyDetail.LOCATION} has been alloted to  ${this.propertyDetail.ALLOTTEE_NAME} vide reference cited  leased to ${bill.Rental_lease_amount_permonth}, located in ${bill.Property}, in  has a monthly lease amount of ${bill.Rental_lease_amount_permonth} with additional charges such as GST and utility bills.The license of the shop shall have to pay lease amount on or before 10th of every month. Whereas the license has failed to pay monthly lease as per the stipulated time and an amount ${bill.Total} is overdue against the said shop as detailed below`,
 
 
           margins.left, currentY,
@@ -590,15 +601,20 @@ currentY += lineHeight * 2;
     )
   }
 
-  generateChallanNumber(UserID: string): string {
-    const currentDate = new Date();
-    const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month as a number, padded to 2 digits
-    const currentYear = currentDate.getFullYear();
-    return `Rec/VMRDA/${currentMonth}/${currentYear}/${UserID}`;
-  }
 
   showDialog1() {
     this.visible1 = true;
+  }
+
+  generateAllBills() {
+    this.billDetailService.generateAllBills(this.userID).subscribe({
+      next:(res:any)=>{
+        this.toastrService.success('Bills Generated Successfully')
+      },
+      error:(err:any)=>{
+        this.toastrService.warning(err.error.message)
+      }
+    })
   }
 
   selectBillToPay(bill:any){
@@ -664,191 +680,6 @@ currentY += lineHeight * 2;
     
   }
 
-  // verifyPayment(response: any, bill: any,editedAamount:any, billDetails: any) {
-  //   this.billDetailService.verifyPayment(response).subscribe({
-  //     next:  (data) => {
-  //       if (data.message === "Payment verified successfully") {
-  //         const challanNumber = this.generateChallanNumber(bill.Property);
-
-  //         const transactionData = {
-  //           "id": data.paymentDetails.id ?? "No Data",
-  //           "invoice_id": bill.BillNo ?? "No Data",
-  //           "order_id": data.paymentDetails.order_id ?? "No Data",
-  //           "method": data.paymentDetails.method ?? "No Data",
-  //           "upi_transaction_id": data.paymentDetails.acquirer_data.upi_transaction_id ?? "No Data",
-  //           "amount": editedAamount ?? "No Data",
-  //           "amount_refunded": data.paymentDetails.amount_refunded ?? "No Data",
-  //           "fee": data.paymentDetails.fee ?? "No Data",
-  //           "bank": data.paymentDetails.bank ?? "No Data",
-  //           "captured": data.paymentDetails.captured ?? "No Data",
-  //           "card_id": data.paymentDetails.card_id ?? "No Data",
-  //           "contact": data.paymentDetails.contact ?? "No Data",
-  //           "currency": data.paymentDetails.currency ?? "No Data",
-  //           "description": data.paymentDetails.description ?? "No Data",
-  //           "email": data.paymentDetails.email ?? "No Data",
-  //           "entity": data.paymentDetails.entity ?? "No Data",
-  //           "error_description": data.paymentDetails.error_description ?? "No Data",
-  //           "error_reason": data.paymentDetails.error_reason ?? "No Data",
-  //           "error_source": data.paymentDetails.error_source ?? "No Data",
-  //           "error_step": data.paymentDetails.error_step ?? "No Data",
-  //           "international": data.paymentDetails.international ?? "No Data",
-  //           "tax": data.paymentDetails.tax ?? "No Data",
-  //           "upi": "razorpay",
-  //           "vpa": "razorpay",
-  //           "rrn": data.paymentDetails.acquirer_data.rrn ?? "No Data",
-  //           "notes": "No Data",
-  //           "refund_status": data.paymentDetails.refund_status ?? "No Data",
-  //           "status": data.paymentDetails.status ?? "No Data",
-  //         };
-  //         console.log(transactionData,"transaction data check...");
-
-  //       this.billDetailService.saveTransactionDetails(transactionData).subscribe({
-  //         next:  (response) => {
-  //           const updateData={
-  //             p_billid: billDetails.billNo,
-  //             p_payment_amount: transactionData.amount,             
-  //           }
-  //           console.log(updateData,"payload data sent");
-          
-  //             this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
-  //               next:  (response) => {
-  //                   let payload = {
-  //                       p_billid: billDetails.billNo,
-  //                       Power_bill: billDetails.powerBill,
-  //                       Water_bill: billDetails.waterBill,
-  //                       Maintainance_bill: billDetails.maintenanceAmount,
-  //                       p_payment_amount: transactionData.amount,
-  //                       ReceiptNo: challanNumber,
-  //                       User: bill.User,
-  //                       Property: bill.Property,
-  //                       paid_date: new Date().toISOString(),
-  //                       Rental_lease_amount_permonth: bill.Rental_lease_amount_permonth,
-  //                       GST: bill.GST,
-  //                       Total_rental_interest: bill.Total_rental_interest,
-  //                       Total: bill.Total,
-  //                       TotalPaid: bill.Total,
-                        
-  //                       Due: 0,
-  //                       Status: 'Fully Paid'
-  //                      }
-  //                   this.createAndSendReceiptPDF(payload,response);
-
-  //                    this.getbilldetails();
-  //                   //  this.cd.markForCheck(); // Changed to markForCheck
-  //                   this.cd.detectChanges();
-  //               },
-  //               error: (err) => {
-  //                 console.error('Error updating bill:', err);
-  //               },
-  //             });
-  //           },
-  //           error: (error) => {
-  //             console.error('Error saving transaction:', error);
-  //           },
-  //         });
-  //       }
-  //       else if (data.message === "Invalid signature sent!") {
-  //         const challanNumber = this.generateChallanNumber(bill.Property);
-
-  //         const transactionData = {
-  //           "id": data.paymentDetails.id ?? "No Data",
-  //           "invoice_id": bill.BillNo ?? "No Data",
-  //           "order_id": data.paymentDetails.order_id ?? "No Data",
-  //           "method": data.paymentDetails.method ?? "No Data",
-  //           "upi_transaction_id": data.paymentDetails.acquirer_data.upi_transaction_id ?? "No Data",
-  //           "amount": editedAamount ?? "No Data",
-  //           "amount_refunded": data.paymentDetails.amount_refunded ?? "No Data",
-  //           "fee": data.paymentDetails.fee ?? "No Data",
-  //           "bank": data.paymentDetails.bank ?? "No Data",
-  //           "captured": data.paymentDetails.captured ?? "No Data",
-  //           "card_id": data.paymentDetails.card_id ?? "No Data",
-  //           "contact": data.paymentDetails.contact ?? "No Data",
-  //           "currency": data.paymentDetails.currency ?? "No Data",
-  //           "description": data.paymentDetails.description ?? "No Data",
-  //           "email": data.paymentDetails.email ?? "No Data",
-  //           "entity": data.paymentDetails.entity ?? "No Data",
-  //           "error_description": data.paymentDetails.error_description ?? "No Data",
-  //           "error_reason": data.paymentDetails.error_reason ?? "No Data",
-  //           "error_source": data.paymentDetails.error_source ?? "No Data",
-  //           "error_step": data.paymentDetails.error_step ?? "No Data",
-  //           "international": data.paymentDetails.international ?? "No Data",
-  //           "tax": data.paymentDetails.tax ?? "No Data",
-  //           "upi": "razorpay",
-  //           "vpa": "razorpay",
-  //           "rrn": data.paymentDetails.acquirer_data.rrn ?? "No Data",
-  //           "notes": "No Data",
-  //           "refund_status": data.paymentDetails.refund_status ?? "No Data",
-  //           "status": data.paymentDetails.status ?? "No Data",
-  //         };
-  //         console.log(transactionData,"transaction data check...");
-
-  //       this.billDetailService.saveTransactionDetails(transactionData).subscribe({
-  //         next:  (response) => {
-  //           const updateData={
-  //             p_billid: billDetails.billNo,
-  //             p_payment_amount: transactionData.amount,             
-  //           }
-  //           console.log(updateData,"payload data sent");
-  //           this.getbilldetails();
-  //           //  this.cd.markForCheck(); // Changed to markForCheck
-  //           this.cd.detectChanges();
-  //           },
-  //           error: (error) => {
-  //             console.error('Error saving transaction:', error);
-  //           },
-  //         });
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.error('Payment Verification Failed', error);
-  //     },
-  //   });
-  // }
-
-  // to send bill paid receipt pdf to user 
-
-  // verifyPayment(response: any, bill: any, editedAmount: any, billDetails: any) {
-  //   this.billDetailService.verifyPayment(response).subscribe({
-  //     next: (data) => {
-  //       if (data.message === 'Payment verified successfully') {
-  //         this.handleSuccess(data, bill, editedAmount, billDetails);
-  //       } else if (data.message === 'Invalid signature sent!') {
-  //         this.handleFailure(data.message);
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.error('Payment Verification Failed', error);
-  //       this.handleFailure('Payment verification failed. Please try again.');
-  //     }
-  //   });
-  // }
-
-  // handleSuccess(data: any, bill: any, editedAmount: any, billDetails: any) {
-  //   const challanNumber = this.generateChallanNumber(bill.Property);
-  //   const transactionData = {
-  //     id: data.paymentDetails.id ?? 'No Data',
-  //     invoice_id: bill.BillNo ?? 'No Data',
-  //     order_id: data.paymentDetails.order_id ?? 'No Data',
-  //     method: data.paymentDetails.method ?? 'No Data',
-  //     upi_transaction_id: data.paymentDetails.acquirer_data.upi_transaction_id ?? 'No Data',
-  //     amount: editedAmount ?? 'No Data',
-  //     status: data.paymentDetails.status ?? 'No Data'
-  //     // Additional fields as needed
-  //   };
-
-  //   this.billDetailService.saveTransactionDetails(transactionData).subscribe({
-  //     next: () => {
-  //       this.paymentMessage = 'Payment was successful!';
-  //       this.isDialogVisible = true;
-  //       // this.router.navigate(['/billDetails']);
-  //     },
-  //     error: (error) => {
-  //       console.error('Error saving transaction:', error);
-  //       this.handleFailure('An error occurred while saving the transaction.');
-  //     }
-  //   });
-  // }
-
 
   handleFailure(message: string) {
     this.paymentMessage = message;
@@ -858,147 +689,6 @@ currentY += lineHeight * 2;
   onDialogClose() {
     this.isDialogVisible = false;
   }
-
-
-
-  createAndSendReceiptPDF(payload: any, responseData: any) {
-    const doc = new jsPDF();
-    const margins = { top: 15, bottom: 15, left: 20, right: 20 };
-    const lineHeight = 8;
-    let currentY = margins.top;
-  
-    // Add logo
-    const vmrdaLogoBase64 = '../../assets/vmrda_logo_image.png';
-    const logoWidth = 20;
-    const logoHeight = 20;
-    const logoX = (doc.internal.pageSize.width - logoWidth) / 2;
-    doc.addImage(vmrdaLogoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight, '', 'FAST');
-    currentY += logoHeight + 5;
-  
-    // Add border
-    doc.setLineWidth(0.5);
-    doc.rect(
-      margins.left - 5, margins.top - 5,
-      doc.internal.pageSize.width - (margins.left + margins.right - 10),
-      doc.internal.pageSize.height - (margins.top + margins.bottom - 10)
-    );
-  
-    // Add headings
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'bold');
-    doc.text(
-      'VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY',
-      doc.internal.pageSize.width / 2, currentY, { align: 'center' }
-    );
-    currentY += lineHeight + 2;
-  
-    doc.text('Receipt', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
-    currentY += lineHeight;
-  
-    // Add date and receipt reference
-    const currentDate = new Date().toLocaleDateString();
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Receipt No:`, margins.left, currentY);
-    doc.setFont('helvetica', 'bold');
-    doc.text(payload.ReceiptNo, margins.left + 30, currentY);
-    doc.setFont('helvetica', 'normal');
-    doc.text('Date:', doc.internal.pageSize.width - margins.right - 45, currentY);
-    doc.setFont('helvetica', 'bold');
-    doc.text(currentDate, doc.internal.pageSize.width - margins.right - 30, currentY);
-    currentY += lineHeight * 2;
-  
-    // Add property details
-    doc.setFont('helvetica', 'bold');
-    doc.text(`Property Name: `, margins.left, currentY);
-    doc.text(payload.Property, margins.left + 40, currentY);
-    currentY += lineHeight;
-  
-    // Add summary text
-    doc.setFont('helvetica', 'normal');
-    doc.text(
-      `This receipt acknowledges the payment for property code ${payload.Property}, leased to ${this.username}. ` +
-      `Payment includes the lease amount, GST, and other charges. Summary of payment details:`,
-      margins.left, currentY, { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
-    );
-    currentY += lineHeight * 3;
-  
-    // Add receipt details in a table format
-    const tableRows = [
-      ['Receipt No', responseData.data.receipt_no, ''],
-      ['User ID', responseData.data.user, ''],
-      ['Bill No', responseData.bill.BillNo, ''],
-      ['Property Code', responseData.data.property, ''],
-      ['Paid Date', new Date(payload.paid_date).toLocaleDateString(), ''],
-      
-      // Add a row for "Amount" and "Due" column headers after "Paid Date"
-      ['', 'Amount', 'Due'],
-  
-  // New row for Amount and Due
-  ['Rent', responseData.bill.Rental_lease_amount_permonth, (responseData.bill.Rental_lease_amount_permonth - responseData.data.rental_amount).toFixed(2)],
-  ['Water Bill', responseData.bill.Water_bill, (responseData.bill.Water_bill - responseData.data.water_bill).toFixed(2)],
-  ['Intrest', responseData.bill.Total_rental_interest, (responseData.bill.Total_rental_interest - responseData.data.total_rental_interest).toFixed(2)],
-  ['Power Bill', responseData.bill.Power_bill, (responseData.bill.Power_bill - responseData.data.power_bill).toFixed(2)],
-  ['Maintenance Bill', responseData.bill.Maintainance_bill, (responseData.bill.Maintainance_bill - responseData.data.maintainance_bill).toFixed(2)],
-  ['GST', responseData.bill.GST, (responseData.bill.GST - responseData.data.gst).toFixed(2)],
-
-  // Summary rows
-  ['Total Amount', responseData.bill.Total, responseData.data.due],
-  ['Total Paid', responseData.bill.TotalPaid, ''],
-  ['Payment Status', '', responseData.data.status]
-
-      
-    ];
-  
-    // Adjust columns for 'Amount' and 'Due'
-    autoTable(doc, {
-      head: [['Fields', 'Amount', 'Due']],
-      body: tableRows,
-      startY: currentY,
-      margin: { left: margins.left + 10, right: margins.right + 10 },
-      tableWidth: doc.internal.pageSize.width - margins.left - margins.right - 20,
-      theme: 'grid',
-      headStyles: {
-        fillColor: [0, 102, 204],
-        textColor: [255, 255, 255],
-        fontSize: 12
-      },
-      styles: {
-        fontSize: 12,
-        cellPadding: 1
-      }
-    });
-  
-    currentY = doc.internal.pageSize.height - margins.bottom - 40;
-  
-    // Add footer text
-    doc.setFont('helvetica', 'normal');
-    doc.text('Thank you for your payment. Please retain this receipt for your records.', margins.left, currentY);
-    currentY += lineHeight;
-    doc.text('Regards,', margins.left, currentY);
-    currentY += lineHeight;
-    doc.text('VISAKHAPATNAM METROPOLITAN REGION DEVELOPMENT AUTHORITY', margins.left, currentY);
-  
-    // Generate the PDF as a Blob
-    const pdfBlob = doc.output('blob');
-  
-    // Prepare FormData to send the PDF to the backend
-    const formData = new FormData();
-    formData.append('pdf', pdfBlob, `Receipt_${payload.receipt_no}.pdf`);
-    formData.append('userId', responseData.data.user);
-    console.log('User ID sent in formData:', formData.get('userId'));
-  
-    // Send the PDF to the backend for emailing
-    this.billDetailService.sendEmailWithAttachment(formData).subscribe({
-      next: (response) => {
-        console.log('Email sent successfully!', response);
-        this.toastrService.success('Payment done successfully')
-      },
-      error: (error) => {
-        console.error('Error sending email:', error);
-      }
-    });
-  }
-  
 
   showPaymentPopup(){
     this.showPayPopup=true;
@@ -1027,7 +717,45 @@ currentY += lineHeight * 2;
       }
     );
   }
+
+  downloadExcel(){
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.notPaidBills); // Convert table to sheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+    XLSX.writeFile(wb, 'bills-data.xlsx'); // Write the file
+
+  }
+
+  applyFilters() {
+    const filters = {
+      locationCodes: this.locationFilter.map(item => item.LOCATION_CODE),
+      propertyCodes: this.propertyFilter.map(item => item.PROPERTY_CODE),
+      alloteNames: this.alloteFilter,
+      billPeriods: this.billPeriodFilter.map(item => item),
+      userType: this.userRole,
+      revenueDivision: this.userID
+    };
+    this.billDetailService.filterBillingData(filters).subscribe({
+      next:(res)=>{
+        this.dataSource = res.billingData;
+        this.locationList = res.locationList;
+        this.complexList = res.complexList;
+        this.billPeriod = res.billPeriod;
+        this.allAlloteList = res.allAlloteNames;
+        if (this.dataSource.length > 0) {
+          this.filterBillData();
+        }
+        else{
+          this.billnotpaidCount = 0
+          this.billnotpaidCount = 0
+          this.dataSource = [];
+          this.paidBills = [];
+          this.notPaidBills = [];
+          this.cd.detectChanges();
+        }
+      }
+
+    })
+  }
   
-
-
 }

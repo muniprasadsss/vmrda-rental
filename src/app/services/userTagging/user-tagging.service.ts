@@ -27,4 +27,8 @@ export class UserTaggingService {
   getPropertys() {    
     return this.http.get(`${this.apiUrl}/property/propertyNotoccupied`);
   }
+
+  getPropertyCodes(USER_ID:string,USER_TYPE:string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/Allproperty`,{USER_ID,USER_TYPE})
+  }
 }

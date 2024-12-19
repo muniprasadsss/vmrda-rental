@@ -49,11 +49,7 @@
       box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     }
   }
-  .editButton{
-    border: none;
-    background: none;
-    color: green;
-   }
+
   .deleteButton{
     border: none;
     background: none;
@@ -62,4 +58,11 @@
   .rowbtn{
     display: flex;
     gap: 1rem;
+  }
+  .filters{
+    display: flex;
+    flex-direction: row;
+  }
+  .search{
+    padding-right: 0.5rem;
   }

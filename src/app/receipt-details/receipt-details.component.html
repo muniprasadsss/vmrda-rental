@@ -1,19 +1,61 @@
 <div class="card custom-table">
   <p-table #dt2 [value]="receiptData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
-  [globalFilterFields]="['User', 'UserId', 'BillNo', 'Property', 'Paid_Date', 'Rental_lease_amount_permonth', 'GST', 'Total_rental_interest', 'Total', 'Due', 'Total_paid', 'Status']">
+  [globalFilterFields]="['ReceiptNo','User', 'UserId', 'BillNo', 'Property', 'Paid_Date', 'Rental_lease_amount_permonth', 'GST', 'Total_rental_interest', 'Total', 'Due', 'Total_paid', 'Status']">
   <ng-template pTemplate="caption">
       <div class="searchbar">
         <div class="search">
-          <p-iconField iconPosition="left" class="ml-auto">
-            <p-inputIcon>
-              <i class="pi pi-search"></i>
-            </p-inputIcon>
-            <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
-          </p-iconField>
+          <div class="filters">
+            <div class="search" *ngIf=" userRole !== 'USER'">
+              <p-multiSelect 
+              [options]="locationList" 
+              placeholder="Complex"
+              [(ngModel)]="locationFilter"
+              optionLabel = "LOCATION_CODE"
+              [filter]="false"
+              (onChange)="applyFilters()"
+               >
+               <ng-template let-selectedValue pTemplate="selectedItem">
+                {{ selectedValue.LOCATION }}
+            </ng-template>
+            </p-multiSelect>
+          </div>
+            <div class="search" *ngIf=" userRole !== 'USER'">
+              <p-multiSelect 
+              [options]="complexList" 
+              placeholder="Property"
+              [(ngModel)]="propertyFilter"
+              optionLabel = "PROPERTY_CODE"
+              [filter]="false"
+              (onChange)="applyFilters()"
+               >
+               <ng-template let-selectedValue pTemplate="selectedItem">
+                {{ selectedValue.PROPERTY_CODE }}
+            </ng-template>
+            </p-multiSelect>
+          </div>
+          <div class="search" *ngIf="userRole !== 'USER'">
+            <p-multiSelect
+                [options]="allAlloteList"
+                placeholder="Allote Name"
+                [(ngModel)]="alloteFilter"
+                [filter]="false"
+                (onChange)="applyFilters()"
+            >
+                <!-- Custom template for dropdown items -->
+                <ng-template let-option pTemplate="item">
+                    {{ option | slice:0:14 }} <!-- Limit dropdown item to 5 characters -->
+                </ng-template>
+                <ng-template let-selectedValue pTemplate="selectedItem">
+                  {{ selectedValue | slice:0:14 }}
+              </ng-template>
+            </p-multiSelect>
         </div>
-        <p-button *ngIf=" userRole !== 'USER'" (click)="showDialog()" label=" + Add New" severity="success"
-          size="small" />
-
+        
+          </div>
+        </div>
+          <div *ngIf=" userRole !== 'USER'">
+            <button  class="addbutton" (click)="showDialog()">+ Add Receipt</button>
+          </div>
       </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -24,38 +66,39 @@
         <th pSortableColumn="User" *ngIf="userRole !== 'USER'">User Id<p-sortIcon field="User" /></th>
         <!-- <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th> -->
         <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
-        <th pSortableColumn="Property">Property Code<p-sortIcon field="Property" /></th>
-        <th pSortableColumn="paid_date">Paid Date<p-sortIcon field="paid_date" /></th>
-        <th pSortableColumn="Rental_lease_amount_permonth">Lease Amount<p-sortIcon
-            field="Rental_lease_amount_permonth" /></th>
-        <th pSortableColumn="GST">GST<p-sortIcon field="GST" /></th>
-        <th pSortableColumn="Total_rental_interest">Total Rent Interest<p-sortIcon field="Total_rental_interest" /></th>
-        <th pSortableColumn="Total">Total<p-sortIcon field="Total" /></th>
-        <th pSortableColumn="Due">Due<p-sortIcon field="Due" /></th>
-        <th pSortableColumn="Current_Payment">Amount Paid<p-sortIcon field="Current_Payment" /></th>
-        <th pSortableColumn="Status">Status<p-sortIcon field="Status" /></th>
+        <th pSortableColumn="Property">Property Name<p-sortIcon field="Property" /></th>
+        <th>Challana/Reference No</th>
+        <th>Paid Date</th>
+        <th>Lease Amount</th>
+        <th>GST</th>
+        <th>Total Rent Interest</th>
+        <th>Arrears</th>
+        <th>Total</th>
+        <th>Due</th>
+        <th>Amount Paid</th>
+        <th>Status</th>
         <th></th>
-
-
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-receipt>
       <tr style="font-size: 12px;">
         <!-- <td style="width: 6%;">{{ receipt.ID }}</td> -->
         <!-- <td style="width: 8%;">{{ receipt.BillNo }}</td> -->
-        <td style="width: 8%;">{{ receipt.ReceiptNo }}</td>
-        <td style="width: 8%;" *ngIf="userRole !== 'USER'">{{ receipt.User }}</td>
+        <td >{{ receipt.ReceiptNo }}</td>
+        <td  *ngIf="userRole !== 'USER'">{{ receipt.User }}</td>
         <!-- <td style="width: 8%;">{{ receipt.ReceiptNo }}</td> -->
-        <td style="width: 8%;">{{ receipt.BillNo }}</td>
-        <td style="width: 8%;">{{ receipt.Property }}</td>
-        <td style="width: 8%;">{{ receipt.paid_date }}</td>
-        <td style="width: 8%;">{{ receipt.Rental_lease_amount_permonth }}</td>
-        <td style="width: 8%;">{{ receipt.GST }}</td>
-        <td style="width: 6%;">{{ receipt.Total_rental_interest }}</td>
-        <td style="width: 10%;">{{ receipt.Total }}</td>
-        <td style="width: 10%;">{{ receipt.Due }}</td>
-        <td style="width: 10%;">{{ receipt.Current_Payment }}</td>
-        <td style="width: 10%;">{{ receipt.Status }}</td>
+        <td >{{ receipt.BillNo }}</td>
+        <td >{{ receipt.property_name }}</td>
+        <td >{{ receipt.challana_number }}</td>
+        <td >{{ receipt.paid_date | date: 'dd/MM/yyyy' }}</td>
+        <td >{{ receipt.Rental_lease_amount_permonth }}</td>
+        <td >{{ receipt.GST }}</td>
+        <td >{{ receipt.Total_rental_interest }}</td>
+        <td >{{ receipt.out_standing_due }}</td>
+        <td >{{ receipt.Total }}</td>
+        <td >{{ receipt.Due }}</td>
+        <td >{{ receipt.Current_Payment }}</td>
+        <td >{{ receipt.Status }}</td>
         <td><i class="pi pi-download" pTooltip=" Download Receipt" tooltipPosition="left"
             (click)="generatePDF(receipt)"></i></td>
 
@@ -63,16 +106,12 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
-
-
+      <tr>
+        <td colspan="16">No data found.</td>
+    </tr>
     </ng-template>
   </p-table>
 </div>
-
-
-
-
-
 
 <div class="dialog">                
   <p-dialog
@@ -80,13 +119,13 @@
   [modal]="true"
   [(visible)]="visible"
   position="center"
-  [style]="{ width: '50rem' }">
+  [style]="{ width: '50rem' }" (onHide)="closeDialog()">
   <form [formGroup]="addNewRecept" (ngSubmit)="addNewUser()">
     <div class="form-container">
       <div class="form-row">
         <div class="form-group">
           <label for="bill-no" class="form-label">Search By Bill No</label>
-          <input type="text" id="bill-no" class="form-input" formControlName="billNo" (keydown)="handleKeyDown($event)"/> <!--keydown keybord trigger function  -->
+          <input type="text" id="bill-no" class="form-input" formControlName="billNo" (keydown)="handleKeyDown($event)" style="width: 94% !important;"/> <!--keydown keybord trigger function  -->
           <p-iconField iconPosition="right" class="ml-auto">
             <p-inputIcon (click)="fetchBillDetails(addNewRecept.get('billNo')!.value)">
                 <i class="pi pi-search"></i>
@@ -96,14 +135,13 @@
       </div>
       <div class="form-row" *ngIf="hideAddNew " >
         <div class="form-group">
-          <label for="bill-no" class="form-label">Property Code</label>
+          <label for="bill-no" class="form-label">Property Name</label>
           <input type="text" id="bill-no" class="form-input" formControlName="Property" />
         </div>
         <div class="form-group">
           <label for="user-id" class="form-label">User Id</label>
           <input type="text" id="user-id" class="form-input" formControlName="User"/>
-        </div>
-       
+        </div> 
       </div>
       <div class="form-row" *ngIf="hideAddNew">
         <div class="form-group">
@@ -122,15 +160,21 @@
         </div>
         <div class="form-group">
           <label for="fileupload" class="form-label">Upload</label>
-                    <input type="file" id="fileupload" class="form-input" (change)="onFileChange($event)" />
-                    <!-- <button (click)="uploadattachment()" style="display: contents;"><i class=" pi pi-upload" style="color: rgb(38, 9, 226)"></i></button> -->
-                    <small class="input-format-info">Upload file size limit: 10MB</small>
+            <input type="file" id="fileupload" class="form-input" (change)="onFileChange($event)" />
+            <small class="input-format-info">Upload file size limit: 10MB</small>
         </div>
       </div>
       <div class="form-row" *ngIf="hideAddNew">
         <div class="form-group">
-          <label for="amount_paid" class="form-label">Amount Paid</label>
+          <label for="amount_paid" class="form-label">Challana/Reference Number</label>
+          <input type="text" id="amount_paid" class="form-input" formControlName="challanaNumber"/>
+        </div>
+        <div class="form-group">
+          <label for="amount_paid" class="form-label">Amount Paid <span class="text-danger">*</span></label>
           <input type="text" id="amount_paid" class="form-input" formControlName="amount_paid"/>
+          <div *ngIf="addNewRecept.get('amount_paid')?.invalid && (addNewRecept.get('amount_paid')?.touched || submitted)">
+            <small class="text-danger">Amount Paid is required.</small>
+          </div>
         </div>
       </div>
     </div>
@@ -144,5 +188,4 @@
     </div>
   </form>
 </p-dialog>
-
 </div>

@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-user-details',
   standalone: true,
   imports: [PrimeNgModule, ReactiveFormsModule],
+  imports: [PrimeNgModule, ReactiveFormsModule],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
@@ -38,23 +39,23 @@ export class UserDetailsComponent implements OnInit {
               private fb: FormBuilder, private toasterservice: ToastrService)
   {
     this.addNewForm = this.fb.group({
-      username: ['', Validators.required],
-      mobileNo: ['', Validators.required],
-      natureOfBusiness: ['', Validators.required],
-      aadhar: ['', Validators.required],
-      pan: ['', Validators.required],
-      email_id: ['', Validators.required,Validators.email],
-      gstIn: ['', Validators.required],
+      username: [null, Validators.required],
+      mobileNo: [null, Validators.required],
+      natureOfBusiness: [null, Validators.required],
+      aadhar: [null, Validators.required],
+      pan: [null],
+      email_id: [null],
+      gstIn: [null],
     });
     this.editForm = this.fb.group({
-      editUsername: [''],
-      editMobile: [''],
-      editBusiness: [''],
-      editAadhar: [''],
-      editPan: [''],
-      editEmail: [''],
-      editGstin: [''],
-      editRevenue: ['']
+      editUsername: [null, Validators.required],
+      editMobile: [null, Validators.required],
+      editBusiness: [null, Validators.required],
+      editAadhar: [null, Validators.required],
+      editPan: [null],
+      editEmail: [null],
+      editGstin: [null],
+      editRevenue: [null, Validators.required]
     });
   }
 
@@ -109,6 +110,7 @@ export class UserDetailsComponent implements OnInit {
           // Optionally reset the form or show a success message
           this.addNewForm.reset();
           this.visible = false;
+          this.editForm.reset();
         },
         error: (err) => {
           console.error('Error creating user:', err);
@@ -116,6 +118,11 @@ export class UserDetailsComponent implements OnInit {
         }
       });
     }
+  }
+
+  closeEditForm (){
+    this.editVisible = false;
+    this.editForm.reset();
   }
 
   openEditDialog(user: userdetails) {
@@ -135,7 +142,13 @@ export class UserDetailsComponent implements OnInit {
   }
 
   updateUser() {
-    const editFormData = this.editForm.value
+    if (this.editForm.invalid) {
+      // Mark all controls as touched to trigger validation messages
+      this.editForm.markAllAsTouched();
+      return; // Stop execution as the form is invalid
+    }
+  
+    const editFormData = this.editForm.value;
     const payload = {
       user_id: this.selectedUser.USER_ID,
       username: editFormData.editUsername,
@@ -148,25 +161,20 @@ export class UserDetailsComponent implements OnInit {
       userType: editFormData.user_type,
       revenueDivision: editFormData.editRevenue,
     };
-
-    if (this.editForm.valid) {
-      this.userdetailsservice.editUserDetails(payload).subscribe({
-        next: (response: any) => {
-
-          this.toasterservice.success("Updated successful")
-          // Optionally reset the form or show a success message
-          this.editForm.reset();
-          this.editVisible = false; // Close the edit dialog
-          this.getuserdetails()
-        },
-        error: (err) => {
-          console.error('Error updating user:', err);
-          this.toasterservice.error("Error updating user")
-          // Optionally show an error message
-        }
-      });
-    }
+  
+    this.userdetailsservice.editUserDetails(payload).subscribe({
+      next: (response: any) => {
+        this.toasterservice.success("Updated successfully");
+        this.editForm.reset();
+        this.editVisible = false; // Close the edit dialog
+      },
+      error: (err) => {
+        console.error('Error updating user:', err);
+        this.toasterservice.error("Error updating user");
+      },
+    });
   }
+  
 
   limitInputLength(event: KeyboardEvent, maxLength: number): void {
     const inputElement = event.target as HTMLInputElement;
@@ -182,6 +190,12 @@ export class UserDetailsComponent implements OnInit {
       event.preventDefault();
     }
   }
+
+  // This method ensures the input value is always uppercase
+convertToUpperCase(event: Event): void {
+  const inputElement = event.target as HTMLInputElement;
+  inputElement.value = inputElement.value.toUpperCase();
+}
 
   validatePanInput(event: KeyboardEvent) {
     const key = event.key;

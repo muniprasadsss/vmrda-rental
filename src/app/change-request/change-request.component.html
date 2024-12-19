@@ -24,16 +24,15 @@
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
                 <!-- <th pSortableColumn="id" *ngIf="userRole !== 'USER'">ID <p-sortIcon field="id"></p-sortIcon></th> -->
-                <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
-                <th pSortableColumn="username" *ngIf="userRole !== 'USER'">Username <p-sortIcon
-                        field="username"></p-sortIcon></th>
-                <th pSortableColumn="userId" *ngIf="userRole !== 'USER'">User ID <p-sortIcon
-                        field="userId"></p-sortIcon></th>
-                <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
+                <th>Cr No </th>
+                <th *ngIf="userRole !== 'USER'">Username</th>
+                <!-- <th pSortableColumn="userId" *ngIf="userRole !== 'USER'">User ID <p-sortIcon
+                        field="userId"></p-sortIcon></th> -->
+                <th>Request Type </th>
                 <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon>
                 </th>
-                <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
-                <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
+                <th>Description</th>
+                <th>Property Code</th>
                 <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
                 <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
                 <th *ngIf="userRole !== 'USER'" pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon>
@@ -53,7 +52,7 @@
                 <td>{{ item.requesttype }}</td>
                 <td>{{ item.revenuedivision }}</td>
                 <td class="wrap-text">{{ item.description }}</td>
-                <td>{{ item.propertycode }}</td>
+                <td>{{ item.property_name }}</td>
                 <td>{{ item.created_at | date: 'YYYY-MM-dd'}}</td>
                 <td>{{ item.status}}</td>
                 <td *ngIf="userRole !== 'USER'" style="width: 10%;">{{ item.stage}}</td>
@@ -111,7 +110,7 @@
 
 <!-- popup only for user with rejected status -->
 
-<p-dialog header="Closed Tickets" [modal]="true" [(visible)]="showrejecteddata" [style]="{ width: '75rem' }">
+<p-dialog header="Closed Tickets" [modal]="true" [(visible)]="showrejecteddata" [style]="{ width: '70rem' }">
     <p-table #dt2 [value]="rejectedRecordes" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
         [paginator]="true" [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
      'attachment', 'description', 'propertycode', 'created_at', 'status', 'stage']">
@@ -137,7 +136,7 @@
                 <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon>
                 </th>
                 <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
-                <th pSortableColumn="propertycode">Property Code <p-sortIcon field="propertycode"></p-sortIcon></th>
+                <th pSortableColumn="propertycode">Property Name<p-sortIcon field="propertycode"></p-sortIcon></th>
                 <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
                 <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
                 <th></th>
@@ -152,7 +151,7 @@
                 <td>{{ item.requesttype }}</td>
                 <td>{{ item.revenuedivision }}</td>
                 <td>{{ item.description }}</td>
-                <td>{{ item.propertycode }}</td>
+                <td>{{ item.property_name }}</td>
                 <td>{{ item.created_at | date: 'YYYY-MM-dd' }}</td>
                 <td>{{ item.status}}</td>
                 <td *ngIf="item.attachment !== null" pTooltip="Download Attachment" tooltipPosition="left"

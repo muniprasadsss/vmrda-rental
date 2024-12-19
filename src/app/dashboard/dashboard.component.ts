@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from "../footer/footer.component";
-import { HeaderComponent } from "../header/header.component";
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [PrimeNgModule, RouterOutlet, FooterComponent, HeaderComponent],
+  imports: [PrimeNgModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
@@ -71,6 +69,9 @@ export class DashboardComponent implements OnInit {
             case 'Department Users':
                 this.route.navigateByUrl('/departmentusers');
                 break;
+                case 'Vacant Properties':
+                    this.route.navigateByUrl('/vacant-properties');
+                    break;
             default:
                 break;
         }

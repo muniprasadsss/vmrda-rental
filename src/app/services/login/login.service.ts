@@ -24,10 +24,10 @@ export class LoginService {
     return this.http.post(`${this.apiUrl}/cations`, body, { headers });
   }
 
-  verifyOTPForgetPass(USER_ID: string, otp: number): Observable<any> {
+  verifyOTPForgetPass(user_id: string, OTP: number): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const body = { USER_ID, otp };
-    return this.http.post(`${this.apiUrl}/verifyOtp`, body, { headers });
+    const body = { user_id, OTP };
+    return this.http.post(`${this.apiUrl}/forget-pass-verify-otp`, body, { headers });
   }
 
   verifyOTP(OTP: number,user_id:any): Observable<any> {

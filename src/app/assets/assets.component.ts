@@ -11,12 +11,12 @@ FormsModule
 @Component({
   selector: 'app-assets',
   standalone: true,
-  imports: [PrimeNgModule, HeaderComponent, DashboardComponent, FooterComponent, FormsModule, ReactiveFormsModule],
+  imports: [PrimeNgModule, FormsModule, ReactiveFormsModule],
   templateUrl: './assets.component.html',
   styleUrl: './assets.component.scss'
 })
 export class AssetsComponent implements OnInit {
-  visible: boolean = false;
+  addvisible: boolean = false;
   editVisible: boolean = false;
   assetsData!: LocationDetails[];
   complex: any;
@@ -26,51 +26,53 @@ export class AssetsComponent implements OnInit {
   value: string | undefined;
   locationForm: FormGroup;
   editForm: FormGroup;
+  submitted = false; // track input fields befor submit
+
   @ViewChild('dt2') dt2!: any;
   selectedPropertyCode!: string;
   constructor(private http: AssetsService, private auth: AuthGuardsService, private assetsservice: AssetsService, private fb: FormBuilder) {
 
     // Initialize the form
     this.locationForm = this.fb.group({
-      location: ['', Validators.required],
-      locationCode: ['', Validators.required],
-      propertyCode: ['', Validators.required],
-      propertyNo: ['', Validators.required],
-      typeOfProperty: ['', Validators.required],
-      floor: ['', Validators.required],
-      attribuite1: ['', Validators.required],
-      extent: ['', Validators.required],
-      presentRent: ['', Validators.required],
-      allotteeName: ['', Validators.required],
-      size: ['', Validators.required],
-      length: ['', Validators.required],
-      breadth: ['', Validators.required],
-      revenueDivision: ['', Validators.required],
-      powerMeterNumber: ['', Validators.required],
-      waterMeterNo: ['', Validators.required],
-      details: ['', Validators.required],
-      status: ['', Validators.required]
+      location: [null, Validators.required],
+      locationCode: [null, Validators.required],
+      propertyCode: [null, Validators.required],
+      propertyNo: [null, Validators.required],
+      typeOfProperty: [null, Validators.required],
+      floor: [null],
+      attribuite1: [null],
+      extent: [null, Validators.required],
+      presentRent: [null, Validators.required],
+      allotteeName: [null, Validators.required],
+      size: [null],
+      length: [null],
+      breadth: [null],
+      revenueDivision: [null, Validators.required],
+      powerMeterNumber: [null],
+      waterMeterNo: [null],
+      details: [null],
+      status: [null, Validators.required]
     });
 
     this.editForm = this.fb.group({
-      editlocation: [''],
-      editlocationCode: [''],
-      editpropertyCode: [''],
-      editpropertyNo: [''],
-      edittypeOfProperty: [''],
-      editfloor: [''],
-      editattribuite1: [''],
-      editextent: [''],
-      editpresentRent: [''],
-      editallotteeName: [''],
-      editsize: [''],
-      editlength: [''],
-      editbreadth: [''],
-      editrevenueDivision: [''],
-      editpowerMeterNumber: [''],
-      editwaterMeterNo: [''],
-      editdetails: [''],
-      editstatus: ['']
+      editlocation: [null, Validators.required],
+      editlocationCode: [null, Validators.required],
+      editpropertyCode: [null, Validators.required],
+      editpropertyNo: [null, Validators.required],
+      edittypeOfProperty: [null, Validators.required],
+      editfloor: [null, Validators.required],
+      editattribuite1: [null],
+      editextent: [null, Validators.required],
+      editpresentRent: [null, Validators.required],
+      editallotteeName: [null],
+      editsize: [null],
+      editlength: [null],
+      editbreadth: [null],
+      editrevenueDivision: [null, Validators.required],
+      editpowerMeterNumber: [null],
+      editwaterMeterNo: [null],
+      editdetails: [null],
+      editstatus: [null, Validators.required]
     });
   }
 
@@ -104,12 +106,18 @@ export class AssetsComponent implements OnInit {
   }
 
   showDialog() {
-    this.visible = true;
-
+    this.addvisible = true;
   }
 
   onSave() {
+    this.submitted=true;
     this.locationForm.markAllAsTouched(); // checking all form fields are touched or not
+      const propertyFormData = this.locationForm.value;
+      if (!propertyFormData.LOCATION || !propertyFormData.LOCATION_CODE) {
+        console.error('Required fields missing');
+        return;
+      }
+
     const propertyData = {
       LOCATION: this.locationForm.value.location,
       LOCATION_CODE: this.locationForm.value.locationCode,
@@ -130,10 +138,11 @@ export class AssetsComponent implements OnInit {
       DETAILS: this.locationForm.value.details,
       STATUS: this.locationForm.value.status
     };
+    
     this.assetsservice.addAssets(propertyData).subscribe({
       next: (response) => {
         this.getLocationInfo(); // Refresh the list if needed
-        this.visible = false; // Close the dialog
+        this.addvisible = false; // Close the dialog
         this.locationForm.reset(); // Reset the form
       },
       error: (error) => {

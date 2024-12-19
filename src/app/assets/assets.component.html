@@ -15,41 +15,42 @@
                     <p-dropdown [options]="complex" (onChange)="onSelectGlobal($event.value)"
                         placeholder="Select Location" />
                 </div>
-                <p-button (onClick)="showDialog()"
-                    *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"
-                    label=" + Add New" severity="success" size="small" />
+                <!-- <p-button (onClick)="showDialog()"
+                    *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"
+                    label=" + Add New" severity="success" size="small" /> -->
+                <div *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
+             <button class="addbutton" (click)="showDialog()">+ Add New Assets</button>
+                </div>   
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="Sl_NO">S No <p-sortIcon field="Sl_NO" /></th>
-                <th pSortableColumn="ALLOTTEE_NAME">Tenant Name <p-sortIcon field="ALLOTTEE_NAME" /></th>
+                <th>S No</th>
+                <th>User Name</th>
                 <th>Location</th>
                 <th>Extent</th>
-                <th pSortableColumn="FLOOR">Floor <p-sortIcon field="FLOOR" /></th>
+                <th>Floor</th>
                 <th>Present Rent</th>
-                <th>Property Code</th>
+                <th>Property Name</th>
                 <th pSortableColumn="REVENUE_DIVISION">Revenue Division <p-sortIcon field="REVENUE_DIVISION" /></th>
                 <th pSortableColumn="STATUS">Status <p-sortIcon field="STATUS" /></th>
                 <th>Type of Property</th>
-                <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
-
-
+                <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-location>
             <tr style="font-size: 12px; margin-bottom: 1rem;">
-                <td style="width: 6%;">{{ location.Sl_NO }}</td>
-                <td style="width: 14%;">{{ location.ALLOTTEE_NAME }}</td>
-                <td style="width: 8%;">{{ location.LOCATION }}</td>
-                <td style="width: 6%;">{{ location.EXTENT }}</td>
-                <td style="width: 6%;">{{ location.FLOOR }}</td>
-                <td style="width: 8%;">{{ location.PRESENT_RENT }}</td>
-                <td style="width: 12%;">{{ location.PROPERTY_CODE }}</td>
-                <td style="width: 12%;">{{ location.REVENUE_DIVISION }}</td>
-                <td style="width: 7%;">{{ location.STATUS }}</td>
-                <td style="width: 10%;">{{ location.TYPE_OF_PROPERTY }}</td>
-                <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+                <td >{{ location.Sl_NO }}</td>
+                <td >{{ location.ALLOTTEE_NAME }}</td>
+                <td >{{ location.LOCATION }}</td>
+                <td >{{ location.EXTENT }}</td>
+                <td >{{ location.FLOOR }}</td>
+                <td >{{ location.PRESENT_RENT }}</td>
+                <td >{{ location.property_name }}</td>
+                <td >{{ location.REVENUE_DIVISION }}</td>
+                <td >{{ location.STATUS }}</td>
+                <td >{{ location.TYPE_OF_PROPERTY }}</td>
+                <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
                     <div class="rowbtn">
                         <button class="editButton" pTooltip="Edit Asset" tooltipPosition="left"
                             (click)="onEdit(location)">
@@ -77,36 +78,36 @@
         <div class="form-container">
             <div class="form-row">
                 <div class="form-group">
-                    <label for="location" class="form-label">Location</label>
+                    <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
                     <select formControlName="editlocation" class="form-input">
                         <option value="" disabled selected>Select Location</option>
                         <option *ngFor="let loc of location" [value]="loc">{{ loc }}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="location-code" class="form-label">Location Code</label>
+                    <label for="location-code" class="form-label">Location Code <span class="text-danger">*</span></label>
                     <select formControlName="editlocationCode" class="form-input">
                         <option value="" disabled selected>Select Location Code</option>
                         <option *ngFor="let code of complex" [value]="code">{{ code }}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="property-code" class="form-label">Property Code</label>
+                    <label for="property-code" class="form-label">Property Code <span class="text-danger">*</span></label>
                     <input formControlName="editpropertyCode" type="text" class="form-input" />
                     <small class="input-format-info">Format: UBC-ABC-01</small>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="property-no" class="form-label">Property No</label>
+                    <label for="property-no" class="form-label">Property No <span class="text-danger">*</span></label>
                     <input formControlName="editpropertyNo" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="type-of-property" class="form-label">Type of Property</label>
+                    <label for="type-of-property" class="form-label">Type of Property <span class="text-danger">*</span></label>
                     <input formControlName="edittypeOfProperty" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="floor" class="form-label">Floor</label>
+                    <label for="floor" class="form-label">Floor <span class="text-danger">*</span></label>
                     <input formControlName="editfloor" type="text" class="form-input" />
                 </div>
             </div>
@@ -116,11 +117,11 @@
                     <input formControlName="editattribuite1" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="extent" class="form-label">Extent</label>
+                    <label for="extent" class="form-label">Extent <span class="text-danger">*</span></label>
                     <input formControlName="editextent" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="present-rent" class="form-label">Present Rent</label>
+                    <label for="present-rent" class="form-label">Present Rent <span class="text-danger">*</span></label>
                     <input formControlName="editpresentRent" type="number" class="form-input" />
                 </div>
             </div>
@@ -145,7 +146,7 @@
                     <input formControlName="editbreadth" type="number" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="revenue-division" class="form-label">Revenue Division</label>
+                    <label for="revenue-division" class="form-label">Revenue Division <span class="text-danger">*</span></label>
                     <input formControlName="editrevenueDivision" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
@@ -164,7 +165,7 @@
                     <input formControlName="editdetails" type="text" class="form-input" />
                 </div>
                 <div class="form-group">
-                    <label for="status" class="form-label">Status</label>
+                    <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
                     <select formControlName="editstatus" class="form-input">
                         <option>Occupied</option>
                         <option>Vacant</option>
@@ -182,14 +183,14 @@
 
 <!-- add new dialog -->
  
-<div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
-    <p-dialog header="Add New Asset" [modal]="true" [(visible)]="visible" position="center"
+<div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'CO_ADMIN' || userRole === 'ADMIN' || userRole === 'CO_ADMIN' || userRole === 'CAO')">
+    <p-dialog header="Add New Asset" [modal]="true" [(visible)]="addvisible" position="center"
         [style]="{ width: '50rem' }">
         <form [formGroup]="locationForm" (ngSubmit)="onSave()">
             <div class="form-container">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="location" class="form-label">Location</label>
+                        <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
                         <select formControlName="location" class="form-input">
                             <option value="" disabled selected>Select Location</option>
                             <option *ngFor="let loc of location" [value]="loc">{{ loc }}</option>
@@ -199,46 +200,46 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="location-code" class="form-label">Location Code</label>
+                        <label for="location-code" class="form-label">Location Code <span class="text-danger">*</span></label>
                         <select formControlName="locationCode" class="form-input">
                             <option value="" disabled selected>Select Location Code</option>
                             <option *ngFor="let code of complex" [value]="code">{{ code }}</option>
                         </select>
                         <div
-                            *ngIf="locationForm.get('locationCode')?.invalid && locationForm.get('locationCode')?.touched">
+                            *ngIf="locationForm.get('locationCode')?.invalid && locationForm.get('locationCode')?.touched || submitted">
                             <small class="text-danger">Location Code is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="property-code" class="form-label">Property Code</label>
+                        <label for="property-code" class="form-label">Property Code <span class="text-danger">*</span></label>
                         <input formControlName="propertyCode" type="text" class="form-input" />
                         <small class="input-format-info">Format: UBC-ABC-01</small>
                         <div
-                            *ngIf="locationForm.get('propertyCode')?.invalid && locationForm.get('propertyCode')?.touched">
+                            *ngIf="locationForm.get('propertyCode')?.invalid && locationForm.get('propertyCode')?.touched || submitted">
                             <small class="text-danger">Property Code is required.</small>
                         </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="property-no" class="form-label">Property No</label>
+                        <label for="property-no" class="form-label">Property No <span class="text-danger">*</span></label>
                         <input formControlName="propertyNo" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('propertyNo')?.invalid && locationForm.get('propertyNo')?.touched">
+                        <div *ngIf="locationForm.get('propertyNo')?.invalid && locationForm.get('propertyNo')?.touched || submitted">
                             <small class="text-danger">Property No is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="type-of-property" class="form-label">Type of Property</label>
+                        <label for="type-of-property" class="form-label">Type of Property <span class="text-danger">*</span></label>
                         <input formControlName="typeOfProperty" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('typeOfProperty')?.invalid && locationForm.get('typeOfProperty')?.touched">
+                            *ngIf="locationForm.get('typeOfProperty')?.invalid && locationForm.get('typeOfProperty')?.touched || submitted">
                             <small class="text-danger">Type of Property is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="floor" class="form-label">Floor</label>
                         <input formControlName="floor" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('floor')?.invalid && locationForm.get('floor')?.touched">
+                        <div *ngIf="locationForm.get('floor')?.invalid && locationForm.get('floor')?.touched || submitted">
                             <small class="text-danger">Floor is required.</small>
                         </div>
                     </div>
@@ -248,46 +249,46 @@
                         <label for="attribuite1" class="form-label">Attribute 1</label>
                         <input formControlName="attribuite1" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('attribuite1')?.invalid && locationForm.get('attribuite1')?.touched">
+                            *ngIf="locationForm.get('attribuite1')?.invalid && locationForm.get('attribuite1')?.touched || submitted">
                             <small class="text-danger">Attribute 1 is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="extent" class="form-label">Extent</label>
+                        <label for="extent" class="form-label">Extent <span class="text-danger">*</span></label>
                         <input formControlName="extent" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('extent')?.invalid && locationForm.get('extent')?.touched">
+                        <div *ngIf="locationForm.get('extent')?.invalid && locationForm.get('extent')?.touched || submitted">
                             <small class="text-danger">Extent is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="present-rent" class="form-label">Present Rent</label>
+                        <label for="present-rent" class="form-label">Present Rent <span class="text-danger">*</span></label>
                         <input formControlName="presentRent" type="number" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('presentRent')?.invalid && locationForm.get('presentRent')?.touched">
+                            *ngIf="locationForm.get('presentRent')?.invalid && locationForm.get('presentRent')?.touched || submitted">
                             <small class="text-danger">Present Rent is required.</small>
                         </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="allottee-name" class="form-label">Allottee Name</label>
+                        <label for="allottee-name" class="form-label">Allottee Name <span class="text-danger">*</span></label>
                         <input formControlName="allotteeName" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('allotteeName')?.invalid && locationForm.get('allotteeName')?.touched">
+                            *ngIf="locationForm.get('allotteeName')?.invalid && locationForm.get('allotteeName')?.touched || submitted">
                             <small class="text-danger">Allottee Name is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="size" class="form-label">Size</label>
                         <input formControlName="size" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('size')?.invalid && locationForm.get('size')?.touched">
+                        <div *ngIf="locationForm.get('size')?.invalid && locationForm.get('size')?.touched || submitted">
                             <small class="text-danger">Size is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="length" class="form-label">Length</label>
+                        <label for="length" class="form-label">Length </label>
                         <input formControlName="length" type="number" class="form-input" />
-                        <div *ngIf="locationForm.get('length')?.invalid && locationForm.get('length')?.touched">
+                        <div *ngIf="locationForm.get('length')?.invalid && locationForm.get('length')?.touched || submitted">
                             <small class="text-danger">Length is required.</small>
                         </div>
                     </div>
@@ -297,15 +298,15 @@
                     <div class="form-group">
                         <label for="breadth" class="form-label">Breadth</label>
                         <input formControlName="breadth" type="number" class="form-input" />
-                        <div *ngIf="locationForm.get('breadth')?.invalid && locationForm.get('breadth')?.touched">
+                        <div *ngIf="locationForm.get('breadth')?.invalid && locationForm.get('breadth')?.touched || submitted">
                             <small class="text-danger">Breadth is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="revenue-division" class="form-label">Revenue Division</label>
+                        <label for="revenue-division" class="form-label">Revenue Division <span class="text-danger">*</span></label>
                         <input formControlName="revenueDivision" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('revenueDivision')?.invalid && locationForm.get('revenueDivision')?.touched">
+                            *ngIf="locationForm.get('revenueDivision')?.invalid && locationForm.get('revenueDivision')?.touched || submitted">
                             <small class="text-danger">Revenue Division is required.</small>
                         </div>
                     </div>
@@ -313,7 +314,7 @@
                         <label for="power-meter-number" class="form-label">Power Meter Number</label>
                         <input formControlName="powerMeterNumber" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('powerMeterNumber')?.invalid && locationForm.get('powerMeterNumber')?.touched">
+                            *ngIf="locationForm.get('powerMeterNumber')?.invalid && locationForm.get('powerMeterNumber')?.touched || submitted">
                             <small class="text-danger">Power Meter Number is required.</small>
                         </div>
                     </div>
@@ -324,24 +325,24 @@
                         <label for="water-meter-no" class="form-label">Water Meter No</label>
                         <input formControlName="waterMeterNo" type="text" class="form-input" />
                         <div
-                            *ngIf="locationForm.get('waterMeterNo')?.invalid && locationForm.get('waterMeterNo')?.touched">
+                            *ngIf="locationForm.get('waterMeterNo')?.invalid && locationForm.get('waterMeterNo')?.touched || submitted">
                             <small class="text-danger">Water Meter No is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="details" class="form-label">Details</label>
                         <input formControlName="details" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('details')?.invalid && locationForm.get('details')?.touched">
+                        <div *ngIf="locationForm.get('details')?.invalid && locationForm.get('details')?.touched || submitted">
                             <small class="text-danger">Details is required.</small>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="status" class="form-label">Status</label>
+                        <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
                         <select formControlName="status" class="form-input">
                             <option>Occupied</option>
                             <option>Vacant</option>
                         </select>
-                        <div *ngIf="locationForm.get('status')?.invalid && locationForm.get('status')?.touched">
+                        <div *ngIf="locationForm.get('status')?.invalid && locationForm.get('status')?.touched || submitted">
                             <small class="text-danger">Status is required.</small>
                         </div>
                     </div>
@@ -352,7 +353,7 @@
                     <p-button label="Save" type="submit" size="small" />
                 </div>
                 <div class="save">
-                    <p-button label="Cancel" severity="danger" (onClick)="visible = false" size="small" />
+                    <p-button label="Cancel" severity="danger" (onClick)="addvisible = false" size="small" />
                 </div>
             </div>
         </form>

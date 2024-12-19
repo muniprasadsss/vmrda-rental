@@ -15,7 +15,7 @@ import { UserServiceService } from '../services/userService/user-service.service
 @Component({
   selector: 'app-change-request',
   standalone: true,
-  imports: [PrimeNgModule, FormsModule, HeaderComponent, DashboardComponent, FooterComponent, ReactiveFormsModule],
+  imports: [PrimeNgModule, FormsModule, ReactiveFormsModule],
   templateUrl: './change-request.component.html',
   styleUrl: './change-request.component.scss'
 })
@@ -270,7 +270,7 @@ export class ChangeRequestComponent implements OnInit {
       case 'RD':
         return !(stage === 'Pending with RI' && status === 'Pending');
       case 'AO':
-        return !((stage === 'recommended for ao' || stage === 'Waiting for AO Approval' ) &&
+        return !((stage === 'Recommended for AO' || stage === 'Waiting for AO Approval' ) &&
         status === 'Pending');
       case 'SECRETARY':
         return !(stage === 'Recommended for Secretray' && status === 'Pending');

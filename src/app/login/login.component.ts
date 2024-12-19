@@ -12,7 +12,7 @@ import { ProfileSettingsService } from '../services/profileSettings/profile-sett
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,PrimeNgModule,RouterOutlet],
+  imports: [FormsModule,PrimeNgModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -82,7 +82,7 @@ export class LoginComponent {
       if(res.data.user_type === 'USER'){
         this.router.navigateByUrl("billDetails")
       }else{
-        this.router.navigateByUrl("user")
+        this.router.navigateByUrl("billDetails")
       }
         },
         error:(err:any)=>{
@@ -155,6 +155,7 @@ export class LoginComponent {
           response => {
             console.log('Password changed successfully:', response);
             this.toasterservice.success('Password changed successfully!'); // Show success message
+            
             this.forgotPasswordDiv = false;
             this.isNewPassword = false;
           },

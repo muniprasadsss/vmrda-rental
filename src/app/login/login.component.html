@@ -30,15 +30,25 @@
       <div class="input-group">
         <input id="username" type="text" pInputText [(ngModel)]="userID" name="username" #usernameCtrl="ngModel"
           required placeholder="Enter User Id" />
+          <div *ngIf="usernameCtrl.invalid && usernameCtrl.touched" class="error" >
+            Username is required
+          </div>
+          
       </div>
       <div class="input-group" style="margin-top: 1rem;">
         <input id="password" type="password" pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
           required placeholder="Enter Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" />
-        <div *ngIf="
+          <!-- <p-password [feedback]="false" [toggleMask]="true"  pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
+          required placeholder="Enter Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" /> -->
+
+          <div *ngIf="passwordCtrl.invalid && passwordCtrl.touched" class="error" >
+            Password is required
+          </div>
+        <!-- <div *ngIf="
             (passwordCtrl.invalid && passwordCtrl.touched) ||
             (usernameCtrl.invalid && usernameCtrl.touched)" class="error" style="margin-top: 2rem;color:red; background: white;">
           Invalid Username and Password.
-        </div>
+        </div> -->
       </div>
 
       <!-- OTP section if required -->
@@ -78,11 +88,11 @@
           required placeholder="Enter your UserId" />
       </div>
       <div class="input-group" *ngIf="isNewPassword">
-        <input id="username" type="text" pInputText [(ngModel)]="newPassword" name="newPassword" #usernameCtrl="ngModel"
+        <input id="username" type="password" pInputText [(ngModel)]="newPassword" name="newPassword" #usernameCtrl="ngModel"
           required placeholder="Enter New Password" />
       </div>
       <div class="input-group" *ngIf="isNewPassword">
-        <input id="username" type="text" pInputText [(ngModel)]="renterNewPass" name="renterNewPass" #usernameCtrl="ngModel"
+        <input id="username" type="password" pInputText [(ngModel)]="renterNewPass" name="renterNewPass" #usernameCtrl="ngModel"
           required placeholder="Enter Re-Enter New Password" />
       </div>
       <!-- OTP section if required -->

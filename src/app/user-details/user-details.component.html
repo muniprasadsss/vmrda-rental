@@ -13,8 +13,9 @@
               <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
             </p-iconField>
           </div>
-          <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
-            <p-button (click)="showDialog()" label=" + Add New" severity="success" size="small" />
+          <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
+            <!-- <p-button (click)="showDialog()" label=" + Add New" severity="success" size="small" /> -->
+             <button class="addbutton" (click)="showDialog()">+ Add New Tenant</button>
           </div>
         </div>
       </ng-template>
@@ -30,24 +31,24 @@
           <th>Email Id</th>
           <th>GSTIN</th>
           <!-- <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th> -->
-          <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')"></th>
+          <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN' )"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-customer>
         <tr style="font-size: 12px;">
           <!-- <td style="width: 5%;">{{ customer.SL_NO }}</td> -->
-          <td style="width: 7%;">{{ customer.USER_ID }}</td>
-          <td style="width: 9%;">{{ customer.USER_NAME }}</td>
-          <td style="width: 6%;">{{ customer.MOBILE_NUM }}</td>
-          <td style="width: 8%;">{{ customer.NATURE_OF_BUSINESS }}</td>
-          <td style="width: 8%;">{{ customer.Aadhaar_No }}</td>
-          <td style="width: 6%;">{{ customer.PAN }}</td>
-          <td style="width: 9%;">{{ customer.EMAIL_ID }}</td>
-          <td style="width: 6%;">{{ customer.GST_IN }}</td>
-          <td style="width: 6%;"
-            *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO')">
+          <td >{{ customer.USER_ID }}</td>
+          <td >{{ customer.USER_NAME }}</td>
+          <td >{{ customer.MOBILE_NUM }}</td>
+          <td >{{ customer.NATURE_OF_BUSINESS }}</td>
+          <td >{{ customer.Aadhaar_No }}</td>
+          <td >{{ customer.PAN }}</td>
+          <td >{{ customer.EMAIL_ID }}</td>
+          <td >{{ customer.GST_IN }}</td>
+          <td 
+            *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
             <div class="rowbtn">
-              <button class="editButton" pTooltip="Edit Tenent" tooltipPosition="left"
+              <button class="editButton" pTooltip="Edit Tenant" tooltipPosition="left"
                 (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
             </div>
           </td>
@@ -60,7 +61,7 @@
 
 <!-- Add New Dialog  -->
 
-<p-dialog header="Add New Tenant" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '50rem' }">
+<p-dialog header="Add New Tenant" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '35rem' }">
   <form [formGroup]="addNewForm" (ngSubmit)="addNewUser()">
     <div class="form-container">
       <div class="form-row">
@@ -94,6 +95,7 @@
           <label for="aadhar" class="form-label">Aadhar No <span class="text-danger">*</span></label>
           <input type="text" id="aadhar" formControlName="aadhar" class="form-input" inputmode="numeric"
             (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 12)" />
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 12)" />
           <div *ngIf="addNewForm.get('aadhar')?.invalid && addNewForm.get('aadhar')?.touched">
             <small class="text-danger">Aadhar No is required.</small>
           </div>
@@ -102,15 +104,15 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label for="pan" class="form-label">PAN No <span class="text-danger">*</span></label>
+          <label for="pan" class="form-label">PAN No </label>
           <input type="text" id="pan" class="form-input" formControlName="pan" maxlength="10"
-            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)"  (input)="toUpperCase($event)"/>
+            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" (input)="convertToUpperCase($event)" />
           <div *ngIf="addNewForm.get('pan')?.invalid && addNewForm.get('pan')?.touched">
             <small class="text-danger">PAN No is required.</small>
           </div>
         </div>
         <div class="form-group">
-          <label for="email" class="form-label">Email ID <span class="text-danger">*</span></label>
+          <label for="email" class="form-label">Email ID </label>
           <input type="email" id="email" formControlName="email_id" class="form-input"
             (keydown)="validateEmailInput($event)" (keydown)="limitInputLength($event, 50)" />
           <div *ngIf="addNewForm.get('email_id')?.invalid && addNewForm.get('email_id')?.touched">
@@ -122,7 +124,7 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label for="gstin" class="form-label">GST IN <span class="text-danger">*</span></label>
+          <label for="gstin" class="form-label">GST IN </label>
           <input type="text" id="gstin" formControlName="gstIn" class="form-input" inputmode="numeric"
             (keydown)="validatePanInput($event)" (input)="toUpperCase($event)" (keydown)="limitInputLength($event, 15)" />
           <div *ngIf="addNewForm.get('gstIn')?.invalid && addNewForm.get('gstIn')?.touched">
@@ -149,14 +151,14 @@
     <div class="form-container">
       <div class="form-row">
         <div class="form-group">
-          <label for="editUsername" class="form-label">Username</label>
+          <label for="editUsername" class="form-label">Username <span class="text-danger">*</span></label>
           <input type="text" id="editUsername" formControlName="editUsername" class="form-input" />
           <div *ngIf="editForm.get('editUsername')?.invalid && editForm.get('editUsername')?.touched">
             <small class="error">Username is required.</small>
           </div>
         </div>
         <div class="form-group">
-          <label for="editMobile" class="form-label">Mobile No</label>
+          <label for="editMobile" class="form-label">Mobile No <span class="text-danger">*</span></label>
 
           <input type="number" id="editMobile" formControlName="editMobile" class="form-input" inputmode="numeric"
             (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
@@ -167,13 +169,16 @@
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label for="editBusiness" class="form-label">Business</label>
+          <label for="editBusiness" class="form-label">Business <span class="text-danger">*</span></label>
           <input type="text" id="editBusiness" formControlName="editBusiness" class="form-input" />
         </div>
         <div class="form-group">
-          <label for="editAadhar" class="form-label">Aadhar No</label>
+          <label for="editAadhar" class="form-label">Aadhar No <span class="text-danger">*</span></label>
           <input type="number" id="editAadhar" formControlName="editAadhar" class="form-input" inputmode="numeric"
             (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+            <div *ngIf="editForm.get('editAadhar')?.invalid && editForm.get('editAadhar')?.touched">
+              <small class="error">Aadhar number is required.</small>
+            </div>
         </div>
       </div>
       <div class="form-row">
@@ -194,7 +199,7 @@
           <input type="text" id="editGstin" formControlName="editGstin" class="form-input" />
         </div>
         <div class="form-group">
-          <label for="editRevenue" class="form-label">Revenue Division</label>
+          <label for="editRevenue" class="form-label">Revenue Division <span class="text-danger">*</span></label>
           <input type="text" id="editRevenue" formControlName="editRevenue" class="form-input" />
         </div>
       </div>
@@ -204,7 +209,7 @@
         <p-button type="submit" label="Update" size="small"></p-button>
       </div>
       <div class="save">
-        <p-button label="Cancel" severity="danger" (click)="editVisible = false" size="small"></p-button>
+        <p-button label="Cancel" severity="danger" (click)="closeEditForm()" size="small"></p-button>
       </div>
     </div>
   </form>

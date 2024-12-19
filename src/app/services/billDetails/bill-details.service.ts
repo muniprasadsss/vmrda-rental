@@ -32,8 +32,12 @@ export class BillDetailsService {
         return this.http.post<any>(`${this.apiUrl}/bills/getbillsByBillNo`, { BillNo });
       }
 
-updateBillDetails(billData: any): Observable<any> {
-  return this.http.post<any>(`${this.apiUrl}/bills/updatebill`, billData); // Updated endpoint
+saveBill(billData: any): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/save-bill`, billData); // Updated endpoint
+}
+
+generateBill(billData: any): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/bills/generate-bill`, billData); // Updated endpoint
 }
 
       sendEmail(emailData: { to: string; subject: string; text: string }): Observable<any> {
@@ -44,12 +48,23 @@ updateBillDetails(billData: any): Observable<any> {
         console.log(updateData,"Updated data to procedure after click on pay...");
         return this.http.post<any>(`${this.apiUrl}/bills/updateManualBill`, updateData); // Updated endpoint
       }
+      filterBillingData(updateData: any): Observable<any> {
+        console.log(updateData,"Updated data to procedure after click on pay...");
+        return this.http.post<any>(`${this.apiUrl}/filterBillingData`, updateData); // Updated endpoint
+      }
+      filterBillingData(updateData: any): Observable<any> {
+        console.log(updateData,"Updated data to procedure after click on pay...");
+        return this.http.post<any>(`${this.apiUrl}/filterBillingData`, updateData); // Updated endpoint
+      }
 
 
   getPropertyInfo(BillNo: any): Observable<any> {
 
     return this.http.post<any>(`${this.apiUrl}/getBillAndPropertyInfo`, {BillNo: BillNo })
 
+  }
+  generateAllBills(revenueDivision:any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/generate-all-bills`, {revenueDivision: revenueDivision })
   }
 
     createOrder(amount:any): Observable<any> {
