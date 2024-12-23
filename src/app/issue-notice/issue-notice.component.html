@@ -1,6 +1,9 @@
 <div class="card">
   <div class="table"></div>
-  <p-table [value]="dataSource" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
+  <p-table [value]="dataSource" 
+  [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+  [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
+  >
     <ng-template pTemplate="caption">
       <div class="searchbar">
         <div class="search">
@@ -15,12 +18,12 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr style="font-size: 12px; padding: 0;">
-        <th>Bill No</th>
-        <th>Property Name</th>
-        <th pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
-        <th pSortableColumn="TotalDue">Total Due</th>
-        <th pSortableColumn="IssueNotice_Status">Issue Notice Status</th>
-        <th pSortableColumn="creation_date">Creation Date</th>
+        <th pResizableColumn >Bill No</th>
+        <th pResizableColumn >Property Name</th>
+        <th pResizableColumn  pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
+        <th pResizableColumn  pSortableColumn="TotalDue">Total Due</th>
+        <th pResizableColumn  pSortableColumn="IssueNotice_Status">Issue Notice Status</th>
+        <th pResizableColumn  pSortableColumn="creation_date">Creation Date</th>
         <th></th>
       </tr>
     </ng-template>

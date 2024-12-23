@@ -1,6 +1,8 @@
 
   <div class="card" >
-    <p-table #dt2  [value]="notPaidBills" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+    <p-table #dt2  [value]="notPaidBills" 
+    [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+    [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
     [globalFilterFields]="['BillNo','Property','Bill_Period','Rental_lease_amount_permonth','GST','Power_bill','Water_bill','Maintainance_bill','Total_rental_interest','Bill_generated_date','Total','TotalPaid','Due','Status','BillStatus']"
     [paginator]="true">
 
@@ -82,22 +84,22 @@
       <ng-template pTemplate="header">
         <tr style="font-size: 12px; padding: 0;">
           <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
-          <th >Property Name</th>
-          <th >Lease Period</th>
-          <th>Lease Amount</th>
-          <th >GST</th>
-          <th >Power Bill Amount</th>
-          <th >Water Bill Amount</th>
-          <th >Maintenance Amount</th>
-          <th >Interest</th>
-          <th >TDS</th>
-          <th pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
-          <!-- <th>Arrears</th> -->
-          <th >Total</th>
-          <th >Payment Amount</th>
-          <th >Total Due</th>
-          <th >Status</th>
-          <th >BillStatus</th>
+          <th pResizableColumn >Property Name</th>
+          <th pResizableColumn >Lease Period</th>
+          <th>pResizableColumn Lease Amount</th>
+          <th pResizableColumn >GST</th>
+          <th pResizableColumn >Power Bill Amount</th>
+          <th pResizableColumn >Water Bill Amount</th>
+          <th pResizableColumn >Maintenance Amount</th>
+          <th pResizableColumn >Interest</th>
+          <th pResizableColumn >TDS</th>
+          <th pResizableColumn pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
+          <!--pResizableColumn  <th>Arrears</th> -->
+          <th pResizableColumn >Total</th>
+          <th pResizableColumn >Payment Amount</th>
+          <th pResizableColumn >Total Due</th>
+          <th pResizableColumn >Status</th>
+          <th pResizableColumn >BillStatus</th>
           <th></th>
           <th></th>
           <th></th>
@@ -252,27 +254,30 @@
 
   <div class="dialog">
     <p-dialog header="History"  [modal]="true" [(visible)]="visible1" position="center" [style]="{ width: '70rem' }">
-  <p-table [value]="paidBills" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
+  <p-table [value]="paidBills" 
+  [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+  [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
+  >
   <ng-template pTemplate="caption">
   </ng-template>
   <ng-template pTemplate="header">
   <tr style="font-size: 12px; padding: 0;">
-  <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
-  <th>Property Name</th>
-  <th>Lease Period</th>
-  <th>Lease Amount</th>
-  <th>GST</th>
-  <th>Power Bill Amount</th>
-  <th>Water Bill Amount</th>
-  <th>Maintenance Amount</th>
-  <th>Interest</th>
-  <th>TDS</th>
-  <th pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
-  <!-- <th>Arrears</th> -->
-  <th>Total</th>
-  <th>Payment Amount</th>
-  <th>Total Due</th>
-  <th>Status</th>
+  <th pResizableColumn  pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
+  <th pResizableColumn >Property Name</th>
+  <th pResizableColumn >Lease Period</th>
+  <th pResizableColumn >Lease Amount</th>
+  <th pResizableColumn >GST</th>
+  <th pResizableColumn >Power Bill Amount</th>
+  <th pResizableColumn >Water Bill Amount</th>
+  <th pResizableColumn >Maintenance Amount</th>
+  <th pResizableColumn >Interest</th>
+  <th pResizableColumn >TDS</th>
+  <th pResizableColumn  pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
+  <!-- <th pResizableColumn>Arrears</th> -->
+  <th pResizableColumn >Total</th>
+  <th pResizableColumn >Payment Amount</th>
+  <th pResizableColumn >Total Due</th>
+  <th pResizableColumn >Status</th>
   <th></th>
   <th></th>
   <th></th>

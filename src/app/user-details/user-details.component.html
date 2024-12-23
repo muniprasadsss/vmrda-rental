@@ -1,6 +1,8 @@
 <div class="content">
   <div class="card">
-    <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    <p-table #dt2 [value]="dataSource" dataKey="id" 
+    [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+    [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
       [globalFilterFields]="['SL_NO', 'USER_ID', 'USER_NAME', 'MOBILE_NUM', 'NATURE_OF_BUSINESS', 'Aadhaar_No', 'PAN', 'EMAIL_ID', 'GST_IN']"
       [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
       <ng-template pTemplate="caption">
@@ -22,14 +24,14 @@
       <ng-template pTemplate="header">
         <tr style="font-size: 12px;">
           <!-- <th pSortableColumn="SL_NO">S.No <p-sortIcon field="SL_NO" /></th> -->
-          <th pSortableColumn="USER_ID">User ID <p-sortIcon field="USER_ID" /></th>
-          <th>User Name</th>
-          <th>Mobile No</th>
-          <th> Nature of Business</th>
-          <th>Aadhar No</th>
-          <th>PAN No</th>
-          <th>Email Id</th>
-          <th>GSTIN</th>
+          <th pResizableColumn  pSortableColumn="USER_ID">User ID <p-sortIcon field="USER_ID" /></th>
+          <th pResizableColumn >User Name</th>
+          <th pResizableColumn >Mobile No</th>
+          <th pResizableColumn > Nature of Business</th>
+          <th pResizableColumn >Aadhar No</th>
+          <th pResizableColumn >PAN No</th>
+          <th pResizableColumn >Email Id</th>
+          <th pResizableColumn >GSTIN</th>
           <!-- <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th> -->
           <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN' )"></th>
         </tr>
