@@ -1,6 +1,6 @@
 <div class="card custom-table">
   <p-table #dt2 [value]="receiptData" 
-   [resizableColumns]="true" [rows]="40" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+   [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
    [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
   [globalFilterFields]="['ReceiptNo','User', 'UserId', 'BillNo', 'Property', 'Paid_Date', 'Rental_lease_amount_permonth', 'GST', 'Total_rental_interest', 'Total', 'Due', 'Total_paid', 'Status']">
   <ng-template pTemplate="caption">
@@ -79,8 +79,8 @@
         <th pResizableColumn >Due</th>
         <th pResizableColumn >Amount Paid</th>
         <th pResizableColumn >Status</th>
-        <th></th>
-        <th></th>
+        <th pResizableColumn></th>
+        
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-receipt>
@@ -91,7 +91,7 @@
         <td  *ngIf="userRole !== 'USER'">{{ receipt.User }}</td>
         <!-- <td style="width: 8%;">{{ receipt.ReceiptNo }}</td> -->
         <td >{{ receipt.BillNo }}</td>
-        <td class="column-small">{{ receipt.property_name }}</td>
+        <td >{{ receipt.property_name }}</td>
         <td >{{ receipt.challana_number }}</td>
         <td >{{ receipt.paid_date | date: 'dd/MM/yyyy' }}</td>
         <td >{{ receipt.Rental_lease_amount_permonth }}</td>
