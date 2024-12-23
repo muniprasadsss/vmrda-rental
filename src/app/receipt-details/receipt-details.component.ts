@@ -214,16 +214,17 @@ generatePDF(receipt: any) {
     }
   }
      // Handle file input change
-   onFileChange(event: any) {
-      const file = event.target.files[0];
-      if (file.length > 0) { // Check if any file is selected
-        const files = file[0];
-        this.fileToUpload = files;
-        this.uploadattachment(); // Trigger upload function if file exists
+     onFileChange(event: any) {
+      const files = event.target.files; // Get the list of selected files
+      if (files && files.length > 0) { // Check if any file is selected
+          const file = files[0]; // Get the first file
+          this.fileToUpload = file;
+          this.uploadattachment(); // Trigger upload function
       } else {
-        console.warn('No file selected');
+          console.warn('No file selected');
       }
-    }
+  }
+  
 
     uploadattachment(){
       let fd = new FormData();
@@ -238,7 +239,15 @@ generatePDF(receipt: any) {
       })
     }
   
-
+    downloadFile(url: string) {
+      if (url) {
+        // Open the S3 URL in a new tab
+        window.open(url, '_blank');
+      } else {
+        console.error('No attachment URL provided');
+      }
+    }
+    
   fetchBillDetails(billNo:any){
     this.http.getBillDetails(billNo).subscribe({
       next:(res:any)=>{

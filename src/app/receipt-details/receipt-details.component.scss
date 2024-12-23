@@ -68,3 +68,15 @@
   .search{
     padding-right: 0.5rem;
   }
+
+  .column-small {
+    width: 150px;
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden;    /* Hide overflow if the content is too large */
+    text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+  }
+  
+  .column-large {
+    width: 200px;
+  }
+  
