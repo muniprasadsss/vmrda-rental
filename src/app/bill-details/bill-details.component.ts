@@ -113,7 +113,7 @@ export class BillDetailsComponent implements OnInit {
       maintenance_amount: new FormControl(null, Validators.required),
       lease_interests: new FormControl({ value: null, disabled: true }, Validators.required),
       total: new FormControl(null, Validators.required),
-      Arrears: new FormControl(null, Validators.required),
+      // Arrears: new FormControl(null, Validators.required),
       tds: new FormControl(null),
     });
     
@@ -147,7 +147,7 @@ export class BillDetailsComponent implements OnInit {
   calculateTotal(): void {
     const leaseAmount = parseFloat(this.form.get('lease_Amount')?.value) || 0;
     const gst = parseFloat(this.form.get('gst')?.value) || 0;
-    const Arrears = parseFloat(this.form.get('Arrears')?.value) || 0;
+    // const Arrears = parseFloat(this.form.get('Arrears')?.value) || 0;
     const powerBillAmount = parseFloat(this.form.get('power_bill_amount')?.value) || 0;
     const waterBillAmount = parseFloat(this.form.get('water_bill_amount')?.value) || 0;
     const maintenanceAmount = parseFloat(this.form.get('maintenance_amount')?.value) || 0;
@@ -157,7 +157,7 @@ export class BillDetailsComponent implements OnInit {
       this.isTds = false;
     }
     // Calculate the total
-    const total = leaseAmount + Arrears + gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests + this.tdsvalue;
+    const total = leaseAmount +  gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests + this.tdsvalue;
 
     // Update the total field in the form
     this.form.get('total')?.setValue(total, { emitEvent: false }); 
@@ -659,25 +659,63 @@ currentY += lineHeight * 2;
 
     // Call Razorpay payment
 
-    this.billDetailService.createOrder({
-      amount: this.amount,
-      invoice_id: this.sentDisabledFieldValues.billNo,
-      powerBill: this.sentDisabledFieldValues.powerBill,
-      waterBill: this.sentDisabledFieldValues.waterBill,
-      maintenanceAmount: this.sentDisabledFieldValues.maintenanceAmount,
-      tds: this.sentDisabledFieldValues.tds,
-      description: `Payment for ${this.selectedBill.Property}`,
-      email: this.userDetailsObject.EMAIL_ID,
-      phone: this.userDetailsObject.MOBILE_NUM
-    }).subscribe({
-      next:(res:any)=>{
-        this.orderID = res.data.id;
-        this.isDialogVisible = true;
-      }
-    }
+    // this.billDetailService.createOrder({
+    //   amount: this.amount,
+    //   invoice_id: this.sentDisabledFieldValues.billNo,
+    //   powerBill: this.sentDisabledFieldValues.powerBill,
+    //   waterBill: this.sentDisabledFieldValues.waterBill,
+    //   maintenanceAmount: this.sentDisabledFieldValues.maintenanceAmount,
+    //   tds: this.sentDisabledFieldValues.tds,
+    //   description: `Payment for ${this.selectedBill.Property}`,
+    //   email: this.userDetailsObject.EMAIL_ID,
+    //   phone: this.userDetailsObject.MOBILE_NUM
+    // }).subscribe({
+    //   next:(res:any)=>{
+    //     this.orderID = res.data.id;
+    //     this.isDialogVisible = true;
+    //   }
+    // }
       
-    );
+    // );
     
+    this.billDetailService.createOrder({
+        amount: this.amount,
+        invoice_id: this.sentDisabledFieldValues.billNo,
+        powerBill: this.sentDisabledFieldValues.powerBill,
+        waterBill: this.sentDisabledFieldValues.waterBill,
+        maintenanceAmount: this.sentDisabledFieldValues.maintenanceAmount,
+        tds: this.sentDisabledFieldValues.tds,
+        description: `Payment for ${this.selectedBill.Property}`,
+        email: this.userDetailsObject.EMAIL_ID,
+        phone: this.userDetailsObject.MOBILE_NUM
+      }).subscribe({
+       next: (order) => {
+          console.log(order,"....")
+          const options = {
+            key: this.razorpay_key_id, // Replace with your Razorpay key ID
+            amount: this.amount, // Amount in paise
+            currency: 'INR',
+            name: 'VMRDA Rental',
+            description: `Payment for ${this.selectedBill.Property}`,
+            order_id: order.data.id, // Razorpay order ID
+            handler: (response: any) => {
+              // On payment success, update bill and create receipt
+              this.verifypayment(response);
+            },
+            prefill: {
+              name: this.userDetailsObject.USER_NAME, 
+              email: this.userDetailsObject.EMAIL_ID, 
+              contact: this.userDetailsObject.MOBILE_NUM, 
+            },
+            theme: {
+              color: '#3399cc',
+            },
+          };
+          const rzp1 = new Razorpay(options);
+          rzp1.open();
+        }
+      });
+  
   }
 
 
@@ -757,5 +795,50 @@ currentY += lineHeight * 2;
 
     })
   }
+
+  openRazorpayCheckout() {
+    const options = {
+      key: this.razorpay_key_id,
+      amount: this.amount,
+      currency: 'INR',
+      name: 'VMRDA Rental Service',
+      description: 'Rental Service',
+      image: 'https://vmrda-prod-assests.s3.ap-south-1.amazonaws.com/vmrda_logo_image.png',
+      order_id: this.orderID,
+      prefill: {
+        name: this.userDetailsObject.USER_NAME,
+        contact: this.userDetailsObject.MOBILE_NUM,
+        email: this.userDetailsObject.EMAIL_ID,
+      },
+      handler: (response: any) => {
+        // The arrow function ensures that `this` refers to the class instance
+        console.log(response);
+        this.verifypayment(response); // Call your class method
+      },
+      theme: {
+        color: '#F37254',
+      },
+    };
+  
+    const razorpay = new Razorpay(options);
+    razorpay.open();
+  }
+
+  
+  
+
+  verifypayment(response:any){
+    if(response.razorpay_signature){
+      this.isDialogVisible = false;
+      this.showPayPopup = false;
+      this.toastrService.success('payment made successfully')
+    }
+    else {
+      this.isDialogVisible = false;
+      this.showPayPopup = false;
+      this.toastrService.warning('payment made successfully')
+    }
+  }
+
   
 }
