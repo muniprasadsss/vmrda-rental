@@ -277,6 +277,7 @@ generatePDF(receipt: any) {
     const p_payment_amount = this.addNewRecept.get('amount_paid')?.value;
     const challana_number = this.addNewRecept.get('challanaNumber')?.value;
   
+  
     if (!p_billid || !p_payment_amount) {
       // If either of the required fields is missing, show a toaster warning
       // this.toasterservice.warning('Amount Paid is required');
@@ -288,7 +289,8 @@ generatePDF(receipt: any) {
       const updateData = {
         p_billid: p_billid,
         p_payment_amount: p_payment_amount,
-        challana_number:challana_number
+        challana_number:challana_number,
+        attachment_url:this.attachmentUrl
       };
   
       this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
