@@ -251,7 +251,7 @@ export class ChangeRequestComponent implements OnInit {
   // Function to determine if the button should be shown based on the userRole
   shouldShowButton(buttonType: string) {
     switch (this.userRole) {
-      case 'RD':
+      case 'RI':
         return buttonType === 'Recommend' || buttonType === 'Close';
       case 'AO':
         return true; // AO can see all buttons
@@ -267,7 +267,7 @@ export class ChangeRequestComponent implements OnInit {
 
   isSelectDisabled(stage: string, status: string): boolean {
     switch (this.userRole) {
-      case 'RD':
+      case 'RI':
         return !(stage === 'Pending with RI' && status === 'Pending');
       case 'AO':
         return !((stage === 'Recommended for AO' || stage === 'Waiting for AO Approval' ) &&

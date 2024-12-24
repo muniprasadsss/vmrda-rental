@@ -1,5 +1,7 @@
 <div class="card custom-table">
-    <p-table #dt2 [value]="tableData" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    <p-table #dt2 [value]="tableData" dataKey="id" 
+    [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+    [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
         [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
       'description', 'propertycode', 'created_at', 'status', 'stage']">
         <ng-template pTemplate="caption">
@@ -24,20 +26,18 @@
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
                 <!-- <th pSortableColumn="id" *ngIf="userRole !== 'USER'">ID <p-sortIcon field="id"></p-sortIcon></th> -->
-                <th>Cr No </th>
-                <th *ngIf="userRole !== 'USER'">Username</th>
-                <!-- <th pSortableColumn="userId" *ngIf="userRole !== 'USER'">User ID <p-sortIcon
-                        field="userId"></p-sortIcon></th> -->
-                <th>Request Type </th>
-                <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon>
+                <th pResizableColumn>Cr No </th>
+                <th pResizableColumn *ngIf="userRole !== 'USER'">Username</th>
+                <th pResizableColumn>Request Type </th>
+                <th pResizableColumn pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon>
                 </th>
-                <th>Description</th>
-                <th>Property Code</th>
-                <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
-                <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
-                <th *ngIf="userRole !== 'USER'" pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon>
+                <th pResizableColumn >Description</th>
+                <th pResizableColumn >Property Code</th>
+                <th pResizableColumn  pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
+                <th pResizableColumn  pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                <th pResizableColumn  *ngIf="userRole !== 'USER'" pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon>
                 </th>
-                <th></th>
+                <th ></th>
                 <th *ngIf="userRole !== 'USER'">Change Status</th>
 
             </tr>
@@ -48,7 +48,7 @@
                 <!-- <td *ngIf="userRole !== 'USER'">{{ item.id }}</td> -->
                 <td>{{ item.cr_number }}</td>
                 <td *ngIf="userRole !== 'USER'">{{ item.username }}</td>
-                <td *ngIf="userRole !== 'USER'">{{ item.userId }}</td>
+                <!-- <td *ngIf="userRole !== 'USER'">{{ item.userId }}</td> -->
                 <td>{{ item.requesttype }}</td>
                 <td>{{ item.revenuedivision }}</td>
                 <td class="wrap-text">{{ item.description }}</td>
@@ -111,8 +111,10 @@
 <!-- popup only for user with rejected status -->
 
 <p-dialog header="Closed Tickets" [modal]="true" [(visible)]="showrejecteddata" [style]="{ width: '70rem' }">
-    <p-table #dt2 [value]="rejectedRecordes" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
-        [paginator]="true" [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
+    <p-table #dt2 [value]="rejectedRecordes" dataKey="id" 
+    [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+    [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
+        [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
      'attachment', 'description', 'propertycode', 'created_at', 'status', 'stage']">
         <ng-template pTemplate="caption">
             <div class="flex" style="display: flex;justify-content: space-between;">
@@ -129,16 +131,15 @@
 
         <ng-template pTemplate="header">
             <tr style="font-size: 12px; padding: 0;">
-                <th pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
-                <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
-                <th pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
-                <th pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
-                <th pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon>
-                </th>
-                <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
-                <th pSortableColumn="propertycode">Property Name<p-sortIcon field="propertycode"></p-sortIcon></th>
-                <th pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
-                <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                <th pResizableColumn pSortableColumn="cr_number">CR NO <p-sortIcon field="cr_number"></p-sortIcon></th>
+                <th pResizableColumn pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
+                <th pResizableColumn pSortableColumn="userId">User ID <p-sortIcon field="userId"></p-sortIcon></th>
+                <th pResizableColumn pSortableColumn="requesttype">Request Type <p-sortIcon field="requesttype"></p-sortIcon></th>
+                <th pResizableColumn pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon></th>
+                <th pResizableColumn pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+                <th pResizableColumn pSortableColumn="propertycode">Property Name<p-sortIcon field="propertycode"></p-sortIcon></th>
+                <th pResizableColumn pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
+                <th pResizableColumn pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
                 <th></th>
             </tr>
         </ng-template>
@@ -146,7 +147,6 @@
         <ng-template pTemplate="body" let-item>
             <tr style="font-size: 12px;">
                 <td>{{ item.cr_number }}</td>
-                <td>{{ item.username }}</td>
                 <td>{{ item.userId }}</td>
                 <td>{{ item.requesttype }}</td>
                 <td>{{ item.revenuedivision }}</td>

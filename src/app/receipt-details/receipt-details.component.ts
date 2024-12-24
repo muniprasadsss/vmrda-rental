@@ -214,16 +214,17 @@ generatePDF(receipt: any) {
     }
   }
      // Handle file input change
-   onFileChange(event: any) {
-      const file = event.target.files[0];
-      if (file.length > 0) { // Check if any file is selected
-        const files = file[0];
-        this.fileToUpload = files;
-        this.uploadattachment(); // Trigger upload function if file exists
+     onFileChange(event: any) {
+      const files = event.target.files; // Get the list of selected files
+      if (files && files.length > 0) { // Check if any file is selected
+          const file = files[0]; // Get the first file
+          this.fileToUpload = file;
+          this.uploadattachment(); // Trigger upload function
       } else {
-        console.warn('No file selected');
+          console.warn('No file selected');
       }
-    }
+  }
+  
 
     uploadattachment(){
       let fd = new FormData();
@@ -238,7 +239,15 @@ generatePDF(receipt: any) {
       })
     }
   
-
+    downloadFile(url: string) {
+      if (url) {
+        // Open the S3 URL in a new tab
+        window.open(url, '_blank');
+      } else {
+        console.error('No attachment URL provided');
+      }
+    }
+    
   fetchBillDetails(billNo:any){
     this.http.getBillDetails(billNo).subscribe({
       next:(res:any)=>{
@@ -277,6 +286,7 @@ generatePDF(receipt: any) {
     const p_payment_amount = this.addNewRecept.get('amount_paid')?.value;
     const challana_number = this.addNewRecept.get('challanaNumber')?.value;
   
+  
     if (!p_billid || !p_payment_amount) {
       // If either of the required fields is missing, show a toaster warning
       // this.toasterservice.warning('Amount Paid is required');
@@ -288,7 +298,8 @@ generatePDF(receipt: any) {
       const updateData = {
         p_billid: p_billid,
         p_payment_amount: p_payment_amount,
-        challana_number:challana_number
+        challana_number:challana_number,
+        attachment_url:this.attachmentUrl
       };
   
       this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({

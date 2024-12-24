@@ -3,8 +3,8 @@
         <p-tabPanel *ngIf="!(user_type === 'COMMISSIONER'  || user_type === 'SECRETARY' )" header="Bills"> </p-tabPanel>
         <p-tabPanel *ngIf="!(user_type === 'COMMISSIONER'  || user_type === 'SECRETARY' )" header="Receipts"> </p-tabPanel>
         <p-tabPanel header="Grievance"> </p-tabPanel>
-        <p-tabPanel *ngIf="(user_type === 'RD' || user_type === 'AO' || user_type === 'ADMIN' || user_type === 'CO_ADMIN' || user_type === 'IT-TEAM'|| user_type === 'CAOCC')" header="Issue Notice"> </p-tabPanel>
-        <p-tabPanel *ngIf="(user_type === 'RD' || user_type === 'AO' || user_type === 'ADMIN' || user_type === 'CO_ADMIN' || user_type === 'IT-TEAM' || user_type === 'CAOCC')" header="Track Transactions"> </p-tabPanel>
+        <p-tabPanel *ngIf="(user_type === 'RI' || user_type === 'AO' || user_type === 'ADMIN' || user_type === 'CO_ADMIN' || user_type === 'IT-TEAM'|| user_type === 'CAOCC')" header="Issue Notice"> </p-tabPanel>
+        <p-tabPanel *ngIf="(user_type === 'RI' || user_type === 'AO' || user_type === 'ADMIN' || user_type === 'CO_ADMIN' || user_type === 'IT-TEAM' || user_type === 'CAOCC')" header="Track Transactions"> </p-tabPanel>
         <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Reports"> </p-tabPanel>
         <p-tabPanel *ngIf="(user_type === 'COMMISSIONER'  || user_type === 'SECRETARY' || user_type === 'ADMIN' || user_type === 'CO_ADMIN' || user_type === 'IT-TEAM' || user_type === 'CAOCC')" header="Department Users"> </p-tabPanel>
         <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Tenants"> </p-tabPanel>

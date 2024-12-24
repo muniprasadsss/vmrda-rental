@@ -1,5 +1,5 @@
 <div class="card custom-table">
-  <p-table #dt2 [value]="dataSource" [rows]="10" [globalFilterFields]="[
+  <p-table #dt2 [value]="dataSource"  [globalFilterFields]="[
   'SL_NO', 
   'USER_ID', 
   'USER_NAME', 
@@ -13,7 +13,10 @@
   'RENTAL_INTRESET_PERCENT', 
   'RENTAL_HIKE_PERCENT', 
   'GST', 
-  'LEASE_DEED_NO']" [tableStyle]="{ 'min-width': '75rem' }" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true">
+  'LEASE_DEED_NO']" [tableStyle]="{ 'min-width': '75rem' }"
+    [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+    [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
+  >
     <ng-template pTemplate="caption">
       <div class="searchbar">
           <div class="filters">
@@ -64,22 +67,22 @@
 
     <ng-template pTemplate="header">
       <tr style="font-size: 12px;">
-        <th>S No</th>
-        <th>User Id</th>
-        <th>User Name</th>
-        <th>Property Name</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">Date of Renewal<p-sortIcon
-            field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
-        <th>Lease Amount</th>
-        <th>Lease Go Live</th>
-        <th>Lease Period</th>
-        <th>Lease Interest%</th>
-        <th>Lease Hike%</th>
-        <th>GST%</th>
+        <th pResizableColumn>S No</th>
+        <th pResizableColumn>User Id</th>
+        <th pResizableColumn>User Name</th>
+        <th pResizableColumn>Property Name</th>
+        <th pResizableColumn>Start Date</th>
+        <th pResizableColumn>End Date</th>
+        <th pResizableColumn pSortableColumn="DATE_OF_RENEWAL_OF_LICENSE">Date of Renewal<p-sortIcon
+            pResizableColumn field="DATE_OF_RENEWAL_OF_LICENSE"></p-sortIcon></th>
+        <th pResizableColumn>Lease Amount</th>
+        <th pResizableColumn>Lease Go Live</th>
+        <th pResizableColumn>Lease Period</th>
+        <th pResizableColumn>Lease Interest%</th>
+        <th pResizableColumn>Lease Hike%</th>
+        <th pResizableColumn>GST%</th>
         <!-- <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th> -->
-        <th>Lease Deed Number</th>
+        <th pResizableColumn>Lease Deed Number</th>
         <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"></th>
       </tr>
     </ng-template>

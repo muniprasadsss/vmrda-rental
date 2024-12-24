@@ -1,7 +1,9 @@
 <div class="card custom-table">
-  <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" 
+  <p-table #dt2 [value]="dataSource" dataKey="id" 
+  [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+  [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
   [globalFilterFields]="['id', 'invoice_id', 'order_id', 'method', 'upi_transaction_id', 'amount', 'amount_refunded', 'currency', 'status','created_at']"
-           [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
+           [tableStyle]="{ 'min-width': '75rem' }"  >
     <ng-template pTemplate="caption">
       <div class="searchbar">
         <div class="search">
@@ -17,16 +19,16 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr style="font-size: 12px; padding: 0;">
-        <th pSortableColumn="SL_No">ID<p-sortIcon field="SL_No"></p-sortIcon></th>
-        <th pSortableColumn="invoice_id">Invoice ID<p-sortIcon field="invoice_id"></p-sortIcon></th>
-        <th pSortableColumn="order_id">Order ID<p-sortIcon field="order_id"></p-sortIcon></th>
-        <th >Payment Method</th>
-        <th >UPI Transaction ID</th>
-        <th >Amount</th>
-        <th>Amount Refunded</th>
-        <th>Currency</th>
-        <th>Status</th>
-        <th>Created At</th>
+        <th pResizableColumn  pSortableColumn="SL_No">ID<p-sortIcon field="SL_No"></p-sortIcon></th>
+        <th pResizableColumn  pSortableColumn="invoice_id">Invoice ID<p-sortIcon field="invoice_id"></p-sortIcon></th>
+        <th pResizableColumn  pSortableColumn="order_id">Order ID<p-sortIcon field="order_id"></p-sortIcon></th>
+        <th pResizableColumn  >Payment Method</th>
+        <th pResizableColumn  >UPI Transaction ID</th>
+        <th pResizableColumn  >Amount</th>
+        <th pResizableColumn >Amount Refunded</th>
+        <th pResizableColumn >Currency</th>
+        <th pResizableColumn >Status</th>
+        <th >Created At</th>
         
       </tr>
     </ng-template>

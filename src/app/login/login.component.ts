@@ -79,8 +79,8 @@ export class LoginComponent {
       this.authService.login(res.data.user_type,res.data.USER_ID)
       this.toasterservice.success("login successful")
 
-      if(res.data.user_type === 'USER'){
-        this.router.navigateByUrl("billDetails")
+      if(res.data.user_type === 'COMMISSIONER' || res.data.user_type === 'SECRETARY'){
+        this.router.navigateByUrl("changeRequest")
       }else{
         this.router.navigateByUrl("billDetails")
       }

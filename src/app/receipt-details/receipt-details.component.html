@@ -1,5 +1,7 @@
 <div class="card custom-table">
-  <p-table #dt2 [value]="receiptData" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+  <p-table #dt2 [value]="receiptData" 
+   [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+   [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
   [globalFilterFields]="['ReceiptNo','User', 'UserId', 'BillNo', 'Property', 'Paid_Date', 'Rental_lease_amount_permonth', 'GST', 'Total_rental_interest', 'Total', 'Due', 'Total_paid', 'Status']">
   <ng-template pTemplate="caption">
       <div class="searchbar">
@@ -61,23 +63,24 @@
     <ng-template pTemplate="header">
       <tr style="font-size: 12px; padding: 0;">
         <!-- <th pSortableColumn="ID">S No</th> -->
-        <th pSortableColumn="ReceiptNo">Receipt No<p-sortIcon field="ReceiptNo" /></th>
-        <!-- <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th> -->
-        <th pSortableColumn="User" *ngIf="userRole !== 'USER'">User Id<p-sortIcon field="User" /></th>
-        <!-- <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th> -->
-        <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
-        <th pSortableColumn="Property">Property Name<p-sortIcon field="Property" /></th>
-        <th>Challana/Reference No</th>
-        <th>Paid Date</th>
-        <th>Lease Amount</th>
-        <th>GST</th>
-        <th>Total Rent Interest</th>
-        <th>Arrears</th>
-        <th>Total</th>
-        <th>Due</th>
-        <th>Amount Paid</th>
-        <th>Status</th>
-        <th></th>
+        <th pResizableColumn pSortableColumn="ReceiptNo">Receipt No<p-sortIcon field="ReceiptNo" /></th>
+        <!--pResizableColumn  <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th> -->
+        <th pResizableColumn pSortableColumn="User" *ngIf="userRole !== 'USER'">User Id<p-sortIcon field="User" /></th>
+        <!--pResizableColumn  <th pSortableColumn="User">Receipt No<p-sortIcon field="User" /></th> -->
+        <th pResizableColumn pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
+        <th pResizableColumn pSortableColumn="Property" class="column-small">Property Name<p-sortIcon field="Property" /></th>
+        <th pResizableColumn >Challana/Reference No</th>
+        <th pResizableColumn >Paid Date</th>
+        <th pResizableColumn >Lease Amount</th>
+        <th pResizableColumn >GST</th>
+        <th pResizableColumn >Total Rent Interest</th>
+        <th pResizableColumn >Arrears</th>
+        <th pResizableColumn >Total</th>
+        <th pResizableColumn >Due</th>
+        <th pResizableColumn >Amount Paid</th>
+        <th pResizableColumn >Status</th>
+        <th pResizableColumn></th>
+        
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-receipt>
@@ -100,9 +103,10 @@
         <td >{{ receipt.Current_Payment }}</td>
         <td >{{ receipt.Status }}</td>
         <td><i class="pi pi-download" pTooltip=" Download Receipt" tooltipPosition="left"
-            (click)="generatePDF(receipt)"></i></td>
-
-        <!-- (click)="generatePDF(receipt)" -->
+          (click)="generatePDF(receipt)"></i></td>
+        <td *ngIf="receipt.attachment_url !== null" pTooltip=" Download Attachment " tooltipPosition="left"
+        (click)="downloadFile(receipt.attachment_url)"><i class="pi pi-paperclip" style="color: slateblue"></i>
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
@@ -160,7 +164,7 @@
         </div>
         <div class="form-group">
           <label for="fileupload" class="form-label">Upload</label>
-            <input type="file" id="fileupload" class="form-input" (change)="onFileChange($event)" />
+            <input type="file" id="fileupload" class="form-input"  (change)="onFileChange($event)" />
             <small class="input-format-info">Upload file size limit: 10MB</small>
         </div>
       </div>

@@ -1,8 +1,10 @@
 <div class="content">
   <div class="card">
-    <p-table #dt2 [value]="dataSource" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    <p-table #dt2 [value]="dataSource" dataKey="id" 
+    [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+    [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
       [globalFilterFields]="['S_No', 'User_ID', 'User_Name', 'MOBILE_NUM', 'EMAIL_ID', 'Aadhaar_No', 'PAN_No', 'Email_Id', 'USER_TYPE', 'REVENUE_DIVISIONs']"
-      [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-striped">
+      [tableStyle]="{ 'min-width': '50rem' }">
       <ng-template pTemplate="caption">
         <div class="searchbar">
           <div class="search">
@@ -23,14 +25,14 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr style="font-size: 12px;">
-          <th pSortableColumn="SL_NO">S.No <p-sortIcon field="SL_NO" /></th>
-          <th pSortableColumn="USER_ID">User ID <p-sortIcon field="USER_ID" /></th>
-          <th>User Name</th>
-          <th>Mobile No</th>
-          <th>Email ID</th>
-          <th>User Type</th>
-          <th pSortableColumn="REVENUE_DIVISION">Revenue Division<p-sortIcon field="REVENUE_DIVISION" /></th>
-          <th *ngIf="userRole !== 'IT-TEAM' && userRole !== 'CAOCC'"></th>
+          <th pResizableColumn  pSortableColumn="SL_NO">S.No <p-sortIcon field="SL_NO" /></th>
+          <th pResizableColumn  pSortableColumn="USER_ID">User ID <p-sortIcon field="USER_ID" /></th>
+          <th pResizableColumn >User Name</th>
+          <th pResizableColumn >Mobile No</th>
+          <th pResizableColumn >Email ID</th>
+          <th pResizableColumn >User Type</th>
+          <th pResizableColumn  pSortableColumn="REVENUE_DIVISION">Revenue Division<p-sortIcon field="REVENUE_DIVISION" /></th>
+          <th pResizableColumn  *ngIf="userRole !== 'IT-TEAM' && userRole !== 'CAOCC'"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-customer>
@@ -88,7 +90,7 @@
         <div class="form-group">
           <label for="userType" class="form-label">User Type <span class="text-danger">*</span></label>
           <input type="text" id="userType" formControlName="userType" class="form-input" />
-          <small class="input-format-info">Format: AO/RD-1/SECRETARY</small>
+          <small class="input-format-info">Format: AO/RI-1/SECRETARY</small>
           <div *ngIf="form.get('userType')?.invalid && form.get('userType')?.touched">
             <small class="text-danger">User Type is required.</small>
           </div>
@@ -156,14 +158,14 @@
         <div class="form-group">
           <label for="usertype" class="form-label">User Type <span class="text-danger">*</span></label>
           <input type="text" id="usertype" formControlName="user_type" class="form-input" />
-          <small>   Ex: RD-1,AO,SECRETARY</small>
+          <small>   Ex: RI-1,AO,SECRETARY</small>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label for="revenuedivision" class="form-label">Revenue Division <span class="text-danger">*</span></label>
           <input type="text" id="revenuedivision" formControlName="REVENUE_DIVISION" class="form-input" />
-          <small>  EX: RD-1,RD-2</small>
+          <small>  EX: RI-1,RI-2</small>
         </div>
       </div>
       <div class="btn">
