@@ -46,22 +46,22 @@ generateBill(billData: any): Observable<any> {
 
       updateBillDetailsByBillNo(updateData: any): Observable<any> {
         console.log(updateData,"Updated data to procedure after click on pay...");
-        return this.http.post<any>(`${this.apiUrl}/bills/updateManualBill`, updateData); // Updated endpoint
+        return this.http.post<any>(`${this.apiUrl}/receipt/manualReceipt`, updateData); // Updated endpoint
       }
       filterBillingData(updateData: any): Observable<any> {
         console.log(updateData,"Updated data to procedure after click on pay...");
-        return this.http.post<any>(`${this.apiUrl}/filterBillingData`, updateData); // Updated endpoint
+        return this.http.post<any>(`${this.apiUrl}/bills/filterBillingData`, updateData); // Updated endpoint
       }
 
 
 
   getPropertyInfo(BillNo: any): Observable<any> {
 
-    return this.http.post<any>(`${this.apiUrl}/getBillAndPropertyInfo`, {BillNo: BillNo })
+    return this.http.post<any>(`${this.apiUrl}/bills/getBillAndPropertyInfo`, {BillNo: BillNo })
 
   }
   generateAllBills(revenueDivision:any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/generate-all-bills`, {revenueDivision: revenueDivision })
+    return this.http.post<any>(`${this.apiUrl}/bills/generate-all-bills`, {revenueDivision: revenueDivision })
   }
 
     createOrder(amount:any): Observable<any> {
@@ -85,7 +85,7 @@ sendEmailWithAttachmentBill(formData: FormData) : Observable<any>{
 
 getGst(BillNo: string): Observable<any> {
   console.log("BillNo",BillNo)
-  return this.http.post(`${this.apiUrl}/gst`, { BillNo }, { responseType: 'blob' });
+  return this.http.post(`${this.apiUrl}/bills/gstGenerator`, { BillNo }, { responseType: 'blob' });
 
 }
 

@@ -396,7 +396,7 @@
       <!-- <button class="payButton" (click)="PaymnetPage()">Pay</button> -->
       <form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
         <input type="hidden" name="key_id" value={{razorpay_key_id}}/>
-        <input type="hidden" name="amount" value= />
+        <input type="hidden" name="amount" value= '5200'/>
         <input type="hidden" name="currency" value="INR"/>
         <input type="hidden" name="order_id" value={{orderID}}/>
         <input type="hidden" name="name" value="VMRDA"/>

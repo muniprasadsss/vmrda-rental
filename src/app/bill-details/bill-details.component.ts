@@ -203,8 +203,8 @@ export class BillDetailsComponent implements OnInit {
         this.dataSource = res.billingData;
         this.locationList = res.location;
         this.complexList = res.complex;
-        this.billPeriod = res.billperiod;
-        this.allAlloteList = res.allAlloteNames;
+        this.billPeriod = res.billPeriod;
+        this.allAlloteList = res.allAlloteNamesResult;
         this.responseMsg = res.message;
         if (this.dataSource.length > 0) {
           this.filterBillData();
@@ -224,14 +224,12 @@ export class BillDetailsComponent implements OnInit {
     this.paidBills = [];
     this.notPaidBills = [];
     this.paidBills = this.dataSource.filter(item=>{return item.Status === 'Fully Paid'})
-    this.billGenetaredCount = this.dataSource.length
     if (this.userRole === 'USER') {
       this.notPaidBills = this.dataSource.filter(item => {
         return (item.Status !== 'Fully Paid' && item.BillStatus === 'Active')
       })
     } else {
       this.notPaidBills = this.dataSource.filter(item => {return (item.Status !== 'Fully Paid' ) })
-      this.billnotpaidCount = this.notPaidBills.length
     }
     this.cd.detectChanges();
   }
@@ -753,6 +751,7 @@ currentY += lineHeight * 2;
           this.notPaidBills = [];
           this.cd.detectChanges();
         }
+
       }
 
     })
