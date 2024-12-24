@@ -52,10 +52,7 @@ generateBill(billData: any): Observable<any> {
         console.log(updateData,"Updated data to procedure after click on pay...");
         return this.http.post<any>(`${this.apiUrl}/filterBillingData`, updateData); // Updated endpoint
       }
-      filterBillingData(updateData: any): Observable<any> {
-        console.log(updateData,"Updated data to procedure after click on pay...");
-        return this.http.post<any>(`${this.apiUrl}/filterBillingData`, updateData); // Updated endpoint
-      }
+
 
 
   getPropertyInfo(BillNo: any): Observable<any> {

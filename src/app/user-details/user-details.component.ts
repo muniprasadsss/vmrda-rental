@@ -13,7 +13,6 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-user-details',
   standalone: true,
   imports: [PrimeNgModule, ReactiveFormsModule],
-  imports: [PrimeNgModule, ReactiveFormsModule],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
