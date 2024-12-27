@@ -12,12 +12,13 @@ import { ChangeRequestService } from '../services/changeRequest/change-request.s
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import * as XLSX from 'xlsx';
+import { RazorpayComponent } from '../razorpay/razorpay.component';
 declare var Razorpay: any;
 
 @Component({
   selector: 'app-bill-details',
   standalone: true,
-  imports: [PrimeNgModule, ReactiveFormsModule,FormsModule],
+  imports: [PrimeNgModule, ReactiveFormsModule,FormsModule,RazorpayComponent],
   templateUrl: './bill-details.component.html',
   styleUrls: ['./bill-details.component.scss'],
   providers: [DatePipe], // Add DatePipe here
@@ -536,7 +537,8 @@ currentY += lineHeight * 2;
         currentY += lineHeight * 1;
 
         doc.setFont('times', 'normal');
-        doc.text(` The Property with ${bill.property_name} for an extent of ${this.propertyDetail.EXTENT} sqft. located in the ${this.propertyDetail.LOCATION} has been alloted to  ${this.propertyDetail.ALLOTTEE_NAME} vide reference cited  leased to ${bill.Rental_lease_amount_permonth}, located in ${bill.Property}, in  has a monthly lease amount of ${bill.Rental_lease_amount_permonth} with additional charges such as GST and utility bills.The license of the shop shall have to pay lease amount on or before 10th of every month. Whereas the license has failed to pay monthly lease as per the stipulated time and an amount ${bill.Total} is overdue against the said shop as detailed below`,
+        doc.text(` The Property with ${bill.property_name} for an extent of ${this.propertyDetail.EXTENT} sqft. located in the ${this.propertyDetail.LOCATION} has been alloted to  ${this.propertyDetail.ALLOTTEE_NAME} vide reference cited  leased to Rs. ${bill.Rental_lease_amount_permonth}/-, located in ${bill.Property},
+           in  has a monthly lease amount of Rs. ${bill.Rental_lease_amount_permonth}/- with additional charges such as GST and utility bills.The license of the shop shall have to pay lease amount on or before 10th of every month. Whereas the license has failed to pay monthly lease as per the stipulated time and an amount Rs. ${bill.Total}/- is overdue against the said shop as detailed below`,
 
 
           margins.left, currentY,
@@ -659,65 +661,69 @@ currentY += lineHeight * 2;
 
     // Call Razorpay payment
 
-    // this.billDetailService.createOrder({
-    //   amount: this.amount,
-    //   invoice_id: this.sentDisabledFieldValues.billNo,
-    //   powerBill: this.sentDisabledFieldValues.powerBill,
-    //   waterBill: this.sentDisabledFieldValues.waterBill,
-    //   maintenanceAmount: this.sentDisabledFieldValues.maintenanceAmount,
-    //   tds: this.sentDisabledFieldValues.tds,
-    //   description: `Payment for ${this.selectedBill.Property}`,
-    //   email: this.userDetailsObject.EMAIL_ID,
-    //   phone: this.userDetailsObject.MOBILE_NUM
-    // }).subscribe({
-    //   next:(res:any)=>{
-    //     this.orderID = res.data.id;
-    //     this.isDialogVisible = true;
-    //   }
-    // }
-      
-    // );
-    
     this.billDetailService.createOrder({
-        amount: this.amount,
-        invoice_id: this.sentDisabledFieldValues.billNo,
-        powerBill: this.sentDisabledFieldValues.powerBill,
-        waterBill: this.sentDisabledFieldValues.waterBill,
-        maintenanceAmount: this.sentDisabledFieldValues.maintenanceAmount,
-        tds: this.sentDisabledFieldValues.tds,
-        description: `Payment for ${this.selectedBill.Property}`,
-        email: this.userDetailsObject.EMAIL_ID,
-        phone: this.userDetailsObject.MOBILE_NUM
-      }).subscribe({
-       next: (order) => {
-          console.log(order,"....")
-          const options = {
-            key: this.razorpay_key_id, // Replace with your Razorpay key ID
-            amount: this.amount, // Amount in paise
-            currency: 'INR',
-            name: 'VMRDA Rental',
-            description: `Payment for ${this.selectedBill.Property}`,
-            order_id: order.data.id, // Razorpay order ID
-            handler: (response: any) => {
-              // On payment success, update bill and create receipt
-              this.verifypayment(response);
-            },
-            prefill: {
-              name: this.userDetailsObject.USER_NAME, 
-              email: this.userDetailsObject.EMAIL_ID, 
-              contact: this.userDetailsObject.MOBILE_NUM, 
-            },
-            theme: {
-              color: '#3399cc',
-            },
-          };
-          const rzp1 = new Razorpay(options);
-          rzp1.open();
-        }
-      });
+      amount: this.amount,
+      invoice_id: this.sentDisabledFieldValues.billNo,
+      powerBill: this.sentDisabledFieldValues.powerBill,
+      waterBill: this.sentDisabledFieldValues.waterBill,
+      maintenanceAmount: this.sentDisabledFieldValues.maintenanceAmount,
+      tds: this.sentDisabledFieldValues.tds,
+      description: `Payment for ${this.selectedBill.Property}`,
+      email: this.userDetailsObject.EMAIL_ID,
+      phone: this.userDetailsObject.MOBILE_NUM
+    }).subscribe({
+      next:(res:any)=>{
+        this.orderID = res.data.id;
+        this.isDialogVisible = true;
+      }
+    }
+      
+    );
+    
+    // this.billDetailService.createOrder({
+    //     amount: this.amount,
+    //     invoice_id: this.sentDisabledFieldValues.billNo,
+    //     powerBill: this.sentDisabledFieldValues.powerBill,
+    //     waterBill: this.sentDisabledFieldValues.waterBill,
+    //     maintenanceAmount: this.sentDisabledFieldValues.maintenanceAmount,
+    //     tds: this.sentDisabledFieldValues.tds,
+    //     description: `Payment for ${this.selectedBill.Property}`,
+    //     email: this.userDetailsObject.EMAIL_ID,
+    //     phone: this.userDetailsObject.MOBILE_NUM
+    //   }).subscribe({
+    //    next: (order) => {
+    //       console.log(order,"....")
+    //       const options = {
+    //         key: this.razorpay_key_id, // Replace with your Razorpay key ID
+    //         amount: this.amount, // Amount in paise
+    //         currency: 'INR',
+    //         name: 'VMRDA Rental',
+    //         description: `Payment for ${this.selectedBill.Property}`,
+    //         order_id: order.data.id, // Razorpay order ID
+    //         handler: (response: any) => {
+    //           // On payment success, update bill and create receipt
+    //           this.verifypayment(response);
+    //         },
+    //         prefill: {
+    //           name: this.userDetailsObject.USER_NAME, 
+    //           email: this.userDetailsObject.EMAIL_ID, 
+    //           contact: this.userDetailsObject.MOBILE_NUM, 
+    //         },
+    //         theme: {
+    //           color: '#3399cc',
+    //         },
+    //       };
+    //       const rzp1 = new Razorpay(options);
+    //       rzp1.open();
+    //     }
+    //   });
   
   }
-
+dummy(){
+  let count = 0;
+  count++;
+  console.log("count pay btn click: " + count)
+}
 
   handleFailure(message: string) {
     this.paymentMessage = message;

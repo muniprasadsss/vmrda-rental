@@ -1,0 +1,14 @@
+<form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
+    <input type="hidden" name="key_id" value="rzp_live_SoaxyQXKUe6WFi"/>
+    <input type="hidden" name="amount" value="200" />
+    <input type="hidden" name="currency" value="INR"/>
+    <input type="hidden" name="order_id" value="order_PbirUtsOMa5KiN"/>
+    <input type="hidden" name="name" value="VMRDA"/>
+    <input type="hidden" name="description" value="Rental Services"/>
+    <input type="hidden" name="image" value="https://vmrda-prod-assests.s3.ap-south-1.amazonaws.com/vmrda_logo_image.png"/>
+ 
+    <input type="hidden" name="cancel_url" value="https://api.vmrdarental.com/payment/verify"/>
+    <input type="hidden" name="callback_url" value="https://api.vmrdarental.com/payment/verify"/>
+    
+    <button  class="payButton">Pay</button>
+  </form>

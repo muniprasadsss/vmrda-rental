@@ -84,7 +84,7 @@ export class ChangeRequestComponent implements OnInit {
   initializeForm() {
     this.addRequestForm = this.fb.group({
       userId: [{ value: this.userID, disabled: true }, Validators.required],
-      requestType: [{ value: ''}, Validators.required],
+      requestType: [{ value: null}, Validators.required],
       attachment: [{ value: null }, Validators.required],
       propertyCode: [{ value: null }, Validators.required],
       description: ['', Validators.required]
@@ -226,7 +226,8 @@ export class ChangeRequestComponent implements OnInit {
   }
 
   addRequestDiv(){
-    this.addrequestdata=true;
+    this.addrequestdata = this.addrequestdata;
+    this.addRequestForm.reset();
   }
 
   onHide() {
@@ -353,6 +354,7 @@ getUserDatabyId(userID: any) {
           this.toasterservice.success("Change request raised successfully");
           this.addRequestForm.reset(); // Reset the form after successful submission
           this.getcrInfo(); // Refresh the data
+          this.addRequestForm.reset();
         },
         error: (error) => {
           console.error('Error sending data:', error);

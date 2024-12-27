@@ -7,12 +7,13 @@ import { CommonModule } from '@angular/common';
 import { AuthGuardsService } from './services/authGuards/auth-guards.service';
 import { SpinnerComponent } from "./spinner/spinner.component";
 import { filter } from 'rxjs';
+import { RazorpayComponent } from './razorpay/razorpay.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, DashboardComponent, HeaderComponent, FooterComponent, CommonModule, SpinnerComponent],
+  imports: [RouterOutlet, DashboardComponent, HeaderComponent, FooterComponent, CommonModule, SpinnerComponent,RazorpayComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit{
   title = 'VMRDA';
   isAuthenticated: boolean = false;
   showComponents: boolean = false;
-  constructor(private authService: AuthGuardsService, private cdr: ChangeDetectorRef,private router:Router) {
+  constructor(public authService: AuthGuardsService, private cdr: ChangeDetectorRef,private router:Router) {
       //  Listen to route changes
        this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: any) => {
         // Check if the current URL is the 404 page
