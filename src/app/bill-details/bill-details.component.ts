@@ -12,13 +12,12 @@ import { ChangeRequestService } from '../services/changeRequest/change-request.s
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import * as XLSX from 'xlsx';
-import { RazorpayComponent } from '../razorpay/razorpay.component';
 declare var Razorpay: any;
 
 @Component({
   selector: 'app-bill-details',
   standalone: true,
-  imports: [PrimeNgModule, ReactiveFormsModule,FormsModule,RazorpayComponent],
+  imports: [PrimeNgModule, ReactiveFormsModule,FormsModule],
   templateUrl: './bill-details.component.html',
   styleUrls: ['./bill-details.component.scss'],
   providers: [DatePipe], // Add DatePipe here
@@ -40,7 +39,7 @@ export class BillDetailsComponent implements OnInit {
   visible1: boolean = false;
   propertyData: any;
   propertyDetail: any;
-  amount: any;
+  amount: number = 0;
   receiptData: any;
   notPaidBills!: billDetails[];
   paidBills!: billDetails[];
@@ -82,20 +81,20 @@ export class BillDetailsComponent implements OnInit {
               private route: ActivatedRoute,
             ) {
     this.PaymentPopupform = this.fb.group({
-      billNo: [{ value: '',disabled: true }],
-      propertycode: [{ value: '', disabled: true }],
-      leaseperiod: [{ value: '', disabled: true }],
-      leaseAmount: [{ value: '', disabled: true }],
-      gst: [{ value: '', disabled: true }],
-      powerBillAmount: [{ value: '', disabled: true }],
-      waterBillAmount: [{ value: '', disabled: true }],
-      maintenance: [{ value: '', disabled: true }],
-      interest: [{ value: '', disabled: true }],
-      billGeneratedDate: [{ value: '', disabled: true }],
-      total: [{ value: '', disabled: true }],
-      paymentAmount: [{ value: '', disabled: true }],
-      tds: [{ value: '', disabled: true }],
-      due: [{ value: '' }]
+      billNo: [{ value: null,disabled: true }],
+      propertycode: [{ value: null, disabled: true }],
+      leaseperiod: [{ value: null, disabled: true }],
+      leaseAmount: [{ value: null, disabled: true }],
+      gst: [{ value: null, disabled: true }],
+      powerBillAmount: [{ value: null, disabled: true }],
+      waterBillAmount: [{ value: null, disabled: true }],
+      maintenance: [{ value: null, disabled: true }],
+      interest: [{ value: null, disabled: true }],
+      billGeneratedDate: [{ value: null, disabled: true }],
+      total: [{ value: null, disabled: true }],
+      paymentAmount: [{ value: null, disabled: true }],
+      tds: [{ value: null, disabled: true }],
+      due: [{ value: null }]
     });
    }
 
@@ -313,7 +312,7 @@ export class BillDetailsComponent implements OnInit {
       next: (response) => {
         // Generate and send PDF immediately after updating
         this.showModel = false; // Close the modal after successful update
-        this.getbilldetails();
+        this.applyFilters();
         this.BillGeneratePdf(response.data); // Call the method to create and send PDF
       },
       error: (error) => {
@@ -674,6 +673,7 @@ currentY += lineHeight * 2;
     }).subscribe({
       next:(res:any)=>{
         this.orderID = res.data.id;
+        this.amount = res.data.amount;
         this.isDialogVisible = true;
       }
     }
@@ -719,11 +719,13 @@ currentY += lineHeight * 2;
     //   });
   
   }
-dummy(){
-  let count = 0;
-  count++;
-  console.log("count pay btn click: " + count)
-}
+
+
+// dummy(){
+//   let count = 0;
+//   count++;
+//   console.log("count pay btn click: " + count)
+// }
 
   handleFailure(message: string) {
     this.paymentMessage = message;

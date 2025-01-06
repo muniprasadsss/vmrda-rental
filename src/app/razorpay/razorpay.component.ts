@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-razorpay',
@@ -8,5 +8,8 @@ import { Component } from '@angular/core';
   styleUrl: './razorpay.component.scss'
 })
 export class RazorpayComponent {
+
+  @Input() userDetails: any = '';
+
 
 }

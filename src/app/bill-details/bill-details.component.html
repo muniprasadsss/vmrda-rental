@@ -86,7 +86,7 @@
           <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
           <th pResizableColumn >Property Name</th>
           <th pResizableColumn >Lease Period</th>
-          <th>pResizableColumn >Lease Amount</th>
+          <th pResizableColumn >Lease Amount</th>
           <th pResizableColumn >GST</th>
           <th pResizableColumn >Power Bill Amount</th>
           <th pResizableColumn >Water Bill Amount</th>
@@ -164,7 +164,7 @@
     [modal]="true"
     [(visible)]="showModel"
     position="center"
-    [style]="{ width: '50rem' }">
+    [style]="{ width: '50rem' }" (onHide)="closeDialog()">
     <div class="form-container">
       <form [formGroup]="form">
         <div class="form-row">
@@ -400,11 +400,11 @@
       <div *ngIf="isDialogVisible" class="pay ">
         <!-- <button (click)="openRazorpayCheckout()">Pay Now</button> -->
       <!-- <button class="payButton" (click)="PaymnetPage()">Pay</button> -->
-      <!-- <form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
+      <form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
         <input type="hidden" name="key_id" value="rzp_live_SoaxyQXKUe6WFi"/>
-        <input type="hidden" name="amount" value="200" />
+        <input type="hidden" name="amount" value="amount" />
         <input type="hidden" name="currency" value="INR"/>
-        <input type="hidden" name="order_id" value="order_PbirUtsOMa5KiN"/>
+        <input type="hidden" name="order_id" value="orderID"/>
         <input type="hidden" name="name" value="VMRDA"/>
         <input type="hidden" name="description" value="Rental Services"/>
         <input type="hidden" name="image" value="https://vmrda-prod-assests.s3.ap-south-1.amazonaws.com/vmrda_logo_image.png"/>
@@ -414,9 +414,9 @@
         <input type="hidden" name="cancel_url" value="https://api.vmrdarental.com/payment/verify"/>
         <input type="hidden" name="callback_url" value="https://api.vmrdarental.com/payment/verify"/>
         
-        <button (click)="dummy()" class="payButton">Pay</button>
-      </form> -->
-      <app-razorpay class="payButton" ></app-razorpay>
+        <button  class="payButton">Pay</button>
+      </form>
+      <!-- <app-razorpay class="payButton" ></app-razorpay> -->
 
       </div>
         </form>
