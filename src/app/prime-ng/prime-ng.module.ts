@@ -39,12 +39,12 @@ import { PasswordModule } from 'primeng/password';
     CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
      DropdownModule,FloatLabelModule,ToastModule,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule,ConfirmDialogModule,
-     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule,TooltipModule,ProgressSpinnerModule,PasswordModule 
+     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule,TooltipModule,ProgressSpinnerModule,PasswordModule, 
   ],
   exports: [CommonModule,ButtonModule,InputTextModule,TabViewModule, BadgeModule, AvatarModule,TableModule,
     TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule,
      DropdownModule,FloatLabelModule,ToastModule ,InputOtpModule,SelectButtonModule,DialogModule,SplitButtonModule,ConfirmDialogModule,
-     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule,TooltipModule,ProgressSpinnerModule,PasswordModule 
+     SpeedDialModule,InputTextareaModule,MenuModule,AccordionModule,FileUploadModule,TooltipModule,ProgressSpinnerModule,PasswordModule, 
    ],
   providers:[ComplexServiceService]
 })

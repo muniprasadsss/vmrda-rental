@@ -119,10 +119,10 @@ export class UserDetailsComponent implements OnInit {
     }
   }
 
-  closeEditForm (){
-    this.editVisible = false;
-    this.editForm.reset();
-  }
+  // closeEditForm (){
+  //   this.editVisible = false;
+  //   this.editForm.reset();
+  // }
 
   openEditDialog(user: userdetails) {
     this.selectedUser = user;
@@ -212,6 +212,16 @@ convertToUpperCase(event: Event): void {
     if (!allowedKeys.test(key) && key !== 'Backspace' && key !== 'Delete' && key !== 'Tab') {
       event.preventDefault();
     }
+  }
+
+  closeaddDialog(){
+    this.visible=false;
+    this.addNewForm.reset();
+  }
+
+  closeeditDialog(){
+    this.editVisible=false;
+    this.editForm.reset();
   }
 
 }

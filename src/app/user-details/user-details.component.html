@@ -63,7 +63,7 @@
 
 <!-- Add New Dialog  -->
 
-<p-dialog header="Add New Tenant" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '35rem' }">
+<p-dialog header="Add New Tenant" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '35rem' }" (onHide)="closeaddDialog()">
   <form [formGroup]="addNewForm" (ngSubmit)="addNewUser()">
     <div class="form-container">
       <div class="form-row">
@@ -126,8 +126,8 @@
       <div class="form-row">
         <div class="form-group">
           <label for="gstin" class="form-label">GST IN </label>
-          <input type="text" id="gstin" formControlName="gstIn" class="form-input" inputmode="numeric"
-            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+          <input type="text" id="gstin" formControlName="gstIn" class="form-input"
+             (keydown)="limitInputLength($event, 15)" (input)="convertToUpperCase($event)"/>
           <div *ngIf="addNewForm.get('gstIn')?.invalid && addNewForm.get('gstIn')?.touched">
             <small class="text-danger">GST IN is required.</small>
           </div>
@@ -151,7 +151,7 @@
 
 <!-- Edit New Dilog  -->
 
-<p-dialog header="Edit Tenant" [(visible)]="editVisible" [modal]="true" position="center" [style]="{ width: '50rem' }">
+<p-dialog header="Edit Tenant" [(visible)]="editVisible" [modal]="true" position="center" [style]="{ width: '50rem' }" (onHide)="closeeditDialog()">
   <form [formGroup]="editForm" (ngSubmit)="updateUser()">
     <div class="form-container">
       <div class="form-row">
@@ -180,7 +180,7 @@
         <div class="form-group">
           <label for="editAadhar" class="form-label">Aadhar No <span class="text-danger">*</span></label>
           <input type="number" id="editAadhar" formControlName="editAadhar" class="form-input" inputmode="numeric"
-            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 12)" />
             <div *ngIf="editForm.get('editAadhar')?.invalid && editForm.get('editAadhar')?.touched">
               <small class="error">Aadhar number is required.</small>
             </div>
@@ -190,7 +190,7 @@
         <div class="form-group">
           <label for="editPan" class="form-label">PAN No</label>
           <input type="text" id="editPan" formControlName="editPan" class="form-input" maxlength="10"
-            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" />
+            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" (input)="convertToUpperCase($event)"/>
         </div>
         <div class="form-group">
           <label for="editEmail" class="form-label">Email ID</label>
@@ -201,7 +201,7 @@
       <div class="form-row">
         <div class="form-group">
           <label for="editGstin" class="form-label">GST IN</label>
-          <input type="text" id="editGstin" formControlName="editGstin" class="form-input" />
+          <input type="text" id="editGstin" formControlName="editGstin" class="form-input" (keydown)="limitInputLength($event, 15)" (input)="convertToUpperCase($event)"/>
         </div>
         <div class="form-group">
           <label for="editRevenue" class="form-label">Revenue Division <span class="text-danger">*</span></label>
@@ -214,7 +214,7 @@
         <p-button type="submit" label="Update" size="small"></p-button>
       </div>
       <div class="save">
-        <p-button label="Cancel" severity="danger" (click)="closeEditForm()" size="small"></p-button>
+        <p-button label="Cancel" severity="danger" (click)="closeeditDialog()" size="small"></p-button>
       </div>
     </div>
   </form>

@@ -59,7 +59,7 @@
 
 <!-- Add Dialog -->
  
-<p-dialog header="Add Dept. User" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '35rem' }">
+<p-dialog header="Add Dept. User" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '35rem' }" (onHide)="closeaddDialog()">
   <div class="form-container">
     <form [formGroup]="form" (ngSubmit)="saveUser()">
       <div class="form-row">
@@ -136,7 +136,7 @@
 <!-- Edit Dialog -->
 
 <p-dialog header="Edit Dept. User" [modal]="true" [(visible)]="editVisible" position="center"
-  [style]="{ width: '30rem' }">
+  [style]="{ width: '30rem' }" (onHide)="closeeditDialog()">
   <div class="form-container">
     <form [formGroup]="editForm" (ngSubmit)="updateUser()">
       <div class="form-row">

@@ -41,7 +41,7 @@
 
     <!-- Profile View Dialog -->
 
-    <p-dialog header="View Profile" [(visible)]="viewProfileDialog" [modal]="true" [closable]="true" [style]="{ width: '50rem' }">
+    <p-dialog header="View Profile" [(visible)]="viewProfileDialog" [modal]="true" [closable]="true" [style]="{ width: '50rem' }" >
         <form [formGroup]="profileForm">
             <div class="form-row">
                 <div class="form-group">
@@ -108,28 +108,28 @@
 
     <!-- Change Password Dialog -->
      
-    <p-dialog header="Change Password" [(visible)]="changePasswordDialog" [modal]="true" [closable]="true" [style]="{ width: '50rem' }">
+    <p-dialog header="Change Password" [(visible)]="changePasswordDialog" [modal]="true" [closable]="true" [style]="{ width: '50rem' }" (onHide)="closepassworddialog()">
             <form [formGroup]="passwordform">
              <div class="form-row">
               <div class="form-group">
                 <label for="password" class="form-label">Old Password<span class="text-danger">*</span></label>
                 <input type="password" id="oldpassword" formControlName="oldPassword" class="form-input" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" />
                 <div *ngIf="passwordform.get('oldPassword')?.invalid && passwordform.get('oldPassword')?.touched">
-                  <small class="text-danger">Email ID is required.</small>
+                  <small class="text-danger">Old Password is required.</small>
               </div>
               </div>
                 <div class="form-group">
                   <label for="password" class="form-label">New Password<span class="text-danger">*</span></label>
                   <input type="password" id="newpassword" formControlName="newPassword" class="form-input" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" />
-                  <div *ngIf="passwordform.get('newpassword')?.invalid && passwordform.get('newpassword')?.touched">
-                    <small class="text-danger">Email ID is required.</small>
+                  <div *ngIf="passwordform.get('newPassword')?.invalid && passwordform.get('newPassword')?.touched">
+                    <small class="text-danger">New Password is required.</small>
                 </div>
                 </div>
                 <div class="form-group">
                   <label for="confirmPassword" class="form-label">Confirm password<span class="text-danger">*</span></label>
                   <input type="password" id="confirmPassword" formControlName="ConfirmnewPassword" class="form-input" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" />
                   <div *ngIf="passwordform.get('ConfirmnewPassword')?.invalid && passwordform.get('ConfirmnewPassword')?.touched">
-                    <small class="text-danger">Email ID is required.</small>
+                    <small class="text-danger">Confirm New Password is required.</small>
                 </div>
                 </div>
             </div>

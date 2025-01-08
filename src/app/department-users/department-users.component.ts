@@ -173,4 +173,14 @@ export class DepartmentUsersComponent {
   }
   }
 
+  closeaddDialog(){
+    this.visible=false;
+    this.form.reset();
+  }
+
+  closeeditDialog(){
+    this.editVisible=false;
+    this.editForm.reset();
+  }
+
 }

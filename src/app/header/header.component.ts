@@ -186,9 +186,13 @@ export class HeaderComponent implements OnInit {
           this.profileService.changePassword(senddata).subscribe(
             response => {
               console.log('Password changed successfully:', response);
-              this.toasterservice.success('Password changed successfully!'); // Show success message
-              this.changePasswordDialog = false; // Close the dialog
-              this.passwordform.reset(); // Reset form
+              this.toasterservice.success('Password changed successfully!'); 
+              // Update the password in local storage
+              this.localStoragePassword.Password = new_password;
+              // Save updated userInfo back to local storage
+              localStorage.setItem('userInfo', JSON.stringify(this.localStoragePassword));
+              this.changePasswordDialog = false; 
+              this.passwordform.reset(); 
             },
             error => {
               console.error('Error changing password:', error);
@@ -311,6 +315,11 @@ export class HeaderComponent implements OnInit {
 
   closeChangePasswordDialog() {
     this.changePasswordDialog = false;
+    this.passwordform.reset();
+  }
+
+  closepassworddialog(){
+    this.changePasswordDialog=false;
     this.passwordform.reset();
   }
   

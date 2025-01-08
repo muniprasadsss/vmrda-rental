@@ -103,7 +103,7 @@
         <td >{{ receipt.Current_Payment }}</td>
         <td >{{ receipt.Status }}</td>
         <td><i class="pi pi-download" pTooltip=" Download Receipt" tooltipPosition="left"
-          (click)="generatePDF(receipt)"></i></td>
+          (click)="getuserdataforreciept(receipt)"></i></td>
         <td *ngIf="receipt.attachment_url !== null" pTooltip=" Download Attachment " tooltipPosition="left"
         (click)="downloadFile(receipt.attachment_url)"><i class="pi pi-paperclip" style="color: slateblue"></i>
         </td>

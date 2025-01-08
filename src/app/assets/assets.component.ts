@@ -214,4 +214,14 @@ export class AssetsComponent implements OnInit {
     });
   }
 
+  closeaddDialog(){
+    this.addvisible=false;
+    this.locationForm.reset();   
+  }
+
+  closeeditDialog(){
+    this.editVisible=false;
+    this.editForm.reset(); 
+  }
+
 }

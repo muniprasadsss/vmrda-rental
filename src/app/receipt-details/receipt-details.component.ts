@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators,FormsModule } f
 import { ToastrService } from 'ngx-toastr';
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
 import { BillDetailsService } from '../services/billDetails/bill-details.service';
+import { UserServiceService } from '../services/userService/user-service.service';
 @Component({
   selector: 'app-receipt-details',
   standalone: true,
@@ -34,9 +35,14 @@ export class ReceiptDetailsComponent {
   propertyFilter:any[] = [];
   locationFilter:any[] = [];
   alloteFilter:any[]=[];
+  userdataforreciept!:any;
+  localuserData!:any;
+  localuserjsondata!:any;
+  
   constructor(private http:ReceptDetailsService,
     private Http: ChangeRequestService,
     private billDetailService: BillDetailsService,
+    private userService: UserServiceService,
     private fb: FormBuilder,
     private toasterservice: ToastrService,
     private cd: ChangeDetectorRef){
@@ -56,6 +62,10 @@ export class ReceiptDetailsComponent {
   ngOnInit(){
     this.userRole = localStorage.getItem('role')
     this.userID = localStorage.getItem('userId')
+    this.localuserData=localStorage.getItem("userInfo");
+    this.localuserjsondata = JSON.parse(this.localuserData);
+    console.log(this.localuserjsondata);
+    
     this.getReceptData();
   }
   showDialog() {
@@ -67,7 +77,6 @@ onFilterGlobal(event: Event): void {
   this.value = target.value;
   this.dt2.filterGlobal(this.value, 'contains');
 }
-
 
   getReceptData(){
     this.http.getReciptDetails(this.userID,this.userRole).subscribe({
@@ -84,7 +93,29 @@ onFilterGlobal(event: Event): void {
     this.cd.detectChanges();
   }
 
-generatePDF(receipt: any) {
+  getuserdataforreciept(reciept : any){
+    console.log(reciept);
+    if(this.localuserjsondata.user_id === "USER"){
+      const username=this.localuserjsondata.USER_NAME;
+      this.generatePDF(reciept,username);
+      console.log('user reciept added------------');
+    }
+    else{
+    this.http.getuserdataforreciept(reciept.User).subscribe({
+      next:(response)=>{
+        this.userdataforreciept=response.userinfo;
+        console.log(this.userdataforreciept,"data retrieved successfully");
+        this.generatePDF(reciept,this.userdataforreciept.USER_NAME)
+      },
+      error:(error)=>{
+        console.error(error,"error on retrieving data");
+      }
+    })
+  }
+
+  }
+
+generatePDF(receipt: any,username:any) {
   const doc = new jsPDF();
 
   // Page margins
@@ -140,7 +171,7 @@ generatePDF(receipt: any) {
   // Summary Text
   doc.setFont('helvetica', 'normal');
   doc.text(
-    `This receipt acknowledges the payment for property code ${receipt.Property}, leased to ${receipt.User}. ` +
+    `This receipt acknowledges the payment for property code ${receipt.Property}, leased to ${username}. ` +
     `Payment includes the lease amount, GST, and other charges. Summary of payment details:`,
     margins.left, currentY, { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
   );
@@ -149,7 +180,8 @@ generatePDF(receipt: any) {
   // Receipt details in table form
   const tableRows = [
     ["Receipt No", receipt.ReceiptNo],
-    ["User ID", receipt.User],
+    // ["User ID", receipt.User],
+    ["User Name", username],
     ["Bill No", receipt.BillNo],
     ["Property Code", receipt.Property],
     ["Interest", receipt.Total_rental_interest],

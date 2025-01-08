@@ -84,6 +84,7 @@
         <!-- <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th> -->
         <th pResizableColumn>Lease Deed Number</th>
         <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"></th>
+        <th ></th>
       </tr>
     </ng-template>
 
@@ -109,6 +110,9 @@
                 class="pi pi-pencil"></i></button>
           </div>
         </td>
+        <td *ngIf="lease.attachment_url !== null">
+          <i class="pi pi-paperclip" style="color: slateblue" (click)="downloadFile(lease.attachment_url)"></i>
+        </td>
       </tr>
     </ng-template>
   </p-table>
@@ -116,23 +120,24 @@
 
 <!-- AddNew Dialog  -->
 
-<p-dialog header="Tag New Asset" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '35rem' }">
+<p-dialog header="Tag New Asset" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '35rem' }" (onHide)="closeaddDialog()">
   <form [formGroup]="addNewForm" (ngSubmit)="addNewUser()">
     <div class="form-container">
       <div class="form-row">
-        <div class="form-group">
-          <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-          <input type="text" id="username" formControlName="username" class="form-input" />
-          <div *ngIf="addNewForm.get('username')?.invalid && addNewForm.get('username')?.touched">
-            <small class="text-danger">Username is required.</small>
-          </div>
-        </div>
         <div class="form-group">
           <label for="userId" class="form-label">User Id <span class="text-danger">*</span></label>
           <input type="text" id="userId" formControlName="user_id" class="form-input" />
           <div *ngIf="addNewForm.get('user_id')?.invalid && addNewForm.get('user_id')?.touched">
             <small class="text-danger">User Id is required.</small>
           </div>
+        </div>
+
+        <div class="form-group">
+          <label for="username" class="form-label">Upload </label>
+          <input type="file" id="fileupload" class="form-input" formControlName = "attachment" (change)="onFileChange($event)" />
+          <!-- <div *ngIf="addNewForm.get('username')?.invalid && addNewForm.get('username')?.touched">
+            <small class="text-danger">Username is required.</small>
+          </div> -->
         </div>
       </div>
 
@@ -169,7 +174,7 @@
         <p-button type="submit" label="Save" size="small" />
       </div>
       <div class="save">
-        <p-button label="Cancel" severity="danger" (click)="visible = false" size="small" />
+        <p-button label="Cancel" severity="danger" (click)="closeaddDialog()" size="small" />
       </div>
     </div>
   </form>
@@ -179,7 +184,7 @@
 <!-- Edit Dialog -->
 
 <p-dialog header="Edit Asset Tagging" [modal]="true" [(visible)]="editVisible" position="center"
-  [style]="{ width: '50rem' }">
+  [style]="{ width: '50rem' }" (onHide)="closeeditDialog()">
   <form [formGroup]="editForm" (ngSubmit)="updateUser()">
     <div class="form-container">
       <div class="form-row">
@@ -215,7 +220,7 @@
         <p-button type="submit" label="Update" size="small" />
       </div>
       <div class="save">
-        <p-button label="Cancel" severity="danger" (click)="editVisible = false" size="small" />
+        <p-button label="Cancel" severity="danger" (click)="closeeditDialog()" size="small" />
       </div>
     </div>
   </form>
