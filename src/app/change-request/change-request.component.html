@@ -191,13 +191,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="fileupload" class="form-label">Upload <span class="text-danger" >*</span></label>
-                    <input type="file" id="fileupload" class="form-input" formControlName = "attachment" (change)="onFileChange($event)" />
+                    <label for="fileupload" class="form-label">Upload </label>
+                    <input 
+                        type="file" 
+                        id="fileupload" 
+                        class="form-input" 
+                        (change)="onFileChange($event)" />
                     <small class="input-format-info">Upload file size limit: 10MB</small>
-                    <div *ngIf="addRequestForm.get('attachment')?.invalid && addRequestForm.get('attachment')?.touched">
-                        <small class="text-danger">Request Type is required.</small>
-                    </div>
                 </div>
+                
 
             </div>
             <div class="form-row">

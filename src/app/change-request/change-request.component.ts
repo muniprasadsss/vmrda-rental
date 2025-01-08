@@ -85,9 +85,8 @@ export class ChangeRequestComponent implements OnInit {
     this.addRequestForm = this.fb.group({
       userId: [{ value: this.userID, disabled: true }, Validators.required],
       requestType: [{ value: null}, Validators.required],
-      attachment: [{ value: null }, Validators.required],
       propertyCode: [{ value: null }, Validators.required],
-      description: ['', Validators.required]
+      description: [null, Validators.required]
     });
   }
 
@@ -111,6 +110,10 @@ export class ChangeRequestComponent implements OnInit {
       next:(res:any)=>{
         this.attachmentUrl = res.location;
         this.fileToUpload = null;
+        this.addRequestForm.patchValue({
+          attachment: this.attachmentUrl,
+      });
+      
       },
       error:(err:any)=>{
 
@@ -226,8 +229,13 @@ export class ChangeRequestComponent implements OnInit {
   }
 
   addRequestDiv(){
-    this.addrequestdata = this.addrequestdata;
+    this.addrequestdata = !this.addrequestdata;
     this.addRequestForm.reset();
+    this.attachmentUrl = null;
+    const fileInput = document.getElementById('fileupload') as HTMLInputElement;
+    if (fileInput) {
+        fileInput.value = '';
+    }
   }
 
   onHide() {
@@ -328,13 +336,6 @@ getUserDatabyId(userID: any) {
     this.addRequestForm.markAllAsTouched();
     if (this.addRequestForm.valid) {
       const formData = this.addRequestForm.value;
-       // Check if a file has been uploaded
-      if (!this.attachmentUrl) {
-      console.error('File is required.');
-      this.toasterservice.error("File is required."); // Notify user
-      return; // Exit early if no file is uploaded
-      }
-
       // Prepare the payload to be sent to the API
       const payload = {
         username: this.userInfo.USER_NAME,
@@ -354,7 +355,11 @@ getUserDatabyId(userID: any) {
           this.toasterservice.success("Change request raised successfully");
           this.addRequestForm.reset(); // Reset the form after successful submission
           this.getcrInfo(); // Refresh the data
-          this.addRequestForm.reset();
+          this.attachmentUrl = null;
+          const fileInput = document.getElementById('fileupload') as HTMLInputElement;
+    if (fileInput) {
+        fileInput.value = '';
+    }
         },
         error: (error) => {
           console.error('Error sending data:', error);

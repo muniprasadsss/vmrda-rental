@@ -397,27 +397,11 @@
       <div *ngIf="!isDialogVisible" class="pay">
         <button (click)="PaymnetPage()" class="payButton" style="background-color: #28a745;">Confirm Amount</button>
       </div>
-      <div *ngIf="isDialogVisible" class="pay ">
-        <!-- <button (click)="openRazorpayCheckout()">Pay Now</button> -->
-      <!-- <button class="payButton" (click)="PaymnetPage()">Pay</button> -->
-      <form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
-        <input type="hidden" name="key_id" value="rzp_live_SoaxyQXKUe6WFi"/>
-        <input type="hidden" name="amount" value="amount" />
-        <input type="hidden" name="currency" value="INR"/>
-        <input type="hidden" name="order_id" value="orderID"/>
-        <input type="hidden" name="name" value="VMRDA"/>
-        <input type="hidden" name="description" value="Rental Services"/>
-        <input type="hidden" name="image" value="https://vmrda-prod-assests.s3.ap-south-1.amazonaws.com/vmrda_logo_image.png"/>
-        <input type="hidden" name="prefill[name]" [value]="userDetailsObject.USER_NAME"/>
-        <input type="hidden" name="prefill[contact]" [value]="userDetailsObject.MOBILE_NUM"/>
-        <input type="hidden" name="prefill[email]" [value]="userDetailsObject.EMAIL_ID"/>
-        <input type="hidden" name="cancel_url" value="https://api.vmrdarental.com/payment/verify"/>
-        <input type="hidden" name="callback_url" value="https://api.vmrdarental.com/payment/verify"/>
-        
-        <button  class="payButton">Pay</button>
-      </form>
-      <!-- <app-razorpay class="payButton" ></app-razorpay> -->
 
+
+      <div *ngIf="isDialogVisible" class="pay ">
+        <app-razorpay class="payButton" [userDetails]="userDetailsObject" [orderId]="orderID">
+      </app-razorpay>
       </div>
         </form>
     </p-dialog>
@@ -425,3 +409,19 @@
 
 
 
+<!-- <form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
+  <input type="hidden" name="key_id" value="rzp_live_SoaxyQXKUe6WFi">
+  <input type="hidden" name="currency" value="INR"/>
+  <input type="hidden" name="amount" value=100000>
+  <input type="hidden" name="order_id" value="order_PgTEijDXZ9SuVu">
+  <input type="hidden" name="name" value="Test">
+  <input type="hidden" name="description" value="A Wild Sheep Chase">
+  <input type="hidden" name="image" value="https://cdn.razorpay.com/logos/BUVwvgaqVByGp2_large.png">
+  <input type="hidden" name="prefill[name]" value="Gaurav Kumar">
+  <input type="hidden" name="prefill[contact]" value="9123456780">
+  <input type="hidden" name="prefill[email]" value="gaurav.kumar@example.com">
+  <input type="hidden" name="notes[shipping address]" value="L-16, The Business Centre, 61 Wellfield Road, New Delhi - 110001">
+  <input type="hidden" name="callback_url" value="https://www.google.com">
+  <input type="hidden" name="cancel_url" value="https://localhost:42934/PayFee/Response">
+  <button>Pay</button>
+  </form> -->

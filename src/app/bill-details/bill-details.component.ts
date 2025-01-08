@@ -12,12 +12,13 @@ import { ChangeRequestService } from '../services/changeRequest/change-request.s
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import * as XLSX from 'xlsx';
+import { RazorpayComponent } from '../razorpay/razorpay.component';
 declare var Razorpay: any;
 
 @Component({
   selector: 'app-bill-details',
   standalone: true,
-  imports: [PrimeNgModule, ReactiveFormsModule,FormsModule],
+  imports: [PrimeNgModule, ReactiveFormsModule,FormsModule,RazorpayComponent],
   templateUrl: './bill-details.component.html',
   styleUrls: ['./bill-details.component.scss'],
   providers: [DatePipe], // Add DatePipe here

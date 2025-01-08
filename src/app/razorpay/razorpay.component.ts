@@ -9,7 +9,8 @@ import { Component, Input } from '@angular/core';
 })
 export class RazorpayComponent {
 
-  @Input() userDetails: any = '';
+  @Input() userDetails: any;
+  @Input() orderId: any;
 
 
 }
