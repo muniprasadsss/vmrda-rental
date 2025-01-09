@@ -94,7 +94,7 @@ onFilterGlobal(event: Event): void {
   }
 
   getuserdataforreciept(reciept : any){
-    console.log(reciept);
+    console.log(reciept.User);
     if(this.localuserjsondata.user_id === "USER"){
       const username=this.localuserjsondata.USER_NAME;
       this.generatePDF(reciept,username);
@@ -103,7 +103,8 @@ onFilterGlobal(event: Event): void {
     else{
     this.http.getuserdataforreciept(reciept.User).subscribe({
       next:(response)=>{
-        this.userdataforreciept=response.userinfo;
+        console.log(reciept.User,'---');
+        this.userdataforreciept=response.data;
         console.log(this.userdataforreciept,"data retrieved successfully");
         this.generatePDF(reciept,this.userdataforreciept.USER_NAME)
       },
