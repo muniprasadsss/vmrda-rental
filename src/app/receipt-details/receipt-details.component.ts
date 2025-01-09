@@ -95,8 +95,9 @@ onFilterGlobal(event: Event): void {
 
   getuserdataforreciept(reciept : any){
     console.log(reciept.User);
-    if(this.localuserjsondata.user_id === "USER"){
+    if(this.userRole === "USER"){
       const username=this.localuserjsondata.USER_NAME;
+      console.log(username,'0-0-0-');
       this.generatePDF(reciept,username);
       console.log('user reciept added------------');
     }
@@ -106,6 +107,8 @@ onFilterGlobal(event: Event): void {
         console.log(reciept.User,'---');
         this.userdataforreciept=response.data;
         console.log(this.userdataforreciept,"data retrieved successfully");
+        console.log("Admin reci=eipt added");
+        
         this.generatePDF(reciept,this.userdataforreciept.USER_NAME)
       },
       error:(error)=>{
