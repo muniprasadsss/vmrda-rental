@@ -30,7 +30,7 @@ export class ReceptDetailsService {
   }
 
   getuserdataforreciept(USER_ID:string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/getUserDataById`,{USER_ID});
+    return this.http.post(`${this.apiUrl}/getUserInfobyId`,{USER_ID});
   }
 
 
