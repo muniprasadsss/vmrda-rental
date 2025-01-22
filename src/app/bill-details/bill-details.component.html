@@ -66,10 +66,14 @@
               </p-multiSelect>
           </div>
             </div>
+            <div class="btn">
+              <p>Total Due: {{totalDue}}</p>
+            </div>
           <div class="dialog">
             <!-- <div class="btn"  *ngIf="userRole === 'RI' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'">
               <button  class="addbutton" (click)="generateAllBills()">Generate Bills</button>
             </div> -->
+           
               <div class="btn">
                 <button class="addbutton" (click)="downloadExcel()" pTooltip="Download All Bills" tooltipPosition="bottom">
                   <i class="pi pi-file-excel" style="font-size: 1rem"></i>
@@ -78,6 +82,7 @@
             <div class="btn">
               <button  class="addbutton" (click)="showDialog1()">History</button>
             </div>
+           
           </div>
         </div>
       </ng-template>

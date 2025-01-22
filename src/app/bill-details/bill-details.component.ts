@@ -72,6 +72,7 @@ export class BillDetailsComponent implements OnInit {
   billPeriodFilter:any[] = [];
   billGenetaredCount: number = 0;
   billnotpaidCount: number = 0;
+  totalDue: any;
   constructor(private billDetailService: BillDetailsService,
               private Http: ChangeRequestService,
               private cd: ChangeDetectorRef,
@@ -125,6 +126,13 @@ export class BillDetailsComponent implements OnInit {
     this.userDetailsObject = JSON.parse(this.userdetails);
     this.username=this.userDetailsObject.USER_NAME
     this.getbilldetails();
+  }
+
+  getTotalDueAmount() {
+    this.totalDue = 0; // Initialize totalDue
+this.notPaidBills.forEach((bill) => {
+  this.totalDue += bill.Due ? Number(bill.Due) : 0; // Add only valid Due amounts
+});
 
   }
 
@@ -234,6 +242,7 @@ export class BillDetailsComponent implements OnInit {
       this.notPaidBills = this.dataSource.filter(item => {return (item.Status !== 'Fully Paid' ) })
       this.billnotpaidCount = this.notPaidBills.length
     }
+    this.getTotalDueAmount();
     this.cd.detectChanges();
   }
 
