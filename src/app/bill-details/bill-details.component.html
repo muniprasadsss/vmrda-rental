@@ -66,7 +66,7 @@
               </p-multiSelect>
           </div>
             </div>
-            <div class="btn">
+            <div class="btn" *ngIf="userRole === 'USER'">
               <p>Total Due: {{totalDue}}</p>
             </div>
           <div class="dialog">
