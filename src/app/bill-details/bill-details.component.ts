@@ -130,11 +130,13 @@ export class BillDetailsComponent implements OnInit {
 
   getTotalDueAmount() {
     this.totalDue = 0; // Initialize totalDue
-this.notPaidBills.forEach((bill) => {
-  this.totalDue += bill.Due ? Number(bill.Due) : 0; // Add only valid Due amounts
-});
+    this.notPaidBills.forEach((bill) => {
+      bill.Due = parseFloat(bill.Due).toFixed(2); // Ensure two fractional values
+      this.totalDue += Number(bill.Due); // Use the formatted value for calculation
+    });
+    
+};
 
-  }
 
   closeDialog(){
     this.showModel = false
