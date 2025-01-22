@@ -130,10 +130,13 @@ export class BillDetailsComponent implements OnInit {
 
   getTotalDueAmount() {
     this.totalDue = 0; // Initialize totalDue
-    this.notPaidBills.forEach((bill) => {
-      bill.Due = parseFloat(bill.Due).toFixed(2); // Ensure two fractional values
-      this.totalDue += Number(bill.Due); // Use the formatted value for calculation
-    });
+this.notPaidBills.forEach((bill) => {
+  this.totalDue += Number(bill.Due); // Add Due values as numbers
+});
+
+// Format totalDue to two decimal places
+this.totalDue = parseFloat(this.totalDue.toFixed(2));
+
     
 };
 
