@@ -17,7 +17,7 @@
           </div>
           <div class="dialog">
             <!-- <p-button (click)="showAddDialog()" *ngIf="userRole !== 'IT-TEAM' " label=" + Add New" severity="success" size="small" /> -->
-            <div *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
+            <div *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN' )">
               <button class="addbutton" (click)="showAddDialog()">+ Add Dept. User</button>
             </div>
           </div>
@@ -45,7 +45,7 @@
           <td >{{ customer.USER_TYPE }}</td>
           <td >{{ customer.REVENUE_DIVISION }}</td>
           <td>
-            <div class="rowbtn" *ngIf="userRole !== 'IT-TEAM' && userRole !== 'CAOCC'">
+            <div class="rowbtn" *ngIf="userRole !== 'IT-TEAM' && userRole !== 'CAOCC' && userRole !== 'ACCOUNTS_TEAM'">
               <button class="editButton" pTooltip="Edit Dept-User" tooltipPosition="left" (click)="showEditDialog(customer)">
                 <i class="pi pi-pencil"></i>
               </button>

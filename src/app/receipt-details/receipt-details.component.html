@@ -55,7 +55,7 @@
         
           </div>
         </div>
-          <div *ngIf=" userRole !== 'USER'">
+          <div *ngIf=" userRole !== 'USER' && userRole !== 'ACCOUNTS_TEAM'">
             <button  class="addbutton" (click)="showDialog()">+ Add Receipt</button>
           </div>
       </div>
