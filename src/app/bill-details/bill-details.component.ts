@@ -73,6 +73,7 @@ export class BillDetailsComponent implements OnInit {
   billGenetaredCount: number = 0;
   billnotpaidCount: number = 0;
   totalDue: any;
+  billStatus: any[] = [];
   constructor(private billDetailService: BillDetailsService,
               private Http: ChangeRequestService,
               private cd: ChangeDetectorRef,
@@ -99,6 +100,8 @@ export class BillDetailsComponent implements OnInit {
       due: [{ value: null }]
     });
    }
+
+   billStatusFilter = [ 'Partially Paid','Not Paid' ];
 
   ngOnInit(): void {
       
@@ -153,9 +156,8 @@ this.totalDue = parseFloat(this.totalDue.toFixed(2));
   }
 
   onFilterGlobal(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.value = target.value;
-    this.dt2.filterGlobal(this.value, 'contains');
+
+    this.dt2.filterGlobal(event, 'contains');
   }
 
   calculateTotal(): void {

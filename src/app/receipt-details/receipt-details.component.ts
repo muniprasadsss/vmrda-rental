@@ -292,8 +292,8 @@ generatePDF(receipt: any,username:any) {
           this.bill_status = res.Status;
           this.addNewRecept.patchValue({
             billNo: res.BillNo,
-            User: res.User,
-            Property: res.Property,
+            User: res.ALLOTTEE_NAME,
+            Property: res.PROPERTY_NAME,
             Bill_Period:  res.Bill_Period,
             Total: res.Total,
             Status: res.Status,

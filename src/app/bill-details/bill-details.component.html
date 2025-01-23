@@ -65,6 +65,16 @@
                 </ng-template>
               </p-multiSelect>
           </div>
+            <div class="search" *ngIf="userRole !== 'USER'">
+              <p-multiSelect
+                  [options]="billStatusFilter"
+                  placeholder="Bill Status"
+                  [(ngModel)]="billStatus"
+                  [filter]="false"
+                  (onChange)="onFilterGlobal( $event.value)"
+              >
+              </p-multiSelect>
+          </div>
             </div>
             <div class="btn" *ngIf="userRole === 'USER'">
               <p style="color: red;">Total Due: {{totalDue}}</p>
