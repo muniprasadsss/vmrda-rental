@@ -7,6 +7,8 @@ import { LocationDetails } from '../interfaces/location/locationInterface';
 import { AssetsService } from '../services/assets/assets.service';
 import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import * as XLSX from 'xlsx';
+
 FormsModule
 @Component({
   selector: 'app-assets',
@@ -223,5 +225,12 @@ export class AssetsComponent implements OnInit {
     this.editVisible=false;
     this.editForm.reset(); 
   }
+
+    downloadExcel(){
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.assetsData); // Convert table to sheet
+      const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+      XLSX.writeFile(wb, 'assets-data.xlsx'); // Write the file
+    }
 
 }

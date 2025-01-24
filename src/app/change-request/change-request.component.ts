@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { DummyUserService } from '../services/dummyUser/dummy-user.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { UserServiceService } from '../services/userService/user-service.service';
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-change-request',
@@ -366,6 +368,14 @@ getUserDatabyId(userID: any) {
         }
       });
     } 
+  }
+
+  downloadExcel(){
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.crData); // Convert table to sheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+    XLSX.writeFile(wb, 'grievance-data.xlsx'); // Write the file
+
   }
 
 }

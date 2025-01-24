@@ -15,6 +15,9 @@
                     </p-iconField>
                 </div>
                 <div>
+                    <button class="addbutton" (click)="downloadExcel()" pTooltip="Download grievance data" tooltipPosition="bottom" style="margin-right: 1rem;">
+                        <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+                    </button>
                     <button class="closedButton" (click)="RejectedDiv()">Closed Tickets</button>
                     <span style="border-left: 5px solid white;height: 1rem;"></span>
                     <button *ngIf="userRole === 'USER'" class="addNewButton" (click)="addRequestDiv()">New

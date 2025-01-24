@@ -8,6 +8,8 @@ import { DashboardComponent } from "../dashboard/dashboard.component";
 import { FooterComponent } from "../footer/footer.component";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-user-details',
@@ -222,6 +224,14 @@ convertToUpperCase(event: Event): void {
   closeeditDialog(){
     this.editVisible=false;
     this.editForm.reset();
+  }
+
+  downloadExcel(){
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource); // Convert table to sheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+    XLSX.writeFile(wb, 'tenants-data.xlsx'); // Write the file
+
   }
 
 }

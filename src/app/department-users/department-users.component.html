@@ -18,6 +18,9 @@
           <div class="dialog">
             <!-- <p-button (click)="showAddDialog()" *ngIf="userRole !== 'IT-TEAM' " label=" + Add New" severity="success" size="small" /> -->
             <div *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN' )">
+              <button class="addbutton" (click)="downloadExcel()" pTooltip="Download department users data" tooltipPosition="bottom" style="margin-right: 1rem;">
+                <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+              </button>
               <button class="addbutton" (click)="showAddDialog()">+ Add Dept. User</button>
             </div>
           </div>

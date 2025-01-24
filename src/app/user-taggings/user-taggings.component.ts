@@ -6,6 +6,8 @@ import { usertagging } from '../interfaces/userTagging/usertagginginterface';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
+import * as XLSX from 'xlsx';
+
 
 
 @Component({
@@ -227,6 +229,13 @@ export class UserTaggingsComponent implements OnInit {
     } else {
       console.error('No attachment URL provided');
     }
-    }
+  }
+
+  downloadExcel(){
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource); // Convert table to sheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+    XLSX.writeFile(wb, 'tenanttagging-data.xlsx'); // Write the file
+  }
 
 }

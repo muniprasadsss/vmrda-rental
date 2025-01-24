@@ -3,6 +3,8 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { DepartmentUsersService } from '../services/departmentUsers/department-users.service';
 import { departmentusers } from '../interfaces/departmentUserInterfaces/departmentuserinterfaces';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-department-users',
@@ -181,6 +183,14 @@ export class DepartmentUsersComponent {
   closeeditDialog(){
     this.editVisible=false;
     this.editForm.reset();
+  }
+
+  downloadExcel(){
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource); // Convert table to sheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+    XLSX.writeFile(wb, 'departmentusers-data.xlsx'); // Write the file
+
   }
 
 }

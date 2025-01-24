@@ -6,6 +6,8 @@ import { FooterComponent } from '../footer/footer.component';
 import { TransactionTrackingService } from '../services/tracking/transaction-tracking.service';
 import { TransactionTrackingDetails } from '../interfaces/transactionTracking/transactionTrackingInterface';
 import { FormsModule } from '@angular/forms';
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-transaction-tracking',
@@ -38,7 +40,7 @@ export class TransactionTrackingComponent {
     this.visible = true;
    }
 
-   getTransactionTrackingDetails() {
+  getTransactionTrackingDetails() {
     this.transactionTrackingservice.getTransactionData().subscribe({
       next: (res: any) => {
         this.dataSource = res;
@@ -78,6 +80,14 @@ export class TransactionTrackingComponent {
       return transactionDate >= fromdate && transactionDate <= todate;
     });
     console.log('Filtered Data:', this.dataSource);
+  }
+
+  downloadExcel(){
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource); // Convert table to sheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+    XLSX.writeFile(wb, 'transactiontracking-data.xlsx'); // Write the file
+
   }
    
 }

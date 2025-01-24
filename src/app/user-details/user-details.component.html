@@ -17,6 +17,9 @@
           </div>
           <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
             <!-- <p-button (click)="showDialog()" label=" + Add New" severity="success" size="small" /> -->
+            <button class="addbutton" (click)="downloadExcel()" pTooltip="Download tenant data" tooltipPosition="bottom" style="margin-right: 1rem;">
+              <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+            </button>
              <button class="addbutton" (click)="showDialog()">+ Add New Tenant</button>
           </div>
         </div>
@@ -26,6 +29,8 @@
           <!-- <th pSortableColumn="SL_NO">S.No <p-sortIcon field="SL_NO" /></th> -->
           <th pResizableColumn  pSortableColumn="USER_ID">User ID <p-sortIcon field="USER_ID" /></th>
           <th pResizableColumn >User Name</th>
+          <th pResizableColumn >Total Due</th>
+          <th pResizableColumn >Months Due</th>
           <th pResizableColumn >Mobile No</th>
           <th pResizableColumn > Nature of Business</th>
           <th pResizableColumn >Aadhar No</th>
@@ -41,6 +46,8 @@
           <!-- <td style="width: 5%;">{{ customer.SL_NO }}</td> -->
           <td >{{ customer.USER_ID }}</td>
           <td >{{ customer.USER_NAME }}</td>
+          <td >{{ customer.total_due }}</td>
+          <td >{{ customer.months_due }}</td>
           <td >{{ customer.MOBILE_NUM }}</td>
           <td >{{ customer.NATURE_OF_BUSINESS }}</td>
           <td >{{ customer.Aadhaar_No }}</td>

@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
 import { BillDetailsService } from '../services/billDetails/bill-details.service';
 import { UserServiceService } from '../services/userService/user-service.service';
+import * as XLSX from 'xlsx';
+
 @Component({
   selector: 'app-receipt-details',
   standalone: true,
@@ -417,6 +419,14 @@ createReceipt(receiptData: any) {
             this.cd.detectChanges();
         }
       })
+    }
+
+    downloadExcel(){
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.receiptData); // Convert table to sheet
+      const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+      XLSX.writeFile(wb, 'receipts-data.xlsx'); // Write the file
+  
     }
     
 }
