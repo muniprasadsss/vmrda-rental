@@ -621,6 +621,8 @@ currentY += lineHeight * 2;
 
 
   showDialog1() {
+    this.getbilldetails();
+    this.resetFilters();
     this.visible1 = true;
   }
 
@@ -863,6 +865,15 @@ currentY += lineHeight * 2;
       this.showPayPopup = false;
       this.toastrService.warning('payment made successfully')
     }
+  }
+
+  resetFilters(){
+    this.billPeriodFilter = [];
+    this.locationFilter = [];
+    this.propertyFilter = [];
+    this.alloteFilter = []; 
+    this.billStatus=[];   
+    this.getbilldetails();
   }
 
   

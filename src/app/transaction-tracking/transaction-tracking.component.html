@@ -2,10 +2,11 @@
   <p-table #dt2 [value]="dataSource" dataKey="id" 
   [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
   [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
-  [globalFilterFields]="['id', 'invoice_id', 'order_id', 'method', 'upi_transaction_id', 'amount', 'amount_refunded', 'currency', 'status','created_at']"
+  [globalFilterFields]="['id','ALLOTTEE_NAME', 'invoice_id', 'order_id', 'method', 'upi_transaction_id', 'amount', 'amount_refunded', 'currency', 'status','created_at']"
            [tableStyle]="{ 'min-width': '75rem' }"  >
     <ng-template pTemplate="caption">
       <div class="searchbar">
+        <div class="filters">
         <div class="search">
           <p-iconField iconPosition="left" class="ml-auto">
             <p-inputIcon>
@@ -14,12 +15,39 @@
             <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
           </p-iconField>
         </div>
+        <div class="search" style="margin-left: 2rem;">
+          <p-multiSelect
+              [options]="StatusFilter"
+              placeholder="Status"
+              [(ngModel)]="status"
+              [filter]="false"
+              (onChange)="onFilterStatus( $event.value)"
+          >
+          </p-multiSelect>
+        </div>
 
+        <div class="date-filters" style="margin-left: 2rem; display: flex; align-items: center;">
+          <div style="margin-right: 1rem;">
+            <div class="date-container">
+              <input id="fromDate" type="date" [(ngModel)]="fromDate" (ngModelChange)="onFilterDate()" class="custom-date-input">
+            </div>
+          </div>
+          <div>
+            <div class="date-container">
+              <input id="toDate" type="date" [(ngModel)]="toDate" (ngModelChange)="onFilterDate()" class="custom-date-input">
+            </div> 
+          </div>
+          <div style="margin-left: 1rem;">
+            <!-- <p-button label="Apply" icon="pi pi-filter" (click)="onFilterDate()"></p-button> -->
+          </div>
+        </div>
+      </div>
       </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr style="font-size: 12px; padding: 0;">
-        <th pResizableColumn  pSortableColumn="SL_No">ID<p-sortIcon field="SL_No"></p-sortIcon></th>
+        <!-- <th pResizableColumn  pSortableColumn="id">ID<p-sortIcon field="SL_No"></p-sortIcon></th> -->
+        <th pResizableColumn  pSortableColumn="ALLOTTEE_NAME">User Name<p-sortIcon field="ALLOTTEE_NAME"></p-sortIcon></th>
         <th pResizableColumn  pSortableColumn="invoice_id">Invoice ID<p-sortIcon field="invoice_id"></p-sortIcon></th>
         <th pResizableColumn  pSortableColumn="order_id">Order ID<p-sortIcon field="order_id"></p-sortIcon></th>
         <th pResizableColumn  >Payment Method</th>
@@ -34,7 +62,8 @@
     </ng-template>
     <ng-template pTemplate="body" let-transaction>
       <tr style="font-size: 12px;">
-        <td style="width: 5%;">{{ transaction.id }}</td> <!-- This may need to be set in the component -->
+        <!-- <td style="width: 5%;">{{ transaction.id }}</td>  -->
+        <td style="width: 5%;">{{ transaction.ALLOTTEE_NAME }}</td> <!-- This may need to be set in the component -->
         <td style="width: 5%;">{{ transaction.invoice_id }}</td>
         <td style="width: 5%;">{{ transaction.order_id }}</td>
         <td style="width: 9%;">{{ transaction.method }}</td>

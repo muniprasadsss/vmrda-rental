@@ -74,7 +74,7 @@
                   (onChange)="onFilterGlobal( $event.value)"
               >
               </p-multiSelect>
-          </div>
+            </div>
             </div>
             <div class="btn" *ngIf="userRole === 'USER'">
               <p style="color: red;">Total Due: {{totalDue}}</p>
@@ -268,12 +268,90 @@
 <!-- history -->
 
   <div class="dialog">
-    <p-dialog header="History"  [modal]="true" [(visible)]="visible1" position="center" [style]="{ width: '70rem' }">
+  <p-dialog header="History"  [modal]="true" [(visible)]="visible1" position="center" [style]="{ width: '70rem' }" (onHide)="resetFilters()">
   <p-table [value]="paidBills" 
   [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
   [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
   >
   <ng-template pTemplate="caption">
+    <div class="searchbar">
+        <div class="filters">
+          <div class="search" *ngIf=" userRole !== 'USER'">
+            <p-multiSelect 
+            [options]="billPeriod" 
+            placeholder="Bill Period"
+            [(ngModel)]="billPeriodFilter"
+            [filter]="false"
+            (onChange)="applyFilters()"
+             >
+          </p-multiSelect>
+        </div>
+          <div class="search" *ngIf=" userRole !== 'USER'">
+            <p-multiSelect 
+            [options]="locationList" 
+            placeholder="Complex"
+            [(ngModel)]="locationFilter"
+            optionLabel = "LOCATION_CODE"
+            [filter]="false"
+            (onChange)="applyFilters()"
+             >
+             <ng-template let-selectedValue pTemplate="selectedItem">
+              {{ selectedValue.LOCATION }}
+          </ng-template>
+          </p-multiSelect>
+        </div>
+          <div class="search" *ngIf=" userRole !== 'USER'">
+            <p-multiSelect 
+            [options]="complexList" 
+            placeholder="Property"
+            [(ngModel)]="propertyFilter"
+            optionLabel = "PROPERTY_CODE"
+            [filter]="false"
+            (onChange)="applyFilters()"
+             >
+             <ng-template let-selectedValue pTemplate="selectedItem">
+              {{ selectedValue.PROPERTY_CODE }}
+          </ng-template>
+          </p-multiSelect>
+        </div>
+        <div class="search" *ngIf="userRole !== 'USER'">
+          <p-multiSelect
+              [options]="allAlloteList"
+              placeholder="Allote Name"
+              [(ngModel)]="alloteFilter"
+              [filter]="false"
+              [maxSelectedLabels]="3"
+              (onChange)="applyFilters()"
+          >
+              <!-- Custom template for dropdown items -->
+              <ng-template let-option pTemplate="item">
+                  {{ option | slice:0:14 }} <!-- Limit dropdown item to 5 characters -->
+              </ng-template>
+              <ng-template let-selectedValue pTemplate="selectedItem">
+                {{ selectedValue | slice:0:14 }}
+            </ng-template>
+          </p-multiSelect>
+      </div>
+        </div>
+        <div class="btn" *ngIf="userRole === 'USER'">
+          <p style="color: red;">Total Due: {{totalDue}}</p>
+        </div>
+      <div class="dialog">
+        <!-- <div class="btn"  *ngIf="userRole === 'RI' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'">
+          <button  class="addbutton" (click)="generateAllBills()">Generate Bills</button>
+        </div> -->
+       
+          <div class="btn">
+            <button class="addbutton" (click)="downloadExcel()" pTooltip="Download All Bills" tooltipPosition="bottom">
+              <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+            </button>
+          </div>
+        <div class="btn">
+          <button  class="addbutton" (click)="showDialog1()">History</button>
+        </div>
+       
+      </div>
+    </div>
   </ng-template>
   <ng-template pTemplate="header">
   <tr style="font-size: 12px; padding: 0;">
