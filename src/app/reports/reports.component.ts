@@ -19,7 +19,7 @@ export class ReportsComponent implements OnInit{
 
 ngOnInit(): void {
 
-  this.userType=localStorage.getItem('role')
+  this.userType=localStorage.getItem('userId')
 
   if(this.userType === 'AO' || this.userType === 'SECRETARY' || this.userType === 'COMMISSIONER' || this.userType === 'ADMIN' || this.userType === 'CO_ADMIN' || this.userType === 'ACCOUNTS_TEAM' ){
     this.reportUrl = 'https://app.powerbi.com/view?r=eyJrIjoiYzBlYzBmOTUtMmFiZi00NWY0LTk4MWItYTBjZDYxODE2ZDE2IiwidCI6IjM5MmFlNDIzLWFiZTktNDIxOS1iMTU5LTBhZTc3YWMxOWZjYSJ9'
