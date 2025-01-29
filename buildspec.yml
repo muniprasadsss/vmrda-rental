@@ -8,8 +8,9 @@ phases:
       # - apt install -y awscli
   pre_build:
     commands:
-      - echo "Preparing to deploy to S3..."
+      - echo "Verifying AWS CLI..."
       - aws --version
+      - aws s3 ls s3://vmrda-build/artifacts/ || echo "S3 access denied!"
   build:
     commands:
       - echo "Building project..."
@@ -17,12 +18,14 @@ phases:
       - rm -f package-lock.json
       - npm install --legacy-peer-deps
       - npm run build
-      - echo "Build complete."
+      - echo "Checking if dist directory is created..."
+      - ls -la dist/
   post_build:
     commands:
       - echo "Deploying to S3..."
-      - aws s3 sync dist/ s3://vmrda-build/artifacts/ --delete
+      - if [ -d "dist" ]; then aws s3 sync dist/ s3://vmrda-build/artifacts/ --delete; else echo "No dist folder, skipping upload."; fi
       - echo "Deployment complete."
+
 artifacts:
   files:
     - '**/*'
