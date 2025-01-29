@@ -1,20 +1,19 @@
 version: 0.2
-
 phases:
   install:
     commands:
-      - echo "Current user: $(whoami)"
+      - echo "Current user: $(whoami)" # Check the current user
       - echo "Before chown - Listing files in frontend directory:"
-      - ls -l frontend
-      - sudo chown -R $(whoami) frontend
+      - ls -l frontend # Check the permissions before
+      - sudo chown -R $(whoami) frontend # Change ownership to current user
       - echo "After chown - Listing files in frontend directory:"
-      - ls -l frontend
-      - cd frontend && npm install
+      - ls -l frontend # Check the permissions after
+      - cd frontend && npm install # Proceed with installation
 
   build:
     commands:
       - echo "Building Angular app..."
-      - cd frontend && ng build --prod
+      - cd frontend && ng build --prod # Build Angular app for production
 
   post_build:
     commands:
@@ -25,5 +24,5 @@ artifacts:
     - '**/*'
     - '!node_modules/**/*'
   discard-paths: yes
-  base-directory: 'frontend/dist'
+  base-directory: 'frontend/dist' # Angular's dist folder (adjust if necessary)
   name: angular-artifacts.zip
