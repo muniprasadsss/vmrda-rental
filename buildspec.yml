@@ -3,7 +3,7 @@ phases:
   install:
     commands:
       - echo "Installing dependencies..."
-      - apt update -y
+      # - apt update -y
       - apt install -y awscli
   pre_build:
     commands:
