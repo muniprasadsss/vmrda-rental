@@ -1,7 +1,19 @@
+# SSS
+# VMRDA_Frontend
+# VMRDA
+# buildspec.yml
+# Muni Prasad Pulicherla's avatar
+# Update buildspec.yml
+# Muni Prasad Pulicherla authored 3 months ago
+# 1e910ea4
+# buildspec.yml
+# 748 B
 version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 20
     commands:
       - echo "Installing dependencies..."
       - apt-get update -y
@@ -11,6 +23,9 @@ phases:
     commands:
       - echo "Preparing to deploy to S3..."
       - aws --version
+      - sudo apt update && sudo apt install -y nginx
+      - curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+      - sudo apt install -y nodejs
 
   build:
     commands:
@@ -20,12 +35,21 @@ phases:
       - npm install --legacy-peer-deps
       - npm run build
       - echo "Build complete."
+      - echo "Building frontend..."
+      - cd /var/www/html
+      - npm install && npm run build
+      - echo "Building backend..."
+      - cd ../var/www/html/backend
+      - npm install
 
   post_build:
     commands:
       - echo "Deploying to S3..."
       - aws s3 sync ./dist s3://vmrda-rental-code/build/ --acl public-read --delete
       - echo "Deployment complete."
+      - echo "Deploying application to EC2..."
+      - aws s3 cp frontend/dist s3://gitlab-codepipeline-artifacts-mumbai/frontend --recursive
+      - aws s3 cp backend s3://gitlab-codepipeline-artifacts-mumbai/backend --recursive
 
 artifacts:
   files:
