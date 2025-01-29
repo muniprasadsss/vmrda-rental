@@ -1,27 +1,20 @@
 version: 0.2
-
 phases:
   install:
-    runtime-versions:
-      nodejs: 20
     commands:
-      - echo "Installing system dependencies..."
-      - sudo apt update && sudo apt install -y awscli
-      - curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-      - sudo apt install -y nodejs
+      - echo Installing Angular dependencies...
+      - npm install # Install Angular dependencies
   build:
     commands:
-      - echo "Building frontend..."
-      - cd frontend
-      - npm install
-      - npm run build
-      - ls -l dist  # Debugging: Check if the dist/ folder is created
+      - echo Building Angular app...
+      - ng build  # Build Angular app for production
   post_build:
     commands:
-      - echo "Deploying to EC2..."
-      - scp -i /path-to-private-key.pem -r frontend/dist/* ubuntu@your-ec2-ip:/var/www/html/
-
+      - echo Angular build completed.
 artifacts:
   files:
     - '**/*'
-  base-directory: frontend/dist  # Ensure this matches the actual build output
+    - '!node_modules/**/*'
+  discard-paths: yes
+  base-directory: 'dist' # Angular's dist folder
+  name: angular-artifacts.zip
