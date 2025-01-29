@@ -1,13 +1,3 @@
-# SSS
-# VMRDA_Frontend
-# VMRDA
-# buildspec.yml
-# Muni Prasad Pulicherla's avatar
-# Update buildspec.yml
-# Muni Prasad Pulicherla authored 3 months ago
-# 1e910ea4
-# buildspec.yml
-# 748 B
 version: 0.2
 
 phases:
@@ -19,16 +9,25 @@ phases:
       - sudo apt update && sudo apt install -y awscli
       - curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
       - sudo apt install -y nodejs
+
   build:
     commands:
       - echo "Building frontend..."
       - cd /var/www/html
       - npm install
       - npm run build
+
   post_build:
     commands:
       - echo "Uploading artifacts..."
-      - if [ -d dist ]; then aws s3 cp dist s3://gitlab-codepipeline-artifacts-mumbai/frontend --recursive; else echo "Error: frontend/dist does not exist"; exit 1; fi
+      - |
+        if [ -d dist ]; then 
+          aws s3 cp dist s3://gitlab-codepipeline-artifacts-mumbai/frontend --recursive; 
+        else 
+          echo "Error: frontend/dist does not exist"; 
+          exit 1; 
+        fi
+
 artifacts:
   files:
     - '**/*'
