@@ -39,6 +39,8 @@
           <th pResizableColumn >GSTIN</th>
           <!-- <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th> -->
           <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN' )"></th>
+          <th></th>
+          <th></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-customer>
@@ -50,7 +52,7 @@
           <td >{{ customer.months_due }}</td>
           <td >{{ customer.MOBILE_NUM }}</td>
           <td >{{ customer.NATURE_OF_BUSINESS }}</td>
-          <td >{{ customer.Aadhaar_No }}</td>
+          <td >{{ customer.AADHARNO }}</td>
           <td >{{ customer.PAN }}</td>
           <td >{{ customer.EMAIL_ID }}</td>
           <td >{{ customer.GST_IN }}</td>
@@ -60,6 +62,16 @@
               <button class="editButton" pTooltip="Edit Tenant" tooltipPosition="left"
                 (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
             </div>
+          </td>
+          <td *ngIf="customer.user_image !== null">
+            <button class="editButton" (click)="downloaduserImage(customer.user_image)" pTooltip="Download Tenant Photo" tooltipPosition="left">
+            <i class="pi pi-image" style="cursor: pointer;color: #007BFF;"></i>
+          </button>
+          </td>
+          <td *ngIf="customer.security_url !== null">
+            <button class="editButton" (click)="downloadsecurityAttachment(customer.security_url)" pTooltip="Download security doc" tooltipPosition="left">
+            <i class="pi pi-file-pdf" style="cursor: pointer;color: red;"></i>
+          </button>
           </td>
         </tr>
       </ng-template>
@@ -139,10 +151,23 @@
             <small class="text-danger">GST IN is required.</small>
           </div>
         </div>
-        <!-- <div class="form-group">
-          <label for="revenue" class="form-label">Revenue Division</label>
-          <input type="text" id="revenue" formControlName="revenueDivision" class="form-input" />
-        </div> -->
+        <div class="form-group">
+          <label for="tenantfileupload" class="form-label">Tenant Photo</label>
+            <input type="file" id="tenantfileupload" class="form-input" (change)="onuserphotoChange($event)"/>
+            <small class="input-format-info">Upload file size limit: 10MB</small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="securityattachmentupload" class="form-label">Security Attachment</label>
+            <input type="file" id="securityattachmentupload" class="form-input" (change)="onsecurityattachmentChange($event)"/>
+            <small class="input-format-info">Upload file size limit: 10MB</small>
+        </div>
+        <div class="form-group">
+          <label for="remarks" class="form-label">Remarks</label>
+          <input type="text" id="remarks" formControlName="remarks" class="form-input" />
+        </div>
       </div>
     </div>
     <div class="btn">
@@ -183,13 +208,16 @@
         <div class="form-group">
           <label for="editBusiness" class="form-label">Business <span class="text-danger">*</span></label>
           <input type="text" id="editBusiness" formControlName="editBusiness" class="form-input" />
+          <div *ngIf="editForm.get('editBusiness')?.invalid && editForm.get('editBusiness')?.touched">
+            <small class="error">Business is required.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="editAadhar" class="form-label">Aadhar No <span class="text-danger">*</span></label>
           <input type="number" id="editAadhar" formControlName="editAadhar" class="form-input" inputmode="numeric"
             (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 12)" />
             <div *ngIf="editForm.get('editAadhar')?.invalid && editForm.get('editAadhar')?.touched">
-              <small class="error">Aadhar number is required.</small>
+              <small class="error">Aadhar No is required.</small>
             </div>
         </div>
       </div>
@@ -213,6 +241,25 @@
         <div class="form-group">
           <label for="editRevenue" class="form-label">Revenue Division <span class="text-danger">*</span></label>
           <input type="text" id="editRevenue" formControlName="editRevenue" class="form-input" />
+          <div *ngIf="editForm.get('editRevenue')?.invalid && editForm.get('editRevenue')?.touched">
+            <small class="error">Revenue Division is required.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="tenantfileupload" class="form-label">Tenant Photo</label>
+          <input type="file" id="tenantfileupload" class="form-input" (change)="onuserphotoChange($event)"/>
+        </div>
+        <div class="form-group">
+          <label for="securityattachmentupload" class="form-label">Security Attachment</label>
+          <input type="file" id="securityattachmentupload" class="form-input" (change)="onsecurityattachmentChange($event)"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="remarks" class="form-label">Remarks</label>
+          <input type="text" id="remarks" formControlName="editRemarks" class="form-input"/>
         </div>
       </div>
     </div>
