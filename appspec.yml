@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "Deploying Angular app..."
+cd /var/www/html
+unzip -o angular-artifacts.zip -d /var/www/html
+echo "Deployment completed."
