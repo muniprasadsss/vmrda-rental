@@ -20,7 +20,6 @@ phases:
   post_build:
     commands:
       - echo "Deploying to S3..."
-      - aws s3 sync ./dist s3://vmrda-rental-code/build/ --acl public-read --delete
       - echo "Deployment complete."
 artifacts:
   files:
