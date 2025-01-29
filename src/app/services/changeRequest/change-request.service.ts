@@ -13,27 +13,27 @@ export class ChangeRequestService {
 
     
     getChangeRequestData(USER_ID:any,USER_TYPE:any): Observable<any> {
-        return this.http.post<any>(`${this.apiUrl}/changeReques/getCrInfo`,{USER_ID,USER_TYPE})
+        return this.http.post<any>(`${this.apiUrl}/getCrInfo`,{USER_ID,USER_TYPE})
           
       }
 
     setCRequest(payload:any): Observable<any> {
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post<any>(`${this.apiUrl}/changeReques/create-cr-event`, payload,{headers})
+        return this.http.post<any>(`${this.apiUrl}/create-cr-event`, payload,{headers})
           
       }
 
       getChangeRequestType(): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}/changeReques/crrequestTypes`)   
+        return this.http.get<any>(`${this.apiUrl}/crrequestTypes`)   
       }
 
       postCR(CRdata: any): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post<any>(`${this.apiUrl}/changeReques/requestchange`, CRdata);
+        return this.http.post<any>(`${this.apiUrl}/requestchange`, CRdata);
       }
 
       uploadAttachment(CRdata: any): Observable<any> {
-        return this.http.post<any>(`${this.apiUrl}/upload/uploadFile`, CRdata);
+        return this.http.post<any>(`${this.apiUrl}/upload`, CRdata);
       }
 }
 

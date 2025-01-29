@@ -16,7 +16,7 @@ export class LoginService {
   userLogin(USER_ID: string, Password: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = { USER_ID, Password };
-    return this.http.post(`${this.apiUrl}/auth/login`, body, { headers });
+    return this.http.post(`${this.apiUrl}/login-session`, body, { headers });
   }
   adminLogin(USER_ID: string, Password: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -32,7 +32,7 @@ export class LoginService {
 
   verifyOTP(OTP: number,user_id:any): Observable<any> {
     const body = { OTP,user_id };
-    return this.http.post(`${this.apiUrl}/auth/verify-otp`, body);
+    return this.http.post(`${this.apiUrl}/verify-otp`, body);
   }
 
   OtpForChangePassword(UserId: any): Observable<any> {

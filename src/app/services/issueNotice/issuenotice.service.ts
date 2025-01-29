@@ -12,12 +12,12 @@ export class IssuenoticeService {
   constructor(private http: HttpClient) {}
 
   getIssueNoticeData(USER_ID:any,USER_TYPE:any):Observable<any>{
-    return this.http.post(`${this.apiUrl}/issueNotice/issue-notices`,{USER_ID,USER_TYPE})
+    return this.http.post(`${this.apiUrl}/issueNoticeData`,{USER_ID,USER_TYPE})
   }
 
   issueNoticeMail(data: any): Observable<any> {
     console.log(data,"check notice mail data service check...");
-    return this.http.post<any>(`${this.apiUrl}/issueNotice/issue-notices/send-email`, data);
+    return this.http.post<any>(`${this.apiUrl}/issueNoticeSendEmail`, data);
   }
   
 }

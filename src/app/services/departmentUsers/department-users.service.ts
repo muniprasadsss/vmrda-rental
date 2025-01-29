@@ -13,7 +13,7 @@ export class DepartmentUsersService {
 
     
   getAdminDetails(): Observable<any> {
-      return this.http.get<any>(`${this.apiUrl}/user/getAllAdminInfo`)   
+      return this.http.get<any>(`${this.apiUrl}/getAllAdminInfo`)   
   }
   
   getUserBySlNo(sl_no: number): Observable<any> {
@@ -21,11 +21,11 @@ export class DepartmentUsersService {
   }
   
   createAdmin(userData: any): Observable<any> { 
-    return this.http.post(`${this.apiUrl}/user/adminUserCreate`, userData);
+    return this.http.post(`${this.apiUrl}/adminUserCreate`, userData);
   }
 
   updateAdmin(updatedData: any): Observable<any> { 
-    return this.http.post(`${this.apiUrl}/user/updateDeptUserInfo`, updatedData);
+    return this.http.post(`${this.apiUrl}/updateUserInfo`, updatedData);
   }
 }
 

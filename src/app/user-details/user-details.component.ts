@@ -205,11 +205,6 @@ convertToUpperCase(event: Event): void {
     }
   }
 
-  toUpperCase(event: Event) {
-    const input = event.target as HTMLInputElement;
-    input.value = input.value.toUpperCase();
-  }
-
   validateEmailInput(event: KeyboardEvent): void {
     const key = event.key;
     // Allow letters, numbers, special characters typically used in emails
