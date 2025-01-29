@@ -148,7 +148,7 @@
           </td>
           <td *ngIf="userRole !== 'USER' && userRole !== 'IT-TEAM'" pTooltip=" Generate Bill " tooltipPosition="left">
             <div class="rowbtn">
-              <button class="editButton" *ngIf="bill.BillStatus !== 'Active'" (click)="showDialog(bill)">
+              <button class="editButton" *ngIf="bill.BillStatus !== 'Active'" (click)="showDialog(bill.BillNo)">
                 <i class="pi pi-pencil"></i>
               </button>
             </div>

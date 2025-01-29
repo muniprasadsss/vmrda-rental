@@ -12,12 +12,12 @@ export class ReceptDetailsService {
   constructor(private http:HttpClient) { }
 
   getReciptDetails(USER_ID: string,USER_TYPE:string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/receipt/getReceiptInfo`,{USER_ID,USER_TYPE});
+    return this.http.post(`${this.apiUrl}/getReceiptInfo`,{USER_ID,USER_TYPE});
   }
 
 
   getBillDetails(BillNo: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/bills/getbillsByBillNo`,{BillNo});
+    return this.http.post(`${this.apiUrl}/getbillsByBillNo`,{BillNo});
   }
 
   addReceipt(value:any): Observable<any> {
@@ -26,7 +26,7 @@ export class ReceptDetailsService {
 
   filterReceiptData(updateData: any): Observable<any> {
     console.log(updateData,"Updated data to procedure after click on pay...");
-    return this.http.post<any>(`${this.apiUrl}/receipt/filterReceiptData`, updateData); // Updated endpoint
+    return this.http.post<any>(`${this.apiUrl}/filterReceiptData`, updateData); // Updated endpoint
   }
 
   getuserdataforreciept(USER_ID:string): Observable<any> {

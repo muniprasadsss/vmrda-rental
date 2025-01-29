@@ -13,7 +13,7 @@ export class TransactionTrackingService {
   constructor(private http:HttpClient) { }
 
   getTransactionData(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/payment/transactions`)    
+    return this.http.get<any>(`${this.apiUrl}/transactions`)    
   }
 
 }
