@@ -5,30 +5,23 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
-      - echo "Installing dependencies..."
+      - echo "Installing system dependencies..."
       - sudo apt update && sudo apt install -y awscli
       - curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
       - sudo apt install -y nodejs
-
   build:
     commands:
       - echo "Building frontend..."
-      - cd /var/www/html
+      - cd frontend
       - npm install
       - npm run build
-
+      - ls -l dist  # Debugging: Check if the dist/ folder is created
   post_build:
     commands:
-      - echo "Uploading artifacts..."
-      - |
-        if [ -d dist ]; then 
-          aws s3 cp dist s3://gitlab-codepipeline-artifacts-mumbai/frontend --recursive; 
-        else 
-          echo "Error: frontend/dist does not exist"; 
-          exit 1; 
-        fi
+      - echo "Deploying to EC2..."
+      - scp -i /path-to-private-key.pem -r frontend/dist/* ubuntu@your-ec2-ip:/var/www/html/
 
 artifacts:
   files:
     - '**/*'
-  base-directory: frontend/dist
+  base-directory: frontend/dist  # Ensure this matches the actual build output
