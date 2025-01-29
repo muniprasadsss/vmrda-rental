@@ -1,21 +1,25 @@
 version: 0.2
+
 phases:
   install:
     commands:
-      - echo Installing dependencies...
-      - sudo chown -R $(whoami) frontend # Fixing permission issues
-      - cd frontend
-      - echo Installing Angular CLI globally...
-      - npm install -g @angular/cli
-      - echo Installing Angular project dependencies...
-      - npm install # Install dependencies for the frontend
+      - echo "Current user: $(whoami)" # Check the current user
+      - echo "Before chown - Listing files in frontend directory:"
+      - ls -l frontend # Check the permissions before
+      - sudo chown -R $(whoami) frontend # Change ownership to current user
+      - echo "After chown - Listing files in frontend directory:"
+      - ls -l frontend # Check the permissions after
+      - cd frontend && npm install # Proceed with installation
+
   build:
     commands:
       - echo Building Angular app...
       - ng build --prod # Build Angular app for production
+
   post_build:
     commands:
       - echo Angular build completed.
+
 artifacts:
   files:
     - '**/*'
