@@ -3,8 +3,8 @@ phases:
   install:
     commands:
       - echo "Installing dependencies..."
-      - apt-get update -y
-      - apt-get install -y awscli
+      - apt update -y
+      - apt install -y awscli
   pre_build:
     commands:
       - echo "Preparing to deploy to S3..."
