@@ -1,17 +1,14 @@
 version: 0.2
-
 phases:
   install:
     commands:
       - echo "Installing dependencies..."
-      - apt-get update -y
-      - apt-get install -y awscli
-
+      # - apt update -y
+      # - apt install -y awscli
   pre_build:
     commands:
       - echo "Preparing to deploy to S3..."
       - aws --version
-
   build:
     commands:
       - echo "Building project..."
@@ -20,13 +17,11 @@ phases:
       - npm install --legacy-peer-deps
       - npm run build
       - echo "Build complete."
-
   post_build:
     commands:
       - echo "Deploying to S3..."
-      - aws s3 sync ./dist s3://vmrda-rental-code/build/ --acl public-read --delete
+      - aws s3 sync dist/ s3://vmrda-build/artifacts/ --delete
       - echo "Deployment complete."
-
 artifacts:
   files:
     - '**/*'
