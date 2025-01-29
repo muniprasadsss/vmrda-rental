@@ -12,21 +12,21 @@ export class ProfileSettingsService {
   constructor(private http: HttpClient) { }
 
   updateProfile(profileData: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/updateProfile`, profileData);
+    return this.http.put(`${this.apiUrl}/user/updateProfile`, profileData);
   }
 
   changePassword(passwordData: any): Observable<any> { 
-    return this.http.post(`${this.apiUrl}/changepassword`, passwordData);
+    return this.http.put(`${this.apiUrl}/user/changePassword`, passwordData);
   }
 
   getNotificationsResponse(notificationsData: any): Observable<any> { 
-    return this.http.post(`${this.apiUrl}/getNotices`, notificationsData);
+    return this.http.post(`${this.apiUrl}/issueNotice/notices`, notificationsData);
   }
-  clearNotification(notificationsData: any): Observable<any> { 
-    return this.http.post(`${this.apiUrl}/clearNotification`, notificationsData);
+  clearNotification(Id: any): Observable<any> { 
+    return this.http.delete(`${this.apiUrl}/issueNotice/clearNotification`, { body:  Id });
   }
-  clearAllNotifications(notificationsData: any): Observable<any> { 
-    return this.http.post(`${this.apiUrl}/clearAllNotifications`, notificationsData);
+  clearAllNotifications(UserId: any): Observable<any> { 
+    return this.http.delete(`${this.apiUrl}/issueNotice/clearAllNotifications`, { body:  UserId });
   }
 
 }
