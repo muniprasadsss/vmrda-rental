@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { VacantpropertiesService } from '../services/vacantproperties/vacantproperties.service';
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-vacant-properties',
@@ -117,5 +119,11 @@ export class VacantPropertiesComponent {
     
   }
 
+  downloadExcel(){
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource); // Convert table to sheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+    XLSX.writeFile(wb, 'vacantproperties-data.xlsx'); // Write the file
+  }
 
 }

@@ -4,6 +4,25 @@
       [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
       [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
        [tableStyle]="{ 'min-width': '50rem' }">
+       <ng-template pTemplate="caption">
+      
+        <div class="searchbar" style="display: flex;justify-content: space-between;">
+          <div class="search">
+            <p-iconField iconPosition="left" class="ml-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+            </p-iconField>
+          </div>
+          <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
+            <button class="addbutton" (click)="downloadExcel()" pTooltip="Download Vacant Properties data" tooltipPosition="bottom" style="margin-right: 5rem;">
+              <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+            </button>
+          </div>
+        </div>
+
+      </ng-template>
         <ng-template pTemplate="header">
           <tr style="font-size: 12px;" >
               <th pResizableColumn >Property NO</th>
@@ -20,7 +39,7 @@
       <ng-template pTemplate="body" let-data>
         <tr style="font-size: 12px;">
             <td>{{ data.PROPERTY_NO }}</td>
-            <td>{{ data.property_name }}</td>
+            <td>{{ data.PROPERTY_NAME }}</td>
             <td>{{ data.LOCATION }}</td>
             <td>{{ data.EXTENT }} sqm</td>
             <td>{{ data.FLOOR }}</td>
@@ -36,20 +55,6 @@
             </td>
         </tr>
     </ng-template>       
-        <ng-template pTemplate="caption">
-      
-          <div class="searchbar">
-            <div class="search">
-              <p-iconField iconPosition="left" class="ml-auto">
-                <p-inputIcon>
-                  <i class="pi pi-search"></i>
-                </p-inputIcon>
-                <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
-              </p-iconField>
-            </div>
-          </div>
-
-        </ng-template>
       </p-table>
     </div>
 </div>

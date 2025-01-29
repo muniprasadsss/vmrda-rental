@@ -65,11 +65,25 @@
                 </ng-template>
               </p-multiSelect>
           </div>
+            <div class="search" *ngIf="userRole !== 'USER'">
+              <p-multiSelect
+                  [options]="billStatusFilter"
+                  placeholder="Bill Status"
+                  [(ngModel)]="billStatus"
+                  [filter]="false"
+                  (onChange)="onFilterGlobal( $event.value)"
+              >
+              </p-multiSelect>
+            </div>
+            </div>
+            <div class="btn" *ngIf="userRole === 'USER'">
+              <p style="color: red;">Total Due: {{totalDue}}</p>
             </div>
           <div class="dialog">
             <!-- <div class="btn"  *ngIf="userRole === 'RI' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'">
               <button  class="addbutton" (click)="generateAllBills()">Generate Bills</button>
             </div> -->
+           
               <div class="btn">
                 <button class="addbutton" (click)="downloadExcel()" pTooltip="Download All Bills" tooltipPosition="bottom">
                   <i class="pi pi-file-excel" style="font-size: 1rem"></i>
@@ -78,6 +92,7 @@
             <div class="btn">
               <button  class="addbutton" (click)="showDialog1()">History</button>
             </div>
+           
           </div>
         </div>
       </ng-template>
@@ -86,7 +101,7 @@
           <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
           <th pResizableColumn >Property Name</th>
           <th pResizableColumn >Lease Period</th>
-          <th>pResizableColumn Lease Amount</th>
+          <th pResizableColumn >Lease Amount</th>
           <th pResizableColumn >GST</th>
           <th pResizableColumn >Power Bill Amount</th>
           <th pResizableColumn >Water Bill Amount</th>
@@ -164,7 +179,7 @@
     [modal]="true"
     [(visible)]="showModel"
     position="center"
-    [style]="{ width: '50rem' }">
+    [style]="{ width: '50rem' }" (onHide)="closeDialog()">
     <div class="form-container">
       <form [formGroup]="form">
         <div class="form-row">
@@ -253,12 +268,86 @@
 <!-- history -->
 
   <div class="dialog">
-    <p-dialog header="History"  [modal]="true" [(visible)]="visible1" position="center" [style]="{ width: '70rem' }">
+  <p-dialog header="History"  [modal]="true" [(visible)]="visible1" position="center" [style]="{ width: '70rem' }" (onHide)="resetFilters()">
   <p-table [value]="paidBills" 
   [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
   [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
   >
   <ng-template pTemplate="caption">
+    <div class="searchbar">
+        <div class="filters">
+          <div class="search" *ngIf=" userRole !== 'USER'">
+            <p-multiSelect 
+            [options]="billPeriod" 
+            placeholder="Bill Period"
+            [(ngModel)]="billPeriodFilter"
+            [filter]="false"
+            (onChange)="applyFilters()"
+             >
+          </p-multiSelect>
+        </div>
+          <div class="search" *ngIf=" userRole !== 'USER'">
+            <p-multiSelect 
+            [options]="locationList" 
+            placeholder="Complex"
+            [(ngModel)]="locationFilter"
+            optionLabel = "LOCATION_CODE"
+            [filter]="false"
+            (onChange)="applyFilters()"
+             >
+             <ng-template let-selectedValue pTemplate="selectedItem">
+              {{ selectedValue.LOCATION }}
+          </ng-template>
+          </p-multiSelect>
+        </div>
+          <div class="search" *ngIf=" userRole !== 'USER'">
+            <p-multiSelect 
+            [options]="complexList" 
+            placeholder="Property"
+            [(ngModel)]="propertyFilter"
+            optionLabel = "PROPERTY_CODE"
+            [filter]="false"
+            (onChange)="applyFilters()"
+             >
+             <ng-template let-selectedValue pTemplate="selectedItem">
+              {{ selectedValue.PROPERTY_CODE }}
+          </ng-template>
+          </p-multiSelect>
+        </div>
+        <div class="search" *ngIf="userRole !== 'USER'">
+          <p-multiSelect
+              [options]="allAlloteList"
+              placeholder="Allote Name"
+              [(ngModel)]="alloteFilter"
+              [filter]="false"
+              [maxSelectedLabels]="3"
+              (onChange)="applyFilters()"
+          >
+              <!-- Custom template for dropdown items -->
+              <ng-template let-option pTemplate="item">
+                  {{ option | slice:0:14 }} <!-- Limit dropdown item to 5 characters -->
+              </ng-template>
+              <ng-template let-selectedValue pTemplate="selectedItem">
+                {{ selectedValue | slice:0:14 }}
+            </ng-template>
+          </p-multiSelect>
+      </div>
+        </div>
+        <div class="btn" *ngIf="userRole === 'USER'">
+          <p style="color: red;">Total Due: {{totalDue}}</p>
+        </div>
+      <div class="dialog">
+        <!-- <div class="btn"  *ngIf="userRole === 'RI' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'">
+          <button  class="addbutton" (click)="generateAllBills()">Generate Bills</button>
+        </div> -->
+       
+          <div class="btn">
+            <button class="addbutton" (click)="downloadExcel()" pTooltip="Download All Bills" tooltipPosition="bottom">
+              <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+            </button>
+          </div>       
+      </div>
+    </div>
   </ng-template>
   <ng-template pTemplate="header">
   <tr style="font-size: 12px; padding: 0;">
@@ -397,46 +486,12 @@
       <div *ngIf="!isDialogVisible" class="pay">
         <button (click)="PaymnetPage()" class="payButton" style="background-color: #28a745;">Confirm Amount</button>
       </div>
-      <div *ngIf="isDialogVisible" class="pay ">
-        <button (click)="openRazorpayCheckout()">Pay Now</button>
-      <!-- <button class="payButton" (click)="PaymnetPage()">Pay</button> -->
-      <!-- <form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
-        <input type="hidden" name="key_id" value={{razorpay_key_id}}/>
-        <input type="hidden" name="amount" value= '5200'/>
-        <input type="hidden" name="currency" value="INR"/>
-        <input type="hidden" name="order_id" value={{orderID}}/>
-        <input type="hidden" name="name" value="VMRDA"/>
-        <input type="hidden" name="description" value="Rental Services"/>
-        <input type="hidden" name="image" value="https://vmrda-prod-assests.s3.ap-south-1.amazonaws.com/vmrda_logo_image.png"/>
-        <input type="hidden" name="prefill[name]" value={{userDetailsObject.USER_NAME}}/>
-        <input type="hidden" name="prefill[contact]" value={{userDetailsObject.MOBILE_NUM}}/>
-        <input type="hidden" name="prefill[email]" value={{userDetailsObject.EMAIL_ID}}/>
-        <input type="hidden" name="cancel_url" value="https://api.vmrdarental.com/payment/verify"/>
-        <input type="hidden" name="callback_url" value="https://api.vmrdarental.com/payment/verify"/>
-  
-        <button class="payButton">Pay</button>
-      </form> -->
 
-      <!-- <form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
-        <input type="hidden" name="key_id" value="rzp_live_SoaxyQXKUe6WFi"/>
-        <input type="hidden" name="amount" value=10706.99/>
-        <input type="hidden" name="currency" value="INR"/>
-        <input type="hidden" name="order_id" value="order_PZIYXYXaR2VPz5"/>
-        <input type="hidden" name="name" value="Acme Corp"/>
-        <input type="hidden" name="description" value="A Wild Sheep Chase"/>
-        <input type="hidden" name="image" value="https://cdn.razorpay.com/logos/BUVwvgaqVByGp2_large.jpg"/>
-        <input type="hidden" name="prefill[name]" value="Gaurav Kumar"/>
-        <input type="hidden" name="prefill[contact]" value="9123456780"/>
-        <input type="hidden" name="prefill[email]" value="gaurav.kumar@example.com"/>
-        <input type="hidden" name="notes[shipping address]" value="L-16, The Business Centre, 61 Wellfield Road, New Delhi - 110001"/>
-        <input type="hidden" name="callback_url" value="https://example.com/payment-callback"/>
-        <input type="hidden" name="cancel_url" value="https://example.com/payment-cancel"/>
-        <button>Submit</button>
-      </form> -->
+
+      <div *ngIf="isDialogVisible" class="pay ">
+        <app-razorpay class="payButton" [userDetails]="userDetailsObject" [orderId]="orderID">
+      </app-razorpay>
       </div>
         </form>
     </p-dialog>
 </div>
-
-
-

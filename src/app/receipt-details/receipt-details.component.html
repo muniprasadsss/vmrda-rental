@@ -55,7 +55,10 @@
         
           </div>
         </div>
-          <div *ngIf=" userRole !== 'USER'">
+          <div *ngIf=" userRole !== 'USER' && userRole !== 'ACCOUNTS_TEAM'">
+            <button class="addbutton" (click)="downloadExcel()" pTooltip="Download receipt data" tooltipPosition="bottom" style="margin-right: 1rem;">
+              <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+            </button>
             <button  class="addbutton" (click)="showDialog()">+ Add Receipt</button>
           </div>
       </div>
@@ -103,7 +106,7 @@
         <td >{{ receipt.Current_Payment }}</td>
         <td >{{ receipt.Status }}</td>
         <td><i class="pi pi-download" pTooltip=" Download Receipt" tooltipPosition="left"
-          (click)="generatePDF(receipt)"></i></td>
+          (click)="getuserdataforreciept(receipt)"></i></td>
         <td *ngIf="receipt.attachment_url !== null" pTooltip=" Download Attachment " tooltipPosition="left"
         (click)="downloadFile(receipt.attachment_url)"><i class="pi pi-paperclip" style="color: slateblue"></i>
         </td>
@@ -143,7 +146,7 @@
           <input type="text" id="bill-no" class="form-input" formControlName="Property" />
         </div>
         <div class="form-group">
-          <label for="user-id" class="form-label">User Id</label>
+          <label for="user-id" class="form-label">User Name</label>
           <input type="text" id="user-id" class="form-input" formControlName="User"/>
         </div> 
       </div>

@@ -12,11 +12,12 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
   styleUrl: './spinner.component.scss'
 })
 export class SpinnerComponent {
-  isLoading!: Observable<boolean>;
+  // isLoading!: Observable<boolean>;
 
-  constructor(private loadingService: LoadingService) {}
+  constructor(public loadingService: LoadingService) {}
 
   ngOnInit(): void {
-    this.isLoading = this.loadingService.isLoading;
+    // this.isLoading = this.loadingService.isLoading;
   }
 }
+
