@@ -5,6 +5,9 @@ import { UserTaggingService } from '../services/userTagging/user-tagging.service
 import { usertagging } from '../interfaces/userTagging/usertagginginterface';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeRequestService } from '../services/changeRequest/change-request.service';
+import * as XLSX from 'xlsx';
+
 
 
 @Component({
@@ -28,15 +31,18 @@ export class UserTaggingsComponent implements OnInit {
   @ViewChild('dt2') dt!: any;
   value: any;
   propertyCode:any;
+  fileToUpload: any;
+  attachmentUrl:any = null;
   constructor(
     private toasterservice: ToastrService,
     private usertaggingservice: UserTaggingService,
     private fb: FormBuilder,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private Http: ChangeRequestService,
   ) {
     this.addNewForm = this.fb.group({
-      username: [null, Validators.required],
       user_id: [null, Validators.required],
+      attachment: [null, Validators.required],
       property: [null, Validators.required],
       start_date: [null, Validators.required],
       end_date: [null, Validators.required]
@@ -117,10 +123,44 @@ export class UserTaggingsComponent implements OnInit {
 
   // In user-taggings.component.ts
 
+  onFileChange(event: any) {
+    const files = event.target.files;
+    if (files.length > 0) { // Check if any file is selected
+      const file = files[0];
+      this.fileToUpload = file;
+      this.uploadAttachment(); // Trigger upload function if file exists
+    } else {
+      console.warn('No file selected');
+    }
+  }
+
+  uploadAttachment(){
+    let fd = new FormData();
+    fd.append('image',  this.fileToUpload);
+    this.Http.uploadAttachment(fd).subscribe({
+      next:(res:any)=>{
+        this.attachmentUrl = res.location;
+        this.fileToUpload = null;
+      },
+      error:(err:any)=>{
+
+      }
+    })
+  }
+
   addNewUser() {
     this.addNewForm.markAllAsTouched(); // checking all form fields are touched or not
     if (this.addNewForm.valid) {
-      this.usertaggingservice.createUserTagging(this.addNewForm.value).subscribe({
+      const formValues = this.addNewForm.value;
+
+      const payload = {
+        user_id: formValues.user_id,
+        start_date: formValues.start_date,
+        end_date: formValues.end_date,
+        property: formValues.property,
+        attachment:this.attachmentUrl|| null, // Include `attachment` as null if not provided
+      };
+      this.usertaggingservice.createUserTagging(payload).subscribe({
         next: (res) => {
           this.toasterservice.success("User added successfully");
           this.visible = false; // Close the dialog
@@ -170,6 +210,32 @@ export class UserTaggingsComponent implements OnInit {
       });
     } else {
     }
+  }
+
+  closeaddDialog(){
+    this.visible=false;
+    this.addNewForm.reset();
+  }
+
+  closeeditDialog(){
+    this.editVisible=false;
+    this.editForm.reset();
+  }
+
+  downloadFile(url: string) {
+    if (url) {
+      // Open the S3 URL in a new tab
+      window.open(url, '_blank');
+    } else {
+      console.error('No attachment URL provided');
+    }
+  }
+
+  downloadExcel(){
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource); // Convert table to sheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+    XLSX.writeFile(wb, 'tenanttagging-data.xlsx'); // Write the file
   }
 
 }

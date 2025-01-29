@@ -29,4 +29,9 @@ export class ReceptDetailsService {
     return this.http.post<any>(`${this.apiUrl}/receipt/filterReceiptData`, updateData); // Updated endpoint
   }
 
+  getuserdataforreciept(USER_ID:string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/getUserInfobyId`,{USER_ID});
+  }
+
+
 }

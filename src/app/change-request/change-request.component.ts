@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { DummyUserService } from '../services/dummyUser/dummy-user.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { UserServiceService } from '../services/userService/user-service.service';
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-change-request',
@@ -84,10 +86,9 @@ export class ChangeRequestComponent implements OnInit {
   initializeForm() {
     this.addRequestForm = this.fb.group({
       userId: [{ value: this.userID, disabled: true }, Validators.required],
-      requestType: [{ value: ''}, Validators.required],
-      attachment: [{ value: null }, Validators.required],
+      requestType: [{ value: null}, Validators.required],
       propertyCode: [{ value: null }, Validators.required],
-      description: ['', Validators.required]
+      description: [null, Validators.required]
     });
   }
 
@@ -111,6 +112,10 @@ export class ChangeRequestComponent implements OnInit {
       next:(res:any)=>{
         this.attachmentUrl = res.location;
         this.fileToUpload = null;
+        this.addRequestForm.patchValue({
+          attachment: this.attachmentUrl,
+      });
+      
       },
       error:(err:any)=>{
 
@@ -226,7 +231,13 @@ export class ChangeRequestComponent implements OnInit {
   }
 
   addRequestDiv(){
-    this.addrequestdata=true;
+    this.addrequestdata = !this.addrequestdata;
+    this.addRequestForm.reset();
+    this.attachmentUrl = null;
+    const fileInput = document.getElementById('fileupload') as HTMLInputElement;
+    if (fileInput) {
+        fileInput.value = '';
+    }
   }
 
   onHide() {
@@ -327,13 +338,6 @@ getUserDatabyId(userID: any) {
     this.addRequestForm.markAllAsTouched();
     if (this.addRequestForm.valid) {
       const formData = this.addRequestForm.value;
-       // Check if a file has been uploaded
-      if (!this.attachmentUrl) {
-      console.error('File is required.');
-      this.toasterservice.error("File is required."); // Notify user
-      return; // Exit early if no file is uploaded
-      }
-
       // Prepare the payload to be sent to the API
       const payload = {
         username: this.userInfo.USER_NAME,
@@ -353,12 +357,25 @@ getUserDatabyId(userID: any) {
           this.toasterservice.success("Change request raised successfully");
           this.addRequestForm.reset(); // Reset the form after successful submission
           this.getcrInfo(); // Refresh the data
+          this.attachmentUrl = null;
+          const fileInput = document.getElementById('fileupload') as HTMLInputElement;
+    if (fileInput) {
+        fileInput.value = '';
+    }
         },
         error: (error) => {
           console.error('Error sending data:', error);
         }
       });
     } 
+  }
+
+  downloadExcel(){
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.crData); // Convert table to sheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append the sheet to the workbook
+    XLSX.writeFile(wb, 'grievance-data.xlsx'); // Write the file
+
   }
 
 }

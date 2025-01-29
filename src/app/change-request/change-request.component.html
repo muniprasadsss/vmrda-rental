@@ -15,6 +15,9 @@
                     </p-iconField>
                 </div>
                 <div>
+                    <button class="addbutton" (click)="downloadExcel()" pTooltip="Download grievance data" tooltipPosition="bottom" style="margin-right: 1rem;">
+                        <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+                    </button>
                     <button class="closedButton" (click)="RejectedDiv()">Closed Tickets</button>
                     <span style="border-left: 5px solid white;height: 1rem;"></span>
                     <button *ngIf="userRole === 'USER'" class="addNewButton" (click)="addRequestDiv()">New
@@ -32,7 +35,7 @@
                 <th pResizableColumn pSortableColumn="revenuedivision">Revenue Division <p-sortIcon field="revenuedivision"></p-sortIcon>
                 </th>
                 <th pResizableColumn >Description</th>
-                <th pResizableColumn >Property Code</th>
+                <th pResizableColumn >Property Name</th>
                 <th pResizableColumn  pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon></th>
                 <th pResizableColumn  pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
                 <th pResizableColumn  *ngIf="userRole !== 'USER'" pSortableColumn="stage">Stage <p-sortIcon field="stage"></p-sortIcon>
@@ -191,10 +194,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="fileupload" class="form-label">Upload <span class="text-danger" >*</span></label>
-                    <input type="file" id="fileupload" class="form-input" (change)="onFileChange($event)" />
+                    <label for="fileupload" class="form-label">Upload </label>
+                    <input 
+                        type="file" 
+                        id="fileupload" 
+                        class="form-input" 
+                        (change)="onFileChange($event)" />
                     <small class="input-format-info">Upload file size limit: 10MB</small>
                 </div>
+                
 
             </div>
             <div class="form-row">
@@ -211,7 +219,7 @@
             </div>
             <div class="btn">
                 <p-button type="submit" label="Submit" size="small" (click)="onSubmit()"></p-button>
-                <p-button label="Cancel" severity="danger" size="small" (click)="addrequestdata = false"></p-button>
+                <p-button label="Cancel" severity="danger" size="small" (click)="addRequestDiv()"></p-button>
             </div>
         </form>
     </div>

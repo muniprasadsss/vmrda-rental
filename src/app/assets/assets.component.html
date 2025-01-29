@@ -21,7 +21,10 @@
                     *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"
                     label=" + Add New" severity="success" size="small" /> -->
                 <div *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
-             <button class="addbutton" (click)="showDialog()">+ Add New Assets</button>
+                    <button class="addbutton" (click)="downloadExcel()" pTooltip="Download assets data" tooltipPosition="bottom" style="margin-right: 1rem;">
+                        <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+                    </button>
+                    <button class="addbutton" (click)="showDialog()">+ Add New Assets</button>
                 </div>   
             </div>
         </ng-template>
@@ -48,7 +51,7 @@
                 <td >{{ location.EXTENT }}</td>
                 <td >{{ location.FLOOR }}</td>
                 <td >{{ location.PRESENT_RENT }}</td>
-                <td >{{ location.property_name }}</td>
+                <td >{{ location.PROPERTY_NAME }}</td>
                 <td >{{ location.REVENUE_DIVISION }}</td>
                 <td >{{ location.STATUS }}</td>
                 <td >{{ location.TYPE_OF_PROPERTY }}</td>
@@ -75,7 +78,7 @@
 
 <!-- Edit Dialog  -->
 
-<p-dialog header="Edit Asset" [modal]="true" [(visible)]="editVisible" position="center" [style]="{ width: '50rem' }">
+<p-dialog header="Edit Asset" [modal]="true" [(visible)]="editVisible" position="center" [style]="{ width: '50rem' }" (onHide)="closeeditDialog()">
     <form [formGroup]="editForm" (ngSubmit)="onUpdate()">
         <div class="form-container">
             <div class="form-row">
@@ -180,14 +183,14 @@
             <p-button label="Cancel" severity="danger" (onClick)="editVisible = false" size="small" />
         </div>
     </form>
-</p-dialog>
+</p-dialog>                                                                                                                                        
 
 
 <!-- add new dialog -->
  
 <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'CO_ADMIN' || userRole === 'ADMIN' || userRole === 'CO_ADMIN' || userRole === 'CAO')">
     <p-dialog header="Add New Asset" [modal]="true" [(visible)]="addvisible" position="center"
-        [style]="{ width: '50rem' }">
+        [style]="{ width: '50rem' }" (onHide)="closeaddDialog()">
         <form [formGroup]="locationForm" (ngSubmit)="onSave()">
             <div class="form-container">
                 <div class="form-row">
@@ -355,7 +358,7 @@
                     <p-button label="Save" type="submit" size="small" />
                 </div>
                 <div class="save">
-                    <p-button label="Cancel" severity="danger" (onClick)="addvisible = false" size="small" />
+                    <p-button label="Cancel" severity="danger" (click)="closeaddDialog()" size="small" />
                 </div>
             </div>
         </form>

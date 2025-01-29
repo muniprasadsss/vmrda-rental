@@ -1,0 +1,18 @@
+import { Injectable } from '@angular/core';
+import { environment } from '../configuration';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+@Injectable({
+  providedIn: 'root'
+})
+export class ReportsServiceService {
+
+  apiUrl = environment.apiUrl
+
+  constructor(private http:HttpClient) { }
+
+  getBillSDemand(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/bills-demand`)    
+  }
+
+}

@@ -1,9 +1,9 @@
 <div class="parent">
-    <div class="header" *ngIf="isAuthenticated && showComponents"><app-header></app-header></div>
-    <div class="dashboard" *ngIf="isAuthenticated && showComponents"><app-dashboard></app-dashboard></div>
+    <div class="header" *ngIf="(authService.isAuthenticated$ | async) && showComponents"><app-header></app-header></div>
+    <div class="dashboard" *ngIf="(authService.isAuthenticated$ | async) && showComponents"><app-dashboard></app-dashboard></div>
     <div class="content">
         <app-spinner></app-spinner>
         <router-outlet></router-outlet>
     </div>
-    <div class="footer-content-dashboard" *ngIf="isAuthenticated && showComponents"><app-footer></app-footer></div>
+    <div class="footer-content-dashboard" *ngIf="(authService.isAuthenticated$ | async) && showComponents"><app-footer></app-footer></div>
 </div>

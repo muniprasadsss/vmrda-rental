@@ -32,8 +32,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private router: Router, private authService: AuthGuardsService,private fb: FormBuilder,private profileService:ProfileSettingsService,private toasterservice:ToastrService) {
     this.profileForm = this.fb.group({
-      USER_ID: [{ value: '',disabled : true }, Validators.required],
-      USER_NAME: [{ value: '',disabled: true }, Validators.required],
+      USER_ID: [{ value: '',disabled : true }],
+      USER_NAME: [{ value: '',disabled: true }],
       USER_TYPE: [{ value: '', disabled: true }],
       REVENUE_DIVISION: [{ value: '', disabled: true }],
       EMAIL_ID: [{ value: '' }, [Validators.required, Validators.email]],
@@ -44,9 +44,9 @@ export class HeaderComponent implements OnInit {
       NATURE_OF_BUSINESS: [{ value: '', disabled: true }],
     });
     this.passwordform = this.fb.group({
-      oldPassword: [''],
-      newPassword: [''],
-      ConfirmnewPassword: [''],
+      oldPassword: [null,Validators.required],
+      newPassword: [null,Validators.required],
+      ConfirmnewPassword: [null,Validators.required],
     });
   }
 
@@ -186,8 +186,13 @@ export class HeaderComponent implements OnInit {
           this.profileService.changePassword(senddata).subscribe(
             response => {
               console.log('Password changed successfully:', response);
-              this.toasterservice.success('Password changed successfully!'); // Show success message
-              this.changePasswordDialog = false; // Close the dialog
+              this.toasterservice.success('Password changed successfully!'); 
+              // Update the password in local storage
+              this.localStoragePassword.Password = new_password;
+              // Save updated userInfo back to local storage
+              localStorage.setItem('userInfo', JSON.stringify(this.localStoragePassword));
+              this.changePasswordDialog = false; 
+              this.passwordform.reset(); 
             },
             error => {
               console.error('Error changing password:', error);
@@ -306,6 +311,16 @@ export class HeaderComponent implements OnInit {
   
   preventCut(event: ClipboardEvent) {
     event.preventDefault();
+  }
+
+  closeChangePasswordDialog() {
+    this.changePasswordDialog = false;
+    this.passwordform.reset();
+  }
+
+  closepassworddialog(){
+    this.changePasswordDialog=false;
+    this.passwordform.reset();
   }
   
 }
