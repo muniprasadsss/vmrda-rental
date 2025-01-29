@@ -3,13 +3,16 @@ phases:
   install:
     commands:
       - echo Installing dependencies...
-      - npm install # Install Node.js dependencies
-      - npm install -g @angular/cli # Install Angular CLI globally
-      - cd frontend && npm install # Install Angular dependencies
+      - sudo chown -R $(whoami) frontend # Fixing permission issues
+      - cd frontend
+      - echo Installing Angular CLI globally...
+      - npm install -g @angular/cli
+      - echo Installing Angular project dependencies...
+      - npm install # Install dependencies for the frontend
   build:
     commands:
       - echo Building Angular app...
-      - cd frontend && ng build --prod # Build Angular app for production
+      - ng build --prod # Build Angular app for production
   post_build:
     commands:
       - echo Angular build completed.
@@ -18,5 +21,5 @@ artifacts:
     - '**/*'
     - '!node_modules/**/*'
   discard-paths: yes
-  base-directory: 'frontend/dist' # Angular's dist folder
+  base-directory: 'frontend/dist' # Angular's dist folder (adjust if necessary)
   name: angular-artifacts.zip
