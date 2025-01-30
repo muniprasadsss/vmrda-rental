@@ -26,7 +26,7 @@ phases:
       - npx ng build
 artifacts:
   files:
-    - 'frontend/dist/**/*'
+    - 'frontend/dist/vmrda/browser/**/*'
     - 'appspec.yml'
     - 'scripts/**/*'
     - 'frontend/runpp.sh'
