@@ -4,7 +4,11 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 20  # Ensure this is compatible with your Angular version
+      nodejs: 12
+      python: 3.8
+    commands:
+      - echo Installing Mocha...
+  pre_build:  # Ensure this is compatible with your Angular version
     commands:
       - echo "Node.js version:"
       - node -v  # Log Node version to verify
