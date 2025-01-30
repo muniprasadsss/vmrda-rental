@@ -3,11 +3,16 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 20  # Ensure this is compatible with your Angular version
+      nodejs: 20
     commands:
+      - echo "Node.js version:"
+      - node -v  # Log Node version to verify
+      - echo "npm version:"
+      - npm -v  # Log npm version to verify
+      - echo "Listing files in the directory:"
+      - ls -alh  # List files in the current directory for visibility
       - echo "Installing dependencies..."
-      - npm install  # Avoid sudo, run as the default user in CodeBuild
-
+      - npm install  # Try without sudo
   build:
     commands:
       - echo "Building the Angular frontend..."
