@@ -28,6 +28,7 @@ artifacts:
   files:
     - 'frontend/dist/**/*'
     - 'appspec.yml'
+    - 'scripts/**/*'
     - 'frontend/runpp.sh'
     - 'frontend/node_modules/**/*'
     
