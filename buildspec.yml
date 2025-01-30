@@ -37,7 +37,7 @@ artifacts:
       - echo Installing Angular CLI...
       - npm install -g @angular/cli  # Install Angular CLI globally
       - echo Installing project dependencies...
-      - npm install  # Install local dependencies
+      - sudo npm install  # Install local dependencies
 
   build:
     commands:
