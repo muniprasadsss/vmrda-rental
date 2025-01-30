@@ -18,7 +18,7 @@ phases:
     commands:
       - echo "Building the Angular frontend..."
       - cd frontend
-      - ng build --configuration=production --output-path=dist
+      - ng build --configuration production
 
   post_build:
     commands:
