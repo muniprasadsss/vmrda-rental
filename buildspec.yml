@@ -3,24 +3,22 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 20
+      nodejs: 20  # Ensure this is compatible with your Angular version
     commands:
-      - echo Installing Angular CLI...
-      - npm install -g @angular/cli  # Install Angular CLI globally
-      - echo Installing project dependencies...
-      - sudo npm install  # Install local dependencies
+      - echo "Installing dependencies..."
+      - npm install  # Avoid sudo, run as the default user in CodeBuild
 
   build:
     commands:
-      - echo Building the Angular frontend...
+      - echo "Building the Angular frontend..."
       - cd frontend
       - ng build --configuration=production --output-path=dist
 
   post_build:
     commands:
-      - echo Checking dist directory...
-      - cd frontend/dist  # Ensure this directory exists after build
+      - echo "Post build steps"
+      - cd frontend/dist
 
 artifacts:
   files:
-    - frontend/dist/**/*  # Ensure that CodeBuild knows where to find the build artifacts
+    - frontend/dist/**/*  # Ensure correct output path
