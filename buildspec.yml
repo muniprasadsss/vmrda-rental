@@ -23,7 +23,7 @@ phases:
       - echo pwd
       - pwd
       - echo Build started on `date`
-      - node_modules/@angular/cli/bin/ng build --aot --prod
+      - npx ng build --aot --prod
 artifacts:
   files:
     - 'frontend/dist/**/*'
