@@ -5,23 +5,22 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
-      - echo "Installing dependencies..."
-      - npm install -g @angular/cli
-      - cd frontend && npm install
+      - echo Installing Angular CLI...
+      - npm install -g @angular/cli  # Install Angular CLI globally
+      - echo Installing project dependencies...
+      - npm install  # Install local dependencies
 
   build:
     commands:
-      - echo "Building frontend..."
-      - cd frontend && ng build --configuration=production --output-path=dist
+      - echo Building the Angular frontend...
+      - cd frontend
+      - ng build --configuration=production --output-path=dist
 
   post_build:
     commands:
-      - echo "Creating deployment package..."
-      - cd frontend/dist
-      - zip -r ../../frontend.zip .
-      - cd ../..
+      - echo Checking dist directory...
+      - cd frontend/dist  # Ensure this directory exists after build
 
 artifacts:
   files:
-    - frontend.zip
-  discard-paths: yes
+    - frontend/dist/**/*  # Ensure that CodeBuild knows where to find the build artifacts
