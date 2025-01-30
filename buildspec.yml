@@ -12,7 +12,7 @@ phases:
       - echo "Listing files in the directory:"
       - ls -alh  # List files in the current directory for visibility
       - echo "Installing dependencies..."
-      - npm install  # Try without sudo
+      # - npm install  # Try without sudo
   build:
     commands:
       - echo "Building the Angular frontend..."
