@@ -6,7 +6,7 @@ echo "Starting Deployment..."
 cd /var/www/html
 
 # Remove old files
-sudo rm -rf *
+# sudo rm -rf *
 
 # Move new build files
 sudo cp -r /opt/codedeploy-agent/deployment-root/deployment-archive/frontend/dist/* /var/www/html/
