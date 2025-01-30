@@ -2,32 +2,26 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 20
     commands:
       - echo "Installing dependencies..."
-      # - apt update -y
-      # - apt install -y awscli
-  pre_build:
-    commands:
-      - echo "Verifying AWS CLI..."
-      - aws --version
-      - aws s3 ls s3://vmrda-build/artifacts/ || echo "S3 access denied!"
+      - npm install -g @angular/cli
+      - cd frontend && npm install
+
   build:
     commands:
-      - echo "Building project..."
-      - rm -rf node_modules
-      - rm -f package-lock.json
-      - npm install --legacy-peer-deps
-      - npm run build
-      - echo "Checking if dist directory is created..."
-      - ls -la dist/
+      - echo "Building frontend..."
+      - cd frontend && ng build --configuration=production --output-path=dist
+
   post_build:
     commands:
-      - echo "Deploying to S3..."
-      - if [ -d "dist" ]; then aws s3 sync dist/ s3://vmrda-build/artifacts/ --delete; else echo "No dist folder, skipping upload."; fi
-      - echo "Deployment complete."
+      - echo "Creating deployment package..."
+      - cd frontend/dist
+      - zip -r ../../frontend.zip .
+      - cd ../..
 
 artifacts:
   files:
-    - '**/*'
+    - frontend.zip
   discard-paths: yes
-  base-directory: dist/
