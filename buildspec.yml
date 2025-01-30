@@ -23,7 +23,7 @@ phases:
       - echo pwd
       - pwd
       - echo Build started on `date`
-      - node --max_old_space_size=13312 node_modules/@angular/cli/bin/ng build --aot=true --prod
+      - node_modules/@angular/cli/bin/ng build --aot --prod
 artifacts:
   files:
     - 'frontend/dist/**/*'
