@@ -6,11 +6,14 @@ phases:
     runtime-versions:
       nodejs: 20  # Ensure this is compatible with your Angular version
     commands:
-      - echo Installing Angular CLI...
-      - npm install -g @angular/cli  # Install Angular CLI globally
-      - echo Installing project dependencies...
-      - sudo npm install  # Install local dependencies
-
+      - echo "Node.js version:"
+      - node -v  # Log Node version to verify
+      - echo "npm version:"
+      - npm -v  # Log npm version to verify
+      - echo "Listing files in the directory:"
+      - ls -alh  # List files in the current directory for visibility
+      - echo "Installing dependencies..."
+      - npm install  # Try without sudo
   build:
     commands:
       - echo "Building the Angular frontend..."
