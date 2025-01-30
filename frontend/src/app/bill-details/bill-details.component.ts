@@ -688,7 +688,8 @@ currentY += lineHeight * 2;
       tds: this.sentDisabledFieldValues.tds,
       description: `Payment for ${this.selectedBill.Property}`,
       email: this.userDetailsObject.EMAIL_ID,
-      phone: this.userDetailsObject.MOBILE_NUM
+      phone: this.userDetailsObject.MOBILE_NUM,
+      payment_mode : 'online web'
     }).subscribe({
       next:(res:any)=>{
         this.orderID = res.data.id;

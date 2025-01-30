@@ -1,27 +1,35 @@
+# Do not change version. This is the version of aws buildspec, not the version of your buldspec file.
 version: 0.2
 
 phases:
   install:
     runtime-versions:
-      nodejs: 20
+      nodejs: 12
+      python: 3.8
     commands:
-      - echo "Installing dependencies..."
-      - npm install -g @angular/cli
-      - cd frontend && npm install
-
+      - echo Installing Mocha...
+  pre_build:
+    commands:
+      - apt-get install build-essential
+      - echo Installing source NPM dependencies...
+      - npm update -g npm 
+      - cd frontend
+      - npm i yarn -g
+      - yarn add bcrypt-nodejs
+      - yarn install
+      - echo installing angular at global
+      - node -v
+      - npm -v
   build:
     commands:
-      - echo "Building frontend..."
-      - cd frontend && ng build --configuration=production --output-path=dist
-
-  post_build:
-    commands:
-      - echo "Creating deployment package..."
-      - cd frontend/dist
-      - zip -r ../../frontend.zip .
-      - cd ../..
-
+      - echo pwd
+      - pwd
+      - echo Build started on `date`
+      - node --max_old_space_size=13312 node_modules/@angular/cli/bin/ng build --aot=true --prod
 artifacts:
   files:
-    - frontend.zip
-  discard-paths: yes
+    - 'frontend/dist/**/*'
+    - 'appspec.yml'
+    - 'frontend/runpp.sh'
+    - 'frontend/node_modules/**/*'
+    
