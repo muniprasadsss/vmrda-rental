@@ -4,36 +4,8 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 22.12.0
+      nodejs: 20  # Ensure this is compatible with your Angular version
     commands:
-<<<<<<< HEAD
-      - echo Installing Mocha...
-  pre_build:
-    commands:
-      - apt-get install build-essential
-      - echo Installing source NPM dependencies...
-      - cd frontend
-      - npm i yarn -g
-      - yarn add bcrypt-nodejs
-      - yarn install
-      - echo installing angular at global
-      - node -v
-      - npm -v
-  build:
-    commands:
-      - echo pwd
-      - pwd
-      - echo Build started on `date`
-      - npx ng build
-artifacts:
-  files:
-    - 'frontend/dist/vmrda/browser/**/*'
-    - 'appspec.yml'
-    - 'scripts/**/*'
-    - 'frontend/runpp.sh'
-    - 'frontend/node_modules/**/*'
-    
-=======
       - echo Installing Angular CLI...
       - npm install -g @angular/cli  # Install Angular CLI globally
       - echo Installing project dependencies...
@@ -41,16 +13,15 @@ artifacts:
 
   build:
     commands:
-      - echo Building the Angular frontend...
+      - echo "Building the Angular frontend..."
       - cd frontend
       - ng build --configuration=production --output-path=dist
 
   post_build:
     commands:
-      - echo Checking dist directory...
-      - cd frontend/dist  # Ensure this directory exists after build
+      - echo "Post build steps"
+      - cd frontend/dist
 
 artifacts:
   files:
     - frontend/dist/**/*  # Ensure that CodeBuild knows where to find the build artifacts
->>>>>>> f742ab0 (Edit buildspec.yml)
