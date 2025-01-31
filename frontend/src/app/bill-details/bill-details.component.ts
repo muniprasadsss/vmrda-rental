@@ -667,8 +667,6 @@ currentY += lineHeight * 2;
   // Sent Edited Partial Payment amount to Payment Page 
 
   PaymnetPage() {
-    // const editedAmount = this.PaymentPopupform.value.due; // Get the edited amount
-    // const editedAmount = this.PaymentPopupform.get('due')?.value; // Get the edited amount
     this.amount = this.PaymentPopupform.get('due')?.value;  // Initialise edited amount
     const billNo = this.PaymentPopupform.get('billNo')?.value; // Access the disabled control
     const powerBill = this.PaymentPopupform.get('powerBillAmount')?.value; // Access the disabled control
