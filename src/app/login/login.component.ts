@@ -34,6 +34,8 @@ export class LoginComponent {
   isNewPassword: boolean = false; 
   timer: number = 60;
   isTimerActive: boolean = true;
+  isLoginFailed: boolean = false; // Flag to track login failure
+
 
   ngOnInit(){
    
@@ -59,14 +61,17 @@ export class LoginComponent {
             this.otpDiv= res.uservalid
             this.startTimer();
             localStorage.setItem('token', res.token);
+            this.isLoginFailed = true; // Set flag to true when login fails
           },
           error:(err:any)=>{
             this.toasterservice.warning("Please enter valid userID and password")
+            this.isLoginFailed = false; // Set flag to true when login fails
           }
         })  
       }
       else{
         this.toasterservice.warning("Please enter valid userID and password")
+        this.isLoginFailed = false; // Set flag to true when login fails
       }
     }
 
