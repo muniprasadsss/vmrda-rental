@@ -29,7 +29,7 @@
       </div>
       <div class="input-group">
         <input id="username" type="text" pInputText [(ngModel)]="userID" name="username" #usernameCtrl="ngModel"
-          required placeholder="Enter User Id" />
+          required placeholder="Enter User Id" [disabled]="isLoginFailed" />
           <div *ngIf="usernameCtrl.invalid && usernameCtrl.touched" class="error" >
             Username is required
           </div>
@@ -37,7 +37,7 @@
       </div>
       <div class="input-group" style="margin-top: 1rem;">
         <input id="password" type="password" pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
-          required placeholder="Enter Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" />
+          required placeholder="Enter Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" [disabled]="isLoginFailed"/>
           <!-- <p-password [feedback]="false" [toggleMask]="true"  pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
           required placeholder="Enter Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" /> -->
 

@@ -21,8 +21,7 @@ ngOnInit(): void {
 
   this.userType=localStorage.getItem('userId')
 
-  if(this.userType === 'AO' || this.userType === 'SECRETARY' || this.userType === 'COMMISSIONER' ||
-     this.userType === 'ADMIN' || this.userType === 'CO_ADMIN' || this.userType === 'ACCOUNTS_TEAM' || this.userType === 'JOINTCOMMISSIONER' || this.userType === 'IT-TEAM'){
+  if(this.userType === 'AO' || this.userType === 'SECRETARY' || this.userType === 'COMMISSIONER' || this.userType === 'ADMIN' || this.userType === 'CO_ADMIN' || this.userType === 'ACCOUNTS_TEAM' || this.userType === 'JOINTCOMMISSIONER' ){
     this.reportUrl = 'https://app.powerbi.com/view?r=eyJrIjoiYzBlYzBmOTUtMmFiZi00NWY0LTk4MWItYTBjZDYxODE2ZDE2IiwidCI6IjM5MmFlNDIzLWFiZTktNDIxOS1iMTU5LTBhZTc3YWMxOWZjYSJ9'
   }
   else if(this.userType === 'RI-1'){

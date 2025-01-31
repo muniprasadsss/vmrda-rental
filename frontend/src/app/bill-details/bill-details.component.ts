@@ -97,7 +97,7 @@ export class BillDetailsComponent implements OnInit {
       total: [{ value: null, disabled: true }],
       paymentAmount: [{ value: null, disabled: true }],
       tds: [{ value: null, disabled: true }],
-      due: [{ value: null }]
+      due: [{ value: null,disabled: true }]
     });
    }
 
@@ -667,9 +667,9 @@ currentY += lineHeight * 2;
   // Sent Edited Partial Payment amount to Payment Page 
 
   PaymnetPage() {
-    const editedAmount = this.PaymentPopupform.value.due; // Get the edited amount
-    this.amount = editedAmount                            // Initialise edited amount
-    console.log(this.amount,"edited form amount...");
+    // const editedAmount = this.PaymentPopupform.value.due; // Get the edited amount
+    // const editedAmount = this.PaymentPopupform.get('due')?.value; // Get the edited amount
+    this.amount = this.PaymentPopupform.get('due')?.value;  // Initialise edited amount
     const billNo = this.PaymentPopupform.get('billNo')?.value; // Access the disabled control
     const powerBill = this.PaymentPopupform.get('powerBillAmount')?.value; // Access the disabled control
     const waterBill = this.PaymentPopupform.get('waterBillAmount')?.value; // Access the disabled control
@@ -689,7 +689,7 @@ currentY += lineHeight * 2;
       description: `Payment for ${this.selectedBill.Property}`,
       email: this.userDetailsObject.EMAIL_ID,
       phone: this.userDetailsObject.MOBILE_NUM,
-      payment_mode : 'online web'
+      payment_mode:'online web'
     }).subscribe({
       next:(res:any)=>{
         this.orderID = res.data.id;
