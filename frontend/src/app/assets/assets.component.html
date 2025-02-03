@@ -13,6 +13,7 @@
                         <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
                     </p-iconField>
                 </div>
+                
                 <div class="search">
                     <p-dropdown [options]="complex" (onChange)="onSelectGlobal($event.value)"
                         placeholder="Select Location" />
