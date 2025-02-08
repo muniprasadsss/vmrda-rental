@@ -35,11 +35,9 @@ ngOnInit(): void {
   }
 
       window.open(this.reportUrl,'_blank')
-      if( this.userType === 'USER'){
+
         this.route.navigateByUrl("billDetails")
-      }else{
-        this.route.navigateByUrl("user")
-      }
+
     }
 
   // Fetch billing data from the API
