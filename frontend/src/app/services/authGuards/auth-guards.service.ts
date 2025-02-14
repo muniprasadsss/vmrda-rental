@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { BehaviorSubject, interval, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../login/login.service';
+import { LoginService } from '../login/login.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class AuthGuardsService implements CanActivate {
   private tokenCheckInterval: Subscription | undefined;
    sessionMessageSource = new BehaviorSubject<string>(''); // Holds session message
    private hasVisited: boolean;
-  constructor(private router: Router,private http: HttpClient, private loginService: LoginService) {
+  constructor(private router: Router,private http: HttpClient,private loginService:LoginService, ) {
     this.checkInitialAuth();
     this.hasVisited = localStorage.getItem('hasVisited') === 'true';
   }
@@ -110,21 +111,21 @@ export class AuthGuardsService implements CanActivate {
 
   logout() {
     const userId = localStorage.getItem('userId');
-    if(userId !== null){
-      const data = {
-        user_id: userId,
-      }
-      this.loginService.logout(data).subscribe({
-      
-        next:(res:any)=>{
-          console.log(res);
-        },
-        error:(err:any)=>{
-          console.log(err);
-        }
-      });
+    const token = localStorage.getItem('token');
+    const data = {
+      user_id: userId,
+      token: token
     }
-   
+    this.loginService.logout(data).subscribe({
+    
+      next:(res:any)=>{
+        console.log(res);
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    });
+    localStorage.removeItem('token'); 
     localStorage.removeItem('user');
     localStorage.removeItem('role');
     localStorage.removeItem('userId');
