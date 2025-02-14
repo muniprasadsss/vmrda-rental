@@ -164,7 +164,7 @@ generatePDF(receipt: any,username:any) {
   doc.setFont('helvetica', 'normal');
   doc.text(`Date: `, doc.internal.pageSize.width - margins.right - 45, currentY);
   doc.setFont('helvetica', 'bold');
-  doc.text(`${currentDate}`, doc.internal.pageSize.width - margins.right - 30, currentY);
+  doc.text(`${receipt.paid_date}`, doc.internal.pageSize.width - margins.right - 30, currentY);
   currentY += lineHeight * 2;
 
   // Dynamic content

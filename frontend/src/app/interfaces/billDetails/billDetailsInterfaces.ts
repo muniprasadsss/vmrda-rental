@@ -1,21 +1,24 @@
 export interface billDetails {
     s_no: boolean;
-    Bill_No: boolean;
+    BillNo: boolean;
     User_ID: boolean;
     Property_Code: boolean;
     Lease_Period: boolean;
     Lease_Amount: boolean;
     GST: boolean;
-    Lease_Interest: boolean;
+    Rental_interest_percent: boolean;
     GST_Interest: boolean;
-    Power_Bill_Amount: boolean;
-    Water_Bill_Amount: boolean;
-    Maintainence_Amount: boolean;
+    Maintainance_bill: boolean;
     Bill_Generate_Date: boolean;
     Total_Amount: boolean;
     Payment_Date:number;
-    Total_Due:number;
+    Total:number;
+    TDS:number;
   Status: string;
+  property_name: string;
+  Rental_lease_amount_permonth: number;
+  Power_bill: number;
+  Water_bill: number;
   Due: any;
   BillStatus: string;
   }
