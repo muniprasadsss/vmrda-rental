@@ -102,6 +102,13 @@ html {
 .checkbox-group input {
   margin-right: 10px;
 }
+.buttonDiv{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 
 .signin-btn {
   padding: 10px;
@@ -111,6 +118,7 @@ html {
   font-size: 1em;
   cursor: pointer;
   border-radius: 5px;
+  width: 15rem;
 }
 
 .signin-btn:hover {

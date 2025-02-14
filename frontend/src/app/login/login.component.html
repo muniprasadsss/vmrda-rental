@@ -63,7 +63,7 @@
           </div>
       </div>
       <!-- Submit buttons -->
-      <div class="buttonDiv" style="margin-top: 20px;display: flex;flex-direction: column;align-items: center;">
+      <div class="buttonDiv" >
         <div>
           <button class="signin-btn" type="submit" (click)="Login(loginForm)" *ngIf="!otpDiv">
             Sign in 
@@ -106,7 +106,7 @@
 
 
       <!-- Submit buttons -->
-      <div class="buttonDiv" style="margin-top: 20px;display: flex;flex-direction: column;align-items: center;">
+      <div class="buttonDiv" >
         <div>
           <button class="signin-btn" type="submit" (click)="ForgotPassword(forgotpasswordform)" *ngIf="!otpDiv && !isNewPassword">
             Verify User

@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { BillDetailsService } from '../services/billDetails/bill-details.service';
 import { ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators,AbstractControl, ValidationErrors } from '@angular/forms';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { DatePipe } from '@angular/common';
@@ -45,6 +45,7 @@ export class BillDetailsComponent implements OnInit {
   notPaidBills!: billDetails[];
   paidBills!: billDetails[];
   showPayPopup:boolean=false;
+  showPayAllPopup:boolean=false;
   PaymentPopupform!: FormGroup;
   selectedBill: any;
   PartialPaidAmount!: number;
@@ -62,8 +63,9 @@ export class BillDetailsComponent implements OnInit {
   sentDisabledFieldValues:any
   isDialogVisible: boolean = false;
   paymentMessage: string = '';
-  complexList:[] = [];
-  locationList:[] = [];
+  complexList:any;
+  propertyList:any;
+  locationList:any;
   billPeriod:[] = [];
   allAlloteList:[] = [];
   propertyFilter:any[] = [];
@@ -74,6 +76,10 @@ export class BillDetailsComponent implements OnInit {
   billnotpaidCount: number = 0;
   totalDue: any;
   billStatus: any[] = [];
+  billNumbers: any;
+  propertyNames: any[] | undefined;
+  AddBillForm:FormGroup
+showAddBillPopup: any;
   constructor(private billDetailService: BillDetailsService,
               private Http: ChangeRequestService,
               private cd: ChangeDetectorRef,
@@ -97,14 +103,11 @@ export class BillDetailsComponent implements OnInit {
       total: [{ value: null, disabled: true }],
       paymentAmount: [{ value: null, disabled: true }],
       tds: [{ value: null, disabled: true }],
-      due: [{ value: null }]
+      due: [{ value: null ,disabled:true}],
+      allPropertycode: [{ value: null }],
+      allBillNos: [{ value: null }],
     });
-   }
 
-   billStatusFilter = [ 'Partially Paid','Not Paid' ];
-
-  ngOnInit(): void {
-      
     this.form = new FormGroup({
       s_no: new FormControl({ value: null, disabled: true }, Validators.required),
       bill_no: new FormControl({ value: null, disabled: true }, Validators.required),
@@ -121,8 +124,51 @@ export class BillDetailsComponent implements OnInit {
       // Arrears: new FormControl(null, Validators.required),
       tds: new FormControl(null),
     });
-    
 
+    
+    this.form = new FormGroup({
+      s_no: new FormControl({ value: null, disabled: true }, Validators.required),
+      bill_no: new FormControl({ value: null, disabled: true }, Validators.required),
+      user_id: new FormControl({ value: null, disabled: true }, Validators.required),
+      property_code: new FormControl({ value: null, disabled: true }, Validators.required),
+      lease_period: new FormControl({ value: null, disabled: true }, Validators.required),
+      lease_Amount: new FormControl({ value: null, disabled: true }, Validators.required),
+      gst: new FormControl({ value: null, disabled: true }, Validators.required),
+      power_bill_amount: new FormControl(null, Validators.required),
+      water_bill_amount: new FormControl(null, Validators.required),
+      maintenance_amount: new FormControl(null, Validators.required),
+      lease_interests: new FormControl({ value: null, disabled: true }, Validators.required),
+      total: new FormControl(null, Validators.required),
+      // Arrears: new FormControl(null, Validators.required),
+      tds: new FormControl(null),
+    });
+
+    // add bill manuallay 
+    this.AddBillForm = this.fb.group({
+      User: [null, Validators.required],
+      Property: [null],
+      Bill_generated_date: [null],
+      Rental_lease_amount_permonth: [null],
+      GST: [null],
+      Power_bill: [null],
+      Maintainance_bill: [null],
+      Water_bill: [null],
+      Rental_interest_percent: [null],
+      Total_rental_interest: [null],
+      Total: [null,  [Validators.required, this.greaterThanZero]],
+      TotalPaid: [null],
+      Due: [null],
+      Status: [null],
+      BillStatus: [null],
+      TDS: [null],
+      Attachment_URL: [null],
+      property_name: [null]
+    });
+   }
+
+   billStatusFilter = [ 'Partially Paid','Not Paid' ];
+
+  ngOnInit(): void {
     this.userRole = localStorage.getItem('role')
     this.userID = localStorage.getItem('userId')
     this.userdetails=localStorage.getItem("userInfo");
@@ -131,16 +177,19 @@ export class BillDetailsComponent implements OnInit {
     this.getbilldetails();
   }
 
+  // Custom validator to check if value is greater than 0
+ greaterThanZero(control: AbstractControl): ValidationErrors | null {
+  return control.value > 0 ? null : { mustBeGreaterThanZero: true };
+}
+
   getTotalDueAmount() {
     this.totalDue = 0; // Initialize totalDue
 this.notPaidBills.forEach((bill) => {
   this.totalDue += Number(bill.Due); // Add Due values as numbers
 });
-
 // Format totalDue to two decimal places
 this.totalDue = parseFloat(this.totalDue.toFixed(2));
-
-    
+ 
 };
 
 
@@ -177,6 +226,24 @@ this.totalDue = parseFloat(this.totalDue.toFixed(2));
 
     // Update the total field in the form
     this.form.get('total')?.setValue(total, { emitEvent: false }); 
+  }
+  calculateTotalAddBill(): void {
+    const leaseAmount = parseFloat(this.AddBillForm.get('Total_rental_interest')?.value) || 0;
+    const gst = parseFloat(this.AddBillForm.get('GST')?.value) || 0;
+    // const Arrears = parseFloat(this.AddBillForm.get('Arrears')?.value) || 0;
+    const powerBillAmount = parseFloat(this.AddBillForm.get('Power_bill')?.value) || 0;
+    const waterBillAmount = parseFloat(this.AddBillForm.get('Water_bill')?.value) || 0;
+    const maintenanceAmount = parseFloat(this.AddBillForm.get('Maintainance_bill')?.value) || 0;
+    const leaseInterests = parseFloat(this.AddBillForm.get('Rental_interest_percent')?.value) || 0;
+    this.tdsvalue = parseFloat(this.AddBillForm.get('TDS')?.value) || 0;
+    if(this.tdsvalue > 0){
+      this.isTds = false;
+    }
+    // Calculate the total
+    const total = leaseAmount +  gst + powerBillAmount + waterBillAmount + maintenanceAmount + leaseInterests + this.tdsvalue;
+
+    // Update the total field in the AddBillForm
+    this.AddBillForm.get('Total')?.setValue(total, { emitEvent: false }); 
   }
 
   // Updated showDialog method to fetch data based on bill_no
@@ -302,6 +369,7 @@ this.totalDue = parseFloat(this.totalDue.toFixed(2));
     console.error('Form is invalid');
   }
   }
+
   generateBill() {
   this.showModel = true; // Show the modal (if you're using one)
   if (this.form.valid) {
@@ -340,6 +408,28 @@ this.totalDue = parseFloat(this.totalDue.toFixed(2));
   else {
     console.error('Form is invalid');
   }
+  }
+
+  addBill() {
+    if (this.AddBillForm.invalid) {
+      this.toastrService.warning('Please fill all required fields.');
+      return;
+    }
+    const billData = this.AddBillForm.value;
+     // Format the date properly for MySQL
+     billData.Bill_generated_date = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+     billData.Attachment_URL = this.attachmentUrl
+    this.billDetailService.addBill(billData).subscribe({
+      next: (response:any) => {
+        this.toastrService.success('Bill added successfully!');
+        this.AddBillForm.reset();
+      },
+      error: (error:any) => {
+        alert('Failed to add bill. Try again.');
+        this.toastrService.error('Failed to add bill. Try again.');
+        console.error(error);
+      }
+    });
   }
 
   onFileChange(event: any) {
@@ -664,28 +754,73 @@ currentY += lineHeight * 2;
      this.showPayPopup = true; // Show the payment popup
   }
 
+  payAllBills() {
+    const bills = this.notPaidBills; // Filtered list of not paid bills
+    // Summing up all bill-related amounts
+    const totalAmount = bills.reduce((sum, bill) => sum + Number(bill.Total), 0);
+    const totalTDS = bills.reduce((sum, bill) => sum + Number(bill.TDS || 0), 0);
+    const totalDue = bills.reduce((sum, bill) => sum + Number(bill.Due), 0);
+    const leaseAmount = bills.reduce((sum, bill) => sum + Number(bill.Rental_lease_amount_permonth), 0);
+    const gst = bills.reduce((sum, bill) => sum + Number(bill.GST), 0);
+    const powerBillAmount = bills.reduce((sum, bill) => sum + Number(bill.Power_bill), 0);
+    const waterBillAmount = bills.reduce((sum, bill) => sum + Number(bill.Water_bill), 0);
+    const maintenance = bills.reduce((sum, bill) => sum + Number(bill.Maintainance_bill), 0);
+    const interest = bills.reduce((sum, bill) => sum + Number(bill.Rental_interest_percent), 0);
+  
+    // Storing bill numbers and property names as an array for dropdown
+    this.billNumbers = bills.map(bill => bill.BillNo);
+    this.propertyNames = bills.map(bill => bill.property_name); // Fix property mapping
+    this.amount = totalDue; // Set the total due amount
+  
+    // Patching form values
+    this.PaymentPopupform.patchValue({
+      total: totalAmount,
+      tds: totalTDS,
+      due: totalDue,
+      leaseAmount: leaseAmount,
+      gst: gst,
+      powerBillAmount: powerBillAmount,
+      waterBillAmount: waterBillAmount,
+      maintenance: maintenance,
+      interest: interest,
+      allBillNos: this.billNumbers.length > 0 ? this.billNumbers[0] : null, // Default first bill
+      allPropertycode: this.propertyNames.length > 0 ? this.propertyNames[0] : null, // Default first property
+    });
+  
+    this.showPayAllPopup = true; // Show the payment popup
+  }
+  
+// Updated Payment function
+AllBillsPaymentPage() {
+  const billNo = this.billNumbers.join('-'); // Concatenating bill numbers
+  this.sentDisabledFieldValues = { billNo };
+  this.billDetailService.createOrder({
+    amount: this.amount,
+    invoice_id: this.sentDisabledFieldValues.billNo,
+    description: `Payment for multiple properties`,
+    email: this.userDetailsObject.EMAIL_ID,
+    phone: this.userDetailsObject.MOBILE_NUM,
+    payment_mode: 'online web'
+  }).subscribe({
+    next: (res: any) => {
+      this.orderID = res.data.id;
+      this.amount = res.data.amount;
+      this.isDialogVisible = true;
+    }
+  });
+}
+
   // Sent Edited Partial Payment amount to Payment Page 
 
   PaymnetPage() {
-    const editedAmount = this.PaymentPopupform.value.due; // Get the edited amount
-    this.amount = editedAmount                            // Initialise edited amount
-    console.log(this.amount,"edited form amount...");
+    this.amount = this.PaymentPopupform.get('due')?.value; // Get the edited amount
     const billNo = this.PaymentPopupform.get('billNo')?.value; // Access the disabled control
-    const powerBill = this.PaymentPopupform.get('powerBillAmount')?.value; // Access the disabled control
-    const waterBill = this.PaymentPopupform.get('waterBillAmount')?.value; // Access the disabled control
-    const maintenanceAmount = this.PaymentPopupform.get('maintenance')?.value; // Access the disabled control
-    const tds = this.PaymentPopupform.get('tds')?.value; // Access the disabled control
-    this.sentDisabledFieldValues={billNo,powerBill,waterBill,maintenanceAmount,tds}
+    this.sentDisabledFieldValues={billNo}
 
     // Call Razorpay payment
-
     this.billDetailService.createOrder({
       amount: this.amount,
       invoice_id: this.sentDisabledFieldValues.billNo,
-      powerBill: this.sentDisabledFieldValues.powerBill,
-      waterBill: this.sentDisabledFieldValues.waterBill,
-      maintenanceAmount: this.sentDisabledFieldValues.maintenanceAmount,
-      tds: this.sentDisabledFieldValues.tds,
       description: `Payment for ${this.selectedBill.Property}`,
       email: this.userDetailsObject.EMAIL_ID,
       phone: this.userDetailsObject.MOBILE_NUM,
@@ -700,56 +835,11 @@ currentY += lineHeight * 2;
       
     );
     
-    // this.billDetailService.createOrder({
-    //     amount: this.amount,
-    //     invoice_id: this.sentDisabledFieldValues.billNo,
-    //     powerBill: this.sentDisabledFieldValues.powerBill,
-    //     waterBill: this.sentDisabledFieldValues.waterBill,
-    //     maintenanceAmount: this.sentDisabledFieldValues.maintenanceAmount,
-    //     tds: this.sentDisabledFieldValues.tds,
-    //     description: `Payment for ${this.selectedBill.Property}`,
-    //     email: this.userDetailsObject.EMAIL_ID,
-    //     phone: this.userDetailsObject.MOBILE_NUM
-    //   }).subscribe({
-    //    next: (order) => {
-    //       console.log(order,"....")
-    //       const options = {
-    //         key: this.razorpay_key_id, // Replace with your Razorpay key ID
-    //         amount: this.amount, // Amount in paise
-    //         currency: 'INR',
-    //         name: 'VMRDA Rental',
-    //         description: `Payment for ${this.selectedBill.Property}`,
-    //         order_id: order.data.id, // Razorpay order ID
-    //         handler: (response: any) => {
-    //           // On payment success, update bill and create receipt
-    //           this.verifypayment(response);
-    //         },
-    //         prefill: {
-    //           name: this.userDetailsObject.USER_NAME, 
-    //           email: this.userDetailsObject.EMAIL_ID, 
-    //           contact: this.userDetailsObject.MOBILE_NUM, 
-    //         },
-    //         theme: {
-    //           color: '#3399cc',
-    //         },
-    //       };
-    //       const rzp1 = new Razorpay(options);
-    //       rzp1.open();
-    //     }
-    //   });
   
   }
 
-
-// dummy(){
-//   let count = 0;
-//   count++;
-//   console.log("count pay btn click: " + count)
-// }
-
-  handleFailure(message: string) {
-    this.paymentMessage = message;
-    this.isDialogVisible = true;
+  addBillFlag(){
+    this.showAddBillPopup = true; 
   }
 
   onDialogClose() {
@@ -823,49 +913,30 @@ currentY += lineHeight * 2;
 
     })
   }
-
-  openRazorpayCheckout() {
-    const options = {
-      key: this.razorpay_key_id,
-      amount: this.amount,
-      currency: 'INR',
-      name: 'VMRDA Rental Service',
-      description: 'Rental Service',
-      image: 'https://vmrda-prod-assests.s3.ap-south-1.amazonaws.com/vmrda_logo_image.png',
-      order_id: this.orderID,
-      prefill: {
-        name: this.userDetailsObject.USER_NAME,
-        contact: this.userDetailsObject.MOBILE_NUM,
-        email: this.userDetailsObject.EMAIL_ID,
-      },
-      handler: (response: any) => {
-        // The arrow function ensures that `this` refers to the class instance
-        console.log(response);
-        this.verifypayment(response); // Call your class method
-      },
-      theme: {
-        color: '#F37254',
-      },
+  applyFiltersToAddBill() {
+    const filters = {
+      locationCodes: this.locationFilter.map(item => item.LOCATION_CODE),
+      propertyCodes: this.propertyFilter.map(item => item.PROPERTY_CODE),
+      alloteNames: this.alloteFilter,
+      userType: this.userRole,
+      revenueDivision: this.userID
     };
-  
-    const razorpay = new Razorpay(options);
-    razorpay.open();
-  }
+    this.billDetailService.filterBillingData(filters).subscribe({
+      next:(res)=>{
+        this.allAlloteList = res.allAlloteNames;
+        if(this.complexList.length > 1){
+        this.propertyList = res.complexList;
+        this.AddBillForm.controls['Property'].setValue(this.propertyList[0].PROPERTY_CODE);
+        this.AddBillForm.controls['Property'].enable();
+        }
+        else{
+          this.AddBillForm.controls['Property'].disable();
+          this.AddBillForm.controls['Property'].setValue(null);
+        }
+        this.cd.detectChanges();
+      }
 
-  
-  
-
-  verifypayment(response:any){
-    if(response.razorpay_signature){
-      this.isDialogVisible = false;
-      this.showPayPopup = false;
-      this.toastrService.success('payment made successfully')
-    }
-    else {
-      this.isDialogVisible = false;
-      this.showPayPopup = false;
-      this.toastrService.warning('payment made successfully')
-    }
+    })
   }
 
   resetFilters(){

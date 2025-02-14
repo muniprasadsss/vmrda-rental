@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../configuration';
+import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -75,8 +75,13 @@ generateBill(billData: any): Observable<any> {
   sendEmailWithAttachment(formData: FormData) : Observable<any>{
   return this.http.post<any>(`${this.apiUrl}/sendEmailWithAttachment`, formData);
 }
+
 sendEmailWithAttachmentBill(formData: FormData) : Observable<any>{
   return this.http.post<any>(`${this.apiUrl}/sendEmailWithAttachmentBill`, formData);
+}
+
+addBill(formData: FormData) : Observable<any>{
+  return this.http.post<any>(`${this.apiUrl}/addBill`, formData);
 }
 
 getGst(BillNo: string): Observable<any> {

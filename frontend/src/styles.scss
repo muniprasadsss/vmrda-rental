@@ -18,14 +18,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .p-datatable .p-datatable-header {
-    padding: 1rem ;
+    padding: 0.6rem ;
 }
 
 
 .p-tabview .p-tabview-nav li .p-tabview-nav-link{
-    padding: 1.25rem 0.9rem;
-    font-size: 18px ;
-    font-weight: 500 ;
+    padding: 1rem 0.9rem;
+    font-size: 15px ;
+    font-weight: 700 ;
+}
+
+.p-component{
+  font-size:0.9rem
 }
 
 .p-tabview .p-tabview-panels{
@@ -90,7 +94,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   flex-direction: column;
 }
 .footer-content-dashboard{
-  margin-top: 4rem;
+  margin-top: 3rem;
 }
 
 .card{
@@ -141,3 +145,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
  }
 
 
+ .p-paginator{
+  padding: 0;
+ }

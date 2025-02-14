@@ -70,19 +70,9 @@
                     "with": "src/environments/environment.dev.ts"
                   }
                 ],
-               "budgets": [
-                  {
-                    "type": "initial",
-                    "maximumWarning": "5MB",
-                    "maximumError": "5MB"
-                  },
-                  {
-                    "type": "anyComponentStyle",
-                    "maximumWarning": "5MB",
-                    "maximumError": "5MB"
-                  }
-                ],
-                "outputHashing": "all"
+                "optimization": false,
+                "extractLicenses": false,
+                "sourceMap": true
               },
               "serve": {
                 "fileReplacements": [
