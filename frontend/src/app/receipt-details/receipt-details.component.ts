@@ -177,7 +177,7 @@ generatePDF(receipt: any,username:any) {
   // Summary Text
   doc.setFont('helvetica', 'normal');
   doc.text(
-    `This receipt acknowledges the payment for property code ${receipt.Property}, leased to ${username}. ` +
+    `This receipt acknowledges the payment for property code ${receipt.Property}, for the bill period of:${receipt.Bill_Period} leased to ${username}. ` +
     `Payment includes the lease amount, GST, and other charges. Summary of payment details:`,
     margins.left, currentY, { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
   );
@@ -186,10 +186,10 @@ generatePDF(receipt: any,username:any) {
   // Receipt details in table form
   const tableRows = [
     ["Receipt No", receipt.ReceiptNo],
-    // ["User ID", receipt.User],
     ["User Name", username],
     ["Bill No", receipt.BillNo],
     ["Property Code", receipt.Property],
+    ["Bill Period", receipt.Bill_Period],
     ["Interest", receipt.Total_rental_interest],
     ["Paid Date", receipt.paid_date],
     ["Water Bill", receipt.Water_bill],
