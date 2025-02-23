@@ -234,7 +234,7 @@ this.totalDue = parseFloat(this.totalDue.toFixed(2));
     const powerBillAmount = parseFloat(this.AddBillForm.get('Power_bill')?.value) || 0;
     const waterBillAmount = parseFloat(this.AddBillForm.get('Water_bill')?.value) || 0;
     const maintenanceAmount = parseFloat(this.AddBillForm.get('Maintainance_bill')?.value) || 0;
-    const leaseInterests = parseFloat(this.AddBillForm.get('Rental_interest_percent')?.value) || 0;
+    const leaseInterests = parseFloat(this.AddBillForm.get('Rental_lease_amount_permonth')?.value) || 0;
     this.tdsvalue = parseFloat(this.AddBillForm.get('TDS')?.value) || 0;
     if(this.tdsvalue > 0){
       this.isTds = false;
@@ -652,7 +652,7 @@ currentY += lineHeight * 2;
         );
         currentY += lineHeight * 4;
 
-        doc.text(`The lease amount for the period ${bill.Rental_lease_amount_permonth} is due. Please remit the amount of ${bill.Total} by the due date, failing which further action will be taken according to the terms and conditions.`,
+        doc.text(`The lease amount for the period ${bill.Bill_Period} is due. Please remit the amount of ${bill.Total} by the due date, failing which further action will be taken according to the terms and conditions.`,
           margins.left, currentY,
           { maxWidth: doc.internal.pageSize.width - margins.left - margins.right }
         );
@@ -663,6 +663,7 @@ currentY += lineHeight * 2;
         const tableRows = [
           ["Bill No", bill.BillNo],
           ["Property Code", bill.Property],
+          ["Bill Period", bill.Bill_Period],
           ["Lease Amount", bill.Rental_lease_amount_permonth],
           ["GST", bill.GST],
           ["Power Bill Amount", bill.Power_bill],
@@ -797,6 +798,7 @@ AllBillsPaymentPage() {
   this.billDetailService.createOrder({
     amount: this.amount,
     invoice_id: this.sentDisabledFieldValues.billNo,
+    userId: this.userID,
     description: `Payment for multiple properties`,
     email: this.userDetailsObject.EMAIL_ID,
     phone: this.userDetailsObject.MOBILE_NUM,
@@ -821,6 +823,7 @@ AllBillsPaymentPage() {
     this.billDetailService.createOrder({
       amount: this.amount,
       invoice_id: this.sentDisabledFieldValues.billNo,
+      userId: this.userID,
       description: `Payment for ${this.selectedBill.Property}`,
       email: this.userDetailsObject.EMAIL_ID,
       phone: this.userDetailsObject.MOBILE_NUM,
