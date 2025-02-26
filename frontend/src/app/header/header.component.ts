@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
   passwordform: FormGroup;
   responseMsg: string | undefined;
   dataSource:any;
+  showPassword: boolean = false;
 
 
   constructor(private router: Router,
@@ -101,6 +102,10 @@ export class HeaderComponent implements OnInit {
       this.getNotifications(userDetails);
     }
   }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
   
   showNotificationDialog() {
     this.visible = true;
@@ -148,6 +153,7 @@ export class HeaderComponent implements OnInit {
         MOBILE_NUM: formData.MOBILE_NUM,
         EMAIL_ID: formData.EMAIL_ID,
         USER_ID: formData.USER_ID,
+        userType:formData.USER_TYPE
       };
       
       this.profileService.updateProfile(payload).subscribe(
@@ -182,7 +188,8 @@ export class HeaderComponent implements OnInit {
           const senddata = {
             old_password,
             new_password,
-            USER_ID: this.localStoragePassword.USER_ID, 
+            USER_ID: this.localStoragePassword.USER_ID,
+            UserType: this.localStoragePassword.user_type 
           };
   
           console.log(senddata, "data to send...");
