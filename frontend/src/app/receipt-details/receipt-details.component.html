@@ -11,9 +11,10 @@
               <p-multiSelect 
               [options]="locationList" 
               placeholder="Complex"
+              [filter]="true"
+              emptyFilterMessage="No results found"
               [(ngModel)]="locationFilter"
               optionLabel = "LOCATION_CODE"
-              [filter]="false"
               (onChange)="applyFilters()"
                >
                <ng-template let-selectedValue pTemplate="selectedItem">
@@ -24,10 +25,12 @@
             <div class="search" *ngIf=" userRole !== 'USER'">
               <p-multiSelect 
               [options]="complexList" 
+              [filter]="true" filterBy="name"
               placeholder="Property"
               [(ngModel)]="propertyFilter"
               optionLabel = "PROPERTY_CODE"
-              [filter]="false"
+              [filter]="true"
+              emptyFilterMessage="No results found"
               (onChange)="applyFilters()"
                >
                <ng-template let-selectedValue pTemplate="selectedItem">
@@ -40,7 +43,8 @@
                 [options]="allAlloteList"
                 placeholder="Allote Name"
                 [(ngModel)]="alloteFilter"
-                [filter]="false"
+                [filter]="true"
+              emptyFilterMessage="No results found"
                 (onChange)="applyFilters()"
             >
                 <!-- Custom template for dropdown items -->
@@ -175,6 +179,13 @@
         <div class="form-group">
           <label for="amount_paid" class="form-label">Challana/Reference Number</label>
           <input type="text" id="amount_paid" class="form-input" formControlName="challanaNumber"/>
+        </div>
+        <div class="form-group">
+          <label for="paid_date" class="form-label">Paid Date<span class="text-danger">*</span></label>
+          <input type="date" id="paid_date" class="form-input" formControlName="paid_date"/>
+          <div *ngIf="addNewRecept.get('paid_date')?.invalid && (addNewRecept.get('paid_date')?.touched || submitted)">
+            <small class="text-danger">Paid date is required.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="amount_paid" class="form-label">Amount Paid <span class="text-danger">*</span></label>

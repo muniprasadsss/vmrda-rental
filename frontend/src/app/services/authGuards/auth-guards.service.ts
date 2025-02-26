@@ -113,19 +113,22 @@ export class AuthGuardsService implements CanActivate {
   logout() {
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
-    const data = {
-      user_id: userId,
-      token: token
-    }
-    this.loginService.logout(data).subscribe({
-    
-      next:(res:any)=>{
-        console.log(res);
-      },
-      error:(err:any)=>{
-        console.log(err);
+    if(userId !== null || token !== null){
+      const data = {
+        user_id: userId,
+        token: token
       }
-    });
+      this.loginService.logout(data).subscribe({
+      
+        next:(res:any)=>{
+          console.log(res);
+        },
+        error:(err:any)=>{
+          console.log(err);
+        }
+      });
+    }
+   
     localStorage.removeItem('token'); 
     localStorage.removeItem('user');
     localStorage.removeItem('role');

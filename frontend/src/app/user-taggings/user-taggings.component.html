@@ -34,7 +34,8 @@
                 placeholder="Property"
                 optionLabel="PROPERTY_CODE"
                 display="chip"
-                [filter]="false"
+                [filter]="true"
+              emptyFilterMessage="No results found"
                 (onChange)="onSelectGlobal('PROPERTY_CODE', $event.value)"
               >
               </p-multiSelect>
@@ -46,7 +47,8 @@
                 placeholder="Allote"
                 optionLabel="USER_NAME"
                 display="chip"
-                [filter]="false"
+                [filter]="true"
+              emptyFilterMessage="No results found"
                 (onChange)="onSelectGlobal('USER_NAME', $event.value)"
               >
                 <ng-template let-option pTemplate="item">

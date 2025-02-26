@@ -57,6 +57,7 @@ export class ReceiptDetailsComponent {
       Total:[{ value: null, disabled: true }],
       Status:[{ value: null, disabled: true }],
       challanaNumber: {value: null },
+      paid_date: [ null,Validators.required ],
       amount_paid: [null, Validators.required],
     });
   }
@@ -315,6 +316,12 @@ generatePDF(receipt: any,username:any) {
   }
 
   addReciept() {
+
+    if (this.addNewRecept.invalid) {
+      this.addNewRecept.markAllAsTouched();
+      return;
+    }
+
     this.submitted=true;
     // Get the form values
     const form = this.addNewRecept.value;
@@ -323,6 +330,7 @@ generatePDF(receipt: any,username:any) {
     const p_billid = this.bill?.BillNo;
     const p_payment_amount = this.addNewRecept.get('amount_paid')?.value;
     const challana_number = this.addNewRecept.get('challanaNumber')?.value;
+    const paid_date = this.addNewRecept.get('paid_date')?.value;
   
   
     if (!p_billid || !p_payment_amount) {
@@ -337,7 +345,8 @@ generatePDF(receipt: any,username:any) {
         p_billid: p_billid,
         p_payment_amount: p_payment_amount,
         challana_number:challana_number,
-        attachment_url:this.attachmentUrl
+        attachment_url:this.attachmentUrl,
+        paid_date:paid_date
       };
   
       this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({

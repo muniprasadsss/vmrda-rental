@@ -14,7 +14,8 @@
                 [options]="billPeriod" 
                 placeholder="Bill Period"
                 [(ngModel)]="billPeriodFilter"
-                [filter]="false"
+                [filter]="true"
+              emptyFilterMessage="No results found"
                 (onChange)="applyFilters()"
                  >
               </p-multiSelect>
@@ -25,7 +26,8 @@
                 placeholder="Complex"
                 [(ngModel)]="locationFilter"
                 optionLabel = "LOCATION_CODE"
-                [filter]="false"
+                [filter]="true"
+              emptyFilterMessage="No results found"
                 (onChange)="applyFilters()"
                  >
                  <ng-template let-selectedValue pTemplate="selectedItem">
@@ -39,7 +41,8 @@
                 placeholder="Property"
                 [(ngModel)]="propertyFilter"
                 optionLabel = "PROPERTY_CODE"
-                [filter]="false"
+                [filter]="true"
+              emptyFilterMessage="No results found"
                 (onChange)="applyFilters()"
                  >
                  <ng-template let-selectedValue pTemplate="selectedItem">
@@ -52,7 +55,8 @@
                   [options]="allAlloteList"
                   placeholder="Allote Name"
                   [(ngModel)]="alloteFilter"
-                  [filter]="false"
+                  [filter]="true"
+              emptyFilterMessage="No results found"
                   [maxSelectedLabels]="3"
                   (onChange)="applyFilters()"
               >
@@ -70,7 +74,8 @@
                   [options]="billStatusFilter"
                   placeholder="Bill Status"
                   [(ngModel)]="billStatus"
-                  [filter]="false"
+                  [filter]="true"
+              emptyFilterMessage="No results found"
                   (onChange)="onFilterGlobal( $event.value)"
               >
               </p-multiSelect>
@@ -287,7 +292,8 @@
             [options]="billPeriod" 
             placeholder="Bill Period"
             [(ngModel)]="billPeriodFilter"
-            [filter]="false"
+            [filter]="true"
+              emptyFilterMessage="No results found"
             (onChange)="applyFilters()"
              >
           </p-multiSelect>
@@ -298,7 +304,8 @@
             placeholder="Complex"
             [(ngModel)]="locationFilter"
             optionLabel = "LOCATION_CODE"
-            [filter]="false"
+            [filter]="true"
+              emptyFilterMessage="No results found"
             (onChange)="applyFilters()"
              >
              <ng-template let-selectedValue pTemplate="selectedItem">
@@ -312,7 +319,8 @@
             placeholder="Property"
             [(ngModel)]="propertyFilter"
             optionLabel = "PROPERTY_CODE"
-            [filter]="false"
+            [filter]="true"
+              emptyFilterMessage="No results found"
             (onChange)="applyFilters()"
              >
              <ng-template let-selectedValue pTemplate="selectedItem">
@@ -325,7 +333,8 @@
               [options]="allAlloteList"
               placeholder="Allote Name"
               [(ngModel)]="alloteFilter"
-              [filter]="false"
+              [filter]="true"
+              emptyFilterMessage="No results found"
               [maxSelectedLabels]="3"
               (onChange)="applyFilters()"
           >
