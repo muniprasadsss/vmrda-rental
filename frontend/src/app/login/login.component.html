@@ -7,16 +7,16 @@
     </p> -->
     <div class="social-icons">
       <span>
-        <a href="http://vmrda.gov.in/" target="_blank"><i class="pi pi-facebook"></i></a>
+        <a href="http://vmrda.gov.in/" target="_blank" aria-label="Visit our Facebook page"><i class="pi pi-facebook"></i></a>
       </span>
       <span>
-        <a href="http://vmrda.gov.in/" target="_blank"><i class="pi pi-twitter"></i></a>
+        <a href="http://vmrda.gov.in/" target="_blank" aria-label="Follow us on Twitter"><i class="pi pi-twitter"></i></a>
       </span>
       <span>
-        <a href="http://vmrda.gov.in/" target="_blank"><i class="pi pi-instagram"></i></a>
+        <a href="http://vmrda.gov.in/" target="_blank" aria-label="Follow us on Instagram"><i class="pi pi-instagram"></i></a>
       </span>
       <span>
-        <a href="http://vmrda.gov.in/" target="_blank"><i class="pi pi-youtube"></i></a>
+        <a href="http://vmrda.gov.in/" target="_blank" aria-label="Subscribe to our YouTube channel"><i class="pi pi-youtube"></i></a>
       </span>
     </div>
   </div>
@@ -36,8 +36,14 @@
           
       </div>
       <div class="input-group" style="margin-top: 1rem;">
-        <input id="password" type="password" pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
-          required placeholder="Enter Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" [disabled]="isLoginFailed"/>
+        <!-- <input id="password" type="password" pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
+          required placeholder="Enter Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" [disabled]="isLoginFailed"/> -->
+
+        <p-password 
+          id="password" type="password" [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
+          required placeholder="Enter Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)"
+            (cut)="preventCut($event)" [disabled]="isLoginFailed" [feedback]="false" toggleMask inputStyleClass="form-pinput">
+        </p-password>
           <!-- <p-password [feedback]="false" [toggleMask]="true"  pInputText [(ngModel)]="password" name="password" #passwordCtrl="ngModel"
           required placeholder="Enter Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)" (cut)="preventCut($event)" /> -->
 
@@ -74,7 +80,7 @@
         </div>
         <div>
           <button class="forgot-link" (click)="ForgotPasswordDiv()">
-            <h3>Forgot password?</h3>
+            <span>Forgot password?</span>
           </button>
         </div>
       </div>
@@ -84,22 +90,35 @@
 
     <form #forgotpasswordform="ngForm" novalidate *ngIf="forgotPasswordDiv">
       <div class="input-group">
-        <input id="username" type="text" pInputText [(ngModel)]="userID" name="username" #usernameCtrl="ngModel"
+        <input id="userid" type="text" pInputText [(ngModel)]="userID" name="username" #usernameCtrl="ngModel"
           required placeholder="Enter your UserId" />
       </div>
       <div class="input-group" *ngIf="isNewPassword">
-        <input id="username" type="password" pInputText [(ngModel)]="newPassword" name="newPassword" #usernameCtrl="ngModel"
-          required placeholder="Enter New Password" />
+        <!-- <input id="username" type="password" pInputText [(ngModel)]="newPassword" name="newPassword" #usernameCtrl="ngModel"
+          required placeholder="Enter New Password" /> -->
+          
+          <p-password 
+          id="newpassword" type="password" [(ngModel)]="newPassword" name="newPassword" #usernameCtrl="ngModel"
+          required placeholder="New Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)"
+          (cut)="preventCut($event)" [feedback]="false" toggleMask inputStyleClass="form-pinput">
+        </p-password>
       </div>
       <div class="input-group" *ngIf="isNewPassword">
-        <input id="username" type="password" pInputText [(ngModel)]="renterNewPass" name="renterNewPass" #usernameCtrl="ngModel"
-          required placeholder="Enter Re-Enter New Password" />
+        <!-- <input id="username" type="password" pInputText [(ngModel)]="renterNewPass" name="renterNewPass" #usernameCtrl="ngModel"
+          required placeholder="Enter Re-Enter New Password" /> -->
+
+        <p-password 
+          id="confirmnewpassword" type="password" [(ngModel)]="renterNewPass" name="renterNewPass" #usernameCtrl="ngModel"
+          required placeholder="Confirm New Password" (paste)="preventPaste($event)" (copy)="preventCopy($event)"
+          (cut)="preventCut($event)" [feedback]="false" toggleMask inputStyleClass="form-pinput">
+        </p-password>
+
       </div>
       <!-- OTP section if required -->
       <div *ngIf="showForgotOtpDiv && otpDiv && !isNewPassword" style="margin-top: 10px;">
-        <p-inputOtp id="otp" type="number" placeholder="Enter Otp" pInputText [(ngModel)]="otp" name="otp"
+        <p-inputOtp id="otp" type="number" placeholder="Enter Otp" pInputText [(ngModel)]="otp" name="otp" style="background:none;border:none;" (keydown)="handlekeydownforgetPassword($event)"
           required></p-inputOtp>
-        <div class="otp" style="color: rgb(38, 129, 211); font-weight: 700;" (click)="resendOtp()" *ngIf="otpDiv && !isNewPassword">
+        <div class="otp" (click)="resendOtp()" *ngIf="otpDiv && !isNewPassword">
           Resend OTP
         </div>
       </div>
