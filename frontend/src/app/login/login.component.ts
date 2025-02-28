@@ -102,6 +102,7 @@ export class LoginComponent {
     }
   
   }
+
   forgetPassverifyOtp() {
     if (this.otp) {
       this.LoginService.verifyOTPForgetPass(this.userID,this.otp).subscribe({
@@ -122,6 +123,7 @@ export class LoginComponent {
     }
   
   }
+
   verifyOtp() {
     if (this.otp) {
       this.LoginService.verifyOTP(this.otp,this.userID).subscribe({
@@ -194,9 +196,6 @@ export class LoginComponent {
     }
   }
 
-
-
-
   ForgotPassword(form: any) {
     if (this.userID.length > 0) {
       console.log(this.userID, "User ID on confirm password");
@@ -216,10 +215,25 @@ export class LoginComponent {
     }
   }
 
+  // Enter button click event
+
   handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       // Submit the form on Enter key press
       this.submitOtp();
+      console.log("Enter clicked...");
+    }
+     else if (event.key === 'Escape') {
+      console.log("Esc clicked...");
+    }
+  }
+
+  // Enter button click event for forget password
+
+  handlekeydownforgetPassword(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      // Submit the form on Enter key press
+      this.forgetPassverifyOtp();
       console.log("Enter clicked...");
     }
      else if (event.key === 'Escape') {

@@ -81,6 +81,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     }
   }
+  .form-pinput {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+  }
   
   .btn{
     display: flex;
