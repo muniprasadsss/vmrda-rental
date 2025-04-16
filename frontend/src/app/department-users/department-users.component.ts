@@ -4,6 +4,7 @@ import { DepartmentUsersService } from '../services/departmentUsers/department-u
 import { departmentusers } from '../interfaces/departmentUserInterfaces/departmentuserinterfaces';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import * as XLSX from 'xlsx';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -24,8 +25,13 @@ export class DepartmentUsersComponent {
   editForm!: FormGroup;
   selectedUser: departmentusers | null = null;
   userRole: string| null = '';
+  userTypes: [] = [];
 
-  constructor(private admindetailsservice: DepartmentUsersService, private fb: FormBuilder) {}
+  constructor(
+    private admindetailsservice: DepartmentUsersService,
+     private fb: FormBuilder,
+     private toastrService : ToastrService
+    ) {}
 
   ngOnInit(): void {
     this.userRole = localStorage.getItem('role')
@@ -53,7 +59,8 @@ export class DepartmentUsersComponent {
   getadminInfo() {
     this.admindetailsservice.getAdminDetails().subscribe({
       next: (res: any) => {
-        this.dataSource = Object.keys(res).map(key => ({ ...res[key] }));
+        this.dataSource = res.deptUserList;
+        this.userTypes = res.userTypesResult;
         this.responseMsg = res.message;
       },
       error: (err: any) => {
@@ -79,8 +86,10 @@ export class DepartmentUsersComponent {
         next: (res: any) => {
           this.getadminInfo(); // Refresh the table data
           this.visible = false; // Close the dialog
+          this.toastrService.success(res.message)
         },
         error: (err: any) => {
+          this.toastrService.error(err.message)
           console.error("Error saving user", err);
         }
       });
@@ -119,8 +128,10 @@ export class DepartmentUsersComponent {
         next: (res: any) => {
           this.getadminInfo(); // Refresh the table data
           this.editVisible = false; // Close the dialog
+          this.toastrService.success(res.message)
         },
         error: (err: any) => {
+          this.toastrService.error(err.message)
           console.error("Error updating user", err);
         }
       });

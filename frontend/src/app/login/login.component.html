@@ -1,25 +1,43 @@
 <title>Login Page</title>
 <div class="login-container">
-  <div class="welcome-box">
-    <h1>Welcome to VMRDA</h1>
-    <!-- <p>
-      We’re glad to see you again. Enjoy a seamless experience as you navigate through our platform.
-    </p> -->
-    <div class="social-icons">
-      <span>
-        <a href="http://vmrda.gov.in/" target="_blank" aria-label="Visit our Facebook page"><i class="pi pi-facebook"></i></a>
-      </span>
-      <span>
-        <a href="http://vmrda.gov.in/" target="_blank" aria-label="Follow us on Twitter"><i class="pi pi-twitter"></i></a>
-      </span>
-      <span>
-        <a href="http://vmrda.gov.in/" target="_blank" aria-label="Follow us on Instagram"><i class="pi pi-instagram"></i></a>
-      </span>
-      <span>
-        <a href="http://vmrda.gov.in/" target="_blank" aria-label="Subscribe to our YouTube channel"><i class="pi pi-youtube"></i></a>
-      </span>
+  <div class="welcome-container">
+    <div class="welcome-box">
+      <h1>Welcome to VMRDA</h1>
+      <!-- <p>
+        We’re glad to see you again. Enjoy a seamless experience as you navigate through our platform.
+      </p> -->
+      <div class="social-icons">
+        <span>
+          <a href="http://vmrda.gov.in/" target="_blank" aria-label="Visit our Facebook page"><i class="pi pi-facebook"></i></a>
+        </span>
+        <span>
+          <a href="http://vmrda.gov.in/" target="_blank" aria-label="Follow us on Twitter"><i class="pi pi-twitter"></i></a>
+        </span>
+        <span>
+          <a href="http://vmrda.gov.in/" target="_blank" aria-label="Follow us on Instagram"><i class="pi pi-instagram"></i></a>
+        </span>
+        <span>
+          <a href="http://vmrda.gov.in/" target="_blank" aria-label="Subscribe to our YouTube channel"><i class="pi pi-youtube"></i></a>
+        </span>
+      </div>
+    </div>
+    <div class="venue-bookings-link">
+      <div class="title">
+        <h2>Book your venue now</h2>
+      </div>
+        <div class="link">
+          <div class="discription">
+            <p>Visit our website to book your venue now</p>
+          </div>
+          <div class="btn">
+            <p-button label="Book Now"  (click)="openExternalLink()" [raised]="true" icon="pi pi-arrow-right" iconPos="right" size="small" severity="warning">
+            </p-button>
+          </div>
+        </div>
+      
     </div>
   </div>
+ 
   <div class="login-box">
     <!-- Login Form  -->
 

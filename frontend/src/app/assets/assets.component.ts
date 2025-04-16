@@ -77,6 +77,7 @@ export class AssetsComponent implements OnInit {
       editstatus: [null, Validators.required]
     });
   }
+  
 
   ngOnInit() {
     this.userRole = localStorage.getItem('role')
@@ -103,9 +104,18 @@ export class AssetsComponent implements OnInit {
     this.dt2.filterGlobal(this.value, 'contains');
   }
 
-  onSelectGlobal(value: any): void {
-    this.dt2.filterGlobal(value, 'contains');
-  }
+  onSelectGlobal(selectedValues: any[]): void {
+    if (!selectedValues || selectedValues.length === 0) {
+        // Clear the global filter when no selection
+        this.dt2.clear();  
+    } else {
+        // Convert selected values array into a comma-separated string
+        // const filterValue = selectedValues.join(', ');
+        // this.dt2.filterGlobal(filterValue, 'contains');
+        this.dt2.filter(selectedValues, 'LOCATION', 'in');
+    }
+}
+
 
   showDialog() {
     this.addvisible = true;
@@ -115,7 +125,7 @@ export class AssetsComponent implements OnInit {
     this.submitted=true;
     this.locationForm.markAllAsTouched(); // checking all form fields are touched or not
       const propertyFormData = this.locationForm.value;
-      if (!propertyFormData.LOCATION || !propertyFormData.LOCATION_CODE) {
+      if (!propertyFormData.location || !propertyFormData.locationCode) {
         console.error('Required fields missing');
         return;
       }

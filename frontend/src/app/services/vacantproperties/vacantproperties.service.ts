@@ -16,5 +16,5 @@ export class VacantpropertiesService {
   }
 
   editAuctionDate(data: any):Observable<any> {    
-    return this.http.put<any>(`${this.apiUrl}/update-auction-date`, data);
+    return this.http.post<any>(`${this.apiUrl}/update-auction-date`, data);
   }}

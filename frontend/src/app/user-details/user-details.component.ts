@@ -417,6 +417,7 @@ const fieldMap: { [key: string]: string } = {
         this.securityAttachment = null;
       },
       error:(err:any)=>{
+        this.toasterservice.error ("Too large file ize")
       }
     })
   }
@@ -442,6 +443,7 @@ const fieldMap: { [key: string]: string } = {
         this.userPhoto = null;
       },
       error:(err:any)=>{
+        this.toasterservice.error ("Too large file ize")
       }
     })
   }

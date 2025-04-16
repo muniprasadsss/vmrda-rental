@@ -15,8 +15,14 @@
                 </div>
                 
                 <div class="search">
-                    <p-dropdown [options]="complex" (onChange)="onSelectGlobal($event.value)"
-                        placeholder="Select Location" />
+                    <p-multiSelect
+                        [options]="location"
+                        placeholder="Select Location"                        
+                        (onChange)="onSelectGlobal($event.value)"
+                        [style]="{minWidth: '200px'}"
+                    ></p-multiSelect>
+                    <!-- <p-dropdown [options]="complex" [showClear]="true" [checkmark]="true" (onChange)="onSelectGlobal($event.value)"
+                        placeholder="Select Location" /> -->
                 </div>
                 <!-- <p-button (click)="showDialog()"
                     *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"
@@ -245,23 +251,15 @@
                     <div class="form-group">
                         <label for="floor" class="form-label">Floor</label>
                         <input formControlName="floor" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('floor')?.invalid && locationForm.get('floor')?.touched || submitted">
-                            <small class="text-danger">Floor is required.</small>
-                        </div>
+        
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="attribuite1" class="form-label">Attribute 1</label>
-                        <input formControlName="attribuite1" type="text" class="form-input" />
-                        <div
-                            *ngIf="locationForm.get('attribuite1')?.invalid && locationForm.get('attribuite1')?.touched || submitted">
-                            <small class="text-danger">Attribute 1 is required.</small>
-                        </div>
-                    </div>
+                  
                     <div class="form-group">
                         <label for="extent" class="form-label">Extent <span class="text-danger">*</span></label>
                         <input formControlName="extent" type="text" class="form-input" />
+                        <small class="input-format-info">Format: 224.00</small>
                         <div *ngIf="locationForm.get('extent')?.invalid && locationForm.get('extent')?.touched || submitted">
                             <small class="text-danger">Extent is required.</small>
                         </div>
@@ -287,16 +285,12 @@
                     <div class="form-group">
                         <label for="size" class="form-label">Size</label>
                         <input formControlName="size" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('size')?.invalid && locationForm.get('size')?.touched || submitted">
-                            <small class="text-danger">Size is required.</small>
-                        </div>
+                        
                     </div>
                     <div class="form-group">
                         <label for="length" class="form-label">Length </label>
                         <input formControlName="length" type="number" class="form-input" />
-                        <div *ngIf="locationForm.get('length')?.invalid && locationForm.get('length')?.touched || submitted">
-                            <small class="text-danger">Length is required.</small>
-                        </div>
+                        
                     </div>
 
                 </div>
@@ -304,9 +298,7 @@
                     <div class="form-group">
                         <label for="breadth" class="form-label">Breadth</label>
                         <input formControlName="breadth" type="number" class="form-input" />
-                        <div *ngIf="locationForm.get('breadth')?.invalid && locationForm.get('breadth')?.touched || submitted">
-                            <small class="text-danger">Breadth is required.</small>
-                        </div>
+                       
                     </div>
                     <div class="form-group">
                         <label for="revenue-division" class="form-label">Revenue Division <span class="text-danger">*</span></label>
@@ -319,10 +311,7 @@
                     <div class="form-group">
                         <label for="power-meter-number" class="form-label">Power Meter Number</label>
                         <input formControlName="powerMeterNumber" type="text" class="form-input" />
-                        <div
-                            *ngIf="locationForm.get('powerMeterNumber')?.invalid && locationForm.get('powerMeterNumber')?.touched || submitted">
-                            <small class="text-danger">Power Meter Number is required.</small>
-                        </div>
+                       
                     </div>
 
                 </div>
@@ -330,17 +319,12 @@
                     <div class="form-group">
                         <label for="water-meter-no" class="form-label">Water Meter No</label>
                         <input formControlName="waterMeterNo" type="text" class="form-input" />
-                        <div
-                            *ngIf="locationForm.get('waterMeterNo')?.invalid && locationForm.get('waterMeterNo')?.touched || submitted">
-                            <small class="text-danger">Water Meter No is required.</small>
-                        </div>
+                        
                     </div>
                     <div class="form-group">
                         <label for="details" class="form-label">Details</label>
                         <input formControlName="details" type="text" class="form-input" />
-                        <div *ngIf="locationForm.get('details')?.invalid && locationForm.get('details')?.touched || submitted">
-                            <small class="text-danger">Details is required.</small>
-                        </div>
+                      
                     </div>
                     <div class="form-group">
                         <label for="status" class="form-label">Status <span class="text-danger">*</span></label>

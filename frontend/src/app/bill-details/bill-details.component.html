@@ -56,7 +56,7 @@
                   placeholder="Allote Name"
                   [(ngModel)]="alloteFilter"
                   [filter]="true"
-              emptyFilterMessage="No results found"
+                  emptyFilterMessage="No results found"
                   [maxSelectedLabels]="3"
                   (onChange)="applyFilters()"
               >
@@ -73,10 +73,10 @@
               <p-multiSelect
                   [options]="billStatusFilter"
                   placeholder="Bill Status"
-                  [(ngModel)]="billStatus"
-                  [filter]="true"
-              emptyFilterMessage="No results found"
-                  (onChange)="onFilterGlobal( $event.value)"
+                  [(ngModel)]="Status"
+                  optionLabel="label"
+                  [filter]="false"
+                  (onChange)="onFilterStatus( $event.value)"
               >
               </p-multiSelect>
             </div>
@@ -651,6 +651,7 @@
       </div>
       <div *ngIf="!isDialogVisible" class="pay">
         <button (click)="addBill()" class="payButton" style="background-color: #28a745;">Gnerate Bill</button>
+        <button (click)="onCancel()" class="payButton" style="background-color: #f30a0a;margin-left: 0.5%;">Cancel</button>
       </div>
     </form>
   </p-dialog>

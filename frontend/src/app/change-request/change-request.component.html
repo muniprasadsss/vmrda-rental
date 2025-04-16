@@ -114,7 +114,7 @@
 <!-- popup only for user with rejected status -->
 
 <p-dialog header="Closed Tickets" [modal]="true" [(visible)]="showrejecteddata" [style]="{ width: '70rem' }">
-    <p-table #dt2 [value]="rejectedRecordes" dataKey="id" 
+    <p-table #dt3 [value]="rejectedRecordes" dataKey="id" 
     [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
     [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
         [globalFilterFields]="['id', 'cr_number', 'username', 'userId', 'requesttype', 'revenuedivision',
@@ -126,7 +126,7 @@
                         <p-inputIcon>
                             <i class="pi pi-search"></i>
                         </p-inputIcon>
-                        <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+                        <input pInputText type="text" (input)="onClosedFilterGlobal($event)" placeholder="Search keyword" />
                     </p-iconField>
                 </div>
             </div>
