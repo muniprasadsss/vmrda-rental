@@ -20,7 +20,9 @@
               [options]="StatusFilter"
               placeholder="Status"
               [(ngModel)]="status"
+              optionLabel="label"
               [filter]="false"
+              emptyFilterMessage="No results found"
               (onChange)="onFilterStatus( $event.value)"
           >
           </p-multiSelect>

@@ -28,9 +28,10 @@ export class UserTaggingsComponent implements OnInit {
   editVisible: boolean = false; // For the edit dialog
   editForm: any;
   unoccupiedProprertys: any;
-  @ViewChild('dt2') dt!: any;
+  @ViewChild('dt2') dt2!: any;
   value: any;
   propertyCode:any;
+  alloteName:any;
   fileToUpload: any;
   attachmentUrl:any = null;
   constructor(
@@ -42,8 +43,17 @@ export class UserTaggingsComponent implements OnInit {
   ) {
     this.addNewForm = this.fb.group({
       user_id: [null, Validators.required],
-      attachment: [null, Validators.required],
+      attachment: [null],
       property: [null, Validators.required],
+      DATE_OF_RENEWAL_OF_LICENSE: [null],
+      RENTAL_LEASE_AMOUNT_PERMONTH: [null],
+      RENT_GO_LIVE: [null],
+      RENTAL_LEASE_PERIOD: [null],
+      rental_interest_percent: [null],
+      RENTAL_HIKE_PERCENT: [null],
+      GST: [null],
+      GST_INTEREST_PERCENT: [null],
+      LEASE_DEED_NO: [null],
       start_date: [null, Validators.required],
       end_date: [null, Validators.required]
     });
@@ -78,25 +88,30 @@ export class UserTaggingsComponent implements OnInit {
   onFilterGlobal(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.value = target.value;
-    this.dt.filterGlobal(this.value, 'contains');
+    this.dt2.filterGlobal(this.value, 'contains');
   }
 
-  onSelectGlobal(field: string, selectedValues: any[]): void {
+  onSelectGlobal(flag:string, selectedValues: any[]): void {
     if (!selectedValues || selectedValues.length === 0) {
-      // Clear the global filter when no selection
-      this.dt.filterGlobal('', 'contains');
-    } else {
-      // Use the last selected item's specific field for filtering
-      const lastSelected = selectedValues[selectedValues.length - 1][field];
-      this.dt.filterGlobal(lastSelected, 'contains');
+        // Clear the global filter when no selection
+        this.dt2.clear()
+    } else if(flag === 'PROPERTY_CODE') {
+        // Convert array of selected PROPERTY_CODEs to a comma-separated string
+        this.dt2.filter(selectedValues, 'PROPERTY', 'in');
     }
-  }
+    else {
+        // Convert array of selected LOCATIONs to a comma-separated string
+        this.dt2.filter(selectedValues, 'USER_NAME', 'in');
+    }
+}
+
   
   
   getPropertyCodes(){
     this.usertaggingservice.getPropertyCodes( this.userID,this.userRole).subscribe({
       next:(res:any)=>{
-        this.propertyCode = res;
+        this.propertyCode = res.map((item:any)=> item.PROPERTY_CODE);
+        this.alloteName = res.map((item:any)=> item.USER_NAME ? item.USER_NAME : "Unknown");
       },
       error:(err:any)=>{
       }
@@ -143,7 +158,7 @@ export class UserTaggingsComponent implements OnInit {
         this.fileToUpload = null;
       },
       error:(err:any)=>{
-
+        this.toasterservice.error ("Too large file ize")
       }
     })
   }
@@ -158,6 +173,15 @@ export class UserTaggingsComponent implements OnInit {
         start_date: formValues.start_date,
         end_date: formValues.end_date,
         property: formValues.property,
+        DATE_OF_RENEWAL_OF_LICENSE: formValues.DATE_OF_RENEWAL_OF_LICENSE || null,
+        RENTAL_LEASE_AMOUNT_PERMONTH: formValues.RENTAL_LEASE_AMOUNT_PERMONTH || null,
+        RENT_GO_LIVE: formValues.RENT_GO_LIVE || null,
+        RENTAL_LEASE_PERIOD: formValues.RENTAL_LEASE_PERIOD || null,
+        rental_interest_percent: formValues.rental_interest_percent || null,
+        RENTAL_HIKE_PERCENT: formValues.RENTAL_HIKE_PERCENT || null,
+        GST: formValues.GST || null,
+        GST_INTEREST_PERCENT: formValues.GST_INTEREST_PERCENT || null,
+        LEASE_DEED_NO: formValues.LEASE_DEED_NO || null,
         attachment:this.attachmentUrl|| null, // Include `attachment` as null if not provided
       };
       this.usertaggingservice.createUserTagging(payload).subscribe({

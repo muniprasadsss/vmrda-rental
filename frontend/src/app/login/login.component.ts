@@ -35,7 +35,10 @@ export class LoginComponent {
   timer: number = 60;
   isTimerActive: boolean = true;
   isLoginFailed: boolean = false; // Flag to track login failure
-
+  openExternalLink() {
+    window.open("https://venuebooking.vmrdarental.com/", "_blank");
+  }
+  
 
   ngOnInit(){
    

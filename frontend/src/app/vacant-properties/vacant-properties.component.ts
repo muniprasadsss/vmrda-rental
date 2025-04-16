@@ -99,8 +99,8 @@ export class VacantPropertiesComponent {
   updateUser(){
     this.formValue=this.editForm.value
     const payload={
-      Sl_NO:this.selectedUser.Sl_NO, 
-      auctionDate:this.editForm.value.editAuctionDate
+      property_code:this.selectedUser.PROPERTY_CODE, 
+      auction_date:this.editForm.value.editAuctionDate
     }
     console.log(payload);
     this.vacantPropertiesService.editAuctionDate(payload).subscribe({

@@ -5,11 +5,17 @@ import { catchError, finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LoadingService } from '../loading/loading.service';
 import { AuthGuardsService } from '../authGuards/auth-guards.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
 
-  constructor(private loadingService: LoadingService, private router: Router,private authService: AuthGuardsService) {}
+  constructor(private loadingService: LoadingService,
+     private router: Router,
+     private authService: AuthGuardsService,
+     private toasterservice:ToastrService
+    
+    ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -28,7 +34,7 @@ export class LoadingInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         // If the server is down or there’s an error, navigate to 404
-        if ( error.status === 500 || error.status === 403) {
+        if (error.status === 403) {
 
           let message = 'Please log in again to continue using the app.';
 
@@ -43,8 +49,13 @@ export class LoadingInterceptor implements HttpInterceptor {
           this.router.navigate(['session-expired']);
           
         }
-        else if(error.status === 0 ){
-          this.router.navigate(['404']);
+        else if (error.status === 404 || error.status === 500 ||
+           error.status === 402 || error.status === 401 || error.status === 400 ) {
+            this.toasterservice.error(error.error.message);
+            this.toasterservice.error(error.error);
+           }
+        else {
+          this.router.navigate(['/404']); // Navigate to 404
         }
         return throwError(error); // Re-throw the error after handling it
       }),

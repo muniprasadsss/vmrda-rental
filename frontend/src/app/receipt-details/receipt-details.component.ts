@@ -252,31 +252,38 @@ generatePDF(receipt: any,username:any) {
 
     }
   }
-     // Handle file input change
-     onFileChange(event: any) {
-      const files = event.target.files; // Get the list of selected files
-      if (files && files.length > 0) { // Check if any file is selected
-          const file = files[0]; // Get the first file
-          this.fileToUpload = file;
-          this.uploadattachment(); // Trigger upload function
-      } else {
-          console.warn('No file selected');
-      }
+ onFileChange(event: any) {
+  const files = event.target.files;
+  if (files.length > 0) { // Check if any file is selected
+    const file = files[0];
+    this.fileToUpload = file;
+    this.uploadAttachment(); // Trigger upload function if file exists
+  } else {
+    console.warn('No file selected');
   }
   
+}
 
-    uploadattachment(){
-      let fd = new FormData();
-      fd.append('image',  this.fileToUpload);
-      this.Http.uploadAttachment(fd).subscribe({
-        next:(res:any)=>{
-          this.attachmentUrl = res.location;
+uploadAttachment() {
+
+
+  const fd = new FormData();
+  fd.append('image', this.fileToUpload); // Ensure key matches backend (e.g., 'file')
+
+  this.Http.uploadAttachment(fd).subscribe({
+    next: (res: any) => {
+      this.attachmentUrl = res.location;
+      this.fileToUpload = null;
+      this.attachmentUrl = res.location;
           this.fileToUpload = null;
-        },
-        error:(err:any)=>{
-        }
-      })
-    }
+    },
+    error: (err: any) => {
+      this.toasterservice.error('File upload failed. Please try again.');
+    },
+  });
+}
+
+
   
     downloadFile(url: string) {
       if (url) {
@@ -351,8 +358,8 @@ generatePDF(receipt: any,username:any) {
   
       this.billDetailService.updateBillDetailsByBillNo(updateData).subscribe({
         next: (response) => {
-          if (response.status === 200) {
-            this.toasterservice.success('Receipt Successfully Added');
+          if (response) {
+            this.toasterservice.success(response.message);
             this.bill_status = '';
             this.bill = null;
           } else {
@@ -362,7 +369,7 @@ generatePDF(receipt: any,username:any) {
           }
         },
         error: (err: any) => {
-          this.toasterservice.warning(err);
+          this.toasterservice.warning(err.message);
           this.bill_status = '';
           this.bill = null;
           console.error('Error updating bill:', err);

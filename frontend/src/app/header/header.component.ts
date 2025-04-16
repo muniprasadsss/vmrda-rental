@@ -257,7 +257,7 @@ export class HeaderComponent implements OnInit {
         this.toasterservice.success("Notifications cleared successfully")
       },
       error:(err:any)=>{
-        this.toasterservice.success(err)
+        this.toasterservice.error(err.error?.message || "Error clearing notification");
       }
     })
 

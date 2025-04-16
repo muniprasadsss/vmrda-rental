@@ -273,6 +273,7 @@ export class UserDetailsComponent implements OnInit {
         this.securityAttachment = null;
       },
       error:(err:any)=>{
+        this.toasterservice.error ("Too large file ize")
       }
     })
   }
@@ -298,6 +299,7 @@ export class UserDetailsComponent implements OnInit {
         this.userPhoto = null;
       },
       error:(err:any)=>{
+        this.toasterservice.error ("Too large file ize")
       }
     })
   }

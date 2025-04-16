@@ -3,7 +3,7 @@
     <p-table #dt2 [value]="dataSource" dataKey="id" 
     [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
     [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
-      [globalFilterFields]="['S_No', 'User_ID', 'User_Name', 'MOBILE_NUM', 'EMAIL_ID', 'Aadhaar_No', 'PAN_No', 'Email_Id', 'USER_TYPE', 'REVENUE_DIVISIONs']"
+      [globalFilterFields]="[ 'USER_ID', 'USER_NAME', 'MOBILE_NUM', 'EMAIL_ID', 'USER_TYPE', 'REVENUE_DIVISION']"
       [tableStyle]="{ 'min-width': '50rem' }">
       <ng-template pTemplate="caption">
         <div class="searchbar">
@@ -92,8 +92,11 @@
         </div>
         <div class="form-group">
           <label for="userType" class="form-label">User Type <span class="text-danger">*</span></label>
-          <input type="text" id="userType" formControlName="userType" class="form-input" />
-          <small class="input-format-info">Format: AO/RI-1/SECRETARY</small>
+          <!-- <input type="text" id="userType" formControlName="userType" class="form-input" />
+          <small class="input-format-info">Format: AO/RI-1/SECRETARY</small> -->
+          <select formControlName="userType" class="form-input" aria-placeholder="select user type">
+            <option *ngFor="let code of userTypes" [value]="code">{{ code }}</option>
+        </select>
           <div *ngIf="form.get('userType')?.invalid && form.get('userType')?.touched">
             <small class="text-danger">User Type is required.</small>
           </div>
@@ -113,6 +116,9 @@
             (keydown)="validateEmailInput($event)" (keydown)="limitInputLength($event, 50)" />
           <div *ngIf="form.get('email_id')?.invalid && form.get('email_id')?.touched">
             <small class="text-danger">Email ID is required.</small>
+          </div>
+          <div *ngIf="form.get('email_id')?.invalid">
+            <small class="text-danger">Please check email formate.</small>
           </div>
         </div>
 

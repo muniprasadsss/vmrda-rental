@@ -12,7 +12,7 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-transaction-tracking',
   standalone: true,
-  imports: [PrimeNgModule,HeaderComponent,DashboardComponent,FooterComponent,FormsModule],
+  imports: [PrimeNgModule,FormsModule],
   templateUrl: './transaction-tracking.component.html',
   styleUrl: './transaction-tracking.component.scss'
 })
@@ -27,7 +27,13 @@ export class TransactionTrackingComponent {
   visible: boolean = false;
   value: string = '';
   status: any[] = [];
-  StatusFilter = [ 'Not Found','Captured','failed' ];
+  StatusFilter = [
+    { label: 'Not Found', value: 'Not Found' },
+    { label: 'Captured', value: 'Captured' },
+    { label: 'failed', value: 'failed' }
+  ];
+
+  
   fromDate!: Date;
   toDate!: Date;
 
@@ -63,8 +69,14 @@ export class TransactionTrackingComponent {
     this.dt2.filterGlobal(this.value, 'contains');
   }
 
-  onFilterStatus(event: Event): void {
-    this.dt2.filterGlobal(event, 'contains');
+  onFilterStatus(selectedStatuses: string[]): void {
+    if (selectedStatuses.length > 0) {
+      // Apply filtering to DataTable
+      this.dt2.filter(selectedStatuses, 'status', 'in'); // 'in' means "match any in the array"
+    } else {
+      // Clear the filter when no selection
+      this.dt2.clear();
+    }
   }
 
   onFilterDate() {

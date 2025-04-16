@@ -46,6 +46,7 @@ export class ChangeRequestComponent implements OnInit {
   tableData!:ChangedFields[];
   addRequestForm!: FormGroup;
   @ViewChild('dt2') dt2!: any;
+  @ViewChild('dt3') dt3!: any;
   selectedValue: string = '';
   userInfo:any;
   userInfoString:any;
@@ -118,7 +119,7 @@ export class ChangeRequestComponent implements OnInit {
       
       },
       error:(err:any)=>{
-
+        this.toasterservice.error ("Too large file ize")
       }
     })
   }
@@ -165,11 +166,8 @@ export class ChangeRequestComponent implements OnInit {
       return item.status === 'Closed'
     })
 
-    if( this.userRole === 'USER'){
-          this.tableData = this.pendingRecordes;
-    }else{
-      this.tableData = this.pendingRecordes;
-    }
+
+    this.tableData = this.pendingRecordes;
     this.cdr.detectChanges();
   }
 
@@ -177,6 +175,12 @@ export class ChangeRequestComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     this.value = target.value;
     this.dt2.filterGlobal(this.value, 'contains');
+  }
+
+  onClosedFilterGlobal(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.value = target.value;
+    this.dt3.filterGlobal(this.value, 'contains');
   }
 
 

@@ -75,7 +75,7 @@ export class BillDetailsComponent implements OnInit {
   billGenetaredCount: number = 0;
   billnotpaidCount: number = 0;
   totalDue: any;
-  billStatus: any[] = [];
+  Status: any[] = [];
   billNumbers: any;
   propertyNames: any[] | undefined;
   AddBillForm:FormGroup
@@ -147,26 +147,28 @@ showAddBillPopup: any;
     this.AddBillForm = this.fb.group({
       User: [null, Validators.required],
       Property: [null],
-      Bill_generated_date: [null],
-      Rental_lease_amount_permonth: [null],
-      GST: [null],
-      Power_bill: [null],
-      Maintainance_bill: [null],
-      Water_bill: [null],
-      Rental_interest_percent: [null],
-      Total_rental_interest: [null],
-      Total: [null,  [Validators.required, this.greaterThanZero]],
-      TotalPaid: [null],
-      Due: [null],
+      Bill_generated_date: [0],
+      Rental_lease_amount_permonth: [0],
+      GST: [0],
+      Power_bill: [0],
+      Maintainance_bill: [0],
+      Water_bill: [0],
+      Rental_interest_percent: [0],
+      Total_rental_interest: [0],
+      Total: [0,  [Validators.required, this.greaterThanZero]],
+      TotalPaid: [0],
+      Due: [0],
       Status: [null],
       BillStatus: [null],
-      TDS: [null],
+      TDS: [0],
       Attachment_URL: [null],
       property_name: [null]
     });
    }
 
-   billStatusFilter = [ 'Partially Paid','Not Paid' ];
+   billStatusFilter = [ {label : 'Partially Paid', value : 'Partially Paid'},
+                        { label: 'Not Paid', value: 'Not Paid' },
+                      ];
 
   ngOnInit(): void {
     this.userRole = localStorage.getItem('role')
@@ -204,9 +206,14 @@ this.totalDue = parseFloat(this.totalDue.toFixed(2));
     this.dt2.filterGlobal(value, 'contains');
   }
 
-  onFilterGlobal(event: Event): void {
-
-    this.dt2.filterGlobal(event, 'contains');
+  onFilterStatus(selectedStatuses: string[]): void {
+    if (selectedStatuses.length > 0) {
+      // Apply filtering to DataTable
+      this.dt2.filter(selectedStatuses, 'Status', 'in'); // 'in' means "match any in the array"
+    } else {
+      // Clear the filter when no selection
+      this.dt2.clear();
+    }
   }
 
   calculateTotal(): void {
@@ -421,6 +428,7 @@ this.totalDue = parseFloat(this.totalDue.toFixed(2));
      billData.Attachment_URL = this.attachmentUrl
     this.billDetailService.addBill(billData).subscribe({
       next: (response:any) => {
+        this.showAddBillPopup = false;
         this.toastrService.success('Bill added successfully!');
         this.AddBillForm.reset();
       },
@@ -430,6 +438,11 @@ this.totalDue = parseFloat(this.totalDue.toFixed(2));
         console.error(error);
       }
     });
+  }
+
+  onCancel() {
+    this.AddBillForm.reset(); // Reset the form
+    this.showAddBillPopup = false; // Close the modal
   }
 
   onFileChange(event: any) {
@@ -452,6 +465,7 @@ this.totalDue = parseFloat(this.totalDue.toFixed(2));
       this.fileToUpload = null;
     },
     error:(err:any)=>{
+      this.toastrService.error ("Too large file ize")
     }
   })
   }
@@ -947,7 +961,7 @@ AllBillsPaymentPage() {
     this.locationFilter = [];
     this.propertyFilter = [];
     this.alloteFilter = []; 
-    this.billStatus=[];   
+    this.Status=[];   
     this.getbilldetails();
   }
 

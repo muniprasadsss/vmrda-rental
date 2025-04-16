@@ -1,21 +1,7 @@
 <div class="card custom-table">
-  <p-table #dt2 [value]="dataSource"  [globalFilterFields]="[
-  'SL_NO', 
-  'USER_ID', 
-  'USER_NAME', 
-  'PROPERTY', 
-  'START_DATE', 
-  'END_DATE', 
-  'DATE_OF_RENEWAL_OF_LICENSE', 
-  'RENTAL_LEASE_AMOUNT_PERMONTH', 
-  'RENT_GO_LIVE', 
-  'RENTAL_LEASE_PERIOD', 
-  'RENTAL_INTRESET_PERCENT', 
-  'RENTAL_HIKE_PERCENT', 
-  'GST', 
-  'LEASE_DEED_NO']" [tableStyle]="{ 'min-width': '75rem' }"
-    [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
-    [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
+  <p-table #dt2 [value]="dataSource"  [globalFilterFields]="['SL_NO', 'USER_ID', 'USER_NAME', 'PROPERTY', 'START_DATE', 'END_DATE','DATE_OF_RENEWAL_OF_LICENSE', 'RENTAL_LEASE_AMOUNT_PERMONTH', 'RENT_GO_LIVE', 'RENTAL_LEASE_PERIOD', 'RENTAL_INTRESET_PERCENT', 'RENTAL_HIKE_PERCENT', 'GST', 'LEASE_DEED_NO']"
+   [tableStyle]="{ 'min-width': '75rem' }"[resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+     [columnResizeMode]="'fit'"[scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
   >
     <ng-template pTemplate="caption">
       <div class="searchbar">
@@ -31,9 +17,7 @@
             <div class="search">
               <p-multiSelect 
                 [options]="propertyCode" 
-                placeholder="Property"
-                optionLabel="PROPERTY_CODE"
-                display="chip"
+                placeholder=" Select Property"       
                 [filter]="true"
               emptyFilterMessage="No results found"
                 (onChange)="onSelectGlobal('PROPERTY_CODE', $event.value)"
@@ -43,20 +27,19 @@
             
             <div class="search">
               <p-multiSelect 
-                [options]="propertyCode" 
-                placeholder="Allote"
-                optionLabel="USER_NAME"
-                display="chip"
+                [options]="alloteName" 
+                placeholder=" Select Allote"
                 [filter]="true"
               emptyFilterMessage="No results found"
+              
                 (onChange)="onSelectGlobal('USER_NAME', $event.value)"
               >
-                <ng-template let-option pTemplate="item">
-                  {{ option.USER_NAME | slice:0:14 }} <!-- Limit dropdown item to 14 characters -->
+                <!-- <ng-template let-option pTemplate="item">
+                  {{ option | slice:0:14 }} 
                 </ng-template>
                 <ng-template let-selectedValue pTemplate="selectedItem">
-                  {{ selectedValue.USER_NAME | slice:0:14 }}
-                </ng-template>
+                  {{ selectedValue | slice:0:14 }}
+                </ng-template> -->
               </p-multiSelect>
             </div>
             
@@ -140,9 +123,51 @@
         <div class="form-group">
           <label for="username" class="form-label">Upload </label>
           <input type="file" id="fileupload" class="form-input" formControlName = "attachment" (change)="onFileChange($event)" />
-          <!-- <div *ngIf="addNewForm.get('username')?.invalid && addNewForm.get('username')?.touched">
-            <small class="text-danger">Username is required.</small>
-          </div> -->
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="DATE_OF_RENEWAL_OF_LICENSE" class="form-label">Date of renuewal<span class="text-danger">*</span></label>
+          <input type="date" id="DATE_OF_RENEWAL_OF_LICENSE" formControlName="DATE_OF_RENEWAL_OF_LICENSE" class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label for="RENTAL_LEASE_AMOUNT_PERMONTH" class="form-label">Rent lease amount</label>
+          <input type="text" pInputText inputId="integeronly" id="RENTAL_LEASE_AMOUNT_PERMONTH" class="form-input" formControlName = "RENTAL_LEASE_AMOUNT_PERMONTH" />
+        </div>
+        <div class="form-group">
+          <label for="RENT_GO_LIVE" class="form-label">Rent go live</label>
+          <input type="text" id="RENT_GO_LIVE" class="form-input" formControlName = "RENT_GO_LIVE" />
+        </div>
+      </div>
+      <div class="form-row">
+        
+        <div class="form-group">
+          <label for="RENTAL_LEASE_PERIOD" class="form-label">Rent lease period</label>
+          <input type="text" id="RENTAL_LEASE_PERIOD" class="form-input" formControlName = "RENTAL_LEASE_PERIOD" />
+        </div>
+        <div class="form-group">
+          <label for="rental_interest_percent" class="form-label">Rent intrest %</label>
+          <input type="text" id="rental_interest_percent" class="form-input" formControlName = "rental_interest_percent" />
+        </div>
+        <div class="form-group">
+          <label for="RENTAL_HIKE_PERCENT" class="form-label">Rent hike %</label>
+          <input type="text" id="RENTAL_HIKE_PERCENT" inputId="minmax" mode="decimal" [min]="0" [max]="100" suffix="%" class="form-input" formControlName = "RENTAL_HIKE_PERCENT" />
+        </div>
+      </div>
+      <div class="form-row">
+        
+        <div class="form-group">
+          <label for="GST" class="form-label">GST </label>
+          <input type="text" id="GST" class="form-input" formControlName = "GST" />
+        </div>
+        <div class="form-group">
+          <label for="GST_INTEREST_PERCENT" class="form-label">GST % </label>
+          <input type="text" id="GST_INTEREST_PERCENT" class="form-input" formControlName = "GST_INTEREST_PERCENT"  />
+        </div>
+        <div class="form-group">
+          <label for="LEASE_DEED_NO" class="form-label">Lease deed no. </label>
+          <input type="text" id="LEASE_DEED_NO" class="form-input" formControlName = "LEASE_DEED_NO"  />
         </div>
       </div>
 
@@ -150,9 +175,7 @@
         <div class="form-group">
           <label for="startdate" class="form-label">Start Date <span class="text-danger">*</span></label>
           <input type="date" id="startdate" formControlName="start_date" class="form-input" />
-          <div *ngIf="addNewForm.get('start_date')?.invalid && addNewForm.get('start_date')?.touched">
-            <small class="text-danger">Start Date is required.</small>
-          </div>
+         
         </div>
         <div class="form-group">
           <label for="enddate" class="form-label">End Date <span class="text-danger">*</span></label>

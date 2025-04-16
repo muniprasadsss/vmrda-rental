@@ -47,15 +47,6 @@ html {
   text-decoration: none;
 }
 
-// .login-box {
-//   background-color: white;
-//   padding: 30px;
-//   width: 350px;
-//   border-radius: 10px;
-//   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-//   opacity: 0.8;
-  
-// }
 
 .login-box {
   
@@ -141,11 +132,6 @@ html {
   }
 }
 
-// .forgot-link:hover {
-//   text-decoration: underline;
-//   cursor: pointer;
-// }
-
 .terms {
   margin-top: 10px;
   font-size: 0.75em;
@@ -215,4 +201,21 @@ button[disabled] {
   background-color: #fffafa;
   margin-top: 1rem;
   padding: 0.1rem;
+}
+
+.venue-bookings-link{
+  background-color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  align-items: center;
+  padding: 1rem;
+
+  .title{
+    padding-bottom: 1rem;
+  }
+}
+
+.btn{
+  margin-top: 0.4rem;
 }
