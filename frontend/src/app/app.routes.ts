@@ -15,6 +15,7 @@ import { IssueNoticeComponent } from './issue-notice/issue-notice.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SessionPageComponent } from './session-expired/session-page/session-page.component';
 import { VacantPropertiesComponent } from './vacant-properties/vacant-properties.component';
+import { RequestsComponent } from './requests/requests.component';
 
 
 export const routes: Routes = [
@@ -34,6 +35,8 @@ export const routes: Routes = [
     { path: 'transactionTracking', component: TransactionTrackingComponent, 
         canActivate: [AuthGuardsService], data: { role: ['RI', 'AO','ADMIN','IT-TEAM','CO_ADMIN','CAOCC', 'ACCOUNTS_TEAM'] } },
     { path: 'changeRequest', component: ChangeRequestComponent, 
+        canActivate: [AuthGuardsService], data: { role: ['RI','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','USER','IT-TEAM','CO_ADMIN','CAOCC', 'ACCOUNTS_TEAM'] } },
+    { path: 'requestsComponent', component: RequestsComponent, 
         canActivate: [AuthGuardsService], data: { role: ['RI','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','USER','IT-TEAM','CO_ADMIN','CAOCC', 'ACCOUNTS_TEAM'] } },
     { path: 'reports', component: ReportsComponent,
          canActivate: [AuthGuardsService], data: { role: ['RI','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','IT-TEAM','CO_ADMIN','CAOCC', 'ACCOUNTS_TEAM'] } },

@@ -4,7 +4,7 @@ export interface usertagging {
     END_DATE: any;
     USER_ID: any;
     USER_NAME: any;
-    S_No?: number;                          // Corresponds to "S No"
+    SL_NO?: number;                          // Corresponds to "S No"
     User_ID?: string;                       // Corresponds to "User Id"
     User_Name?: string;                     // Corresponds to "USER_NAME"
     Property?: string;                      // Corresponds to "PROPERTY"

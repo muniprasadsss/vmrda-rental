@@ -10,6 +10,7 @@
         <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Tenants"> </p-tabPanel>
         <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Assets"> </p-tabPanel>
         <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Tenant Tagging"> </p-tabPanel>
+        <p-tabPanel *ngIf="!(user_type === 'USER' || user_type === 'IT-TEAM' || user_type === 'ACCOUNTS_TEAM' )" header="Requests"> </p-tabPanel>
         <p-tabPanel *ngIf="(user_type === 'AO'  || user_type === 'SECRETARY' || user_type === 'ADMIN' || user_type === 'CO_ADMIN' || user_type === 'CAOCC' || user_type === 'ACCOUNTS_TEAM')" header="Vacant Properties"> </p-tabPanel>
     </p-tabView>
 </div>

@@ -15,7 +15,7 @@
               <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
             </p-iconField>
           </div>
-          <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
+          <div class="dialog" *ngIf="(userRole !== 'USER' || userRole !== 'ACCOUNTS_TEAM' || userRole !== 'IT-TEAM')">
             <!-- <p-button (click)="showDialog()" label=" + Add New" severity="success" size="small" /> -->
             <button class="addbutton" (click)="downloadExcel()" pTooltip="Download tenant data" tooltipPosition="bottom" style="margin-right: 1rem;">
               <i class="pi pi-file-excel" style="font-size: 1rem"></i>
@@ -57,7 +57,7 @@
           <td >{{ customer.EMAIL_ID }}</td>
           <td >{{ customer.GST_IN }}</td>
           <td 
-            *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
+            *ngIf="(userRole !== 'USER' || userRole !== 'ACCOUNTS_TEAM' || userRole !== 'IT-TEAM' )">
             <div class="rowbtn">
               <button class="editButton" pTooltip="Edit Tenant" tooltipPosition="left"
                 (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>

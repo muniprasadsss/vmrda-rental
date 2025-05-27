@@ -59,7 +59,7 @@
             </div>
             
           </div>
-        <div class="dialog" *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
+        <div class="dialog" *ngIf="(userRole !== 'USER' || userRole !== 'ACCOUNTS_TEAM' || userRole !== 'IT-TEAM')">
           <button class="addbutton" (click)="downloadExcel()" pTooltip="Download tenant tagging data" tooltipPosition="bottom" style="margin-right: 1rem;">
             <i class="pi pi-file-excel" style="font-size: 1rem"></i>
           </button>
@@ -86,7 +86,7 @@
         <th pResizableColumn>GST%</th>
         <!-- <th pSortableColumn="GST_INTEREST_PERCENT">GST INTEREST PERCENT<p-sortIcon field="GST_INTEREST_PERCENT"></p-sortIcon></th> -->
         <th pResizableColumn>Lease Deed Number</th>
-        <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"></th>
+        <th *ngIf="(userRole !== 'USER' || userRole !== 'ACCOUNTS_TEAM' || userRole !== 'IT-TEAM')"></th>
         <th ></th>
       </tr>
     </ng-template>
@@ -107,7 +107,7 @@
         <td >{{ lease.RENTAL_HIKE_PERCENT }}</td>
         <td >{{ lease.GST }}</td>
         <td >{{ lease.LEASE_DEED_NO }}</td>
-        <td *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
+        <td *ngIf="(userRole !== 'USER' || userRole !== 'ACCOUNTS_TEAM' || userRole !== 'IT-TEAM')">
           <div class="rowbtn">
             <button class="editButton" pTooltip="Edit Asset Tagging" tooltipPosition="left" (click)="editUser(lease)"><i
                 class="pi pi-pencil"></i></button>
@@ -193,28 +193,28 @@
       <div class="form-row">
         <div class="form-group">
           <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-          <input type="text" id="username" formControlName="username" class="form-input" />
+          <input type="text" id="username" formControlName="USER_NAME" class="form-input" />
         </div>
         <div class="form-group">
           <label for="userId" class="form-label">User Id <span class="text-danger">*</span></label>
-          <input type="text" id="userId" formControlName="user_id" class="form-input" />
+          <input type="text" id="userId" formControlName="USER_ID" class="form-input" />
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label for="property" class="form-label">Property <span class="text-danger">*</span></label>
-          <input type="text" id="property" formControlName="property" class="form-input" />
+          <input type="text" id="property" formControlName="PROPERTY" class="form-input" />
           <small class="input-format-info">Format: UBC-ABC-01</small>
         </div>
         <div class="form-group">
           <label for="startdate" class="form-label">Start Date <span class="text-danger">*</span></label>
-          <input type="date" id="startdate" formControlName="start_date" class="form-input" />
+          <input type="date" id="startdate" formControlName="START_DATE" class="form-input" />
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label for="enddate" class="form-label">End Date <span class="text-danger">*</span></label>
-          <input type="date" id="enddate" formControlName="end_date" class="form-input" />
+          <input type="date" id="enddate" formControlName="END_DATE" class="form-input" />
         </div>
       </div>
     </div>

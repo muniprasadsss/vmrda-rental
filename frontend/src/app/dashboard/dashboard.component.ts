@@ -69,6 +69,9 @@ export class DashboardComponent implements OnInit {
             case 'Department Users':
                 this.route.navigateByUrl('/departmentusers');
                 break;
+            case 'Requests':
+                this.route.navigateByUrl('/requestsComponent');
+                break;
                 case 'Vacant Properties':
                     this.route.navigateByUrl('/vacant-properties');
                     break;
