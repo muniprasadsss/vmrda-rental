@@ -39,9 +39,8 @@ export class AuthGuardsService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const routeRole = route.data['role'];
-    const token = localStorage.getItem('token');
     
-    if (token ) {
+    if (routeRole ) {
       if (this.userRole && routeRole && this.isAuthorized(routeRole) && this.isAuthenticated()) {
         return true;
       } else {
@@ -112,11 +111,9 @@ export class AuthGuardsService implements CanActivate {
 
   logout() {
     const userId = localStorage.getItem('userId');
-    const token = localStorage.getItem('token');
-    if(userId !== null || token !== null){
+    if(userId !== null){
       const data = {
         user_id: userId,
-        token: token
       }
       this.loginService.logout(data).subscribe({
       
@@ -129,7 +126,6 @@ export class AuthGuardsService implements CanActivate {
       });
     }
    
-    localStorage.removeItem('token'); 
     localStorage.removeItem('user');
     localStorage.removeItem('role');
     localStorage.removeItem('userId');
@@ -141,7 +137,7 @@ export class AuthGuardsService implements CanActivate {
 
 // Get the JWT token
 getToken(): string | null {
-  return localStorage.getItem('token');
+  return localStorage.getItem('userId');
 }
 
 // Check if user is authenticated

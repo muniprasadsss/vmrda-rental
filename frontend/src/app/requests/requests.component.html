@@ -1,0 +1,80 @@
+<div class="content">
+  <div class="card">
+    <p-table [value]="requests" dataKey="id" 
+    >
+      <!-- Table Header -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3rem"></th> <!-- Expand/Collapse column -->
+          <th>Entity</th>
+          <th>Entity ID</th>
+          <th>Requested By</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+
+      <!-- Table Body -->
+      <ng-template pTemplate="body" let-request>
+        <tr>
+          <td>
+            <a href="#" [pRowToggler]="request">
+              <i class="pi" [ngClass]="isRowExpanded(request) ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+            </a>
+          </td>
+          <td>{{ request.entity_type }}</td>
+          <td>{{ request.entity_id }}</td>
+          <td>{{ request.requested_by }}</td>
+          <td>{{ request.status }}</td>
+          <td *ngIf="(user_type === 'AO' || user_type === 'SECRETARY' || user_type === 'ADMIN' || user_type === 'COMMISSIONER')">
+            <button style="margin: 0 0.5rem ;" pButton   class="p-button-success p-button-sm" (click)="approve(request.id)"> Approve</button>
+            <button pButton  class="p-button-danger p-button-sm" (click)="reject(request.id)">Reject</button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <!-- Row Expansion Template -->
+      <ng-template pTemplate="rowexpansion" let-request>
+        <tr>
+          <td colspan="6">
+            <p-table [value]="request.fields">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Field</th>
+                  <th>From</th>
+                  <th>To</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-field>
+                <tr>
+                  <td>{{ field.field_name }}</td>
+                  <td style="color: red">{{ field.old_value }}</td>
+                  <td style="color: green">{{ field.new_value }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+
+<!-- Confirmation Modal  -->
+<p-dialog header="" [(visible)]="isDialogVisible" modal="modal" [style]="{'width': '30vw','height': '60vh'}"
+    (onHide)="onHide()" >
+    <div style="display: flex;flex-direction:column;align-items: center;">
+        <div>
+            <p>Please Enter Remarks</p>
+        </div>
+        <div class="card flex justify-content-center">
+            <textarea rows="5" cols="30" variant="filled" pInputTextarea required [(ngModel)]="remarks">
+            </textarea>
+        </div>
+        <div style="margin-top: 20px;">
+            <button style="padding: 10px 20px;border: none;background-color: green;color: white;"
+                (click)="submitChangeAction()">Save</button>
+        </div>
+    </div>
+</p-dialog>

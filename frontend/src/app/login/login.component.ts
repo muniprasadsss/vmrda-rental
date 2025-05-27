@@ -63,7 +63,7 @@ export class LoginComponent {
           next:(res:any)=>{
             this.otpDiv= res.uservalid
             this.startTimer();
-            localStorage.setItem('token', res.token);
+            
             this.isLoginFailed = true; // Set flag to true when login fails
           },
           error:(err:any)=>{

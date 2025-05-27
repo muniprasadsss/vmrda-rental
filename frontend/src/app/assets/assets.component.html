@@ -24,7 +24,7 @@
                     <!-- <p-dropdown [options]="complex" [showClear]="true" [checkmark]="true" (onChange)="onSelectGlobal($event.value)"
                         placeholder="Select Location" /> -->
                 </div>
-                <!-- <p-button (onClick)="showDialog()"
+                <!-- <p-button (click)="showDialog()"
                     *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')"
                     label=" + Add New" severity="success" size="small" /> -->
                 <div *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN')">
@@ -187,7 +187,7 @@
         </div>
         <div class="btn">
             <p-button label="Update" type="submit" size="small" />
-            <p-button label="Cancel" severity="danger" (onClick)="editVisible = false" size="small" />
+            <p-button label="Cancel" severity="danger" (click)="editVisible = false" size="small" />
         </div>
     </form>
 </p-dialog>                                                                                                                                        
