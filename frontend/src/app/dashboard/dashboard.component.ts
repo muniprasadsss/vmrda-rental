@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 
 
 @Component({
@@ -14,11 +15,11 @@ export class DashboardComponent implements OnInit {
 
     activeTabIndex: any;
     user_type:any = '';
-    constructor(private route: Router) {};
+    constructor(private route: Router, private authService: AuthGuardsService) {};
     selectedHeader:string = '';
 
     ngOnInit() {
-        this.user_type = localStorage.getItem('role')
+        this.user_type = this.authService.user_Role;
         this.setActiveTabIndex();
     }
 

@@ -32,7 +32,11 @@ export class AssetsComponent implements OnInit {
 
   @ViewChild('dt2') dt2!: any;
   selectedPropertyCode!: string;
-  constructor(private http: AssetsService, private auth: AuthGuardsService, private assetsservice: AssetsService, private fb: FormBuilder) {
+  constructor(
+    private http: AssetsService, private auth: AuthGuardsService,
+     private assetsservice: AssetsService, private fb: FormBuilder,
+      private authService: AuthGuardsService
+    ) {
 
     // Initialize the form
     this.locationForm = this.fb.group({
@@ -80,8 +84,8 @@ export class AssetsComponent implements OnInit {
   
 
   ngOnInit() {
-    this.userRole = localStorage.getItem('role')
-    this.userID = localStorage.getItem('userId')
+    this.userRole = this.authService.user_Role
+    this.userID = this.authService.userId
     this.getLocationInfo();
   }
 

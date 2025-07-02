@@ -9,6 +9,7 @@ import { ChangeRequestService } from '../services/changeRequest/change-request.s
 import { BillDetailsService } from '../services/billDetails/bill-details.service';
 import { UserServiceService } from '../services/userService/user-service.service';
 import * as XLSX from 'xlsx';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 
 @Component({
   selector: 'app-receipt-details',
@@ -46,6 +47,7 @@ export class ReceiptDetailsComponent {
     private billDetailService: BillDetailsService,
     private userService: UserServiceService,
     private fb: FormBuilder,
+    private authService: AuthGuardsService,
     private toasterservice: ToastrService,
     private cd: ChangeDetectorRef){
 
@@ -63,8 +65,8 @@ export class ReceiptDetailsComponent {
   }
 
   ngOnInit(){
-    this.userRole = localStorage.getItem('role')
-    this.userID = localStorage.getItem('userId')
+    this.userRole = this.authService.user_Role
+    this.userID = this.authService.userId
     this.localuserData=localStorage.getItem("userInfo");
     this.localuserjsondata = JSON.parse(this.localuserData);
     console.log(this.localuserjsondata);

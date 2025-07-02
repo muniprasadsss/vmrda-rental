@@ -59,7 +59,7 @@ export class LoadingInterceptor implements HttpInterceptor {
             this.toasterservice.error(error.error);
            }
         else {
-          this.router.navigate(['/404']); // Navigate to 404
+          // this.router.navigate(['/404']); 
         }
         return throwError(error); // Re-throw the error after handling it
       }),

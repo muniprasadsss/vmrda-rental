@@ -16,6 +16,7 @@ export interface userdetails {
     Email_Id?:string;
     GSTIN?:string;
     Revenue_Dvision?:string;
+    user_type?:string
 }
 interface UploadEvent {
     originalEvent: Event;

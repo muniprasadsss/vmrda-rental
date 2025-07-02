@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
         ]
       }
     ];
-    this.userType = localStorage.getItem("userId");
+    this.userType = this.authService.user_Role;
     this.userdetails=localStorage.getItem("userInfo");
     this.localStoragePassword = JSON.parse(this.userdetails);
     console.log(this.userType);

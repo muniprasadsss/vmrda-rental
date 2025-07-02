@@ -5,6 +5,7 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { BillDetailsService } from '../services/billDetails/bill-details.service';
 import { ReceptDetailsService } from '../services/receptDetails/recept-details.service';
 import { IssuenoticeService } from '../services/issueNotice/issuenotice.service';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 
 @Component({
   selector: 'app-issue-notice',
@@ -30,12 +31,13 @@ export class IssueNoticeComponent {
   paidBills!: billDetails[];
   constructor(private billDetailService: BillDetailsService, 
               private cd: ChangeDetectorRef, 
-              private issueNoticeService: IssuenoticeService, 
+              private issueNoticeService: IssuenoticeService,
+              private authService: AuthGuardsService, 
               http: ReceptDetailsService) {}
 
   ngOnInit(){
-    this.userRole = localStorage.getItem('role')
-    this.userID = localStorage.getItem('userId')
+    this.userRole = this.authService.user_Role
+    this.userID = this.authService.userId
     // this.getbilldetails();
     this.getIssueNoticeDetails();
   }

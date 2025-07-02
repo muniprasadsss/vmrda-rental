@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
 import * as XLSX from 'xlsx';
 import { RequestsService } from '../services/dept-request/dept-request.service';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 
 
 
@@ -42,7 +43,8 @@ export class UserTaggingsComponent implements OnInit {
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
     private Http: ChangeRequestService,
-    private deptRequest: RequestsService
+    private deptRequest: RequestsService,
+    private authService: AuthGuardsService
   ) {
     this.addNewForm = this.fb.group({
       user_id: [null, Validators.required],
@@ -71,8 +73,8 @@ export class UserTaggingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userRole = localStorage.getItem('role');
-    this.userID = localStorage.getItem('userId');
+    this.userRole = this.authService.user_Role;
+    this.userID = this.authService.userId;
     this.getUnoccupiedPropertys();
     this.getUserTaggingDetails();
     this.getPropertyCodes();

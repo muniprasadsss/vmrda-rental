@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { VacantpropertiesService } from '../services/vacantproperties/vacantproperties.service';
 import * as XLSX from 'xlsx';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 
 
 @Component({
@@ -28,9 +29,10 @@ export class VacantPropertiesComponent {
   formValue: any ; 
   currentdate!: string;
   Id!: string;
+  userdetails: any;
 
   constructor(private vacantPropertiesService: VacantpropertiesService,private fb: FormBuilder,
-    private toaster:ToastrService
+    private toaster:ToastrService, private authService: AuthGuardsService
   ){
     this.editForm = this.fb.group({
       editAllotteeName: [{ value: '', disabled: true }],
@@ -57,8 +59,9 @@ export class VacantPropertiesComponent {
 
   ngOnInit(): void {
     this.loadData(); 
-    this.userId = localStorage.getItem('username');
-    this.userRole = localStorage.getItem('role')
+    this.userdetails=localStorage.getItem("userInfo");
+    this.userId = JSON.parse(this.userdetails);
+    this.userRole = this.authService.user_Role
   }
 
   loadData(): void {

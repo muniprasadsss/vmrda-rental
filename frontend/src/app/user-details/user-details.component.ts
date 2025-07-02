@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
 import { ChangeRequestService } from '../services/changeRequest/change-request.service';
 import { RequestsService ,ChangeField } from '../services/dept-request/dept-request.service';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 
 
 @Component({
@@ -50,7 +51,8 @@ export class UserDetailsComponent implements OnInit {
     private fb: FormBuilder,
      private toasterservice: ToastrService,
      private Http: ChangeRequestService,
-     private deptRequest: RequestsService
+     private deptRequest: RequestsService,
+    private authService: AuthGuardsService
     )
   {
     this.addNewForm = this.fb.group({
@@ -77,8 +79,8 @@ export class UserDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userRole = localStorage.getItem('role')
-    this.userID = localStorage.getItem('userId')
+    this.userRole = this.authService.user_Role
+    this.userID = this.authService.userId
     this.getuserdetails()
   }
 

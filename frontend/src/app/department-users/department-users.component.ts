@@ -5,6 +5,7 @@ import { departmentusers } from '../interfaces/departmentUserInterfaces/departme
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import * as XLSX from 'xlsx';
 import { ToastrService } from 'ngx-toastr';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 
 
 @Component({
@@ -30,11 +31,12 @@ export class DepartmentUsersComponent {
   constructor(
     private admindetailsservice: DepartmentUsersService,
      private fb: FormBuilder,
-     private toastrService : ToastrService
+     private toastrService : ToastrService,
+      private authService: AuthGuardsService
     ) {}
 
   ngOnInit(): void {
-    this.userRole = localStorage.getItem('role')
+    this.userRole = this.authService.user_Role
     this.form = this.fb.group({
       user_id: [null,Validators.required],
       username: [null,Validators.required],

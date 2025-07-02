@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { ChangeRequest , RequestsService } from '../services/dept-request/dept-request.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 
 @Component({
   selector: 'app-requests',
@@ -21,12 +22,15 @@ export class RequestsComponent {
   user_type:any;
 
 
-  constructor(private service: RequestsService) {}
+  constructor(
+    private service: RequestsService,
+    private authService: AuthGuardsService
+  ) {}
 
   ngOnInit(): void {
     this.load();
-    this.reviewerId = localStorage.getItem('userId') || '';
-    this.user_type = localStorage.getItem('role');
+    this.reviewerId = this.authService.userId || '';
+    this.user_type = this.authService.user_Role;
   }
 
 

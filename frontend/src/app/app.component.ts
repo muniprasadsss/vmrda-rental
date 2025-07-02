@@ -34,14 +34,20 @@ export class AppComponent implements OnInit{
   }
     userType:any;
   ngOnInit() {
-    this.authService.isAuthenticated$.subscribe(auth => {
+    
+
+    this.authService.loadUserInfo().subscribe({
+      next: () => {
+        console.log('User loaded', this.authService.user)
+              this.authService.isAuthenticated$.subscribe(auth => {
       this.isAuthenticated = auth;
       if(this.isAuthenticated){
         this.authService.startTokenValidationCheck();
       }
       
-    });
-    this.userType = localStorage.getItem('role')
+    })
+
+    this.userType = this.authService.user_Role;
     if(this.userType !== undefined){
       if(this.userType === 'COMMISSIONER' || this.userType === 'SECRETARY'){
         this.router.navigateByUrl("changeRequest")
@@ -49,6 +55,12 @@ export class AppComponent implements OnInit{
         this.router.navigateByUrl("billDetails")
       }
     }
+
+  },
+      error: () =>{ console.warn('User not logged in or token expired')}
+    });
+
+
     
   }
 

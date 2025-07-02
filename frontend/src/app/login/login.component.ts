@@ -83,7 +83,10 @@ export class LoginComponent {
     if (this.otp) {
       this.LoginService.verifyOTP(this.otp,this.userID).subscribe({
         next:(res:any)=>{
-          localStorage.setItem('userInfo', JSON.stringify(res.data));
+
+          // this.getuserInfo();
+
+      localStorage.setItem('userInfo', JSON.stringify(res.data));
       this.authService.login(res.data.user_type,res.data.USER_ID)
       this.toasterservice.success("login successful")
 
@@ -91,6 +94,7 @@ export class LoginComponent {
         this.router.navigateByUrl("changeRequest")
       }else{
         this.router.navigateByUrl("billDetails")
+        console.log("User type is not commissioner or secretary, navigating to billDetails");
       }
         },
         error:(err:any)=>{
@@ -104,6 +108,13 @@ export class LoginComponent {
       
     }
   
+  }
+
+  getuserInfo() {
+this.authService.loadUserInfo().subscribe({
+      next: () => {console.log('User loaded', this.authService.user)},
+      error: () =>{ console.warn('User not logged in or token expired')}
+    });
   }
 
   forgetPassverifyOtp() {

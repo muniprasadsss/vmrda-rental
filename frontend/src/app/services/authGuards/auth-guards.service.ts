@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject, interval, Subscription } from 'rxjs';
+import { BehaviorSubject, interval, Observable, Subscription, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../login/login.service';
+import { userdetails } from '../../interfaces/userdetailsInterfaces/userdetailinterfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +14,12 @@ export class AuthGuardsService implements CanActivate {
   private userRole: string | null = null;
   private apiUrl = environment.apiUrl
   private tokenCheckInterval: Subscription | undefined;
-   sessionMessageSource = new BehaviorSubject<string>(''); // Holds session message
-   private hasVisited: boolean;
+  sessionMessageSource = new BehaviorSubject<string>(''); // Holds session message
+  private hasVisited: boolean;
+  private userSubject = new BehaviorSubject<any>(null); // Holds user information
+  user$ = this.userSubject.asObservable(); // Expose user information as an observable
   constructor(private router: Router,private http: HttpClient,private loginService:LoginService, ) {
-    this.checkInitialAuth();
+    this.checkInitialAuth()
     this.hasVisited = localStorage.getItem('hasVisited') === 'true';
   }
 
@@ -31,10 +34,11 @@ export class AuthGuardsService implements CanActivate {
   }
 
   private checkInitialAuth() {
-    const user = localStorage.getItem('user');
-    const role = localStorage.getItem('role');
+    console.log('Checking initial authentication...', this.userSubject.value?.user_type);
+    const role = this.userSubject.value?.user_type 
     this.userRole = role ? role.toUpperCase() : null;
-    this.authenticated.next(!!user);
+    console.log('User role after initial check:', this.userRole);
+    this.authenticated.next(!!role);
   }
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
@@ -57,6 +61,31 @@ export class AuthGuardsService implements CanActivate {
 
   private isAuthorized(routeRole: string[]): boolean {
     return routeRole.includes(this.userRole!);  // This line is safer now because we check for `userRole` earlier.
+  }
+
+  // Method to set user information
+  loadUserInfo():Observable<userdetails> {
+    
+      return this.http.get<userdetails>(`${this.apiUrl}/userinfo`, { withCredentials: true }).pipe(
+      tap((user:any) => {
+        this.userSubject.next(user);
+        this.checkInitialAuth();
+      })
+    );
+    
+  }
+
+  
+  get user(): userdetails | null {
+    return this.userSubject.value;
+  }
+
+  get user_Role(): string | null {
+    return this.user?.user_type ?? null;
+  }
+
+  get userId(): string | null {
+    return this.user?.User_ID ?? null;
   }
 
   checkTokenValidity() {
@@ -100,23 +129,21 @@ export class AuthGuardsService implements CanActivate {
     return this.authenticated.asObservable();
   }
 
-  login(role: string,userID:string) {
-    localStorage.setItem('userId',userID );
-    localStorage.setItem('user', 'authenticated');
-    localStorage.setItem('role', role.toUpperCase());
-    this.userRole = role.toUpperCase();
+  login(role: string, userID: string) {
+    // No localStorage usage, just set authenticated and fetch user info
     this.authenticated.next(true);
+    this.userSubject.next({ user_type: role, User_ID: userID });
+    this.checkInitialAuth();
     
   }
 
   logout() {
-    const userId = localStorage.getItem('userId');
-    if(userId !== null){
+    const userId = this.user?.User_ID;
+    if(userId !== null && userId !== undefined){
       const data = {
         user_id: userId,
       }
       this.loginService.logout(data).subscribe({
-      
         next:(res:any)=>{
           console.log(res);
         },
@@ -125,26 +152,18 @@ export class AuthGuardsService implements CanActivate {
         }
       });
     }
-   
-    localStorage.removeItem('user');
-    localStorage.removeItem('role');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userType');
     this.authenticated.next(false);
-    localStorage.removeItem('userInfo');
+    this.userRole = null;
+    this.userSubject.next(null);
     this.stopTokenValidationCheck();
   }
 
-// Get the JWT token
-getToken(): string | null {
-  return localStorage.getItem('userId');
-}
 
 // Check if user is authenticated
 isAuthenticated(): boolean {
-  const token = this.getToken();
+  const userRole = this.userRole;
   // Check token validity (implement your own logic for token expiration)
-  return !!token;
+  return !!userRole;
 }
 
 }

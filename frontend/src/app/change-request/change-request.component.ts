@@ -12,6 +12,7 @@ import { DummyUserService } from '../services/dummyUser/dummy-user.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { UserServiceService } from '../services/userService/user-service.service';
 import * as XLSX from 'xlsx';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 
 
 @Component({
@@ -66,13 +67,14 @@ export class ChangeRequestComponent implements OnInit {
     private toasterservice: ToastrService,
     private dummyUserService: DummyUserService,
     private UserService:UserServiceService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthGuardsService
   ) {}
 
   ngOnInit() {
     this.initializeForm();
-    this.userRole = localStorage.getItem('role')
-    this.userID = localStorage.getItem('userId')
+    this.userRole = this.authService.user_Role
+    this.userID = this.authService.userId
     this.getcrInfo();
      this.userInfoString = localStorage.getItem('userInfo');
     this.userInfo = JSON.parse(this.userInfoString);

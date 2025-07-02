@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { RazorpayComponent } from '../razorpay/razorpay.component';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 declare var Razorpay: any;
 
 @Component({
@@ -88,6 +89,7 @@ showAddBillPopup: any;
               private toastrService : ToastrService,
               private datePipe: DatePipe,
               private route: ActivatedRoute,
+              private authService: AuthGuardsService,
             ) {
     this.PaymentPopupform = this.fb.group({
       billNo: [{ value: null,disabled: true }],
@@ -171,8 +173,8 @@ showAddBillPopup: any;
                       ];
 
   ngOnInit(): void {
-    this.userRole = localStorage.getItem('role')
-    this.userID = localStorage.getItem('userId')
+    this.userRole = this.authService.user_Role;
+    this.userID = this.authService.userId;
     this.userdetails=localStorage.getItem("userInfo");
     this.userDetailsObject = JSON.parse(this.userdetails);
     this.username=this.userDetailsObject.USER_NAME

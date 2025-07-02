@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 import { ReportsServiceService } from '../services/reportsService/reports-service.service';
+import { AuthGuardsService } from '../services/authGuards/auth-guards.service';
 Chart.register(...registerables);
 @Component({
   selector: 'app-reports',
@@ -11,7 +12,11 @@ Chart.register(...registerables);
   styleUrl: './reports.component.scss'
 })
 export class ReportsComponent implements OnInit{
-  constructor(private route: Router,private http:ReportsServiceService){}
+  constructor(
+    private route: Router,
+    private http:ReportsServiceService,
+    private authService: AuthGuardsService
+  ){}
    userType:any;
   reportUrl:any
   public chart: any;
@@ -19,7 +24,7 @@ export class ReportsComponent implements OnInit{
 
 ngOnInit(): void {
 
-  this.userType=localStorage.getItem('userId')
+  this.userType=this.authService.userId
 
   if(this.userType === 'AO' || this.userType === 'SECRETARY' || this.userType === 'COMMISSIONER' ||
      this.userType === 'ADMIN' || this.userType === 'CO_ADMIN' || this.userType === 'ACCOUNTS_TEAM' || this.userType === 'JOINTCOMMISSIONER' || this.userType === 'IT-TEAM'){
