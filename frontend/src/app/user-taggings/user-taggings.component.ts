@@ -58,7 +58,7 @@ export class UserTaggingsComponent implements OnInit {
       end_date: [null, Validators.required]
     });
     this.editForm = this.fb.group({
-      username: [null, Validators.required],
+      USER_NAME: [null, Validators.required],
       user_id: [null, Validators.required],
       property: [null, Validators.required],
       start_date: [null, Validators.required],
@@ -208,7 +208,7 @@ export class UserTaggingsComponent implements OnInit {
     const startDate = this.formatDate(lease.START_DATE);
     const endDate = this.formatDate(lease.END_DATE);
     this.editForm.patchValue({
-      username: lease.USER_NAME,
+      USER_NAME: lease.USER_NAME,
       user_id: lease.USER_ID,
       property: lease.PROPERTY,
       start_date: startDate,

@@ -4,7 +4,6 @@ import { environment } from '../../../environments/environment';
 import { BehaviorSubject, interval, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../login/login.service';
-import { LoginService } from '../login/login.service';
 
 @Injectable({
   providedIn: 'root',
