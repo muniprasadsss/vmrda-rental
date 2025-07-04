@@ -3,6 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { environment } from '../configuration';
 import { BehaviorSubject, interval, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { LoginService } from '../login/login.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class AuthGuardsService implements CanActivate {
   private tokenCheckInterval: Subscription | undefined;
    sessionMessageSource = new BehaviorSubject<string>(''); // Holds session message
    private hasVisited: boolean;
-  constructor(private router: Router,private http: HttpClient ) {
+  constructor(private router: Router,private http: HttpClient, private loginService: LoginService) {
     this.checkInitialAuth();
     this.hasVisited = localStorage.getItem('hasVisited') === 'true';
   }

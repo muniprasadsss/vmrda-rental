@@ -13,19 +13,19 @@ export class LoadingInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    // const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
-    // if (token) {
-    //   request = request.clone({
-    //     setHeaders: {
-    //       Authorization: `${token}` // Attach the JWT token
-    //     }
-    //   });
-    // }
+    if (token) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `${token}` // Attach the JWT token
+        }
+      });
+    }
 
-    request = request.clone({
-    withCredentials: true
-  });
+  //   request = request.clone({
+  //   withCredentials: true
+  // });
 
     this.loadingService.show();  // Show loading spinner
 

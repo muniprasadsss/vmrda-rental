@@ -35,6 +35,11 @@ export class LoginService {
     return this.http.post(`${this.apiUrl}/verify-otp`, body);
   }
 
+   logout(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/logout`, data);
+  }
+
+
   OtpForChangePassword(UserId: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/send-otp`, {USER_ID:UserId});
   }
