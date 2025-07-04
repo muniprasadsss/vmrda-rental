@@ -124,26 +124,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  // saveData() {
-  //   if (this.profileForm.valid) {
-  //     const formData = { ...this.profileForm.getRawValue()};
-  //     const payload= {
-  //       USER_NAME:formData.USER_NAME,
-  //       MOBILE_NUM:formData.MOBILE_NUM,
-  //       EMAIL_ID:formData.EMAIL_ID,
-  //       USER_ID:formData.USER_ID,
-  //     }
-  //     this.profileService.updateProfile(payload).subscribe(
-  //       response => {
-  //         this.viewProfileDialog = false; // Close the dialog
-  //       },
-  //       error => {
-  //         console.error('Error updating profile:', error);
-  //       }
-  //     );
-  //   } else {
-  //   }
-  // }
+
 
   saveData() {
     if (this.profileForm.valid) {
@@ -176,15 +157,14 @@ export class HeaderComponent implements OnInit {
   
 
   editPassword() {
-    const PasswordinLocal = this.localStoragePassword.Password; // Assume this holds the stored password
     if (this.passwordform.valid) {
-      const passwordData = this.passwordform.value; // Get form data
+      const passwordData = this.passwordform.value; 
       const old_password = passwordData.oldPassword;
       const new_password = passwordData.newPassword;
       const confirm_new_password = passwordData.ConfirmnewPassword;
   
-      if (old_password === PasswordinLocal) {
-        if (new_password === confirm_new_password && new_password !== PasswordinLocal) {
+      if (old_password !== null) {
+        if (new_password === confirm_new_password && new_password !== old_password) {
           const senddata = {
             old_password,
             new_password,

@@ -129,7 +129,7 @@ export class AuthGuardsService implements CanActivate {
     return this.authenticated.asObservable();
   }
 
-  login(role: string, userID: string) {
+  login(role: any, userID: any) {
     // No localStorage usage, just set authenticated and fetch user info
     this.authenticated.next(true);
     this.userSubject.next({ user_type: role, User_ID: userID });
@@ -165,5 +165,12 @@ isAuthenticated(): boolean {
   // Check token validity (implement your own logic for token expiration)
   return !!userRole;
 }
+
+  getSignedUrl(fileUrl: string) {
+  return this.http.get<{ url: string }>(`${this.apiUrl}/file-url`, {
+    params: { key: fileUrl }
+  });
+}
+
 
 }

@@ -101,8 +101,7 @@ onFilterGlobal(event: Event): void {
   getuserdataforreciept(reciept : any){
     console.log(reciept.User);
     if(this.userRole === "USER"){
-      const username=this.localuserjsondata.USER_NAME;
-      console.log(username,'0-0-0-');
+      const username= this.localuserjsondata.USER_NAME;
       this.generatePDF(reciept,username);
       console.log('user reciept added------------');
     }
@@ -287,14 +286,17 @@ uploadAttachment() {
 
 
   
-    downloadFile(url: string) {
-      if (url) {
-        // Open the S3 URL in a new tab
-        window.open(url, '_blank');
-      } else {
-        console.error('No attachment URL provided');
-      }
+downloadFile(fileKey: string) {
+  this.authService.getSignedUrl(fileKey).subscribe({
+    next: ({ url }) => {
+      // Open in new tab or trigger download
+      window.open(url, '_blank'); // or use anchor download
+    },
+    error: () => {
+      alert('Failed to download file securely');
     }
+  });
+}
     
   fetchBillDetails(billNo:any){
     this.http.getBillDetails(billNo).subscribe({

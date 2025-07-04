@@ -63,9 +63,11 @@ export class IssueNoticeComponent {
   }
 
   issueNoticeResponse(issuenotice: any) {
-    
+    const payload = {
+      ID: issuenotice.ID,
+    }
     // console.log(issuenotice, "check...");
-    this.issueNoticeService.issueNoticeMail(issuenotice.ID).subscribe({
+    this.issueNoticeService.issueNoticeMail(payload).subscribe({
       next: (response: any) => {
         console.log("Notice generated successfully:", response);
       },

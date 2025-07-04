@@ -64,12 +64,12 @@
             </div>
           </td>
           <td *ngIf="customer.user_image !== null">
-            <button class="editButton" (click)="downloaduserImage(customer.user_image)" pTooltip="Download Tenant Photo" tooltipPosition="left">
+            <button class="editButton" (click)="downloadFile(customer.user_image)" pTooltip="Download Tenant Photo" tooltipPosition="left">
             <i class="pi pi-image" style="cursor: pointer;color: #007BFF;"></i>
           </button>
           </td>
           <td *ngIf="customer.security_url !== null">
-            <button class="editButton" (click)="downloadsecurityAttachment(customer.security_url)" pTooltip="Download security doc" tooltipPosition="left">
+            <button class="editButton" (click)="downloadFile(customer.security_url)" pTooltip="Download security doc" tooltipPosition="left">
             <i class="pi pi-file-pdf" style="cursor: pointer;color: red;"></i>
           </button>
           </td>

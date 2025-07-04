@@ -450,22 +450,17 @@ const fieldMap: { [key: string]: string } = {
     })
   }
 
-  downloaduserImage(url: string) {
-    if (url) {
-      // Open the S3 URL in a new tab
-      window.open(url, '_blank');
-    } else {
-      console.error('No attachment URL provided');
+downloadFile(fileKey: string) {
+  this.authService.getSignedUrl(fileKey).subscribe({
+    next: ({ url }) => {
+      // Open in new tab or trigger download
+      window.open(url, '_blank'); // or use anchor download
+    },
+    error: () => {
+      alert('Failed to download file securely');
     }
-  }
+  });
+}
 
-  downloadsecurityAttachment(url: string) {
-    if (url) {
-      // Open the S3 URL in a new tab
-      window.open(url, '_blank');
-    } else {
-      console.error('No attachment URL provided');
-    }
-  }
 
 }

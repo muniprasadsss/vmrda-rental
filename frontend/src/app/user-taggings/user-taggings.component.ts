@@ -384,14 +384,17 @@ export class UserTaggingsComponent implements OnInit {
     this.editForm.reset();
   }
 
-  downloadFile(url: string) {
-    if (url) {
-      // Open the S3 URL in a new tab
-      window.open(url, '_blank');
-    } else {
-      console.error('No attachment URL provided');
+downloadFile(fileKey: string) {
+  this.authService.getSignedUrl(fileKey).subscribe({
+    next: ({ url }) => {
+      // Open in new tab or trigger download
+      window.open(url, '_blank'); // or use anchor download
+    },
+    error: () => {
+      alert('Failed to download file securely');
     }
-  }
+  });
+}
 
   downloadExcel(){
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource); // Convert table to sheet

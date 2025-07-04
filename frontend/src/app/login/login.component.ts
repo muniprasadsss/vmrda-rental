@@ -84,18 +84,26 @@ export class LoginComponent {
       this.LoginService.verifyOTP(this.otp,this.userID).subscribe({
         next:(res:any)=>{
 
-          // this.getuserInfo();
-
       localStorage.setItem('userInfo', JSON.stringify(res.data));
-      this.authService.login(res.data.user_type,res.data.USER_ID)
-      this.toasterservice.success("login successful")
+      this.authService.loadUserInfo().subscribe({
+        next: () => {
 
-      if(res.data.user_type === 'COMMISSIONER' || res.data.user_type === 'SECRETARY'){
-        this.router.navigateByUrl("changeRequest")
-      }else{
-        this.router.navigateByUrl("billDetails")
-        console.log("User type is not commissioner or secretary, navigating to billDetails");
-      }
+          this.authService.login(this.authService.user_Role,this.authService.userId)
+          this.toasterservice.success("login successful")
+              if(this.authService.user_Role === 'COMMISSIONER' || this.authService.user_Role === 'SECRETARY'){
+            this.router.navigateByUrl("changeRequest")
+          }else{
+            this.router.navigateByUrl("billDetails")
+            console.log("User type is not commissioner or secretary, navigating to billDetails");
+          }
+        },
+        error: (error: any) => {
+          console.error("Error loading user info:", error);
+        }
+      })
+      
+
+     
         },
         error:(err:any)=>{
           this.toasterservice.warning("Please enter valid otp")
@@ -110,12 +118,6 @@ export class LoginComponent {
   
   }
 
-  getuserInfo() {
-this.authService.loadUserInfo().subscribe({
-      next: () => {console.log('User loaded', this.authService.user)},
-      error: () =>{ console.warn('User not logged in or token expired')}
-    });
-  }
 
   forgetPassverifyOtp() {
     if (this.otp) {

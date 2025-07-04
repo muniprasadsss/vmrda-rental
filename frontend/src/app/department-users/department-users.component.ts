@@ -104,7 +104,7 @@ export class DepartmentUsersComponent {
       USER_ID: customer.USER_ID,
       editUserName: customer.USER_NAME,
       MOBILE_NUM: customer.MOBILE_NUM,
-      user_type: customer.USER_TYPE,
+      user_type: customer.user_type,
       REVENUE_DIVISION: customer.REVENUE_DIVISION,
     })
 
