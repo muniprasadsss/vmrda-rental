@@ -1,24 +1,312 @@
+<div class="comprehensive-reports-container">
+  <div class="reports-header">
+    <h1 class="page-title">Comprehensive Reports Dashboard</h1>
+    <p class="page-subtitle">
+      Real-time analytics and detailed reporting for VMRDA
+    </p>
+  </div>
 
-<div class="report-container">
-    <iframe 
-    title="VMRDA Report Test" 
-    width="1140" 
-    height="541.25" 
-    src="https://app.powerbi.com/reportEmbed?reportId=6f994df9-7b3b-4535-b2a9-968e7b090f05&autoAuth=true&ctid=392ae423-abe9-4219-b159-0ae77ac19fca&filter=UserDetails%2FUSER_ID+eq+%27RD-1%27" 
-    frameborder="0" 
-    as="script"
-    allowFullScreen="true" 
-    loading="lazy">
-  </iframe>
-
-  <!-- <div class="report-container">
-    <div>
-      <h2>Bills Demand (Donut Chart)</h2>
-      <canvas id="donutChartCanvas"></canvas>
+  <!-- Demand Vs Collection Section -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">Demand Vs Collection</h2>
     </div>
-  </div> -->
-  
-  
-  
-  
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <h3>Current Month Demand</h3>
+        <p class="metric-value">
+          ₹{{ demandVsCollection.currentMonthDemand | number }}
+        </p>
+      </div>
+      <div class="metric-card">
+        <h3>Current Month Revenue</h3>
+        <p class="metric-value">
+          ₹{{ demandVsCollection.currentMonthRevenue | number }}
+        </p>
+      </div>
+      <div class="metric-card">
+        <h3>Excess Amount</h3>
+        <p class="metric-value excess">
+          ₹{{ demandVsCollection.excessAmount | number }}
+        </p>
+      </div>
+      <div class="metric-card">
+        <h3>Current Month Due</h3>
+        <p class="metric-value due">
+          ₹{{ demandVsCollection.currentMonthDue | number }}
+        </p>
+      </div>
+      <div class="metric-card">
+        <h3>Total Due as of Today</h3>
+        <p class="metric-value total-due">
+          ₹{{ demandVsCollection.totalDueToday | number }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RI Wise Performance Section -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">RI Wise Performance</h2>
+    </div>
+    <div class="chart-container">
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="riPerformanceChartOptions"
+        class="chart"
+      >
+      </highcharts-chart>
+    </div>
+  </div>
+
+  <!-- Properties Section -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">Properties Overview</h2>
+    </div>
+    <div class="properties-grid">
+      <div class="property-card total">
+        <div class="card-icon">
+          <i class="pi pi-home"></i>
+        </div>
+        <div class="card-content">
+          <h3>Total Properties</h3>
+          <p class="property-count">{{ propertiesData.total }}</p>
+        </div>
+      </div>
+      <div class="property-card occupied">
+        <div class="card-icon">
+          <i class="pi pi-check-circle"></i>
+        </div>
+        <div class="card-content">
+          <h3>Occupied Properties</h3>
+          <p class="property-count">{{ propertiesData.occupied }}</p>
+        </div>
+      </div>
+      <div class="property-card vacant">
+        <div class="card-icon">
+          <i class="pi pi-times-circle"></i>
+        </div>
+        <div class="card-content">
+          <h3>Vacant Properties</h3>
+          <p class="property-count">{{ propertiesData.vacant }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bills Section -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">Bills Management</h2>
+      <div class="filter-controls">
+        <p-dropdown
+          [options]="monthOptions"
+          [(ngModel)]="selectedMonth"
+          placeholder="Select Month"
+          (onChange)="onMonthFilterChange($event)"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="bills-metrics">
+      <div class="bill-metric">
+        <h4>Due Amount</h4>
+        <p class="amount due-amount">₹{{ billsData.dueAmount | number }}</p>
+      </div>
+      <div class="bill-metric">
+        <h4>Total Due Amount</h4>
+        <p class="amount total-due-amount">
+          ₹{{ billsData.totalDueAmount | number }}
+        </p>
+      </div>
+    </div>
+    <div class="chart-container">
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="billsChartOptions"
+        class="chart"
+      >
+      </highcharts-chart>
+    </div>
+  </div>
+
+  <!-- Receipts Section -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">Receipts Analysis</h2>
+      <div class="filter-controls">
+        <p-dropdown
+          [options]="monthOptions"
+          [(ngModel)]="selectedReceiptMonth"
+          placeholder="Select Month"
+          (onChange)="onReceiptMonthFilterChange($event)"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="payment-modes">
+      <div
+        class="payment-mode-card"
+        *ngFor="let mode of receiptsData.paymentModes"
+      >
+        <h4>{{ mode.name }}</h4>
+        <p class="payment-amount">₹{{ mode.amount | number }}</p>
+        <span class="payment-count">{{ mode.count }} transactions</span>
+      </div>
+    </div>
+    <div class="chart-container">
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="receiptsChartOptions"
+        class="chart"
+      >
+      </highcharts-chart>
+    </div>
+  </div>
+
+  <!-- Issue Notices Section -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">Issue Notices</h2>
+      <div class="filter-controls">
+        <p-dropdown
+          [options]="propertyOptions"
+          [(ngModel)]="selectedProperty"
+          placeholder="Select Property"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-dropdown>
+        <p-dropdown
+          [options]="tenantOptions"
+          [(ngModel)]="selectedTenant"
+          placeholder="Select Tenant"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-dropdown>
+        <p-dropdown
+          [options]="divisionOptions"
+          [(ngModel)]="selectedDivision"
+          placeholder="Select Division"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-dropdown>
+        <p-calendar
+          [(ngModel)]="selectedDate"
+          placeholder="Select Date"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+        >
+        </p-calendar>
+        <p-button
+          label="Apply Filters"
+          (onClick)="applyIssueNoticeFilters()"
+          icon="pi pi-filter"
+        >
+        </p-button>
+      </div>
+    </div>
+    <div class="chart-container">
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="issueNoticesChartOptions"
+        class="chart"
+      >
+      </highcharts-chart>
+    </div>
+  </div>
+
+  <!-- Grievance Section -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">Grievance Analysis</h2>
+      <div class="filter-controls">
+        <p-dropdown
+          [options]="propertyOptions"
+          [(ngModel)]="selectedGrievanceProperty"
+          placeholder="Select Property"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-dropdown>
+        <p-dropdown
+          [options]="tenantOptions"
+          [(ngModel)]="selectedGrievanceTenant"
+          placeholder="Select Tenant"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-dropdown>
+        <p-dropdown
+          [options]="divisionOptions"
+          [(ngModel)]="selectedGrievanceDivision"
+          placeholder="Select Division"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-dropdown>
+        <p-calendar
+          [(ngModel)]="selectedGrievanceDate"
+          placeholder="Select Date"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+        >
+        </p-calendar>
+        <p-button
+          label="Apply Filters"
+          (onClick)="applyGrievanceFilters()"
+          icon="pi pi-filter"
+        >
+        </p-button>
+      </div>
+    </div>
+    <div class="chart-container">
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="grievanceChartOptions"
+        class="chart"
+      >
+      </highcharts-chart>
+    </div>
+  </div>
+
+  <!-- Reports Section -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">Detailed Reports</h2>
+    </div>
+    <div class="reports-grid">
+      <div class="report-card" *ngFor="let report of reportsData">
+        <div class="report-header">
+          <h4>{{ report.title }}</h4>
+          <p class="report-description">{{ report.description }}</p>
+        </div>
+        <div class="report-controls">
+          <p-calendar
+            *ngIf="report.hasDateFilter"
+            [(ngModel)]="report.selectedDate"
+            placeholder="Select Date"
+            dateFormat="dd/mm/yy"
+            [showIcon]="true"
+          >
+          </p-calendar>
+          <p-button
+            [label]="report.buttonText"
+            (onClick)="generateReport(report.type, report.selectedDate)"
+            icon="pi pi-file-export"
+            size="small"
+          >
+          </p-button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
