@@ -17,7 +17,8 @@ html {
   justify-content: space-around;
   align-items: center;
   height: 100vh;
-  background: url('../../assets/Untitled_design.png') no-repeat center center/cover;
+  background: url("../../assets/Untitled_design.png") no-repeat center
+    center/cover;
   padding: 0 50px;
 }
 
@@ -47,15 +48,10 @@ html {
   text-decoration: none;
 }
 
-
 .login-box {
-  
   padding: 30px;
   width: 350px;
-  
-  
 }
-
 
 .login-box form {
   display: flex;
@@ -79,7 +75,7 @@ html {
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-.passwordInput{
+.passwordInput {
   padding: 0.65rem;
   width: 100%;
 }
@@ -93,8 +89,8 @@ html {
 .checkbox-group input {
   margin-right: 10px;
 }
-.buttonDiv{
-  margin-top:1rem;
+.buttonDiv {
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,7 +99,7 @@ html {
 
 .signin-btn {
   padding: 0.5rem;
-  background-color: #e95420;
+  background-color: rgba(150, 127, 120, 1);
   border: none;
   color: white;
   font-size: 1em;
@@ -122,11 +118,11 @@ html {
   border: none;
   background: none;
   margin-top: 10px;
-  font-size: 1.2em; 
+  font-size: 1.2em;
   font-weight: bold;
   color: white;
   text-decoration: none;
-  &:hover{
+  &:hover {
     text-decoration: underline;
     cursor: pointer;
   }
@@ -145,21 +141,21 @@ html {
 .terms a:hover {
   text-decoration: underline;
 }
- .ForgotPasswordButton{
+.ForgotPasswordButton {
   border: none;
   // background-color:;
   color: white;
- }
+}
 
- .formHeading{
+.formHeading {
   margin-bottom: 1.5rem;
   letter-spacing: 2px;
   color: white;
   font-weight: bold;
-  font-size:large;
- }
+  font-size: large;
+}
 
- .otp-container {
+.otp-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -176,34 +172,34 @@ button[disabled] {
   cursor: not-allowed;
 }
 
-.otp-div{
+.otp-div {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 1rem;
 }
 
-.otp{
+.otp {
   width: 6.2rem;
-  padding:0.2rem;
-  background-color:#e95420;
-  color:white;
-  margin:1.5rem 0 0 3rem;
+  padding: 0.2rem;
+  background-color: #e95420;
+  color: white;
+  margin: 1.5rem 0 0 3rem;
   border-radius: 4px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     background-color: #d3471d;
   }
 }
 
-.error{
+.error {
   color: red;
   background-color: #fffafa;
   margin-top: 1rem;
   padding: 0.1rem;
 }
 
-.venue-bookings-link{
+.venue-bookings-link {
   background-color: aliceblue;
   display: flex;
   flex-direction: column;
@@ -211,11 +207,11 @@ button[disabled] {
   align-items: center;
   padding: 1rem;
 
-  .title{
+  .title {
     padding-bottom: 1rem;
   }
 }
 
-.btn{
+.btn {
   margin-top: 0.4rem;
 }
