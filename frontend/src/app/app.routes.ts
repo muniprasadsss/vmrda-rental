@@ -16,6 +16,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SessionPageComponent } from './session-expired/session-page/session-page.component';
 import { VacantPropertiesComponent } from './vacant-properties/vacant-properties.component';
 import { RequestsComponent } from './requests/requests.component';
+import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
 
 
 export const routes: Routes = [
@@ -38,7 +39,7 @@ export const routes: Routes = [
         canActivate: [AuthGuardsService], data: { role: ['RI','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','USER','IT-TEAM','CO_ADMIN','CAOCC', 'ACCOUNTS_TEAM'] } },
     { path: 'requestsComponent', component: RequestsComponent, 
         canActivate: [AuthGuardsService], data: { role: ['RI','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','USER','IT-TEAM','CO_ADMIN','CAOCC', 'ACCOUNTS_TEAM'] } },
-    { path: 'reports', component: ReportsComponent,
+    { path: 'reports', component: ReportDashboardComponent,
          canActivate: [AuthGuardsService], data: { role: ['RI','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','IT-TEAM','CO_ADMIN','CAOCC', 'ACCOUNTS_TEAM'] } },
     { path: 'departmentusers', component: DepartmentUsersComponent, canActivate: [AuthGuardsService], data: { role: ['AO', 'SECRETARY', 'COMMISSIONER','ADMIN','IT-TEAM','CO_ADMIN','CAOCC', 'ACCOUNTS_TEAM'] } },
     { path: 'vacant-properties', component: VacantPropertiesComponent, canActivate: [AuthGuardsService], data: { role: ['RI','AO', 'SECRETARY', 'COMMISSIONER','ADMIN','USER','IT-TEAM','CO_ADMIN','CAOCC', 'ACCOUNTS_TEAM'] } },

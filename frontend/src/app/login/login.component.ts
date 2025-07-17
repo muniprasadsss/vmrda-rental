@@ -61,10 +61,16 @@ export class LoginComponent {
         
         this.LoginService.userLogin(this.userID,this.password).subscribe({
           next:(res:any)=>{
+            if(res && res.uservalid && res.status === 200) {
             this.otpDiv= res.uservalid
             this.startTimer();
             
             this.isLoginFailed = true; // Set flag to true when login fails
+            }
+            else{
+            this.toasterservice.warning("Please enter valid details")
+          }
+
           },
           error:(err:any)=>{
             this.toasterservice.warning("Please enter valid userID and password")
@@ -87,7 +93,7 @@ export class LoginComponent {
       localStorage.setItem('userInfo', JSON.stringify(res.data));
       this.authService.loadUserInfo().subscribe({
         next: () => {
-
+          if(res && res.data && res.uservalid && res.status === 200){
           this.authService.login(this.authService.user_Role,this.authService.userId)
           this.toasterservice.success("login successful")
               if(this.authService.user_Role === 'COMMISSIONER' || this.authService.user_Role === 'SECRETARY'){
@@ -96,6 +102,11 @@ export class LoginComponent {
             this.router.navigateByUrl("billDetails")
             console.log("User type is not commissioner or secretary, navigating to billDetails");
           }
+          }
+          else{
+            this.toasterservice.warning("Please enter valid otp")
+          }
+
         },
         error: (error: any) => {
           console.error("Error loading user info:", error);
@@ -123,9 +134,15 @@ export class LoginComponent {
     if (this.otp) {
       this.LoginService.verifyOTPForgetPass(this.userID,this.otp).subscribe({
         next:(res:any)=>{
+          if(res && res.data && res.message === "OTP Verified Successfully" && res.status === 200) {
           localStorage.setItem('userInfo', JSON.stringify(res.user));
-        this.isNewPassword = true;
-        this.otpDiv = false;
+          this.isNewPassword = true;
+          this.otpDiv = false;
+          }
+          else{
+            this.toasterservice.warning("Please enter valid otp")
+          }
+
         },
         error:(err:any)=>{
           this.toasterservice.warning("Please enter valid otp")
