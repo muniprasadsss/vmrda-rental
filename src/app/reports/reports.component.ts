@@ -884,7 +884,7 @@ export class ReportsComponent implements OnInit {
 
   // Handle multiselect date changes
   onMultiSelectDateChange(report: any, selectedDates: Date[]): void {
-    report.selectedDates = selectedDates;
+    report.selectedDates = selectedDates || [];
 
     // Auto-set from and to dates based on selected dates
     if (selectedDates && selectedDates.length > 0) {
@@ -893,6 +893,9 @@ export class ReportsComponent implements OnInit {
       );
       report.fromDate = sortedDates[0];
       report.toDate = sortedDates[sortedDates.length - 1];
+    } else {
+      report.fromDate = null;
+      report.toDate = null;
     }
 
     console.log("Multi-select dates updated for", report.title, ":", {
@@ -902,28 +905,26 @@ export class ReportsComponent implements OnInit {
     });
   }
 
-  // Handle from date change
-  onFromDateChange(report: any, fromDate: Date): void {
-    report.fromDate = fromDate;
-    console.log("From date updated for", report.title, ":", fromDate);
-  }
-
-  // Handle to date change
-  onToDateChange(report: any, toDate: Date): void {
-    report.toDate = toDate;
-    console.log("To date updated for", report.title, ":", toDate);
-  }
+  // These methods are kept for future use if from/to date inputs are added back
+  // onFromDateChange(report: any, fromDate: Date): void {
+  //   report.fromDate = fromDate;
+  //   console.log('From date updated for', report.title, ':', fromDate);
+  // }
+  //
+  // onToDateChange(report: any, toDate: Date): void {
+  //   report.toDate = toDate;
+  //   console.log('To date updated for', report.title, ':', toDate);
+  // }
 
   // Validate date range
   isValidDateRange(report: any): boolean {
     if (report.hasDateRangeFilter) {
-      if (report.selectedDates && report.selectedDates.length > 0) {
-        return true;
-      }
-      if (report.fromDate && report.toDate) {
-        return report.fromDate <= report.toDate;
-      }
-      return false;
+      // Only check if multiselect dates are selected
+      return report.selectedDates && report.selectedDates.length > 0;
+    }
+    // For single date reports, check if date is selected
+    if (report.hasDateFilter) {
+      return report.selectedDate != null;
     }
     return true;
   }
@@ -933,13 +934,17 @@ export class ReportsComponent implements OnInit {
     if (!report.hasDateRangeFilter) return "";
 
     if (report.selectedDates && report.selectedDates.length > 0) {
-      return `${report.selectedDates.length} dates selected`;
-    }
-
-    if (report.fromDate && report.toDate) {
-      const fromStr = report.fromDate.toLocaleDateString();
-      const toStr = report.toDate.toLocaleDateString();
-      return `${fromStr} - ${toStr}`;
+      const count = report.selectedDates.length;
+      if (count === 1) {
+        return `1 date selected: ${report.selectedDates[0].toLocaleDateString()}`;
+      } else {
+        const sortedDates = [...report.selectedDates].sort(
+          (a, b) => a.getTime() - b.getTime(),
+        );
+        const fromStr = sortedDates[0].toLocaleDateString();
+        const toStr = sortedDates[sortedDates.length - 1].toLocaleDateString();
+        return `${count} dates selected (${fromStr} to ${toStr})`;
+      }
     }
 
     return "No dates selected";
