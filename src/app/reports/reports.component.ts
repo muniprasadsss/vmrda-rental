@@ -348,6 +348,25 @@ export class ReportsComponent implements OnInit {
     });
     console.log('Reports data initialized:', this.reportsData.length, 'reports');
   }
+    }
+
+  private initializeReportsData(): void {
+    // Ensure all reports have proper array initialization
+    this.reportsData.forEach(report => {
+      if (!report.selectedDates) {
+        report.selectedDates = [];
+      }
+      if (!report.selectedDate) {
+        report.selectedDate = new Date();
+      }
+      if (report.fromDate === undefined) {
+        report.fromDate = null;
+      }
+      if (report.toDate === undefined) {
+        report.toDate = null;
+      }
+    });
+    console.log('Reports data initialized:', this.reportsData.length, 'reports');
   }
 
   private setDefaultDateRange(): void {
