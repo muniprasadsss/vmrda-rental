@@ -1,0 +1,276 @@
+<div class="content">
+  <div class="card">
+    <p-table #dt2 [value]="dataSource" dataKey="id" 
+    [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+    [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
+      [globalFilterFields]="['SL_NO', 'USER_ID', 'USER_NAME', 'MOBILE_NUM', 'NATURE_OF_BUSINESS', 'Aadhaar_No', 'PAN', 'EMAIL_ID', 'GST_IN']"
+      [tableStyle]="{ 'min-width': '75rem' }" >
+      <ng-template pTemplate="caption">
+        <div class="searchbar">
+          <div class="search">
+            <p-iconField iconPosition="left" class="ml-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input pInputText type="text" (input)="onFilterGlobal($event)" placeholder="Search keyword" />
+            </p-iconField>
+          </div>
+          <div class="dialog" *ngIf="(userRole !== 'USER' || userRole !== 'ACCOUNTS_TEAM' || userRole !== 'IT-TEAM')">
+            <!-- <p-button (click)="showDialog()" label=" + Add New" severity="success" size="small" /> -->
+            <button class="addbutton" (click)="downloadExcel()" pTooltip="Download tenant data" tooltipPosition="bottom" style="margin-right: 1rem;">
+              <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+            </button>
+             <button class="addbutton" (click)="showDialog()">+ Add New Tenant</button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr style="font-size: 12px;">
+          <!-- <th pSortableColumn="SL_NO">S.No <p-sortIcon field="SL_NO" /></th> -->
+          <th pResizableColumn  pSortableColumn="USER_ID">User ID <p-sortIcon field="USER_ID" /></th>
+          <th pResizableColumn >User Name</th>
+          <th pResizableColumn >Total Due</th>
+          <th pResizableColumn >Months Due</th>
+          <th pResizableColumn >Mobile No</th>
+          <th pResizableColumn > Nature of Business</th>
+          <th pResizableColumn >Aadhar No</th>
+          <th pResizableColumn >PAN No</th>
+          <th pResizableColumn >Email Id</th>
+          <th pResizableColumn >GSTIN</th>
+          <!-- <th pSortableColumn="Revenue_Dvision">Revenue Division<p-sortIcon field="Revenue_Dvision" /></th> -->
+          <th *ngIf="(userRole === 'COMMISSIONER'  || userRole === 'SECRETARY' || userRole === 'AO' || userRole === 'ADMIN' || userRole === 'CO_ADMIN' )"></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-customer>
+        <tr style="font-size: 12px;">
+          <!-- <td style="width: 5%;">{{ customer.SL_NO }}</td> -->
+          <td >{{ customer.USER_ID }}</td>
+          <td >{{ customer.USER_NAME }}</td>
+          <td >{{ customer.total_due }}</td>
+          <td >{{ customer.months_due }}</td>
+          <td >{{ customer.MOBILE_NUM }}</td>
+          <td >{{ customer.NATURE_OF_BUSINESS }}</td>
+          <td >{{ customer.AADHARNO }}</td>
+          <td >{{ customer.PAN }}</td>
+          <td >{{ customer.EMAIL_ID }}</td>
+          <td >{{ customer.GST_IN }}</td>
+          <td 
+            *ngIf="(userRole !== 'USER' || userRole !== 'ACCOUNTS_TEAM' || userRole !== 'IT-TEAM' )">
+            <div class="rowbtn">
+              <button class="editButton" pTooltip="Edit Tenant" tooltipPosition="left"
+                (click)="openEditDialog(customer)"> <i class="pi pi-pencil"></i></button>
+            </div>
+          </td>
+          <td *ngIf="customer.user_image !== null">
+            <button class="editButton" (click)="downloadFile(customer.user_image)" pTooltip="Download Tenant Photo" tooltipPosition="left">
+            <i class="pi pi-image" style="cursor: pointer;color: #007BFF;"></i>
+          </button>
+          </td>
+          <td *ngIf="customer.security_url !== null">
+            <button class="editButton" (click)="downloadFile(customer.security_url)" pTooltip="Download security doc" tooltipPosition="left">
+            <i class="pi pi-file-pdf" style="cursor: pointer;color: red;"></i>
+          </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+
+<!-- Add New Dialog  -->
+
+<p-dialog header="Add New Tenant" [modal]="true" [(visible)]="visible" position="center" [style]="{ width: '35rem' }" (onHide)="closeaddDialog()">
+  <form [formGroup]="addNewForm" (ngSubmit)="addNewUser()">
+    <div class="form-container">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+          <input type="text" id="username" formControlName="username" class="form-input" />
+          <div *ngIf="addNewForm.get('username')?.invalid && addNewForm.get('username')?.touched">
+            <small class="text-danger">Username is required.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="mobile" class="form-label">Mobile No <span class="text-danger">*</span></label>
+          <input type="tel" id="mobile" formControlName="mobileNo" class="form-input" inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+          <div *ngIf="addNewForm.get('mobileNo')?.invalid && addNewForm.get('mobileNo')?.touched">
+            <small class="text-danger">Mobile No is required.</small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="business" class="form-label">Business <span class="text-danger">*</span></label>
+          <input type="text" id="business" formControlName="natureOfBusiness" class="form-input" />
+          <div *ngIf="addNewForm.get('natureOfBusiness')?.invalid && addNewForm.get('natureOfBusiness')?.touched">
+            <small class="text-danger">Business is required.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="aadhar" class="form-label">Aadhar No <span class="text-danger">*</span></label>
+          <input type="text" id="aadhar" formControlName="aadhar" class="form-input" inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 12)" />
+          <div *ngIf="addNewForm.get('aadhar')?.invalid && addNewForm.get('aadhar')?.touched">
+            <small class="text-danger">Aadhar No is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="pan" class="form-label">PAN No </label>
+          <input type="text" id="pan" class="form-input" formControlName="pan" maxlength="10"
+            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" (input)="convertToUpperCase($event)" />
+          <div *ngIf="addNewForm.get('pan')?.invalid && addNewForm.get('pan')?.touched">
+            <small class="text-danger">PAN No is required.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email" class="form-label">Email ID </label>
+          <input type="email" id="email" formControlName="email_id" class="form-input"
+            (keydown)="validateEmailInput($event)" (keydown)="limitInputLength($event, 50)" />
+          <div *ngIf="addNewForm.get('email_id')?.invalid && addNewForm.get('email_id')?.touched">
+            <small class="text-danger">Email ID is required.</small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="gstin" class="form-label">GST IN </label>
+          <input type="text" id="gstin" formControlName="gstIn" class="form-input"
+             (keydown)="limitInputLength($event, 15)" (input)="convertToUpperCase($event)"/>
+          <div *ngIf="addNewForm.get('gstIn')?.invalid && addNewForm.get('gstIn')?.touched">
+            <small class="text-danger">GST IN is required.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="tenantfileupload" class="form-label">Tenant Photo</label>
+            <input type="file" id="tenantfileupload" class="form-input" (change)="onuserphotoChange($event)"/>
+            <small class="input-format-info">Upload file size limit: 10MB</small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="securityattachmentupload" class="form-label">Security Attachment</label>
+            <input type="file" id="securityattachmentupload" class="form-input" (change)="onsecurityattachmentChange($event)"/>
+            <small class="input-format-info">Upload file size limit: 10MB</small>
+        </div>
+        <div class="form-group">
+          <label for="remarks" class="form-label">Remarks</label>
+          <input type="text" id="remarks" formControlName="remarks" class="form-input" />
+        </div>
+      </div>
+    </div>
+    <div class="btn">
+      <div class="save">
+        <p-button type="submit" label="Save" size="small" />
+      </div>
+      <div class="save">
+        <p-button label="Cancel" severity="danger" (click)="visible = false" size="small" />
+      </div>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Edit New Dilog  -->
+
+<p-dialog header="Edit Tenant" [(visible)]="editVisible" [modal]="true" position="center" [style]="{ width: '50rem' }" (onHide)="closeeditDialog()">
+  <form [formGroup]="editForm" (ngSubmit)="updateUser()">
+    <div class="form-container">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editUsername" class="form-label">Username <span class="text-danger">*</span></label>
+          <input type="text" id="editUsername" formControlName="editUsername" class="form-input" />
+          <div *ngIf="editForm.get('editUsername')?.invalid && editForm.get('editUsername')?.touched">
+            <small class="error">Username is required.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="editMobile" class="form-label">Mobile No <span class="text-danger">*</span></label>
+
+          <input type="number" id="editMobile" formControlName="editMobile" class="form-input" inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+          <div *ngIf="editForm.get('editMobile')?.invalid && editForm.get('editMobile')?.touched">
+            <small class="error">Please enter a valid 10-digit mobile number.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editBusiness" class="form-label">Business <span class="text-danger">*</span></label>
+          <input type="text" id="editBusiness" formControlName="editBusiness" class="form-input" />
+          <div *ngIf="editForm.get('editBusiness')?.invalid && editForm.get('editBusiness')?.touched">
+            <small class="error">Business is required.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="editAadhar" class="form-label">Aadhar No <span class="text-danger">*</span></label>
+          <input type="number" id="editAadhar" formControlName="editAadhar" class="form-input" inputmode="numeric"
+            (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 12)" />
+            <div *ngIf="editForm.get('editAadhar')?.invalid && editForm.get('editAadhar')?.touched">
+              <small class="error">Aadhar No is required.</small>
+            </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editPan" class="form-label">PAN No</label>
+          <input type="text" id="editPan" formControlName="editPan" class="form-input" maxlength="10"
+            (keydown)="validatePanInput($event)" (keydown)="limitInputLength($event, 10)" (input)="convertToUpperCase($event)"/>
+        </div>
+        <div class="form-group">
+          <label for="editEmail" class="form-label">Email ID</label>
+          <input type="email" id="editEmail" formControlName="editEmail" class="form-input"
+            (keydown)="validateEmailInput($event)" (keydown)="limitInputLength($event, 50)" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editGstin" class="form-label">GST IN</label>
+          <input type="text" id="editGstin" formControlName="editGstin" class="form-input" (keydown)="limitInputLength($event, 15)" (input)="convertToUpperCase($event)"/>
+        </div>
+        <div class="form-group">
+          <label for="editRevenue" class="form-label">Revenue Division <span class="text-danger">*</span></label>
+          <input type="text" id="editRevenue" formControlName="editRevenue" class="form-input" />
+          <div *ngIf="editForm.get('editRevenue')?.invalid && editForm.get('editRevenue')?.touched">
+            <small class="error">Revenue Division is required.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="tenantfileupload" class="form-label">Tenant Photo</label>
+          <input type="file" id="tenantfileupload" class="form-input" (change)="onuserphotoChange($event)"/>
+        </div>
+        <div class="form-group">
+          <label for="securityattachmentupload" class="form-label">Security Attachment</label>
+          <input type="file" id="securityattachmentupload" class="form-input" (change)="onsecurityattachmentChange($event)"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="remarks" class="form-label">Remarks</label>
+          <input type="text" id="remarks" formControlName="editRemarks" class="form-input"/>
+        </div>
+      </div>
+    </div>
+    <div class="btn">
+      <div class="save">
+        <p-button type="submit" label="Update" size="small"></p-button>
+      </div>
+      <div class="save">
+        <p-button label="Cancel" severity="danger" (click)="closeeditDialog()" size="small"></p-button>
+      </div>
+    </div>
+  </form>
+
+</p-dialog>

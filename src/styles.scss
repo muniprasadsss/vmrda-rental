@@ -1,0 +1,173 @@
+/* You can add global styles to this file, and also import other style files */
+// @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css"; /* Import PrimeIcons for icon fonts */
+
+
+/* Remove padding from the p-table header, body, and footer cells */
+.p-datatable .p-datatable-thead > tr > th,
+.p-datatable .p-datatable-tbody > tr > td,
+.p-datatable .p-datatable-tfoot > tr > td {
+    padding: 8px !important; 
+    
+}
+
+
+.p-datatable .p-datatable-header {
+    padding: 0.6rem ;
+}
+
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link{
+    padding: 1rem 0.9rem;
+    font-size: 15px ;
+    font-weight: 700 ;
+}
+
+.p-component{
+  font-size:0.9rem
+}
+
+.p-tabview .p-tabview-panels{
+    padding: 0;
+}
+
+::ng-deep .p-tabview-panels {
+    height: 38vh;
+    // overflow-y: auto;
+    overflow-x: auto;
+    padding: 0px;
+}
+
+
+// dialog styles ======
+.form-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .form-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .form-group {
+    width: 48%;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #6c757d; 
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+  }
+  .form-pinput {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+  }
+  
+  .btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.parent{
+  display: flex;
+  flex-direction: column;
+}
+.footer-content-dashboard{
+  margin-top: 3rem;
+}
+
+.card{
+  padding: 0rem 1rem;
+}
+.p-tooltip {
+  padding: 0.25rem 0.25rem; 
+  font-size: 0.75rem; 
+  max-width: 150px; 
+}
+ .p-tooltip-text  {
+  background-color: #333 ;
+  color: #fff ;
+}
+
+.text-danger {
+  color: red;
+}
+
+.addbutton {
+  display: inline-block;
+  background-color: #1ebc41; 
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.6rem 0.7rem;
+  font-size: 14px;
+  font-weight: 700 !important;
+  cursor: pointer;
+}
+.addbutton:hover {
+  background-color: #17a34a; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+}
+.editButton{
+  border: none;
+  background: none;
+  color: green;
+  cursor: pointer;
+ }
+
+ .p-datatable-thead{
+  white-space: nowrap;          // for adjust width of th based on content
+ }
+ 
+ .p-datatable .p-datatable-tbody > tr{
+  white-space: nowrap;           // for adjust width of td based on content  
+ }
+
+
+ .p-paginator{
+  padding: 0;
+ }
+
+ .p-multiselect-panel {
+  min-width: 200px !important;
+  max-width: 300px !important;
+}
+.p-component{
+  font-size: 0.8rem;
+}
+
+

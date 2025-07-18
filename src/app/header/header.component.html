@@ -1,0 +1,175 @@
+<div>
+
+    <header class="header">
+        <div class="logo">
+            <img src="../../assets/vmrda_logo_image.png" alt="Logo"  width="200" height="100" loading="lazy" style="width: 100%; margin-left: 1rem;">
+        </div>
+        <div class="title">
+            <h3>Visakhapatnam Metropolitan Region Development Authority</h3>
+        </div>
+        <div style="display: flex;">
+            <div style="margin: 0.313rem 1.25rem 0 0;">Welcome, {{localStoragePassword.USER_NAME}}</div>
+            <div style="cursor: pointer;">
+                <!-- <i class="pi pi-question-circle" style="font-size: 1.3rem;" (click)="navigateToUrl"></i> -->
+                <i class="pi pi-question-circle" style="font-size: 1.3rem;" (click)="navigateToUrl()"></i>
+            </div>
+            <div style="margin-left: 10px;cursor: pointer;" >
+              <!-- <p-menu #notificationmenu  [popup]="true" [style]="{ width: '50%' }">
+                <div class="noticifaction" *ngFor="let item of dataSource">
+                  <p>Your bill has been successfully generated for your property on  {{item.Bill_generated_date}}</p>
+                </div>
+              </p-menu> -->
+              <div class="card flex justify-content-center">
+                <p-dialog header="Notifications" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }" [position]="'topright'" (onHide)="closeNotificationDialog()">
+                  <div class="noticifaction" *ngFor="let item of dataSource">
+                    <p style="margin-right: 1rem;">{{item.Notification_Content}} <i class="pi pi-trash" style="font-size: 1.3rem;color: red;" (click)="deleteNotification(item.ID)"></i></p>
+                    <hr/>
+                  </div>
+                  <div style="display: flex;justify-content: center;margin-top: 1rem;">
+                  <span class="clearAllButton" (click)="clearAllNotifications()">Clear All</span>
+                </div>
+                </p-dialog>
+              </div>
+                <i class="pi pi-bell" style="font-size: 1.3rem;" (click)="showNotificationDialog()" pBadge [value]="dataSource?.length" severity="danger"></i>
+            </div>
+            <div style="margin-left: 10px;cursor: pointer;">
+                <p-menu #usermenu [model]="items" [popup]="true" [style]="{ width: '16%' }"></p-menu>
+                <i class="pi pi-user" style="font-size: 1.3rem;" (click)="usermenu.toggle($event)"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile View Dialog -->
+
+    <p-dialog header="View Profile" [(visible)]="viewProfileDialog" [modal]="true" [closable]="true" [style]="{ width: '50rem' }" >
+        <form [formGroup]="profileForm">
+            <div class="form-row">
+                <div class="form-group">
+                  <label for="mobile" class="form-label">User ID</label>
+                  <input type="text" id="mobile" formControlName="USER_ID" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" id="username" formControlName="USER_NAME" class="form-input" />
+                </div>
+            </div>
+            <div class="form-row">
+                    <div class="form-group">
+                      <label for="usertype" class="form-label">User Type</label>
+                      <input type="text" id="usertype" formControlName="user_type" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                      <label for="rd" class="form-label">Revenue Division</label>
+                      <input type="text" id="rd" formControlName="REVENUE_DIVISION" class="form-input" />
+                    </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                  <label for="emailId" class="form-label">Email Id<span class="text-danger">*</span></label>
+                  <input type="text" id="emailId" formControlName="EMAIL_ID" class="form-input" (keydown)="validateEmailInput($event)"
+                  (keydown)="limitInputLength($event, 50)" />
+                  <div *ngIf="profileForm.get('EMAIL_ID')?.invalid && profileForm.get('EMAIL_ID')?.touched">
+                    <small class="text-danger">Email ID is required.</small>
+                </div>
+                </div>
+                <div class="form-group">
+                  <label for="mobileno" class="form-label">Mobile No<span class="text-danger">*</span></label>
+                  <input type="number" id="mobileno" formControlName="MOBILE_NUM" class="form-input" (keydown)="validateNumericInput($event)" (keydown)="limitInputLength($event, 10)" />
+                  <div *ngIf="profileForm.get('MOBILE_NUM')?.invalid && profileForm.get('MOBILE_NUM')?.touched">
+                    <small class="text-danger">Email ID is required.</small>
+                </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                  <label for="aadharno" class="form-label">Aadhar No</label>
+                  <input type="number" id="aadharno" formControlName="AADHARNO" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label for="gstno" class="form-label">GST IN</label>
+                  <input type="text" id="gstno" formControlName="GST_IN" class="form-input" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                  <label for="panno" class="form-label">Pan No</label>
+                  <input type="number" id="aadharno" formControlName="PAN" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label for="bussiness" class="form-label">Bussiness</label>
+                  <input type="text" id="bussiness" formControlName="NATURE_OF_BUSINESS" class="form-input" />
+                </div>
+            </div>
+            <div style="display: flex;justify-content:center;margin-top: 2rem;">
+                <button class="editButton" type="button" (click)="saveData()">Save</button>
+            </div>
+        </form>
+    </p-dialog>
+
+    <!-- Change Password Dialog -->
+     
+    <p-dialog header="Change Password" [(visible)]="changePasswordDialog" [modal]="true" [closable]="true" [style]="{ width: '50rem' }" (onHide)="closepassworddialog()">
+            <form [formGroup]="passwordform">
+             <div class="form-row">
+              <div class="form-group">
+                <label for="password" class="form-label">Old Password<span class="text-danger">*</span></label>
+                <p-password 
+                id="oldPassword"
+                formControlName="oldPassword"
+                [feedback]="false"
+                toggleMask
+                inputStyleClass="form-input"
+                (paste)="preventPaste($event)"
+                (copy)="preventCopy($event)"
+                (cut)="preventCut($event)">
+              </p-password>
+                <div *ngIf="passwordform.get('oldPassword')?.invalid && passwordform.get('oldPassword')?.touched">
+                  <small class="text-danger">Old Password is required.</small>
+              </div>
+              </div>
+                <div class="form-group">
+                  <label for="password" class="form-label">New Password<span class="text-danger">*</span></label>
+                  <p-password 
+                  id="newpassword"
+                  formControlName="newPassword"
+                  [feedback]="false"
+                  toggleMask
+                  inputStyleClass="form-input"
+                  (paste)="preventPaste($event)"
+                  (copy)="preventCopy($event)"
+                  (cut)="preventCut($event)">
+                </p-password>
+                  <div *ngIf="passwordform.get('newPassword')?.invalid && passwordform.get('newPassword')?.touched">
+                    <small class="text-danger">New Password is required.</small>
+                </div>
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword" class="form-label">
+                    Confirm password <span class="text-danger">*</span>
+                  </label>
+                  <p-password 
+                    id="confirmPassword"
+                    formControlName="ConfirmnewPassword"
+                    [feedback]="false"
+                    toggleMask
+                    inputStyleClass="form-input"
+                    (paste)="preventPaste($event)"
+                    (copy)="preventCopy($event)"
+                    (cut)="preventCut($event)">
+                  </p-password>
+                  
+                  <div *ngIf="passwordform.get('ConfirmnewPassword')?.invalid && passwordform.get('ConfirmnewPassword')?.touched">
+                    <small class="text-danger">Confirm New Password is required.</small>
+                  </div>
+                </div>
+                
+            </div>
+            <div style="display: flex;justify-content:center;margin-top: 2rem;">
+                <button class="editButton" type="submit" (click)="editPassword()">Save</button>
+                <span style="border-left: 6px solid white;height: 1rem;"></span>
+                <button  class="deleteButton" type="button" (click)="closeChangePasswordDialog()">Cancel</button>
+            </div>
+            </form>
+    </p-dialog>
+    
+</div>

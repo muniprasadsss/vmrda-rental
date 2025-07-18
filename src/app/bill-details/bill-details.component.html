@@ -1,0 +1,658 @@
+
+  <div class="card" >
+    <p-table #dt2  [value]="notPaidBills" 
+    [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+    [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
+    [globalFilterFields]="['BillNo','Property','Bill_Period','Rental_lease_amount_permonth','GST','Power_bill','Water_bill','Maintainance_bill','Total_rental_interest','Bill_generated_date','Total','TotalPaid','Due','Status','BillStatus']"
+    [paginator]="true">
+
+      <ng-template pTemplate="caption">
+        <div class="searchbar">
+            <div class="filters">
+              <div class="search" *ngIf=" userRole !== 'USER'">  
+                <p-multiSelect 
+                [options]="billPeriod" 
+                placeholder="Bill Period"
+                [(ngModel)]="billPeriodFilter"
+                [filter]="true"
+              emptyFilterMessage="No results found"
+                (onChange)="applyFilters()"
+                 >
+              </p-multiSelect>
+            </div>
+              <div class="search" *ngIf=" userRole !== 'USER'">
+                <p-multiSelect 
+                [options]="locationList" 
+                placeholder="Complex"
+                [(ngModel)]="locationFilter"
+                optionLabel = "LOCATION_CODE"
+                [filter]="true"
+              emptyFilterMessage="No results found"
+                (onChange)="applyFilters()"
+                 >
+                 <ng-template let-selectedValue pTemplate="selectedItem">
+                  {{ selectedValue.LOCATION }}
+              </ng-template>
+              </p-multiSelect>
+            </div>
+              <div class="search" *ngIf=" userRole !== 'USER'">
+                <p-multiSelect 
+                [options]="complexList" 
+                placeholder="Property"
+                [(ngModel)]="propertyFilter"
+                optionLabel = "PROPERTY_CODE"
+                [filter]="true"
+              emptyFilterMessage="No results found"
+                (onChange)="applyFilters()"
+                 >
+                 <ng-template let-selectedValue pTemplate="selectedItem">
+                  {{ selectedValue.PROPERTY_CODE }}
+              </ng-template>
+              </p-multiSelect>
+            </div>
+            <div class="search" *ngIf="userRole !== 'USER'">
+              <p-multiSelect
+                  [options]="allAlloteList"
+                  placeholder="Allote Name"
+                  [(ngModel)]="alloteFilter"
+                  [filter]="true"
+                  emptyFilterMessage="No results found"
+                  [maxSelectedLabels]="3"
+                  (onChange)="applyFilters()"
+              >
+                  <!-- Custom template for dropdown items -->
+                  <ng-template let-option pTemplate="item">
+                      {{ option | slice:0:14 }} <!-- Limit dropdown item to 5 characters -->
+                  </ng-template>
+                  <ng-template let-selectedValue pTemplate="selectedItem">
+                    {{ selectedValue | slice:0:14 }}
+                </ng-template>
+              </p-multiSelect>
+          </div>
+            <div class="search" *ngIf="userRole !== 'USER'">
+              <p-multiSelect
+                  [options]="billStatusFilter"
+                  placeholder="Bill Status"
+                  [(ngModel)]="Status"
+                  optionLabel="label"
+                  [filter]="false"
+                  (onChange)="onFilterStatus( $event.value)"
+              >
+              </p-multiSelect>
+            </div>
+            </div>
+            <div class="btn" *ngIf="userRole === 'USER'">
+              <p style="color: red;">Total Due: {{totalDue}}</p>
+            </div>
+          <div class="dialog">
+            <!-- <div class="btn"  *ngIf="userRole === 'RI' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'">
+              <button  class="addbutton" (click)="generateAllBills()">Generate Bills</button>
+            </div> -->
+            <div class="btn"  *ngIf="userRole === 'RI' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'">
+              <button  class="addbutton" (click)="addBillFlag()">+ Add Bill</button>
+            </div>
+           
+              <div class="btn">
+                <button class="addbutton" (click)="downloadExcel()" pTooltip="Download All Bills" tooltipPosition="bottom">
+                  <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+                </button>
+              </div>
+              <!-- <div class="btn" *ngIf="userRole === 'USER'">
+                <button  class="addbutton" (click)="payAllBills()">Pay All Bills</button>
+              </div> -->
+            <div class="btn">
+              <button  class="addbutton" (click)="showDialog1()">History</button>
+            </div>
+           
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr style="font-size: 12px; padding: 0;">
+          <th pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
+          <th pResizableColumn >Property Name</th>
+          <th pResizableColumn >Lease Period</th>
+          <th pResizableColumn >Lease Amount</th>
+          <th pResizableColumn >GST</th>
+          <th pResizableColumn >Power Bill Amount</th>
+          <th pResizableColumn >Water Bill Amount</th>
+          <th pResizableColumn >Maintenance Amount</th>
+          <th pResizableColumn >Interest</th>
+          <th pResizableColumn >TDS</th>
+          <th pResizableColumn pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
+          <!--pResizableColumn  <th>Arrears</th> -->
+          <th pResizableColumn >Total</th>
+          <th pResizableColumn >Payment Amount</th>
+          <th pResizableColumn >Total Due</th>
+          <th pResizableColumn >Status</th>
+          <th pResizableColumn >BillStatus</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-bill >
+        <tr style="font-size: 12px;" >
+          <td style="width: 6%;">{{ bill.BillNo }}</td>
+          <td style="width: 15%;">{{ bill.property_name }}</td>
+          <td style="width: 8%;">{{ bill.Bill_Period }}</td>
+          <td style="width: 8%;">{{ bill.Rental_lease_amount_permonth }}</td>
+          <td style="width: 6%;">{{ bill.GST }}</td>
+          <td style="width: 10%;">{{bill.Power_bill }}</td>
+          <td style="width: 10%;">{{bill.Water_bill }}</td>
+          <td style="width: 10%;">{{bill.Maintainance_bill }}</td>
+          <td style="width: 10%;">{{bill.Total_rental_interest }}</td>
+          <td style="width: 10%;">{{bill.TDS }}</td>
+          <td style="width: 10%;">{{bill.Bill_generated_date | date: 'dd/MM/yyyy'  }}</td>
+          <!-- <td style="width: 8%;">{{ bill.out_standing_due }}</td> -->
+          <td style="width: 8%;">{{ bill.Total }}</td>
+          <td style="width: 8%;">{{ bill.TotalPaid }}</td>
+          <td style="width: 8%;">{{ bill.Due }}</td>
+          <td style="width: 8%;">{{ bill.Status }}</td>
+          <td style="width: 8%;">{{ bill.BillStatus }}</td>
+          <td>
+            <button class="gstButton" *ngIf=" (userRole === 'USER' || userRole === 'RI' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'|| userRole === 'IT-TEAM') && (bill.GST > '0.00') " pTooltip="Download GST Bill" tooltipPosition="left"
+               (click)="downloadGSTBill(bill.BillNo)">
+              <i class="pi pi-file-pdf"></i>
+            </button>
+          </td>
+          <td *ngIf="userRole !== 'USER' && userRole !== 'IT-TEAM'" pTooltip=" Generate Bill " tooltipPosition="left">
+            <div class="rowbtn">
+              <button class="editButton" *ngIf="bill.BillStatus !== 'Active'" (click)="showDialog(bill.BillNo)">
+                <i class="pi pi-pencil"></i>
+              </button>
+            </div>
+          </td>
+          <td *ngIf="bill.Attachment_URL !== null" pTooltip=" Download Form 16 " tooltipPosition="left"
+          (click)="downloadFile(bill.Attachment_URL)"><i
+            class="pi pi-paperclip" style="color: slateblue"></i></td>
+          <td *ngIf="bill.Attachment_URL === null "></td>
+          <td *ngIf="bill.Status !== 'Fully Paid' && userRole === 'USER' ">
+            <button (click)="payBill(bill)" class="pay-btn">Pay</button>
+          </td>
+          <td *ngIf="bill.BillStatus === 'Active'" pTooltip=" Download Bill " tooltipPosition="left"><i class="pi pi-download" (click)="downloadPDF(bill)"></i></td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" >
+        <tr>
+            <td colspan="16">No data found.</td>
+        </tr>
+    </ng-template>
+    </p-table>
+  </div>
+
+<!-- Edit bill details dialog  -->
+
+<div class="dialog">
+  <p-dialog
+    header="Bill Details"
+    [modal]="true"
+    [(visible)]="showModel"
+    position="center"
+    [style]="{ width: '50rem' }" (onHide)="closeDialog()">
+    <div class="form-container">
+      <form [formGroup]="form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="bill_no" class="form-label">Bill No</label>
+            <input type="text" id="bill_no" class="form-input" formControlName="bill_no" />
+          </div>
+          <div class="form-group">
+            <label for="user_id" class="form-label">User Id</label>
+            <input type="text" id="user_id" class="form-input" formControlName="user_id" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="property_code" class="form-label">property Name</label>
+            <input type="text" id="property_code" class="form-input" formControlName="property_code" />
+          </div>
+          <div class="form-group">
+            <label for="lease_period" class="form-label">Lease Period</label>
+            <input type="text" id="lease_period" class="form-input" formControlName="lease_period" />
+          </div>
+          <!-- <div class="form-group">
+            <label for="lease_period" class="form-label">Arrears<span class="text-danger">*</span></label>
+            <input type="text" id="lease_period" class="form-input" (change)="calculateTotal()" formControlName="Arrears" />
+          </div> -->
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="lease_amount" class="form-label">Lease Amount</label>
+            <input type="number" id="lease_amount" class="form-input" formControlName="lease_Amount" />
+          </div>
+          <div class="form-group">
+            <label for="gst" class="form-label">GST</label>
+            <input type="number" id="gst" class="form-input" formControlName="gst" />
+          </div>
+          <div class="form-group">
+            <label for="power_bill_amount" class="form-label">Power Bill Amount <span class="text-danger">*</span></label>
+            <input type="number" id="power_bill_amount" class="form-input" (change)="calculateTotal()" formControlName="power_bill_amount" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="water_bill_amount" class="form-label">Water Bill Amount <span class="text-danger">*</span></label>
+            <input type="number" id="water_bill_amount" class="form-input" (change)="calculateTotal()" formControlName="water_bill_amount" />
+          </div>
+          <div class="form-group">
+            <label for="maintenance_amount" class="form-label">Maintenance Amount <span class="text-danger">*</span></label>
+            <input type="number" id="maintenance_amount" class="form-input" (change)="calculateTotal()" formControlName="maintenance_amount" />
+          </div>
+          <div class="form-group">
+            <label for="lease_interests" class="form-label">Interest</label>
+            <input type="number" id="lease_interests" class="form-input" formControlName="lease_interests" />
+          </div>
+        </div>
+        <div class="form-row" style="display: flex; justify-content: center;">
+          <div class="form-group">
+            <label for="tds" class="form-label">TDS</label>
+            <input type="number" id="tds" class="form-input"  (change)="calculateTotal()" formControlName="tds" />
+          </div>
+          <div class="form-group">
+            <label for="total" class="form-label">Total</label>
+            <input type="number" id="total" class="form-input" formControlName="total" />
+          </div>
+          <div class="form-group">
+            <label for="fileupload" class="form-label">Upload</label>
+            <input type="file" id="fileupload" [disabled]="this.isTds" class="form-input" (change)="onFileChange($event)" />
+            <small class="input-format-info">Upload file size limit: 10MB</small>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="btn">
+      <div class="save">
+        <p-button label="Save" (click)="saveBill()" size="small" />
+      </div>
+      <div class="generate-btn">
+        <p-button label="Generate Bill" severity="success" (click)="generateBill()" size="small" />
+      </div>
+      <div class="cancel">
+        <p-button label="Cancel" severity="danger" (click)="showModel = false" size="small" />
+      </div>
+    </div>
+  </p-dialog>
+</div>
+
+<!-- history -->
+
+  <div class="dialog">
+  <p-dialog header="History"  [modal]="true" [(visible)]="visible1" position="center" [style]="{ width: '70rem' }" (onHide)="resetFilters()">
+  <p-table [value]="paidBills" 
+  [resizableColumns]="true" [rows]="20" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [columnResizeMode]="'fit'"
+  [scrollable]="true" scrollHeight="25rem"  selectionMode="single"  styleClass="p-datatable-gridlines"
+  >
+  <ng-template pTemplate="caption">
+    <div class="searchbar">
+        <div class="filters">
+          <div class="search" *ngIf=" userRole !== 'USER'">
+            <p-multiSelect 
+            [options]="billPeriod" 
+            placeholder="Bill Period"
+            [(ngModel)]="billPeriodFilter"
+            [filter]="true"
+              emptyFilterMessage="No results found"
+            (onChange)="applyFilters()"
+             >
+          </p-multiSelect>
+        </div>
+          <div class="search" *ngIf=" userRole !== 'USER'">
+            <p-multiSelect 
+            [options]="locationList" 
+            placeholder="Complex"
+            [(ngModel)]="locationFilter"
+            optionLabel = "LOCATION_CODE"
+            [filter]="true"
+              emptyFilterMessage="No results found"
+            (onChange)="applyFilters()"
+             >
+             <ng-template let-selectedValue pTemplate="selectedItem">
+              {{ selectedValue.LOCATION }}
+          </ng-template>
+          </p-multiSelect>
+        </div>
+          <div class="search" *ngIf=" userRole !== 'USER'">
+            <p-multiSelect 
+            [options]="complexList" 
+            placeholder="Property"
+            [(ngModel)]="propertyFilter"
+            optionLabel = "PROPERTY_CODE"
+            [filter]="true"
+              emptyFilterMessage="No results found"
+            (onChange)="applyFilters()"
+             >
+             <ng-template let-selectedValue pTemplate="selectedItem">
+              {{ selectedValue.PROPERTY_CODE }}
+          </ng-template>
+          </p-multiSelect>
+        </div>
+        <div class="search" *ngIf="userRole !== 'USER'">
+          <p-multiSelect
+              [options]="allAlloteList"
+              placeholder="Allote Name"
+              [(ngModel)]="alloteFilter"
+              [filter]="true"
+              emptyFilterMessage="No results found"
+              [maxSelectedLabels]="3"
+              (onChange)="applyFilters()"
+          >
+              <!-- Custom template for dropdown items -->
+              <ng-template let-option pTemplate="item">
+                  {{ option | slice:0:14 }} <!-- Limit dropdown item to 5 characters -->
+              </ng-template>
+              <ng-template let-selectedValue pTemplate="selectedItem">
+                {{ selectedValue | slice:0:14 }}
+            </ng-template>
+          </p-multiSelect>
+      </div>
+        </div>
+        <div class="btn" *ngIf="userRole === 'USER'">
+          <p style="color: red;">Total Due: {{totalDue}}</p>
+        </div>
+      <div class="dialog">
+        <!-- <div class="btn"  *ngIf="userRole === 'RI' || userRole === 'ADMIN' || userRole === 'CO_ADMIN'">
+          <button  class="addbutton" (click)="generateAllBills()">Generate Bills</button>
+        </div> -->
+       
+          <div class="btn">
+            <button class="addbutton" (click)="downloadExcel()" pTooltip="Download All Bills" tooltipPosition="bottom">
+              <i class="pi pi-file-excel" style="font-size: 1rem"></i>
+            </button>
+          </div>       
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+  <tr style="font-size: 12px; padding: 0;">
+  <th pResizableColumn  pSortableColumn="BillNo">Bill No<p-sortIcon field="BillNo" /></th>
+  <th pResizableColumn >Property Name</th>
+  <th pResizableColumn >Lease Period</th>
+  <th pResizableColumn >Lease Amount</th>
+  <th pResizableColumn >GST</th>
+  <th pResizableColumn >Power Bill Amount</th>
+  <th pResizableColumn >Water Bill Amount</th>
+  <th pResizableColumn >Maintenance Amount</th>
+  <th pResizableColumn >Interest</th>
+  <th pResizableColumn >TDS</th>
+  <th pResizableColumn  pSortableColumn="Bill_generated_date">Bill Generated Date<p-sortIcon field="Bill_generated_date" /></th>
+  <!-- <th pResizableColumn>Arrears</th> -->
+  <th pResizableColumn >Total</th>
+  <th pResizableColumn >Payment Amount</th>
+  <th pResizableColumn >Total Due</th>
+  <th pResizableColumn >Status</th>
+  <th></th>
+  <th></th>
+  <th></th>
+  <th></th>
+  </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-bill>
+  <tr style="font-size: 12px;" >
+  <td style="width: 4%;">{{ bill.BillNo }}</td>
+  <td style="width: 8%;">{{ bill.property_name }}</td>
+  <td style="width: 8%;">{{ bill.Bill_Period }}</td>
+  <td style="width: 8%;">{{ bill.Rental_lease_amount_permonth }}</td>
+  <td style="width: 6%;">{{ bill.GST }}</td>
+  <td style="width: 10%;">{{ bill.Power_bill }}</td>
+  <td style="width: 10%;">{{ bill.Water_bill }}</td>
+  <td style="width: 10%;">{{ bill.Maintainance_bill }}</td>
+  <td style="width: 10%;">{{ bill.Total_rental_interest }}</td>
+  <td style="width: 10%;">{{bill.TDS }}</td>
+  <td style="width: 10%;">{{ bill.Bill_generated_date | date: 'dd/MM/yyyy' }}</td>
+  <!-- <td style="width: 8%;">{{ bill.out_standing_due }}</td> -->
+  <td style="width: 8%;">{{ bill.Total }}</td>
+  <td style="width: 8%;">{{ bill.TotalPaid }}</td>
+  <td style="width: 8%;">{{ bill.Due }}</td>
+  <td style="width: 8%;">{{ bill.Status }}</td>
+  <td>
+    <button *ngIf=" userRole !== 'USER' " pTooltip="Download GST Bill" tooltipPosition="left" (click)="downloadGSTBill(bill.BillNo)" style="border: none;background: none;color: red;">
+      <i class="pi pi-file-pdf"></i>
+    </button>
+  </td>
+
+  <td *ngIf="bill.Attachment_URL !== null" pTooltip=" Download Form 16 " tooltipPosition="left"
+  (click)="downloadFile(bill.Attachment_URL)"><i
+    class="pi pi-paperclip" style="color: slateblue"></i></td>
+  <td *ngIf="bill.Attachment_URL === null "></td>
+  <td *ngIf="bill.Status === 'Fully Paid'">
+  </td>
+  <td><i class="pi pi-download"  pTooltip=" Download Bill " tooltipPosition="left"(click)="downloadPDF(bill)"></i></td>
+  </tr>
+  </ng-template>
+  </p-table>
+    </p-dialog>
+  </div>
+
+<!-- Pop for Payment  -->
+
+  <div class="card flex justify-content-center">
+    <p-dialog header="Pay Amount" [modal]="true" [(visible)]="showPayPopup" [style]="{ width: '40rem' }">
+      <form [formGroup]="PaymentPopupform">
+      <div class="form-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="BillNo" class="form-label">Bill No</label>
+            <input type="text" id="BillNo" class="form-input" formControlName="billNo"  />
+          </div>
+          <div class="form-group">
+            <label for="propertycode" class="form-label">property Name</label>
+            <input type="text" id="propertycode"  class="form-input" formControlName="propertycode"/>
+           </div>
+           <div class="form-group">
+            <label for="leaseperiod" class="form-label">Lease Period</label>
+            <input type="text" id="leaseperiod"  class="form-input" formControlName="leaseperiod"/>
+           </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="leaseAmount" class="form-label">Lease Amount</label>
+            <input type="number" id="leaseAmount" class="form-input" formControlName="leaseAmount" />
+          </div>
+          <div class="form-group">
+            <label for="gst" class="form-label">GST</label>
+            <input type="number" id="gst"  class="form-input" formControlName="gst"/>
+           </div>
+           <div class="form-group">
+            <label for="powerBillAmount" class="form-label">Power Bill Amount</label>
+            <input type="number" id="powerBillAmount"  class="form-input" formControlName="powerBillAmount"/>
+           </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="waterBillAmount" class="form-label">Water Bill Amount</label>
+            <input type="number" id="waterBillAmount" class="form-input" formControlName="waterBillAmount"  />
+          </div>
+          <div class="form-group">
+            <label for="maintenance" class="form-label">Maintenance Amount</label>
+            <input type="number" id="maintenance"  class="form-input" formControlName="maintenance"/>
+           </div>
+           <div class="form-group">
+            <label for="interest" class="form-label">Interest</label>
+            <input type="number" id="interest"  class="form-input" formControlName="interest"/>
+           </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="billGeneratedDate" class="form-label">Bill Generated Date</label>
+            <input type="text" id="billGeneratedDate" class="form-input" formControlName="billGeneratedDate" />
+          </div>
+          <div class="form-group">
+            <label for="due" class="form-label">TDS</label>
+            <input type="number" id="due" class="form-input" formControlName="tds" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="total" class="form-label">Total</label>
+            <input type="number" id="total"  class="form-input" formControlName="total"/>
+           </div>
+           <div class="form-group">
+            <label for="paymentAmount" class="form-label">Amount Paid</label>
+            <input type="number" id="paymentAmount"  class="form-input" formControlName="paymentAmount"/>
+           </div>
+           <div class="form-group">
+            <label for="total" class="form-label">Total Due</label>
+            <input type="number" id="total"  class="form-input" formControlName="due"/>
+           </div>
+        </div>
+      </div>
+      <div *ngIf="!isDialogVisible" class="pay">
+        <button (click)="PaymnetPage()" class="payButton" style="background-color: #28a745;">Confirm Amount</button>
+      </div>
+
+
+      <div *ngIf="isDialogVisible" class="pay ">
+        <app-razorpay class="payButton" [userDetails]="userDetailsObject" [orderId]="orderID">
+      </app-razorpay>
+      </div>
+        </form>
+    </p-dialog>
+</div>
+
+
+<div class="card flex justify-content-center">
+  <p-dialog header="Pay All Bills" [modal]="true" [(visible)]="showPayAllPopup" [style]="{ width: '40rem' }">
+    <form [formGroup]="PaymentPopupform">
+      <div class="form-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="BillNo" class="form-label">Bill No</label>
+            <select id="BillNo" class="form-input" formControlName="allBillNos" >
+              <option *ngFor="let bill of billNumbers" disabled [value]="bill">{{ bill }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="propertycode" class="form-label">Property Name</label>
+            <select id="propertycode" class="form-input" formControlName="allPropertycode" >
+              <option *ngFor="let property of propertyNames" disabled [value]="property">{{ property }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="leaseAmount" class="form-label">Lease Amount</label>
+            <input type="number" id="leaseAmount" class="form-input" formControlName="leaseAmount" />
+          </div>
+          <div class="form-group">
+            <label for="gst" class="form-label">GST</label>
+            <input type="number" id="gst"  class="form-input" formControlName="gst"/>
+           </div>
+           <div class="form-group">
+            <label for="powerBillAmount" class="form-label">Power Bill Amount</label>
+            <input type="number" id="powerBillAmount"  class="form-input" formControlName="powerBillAmount"/>
+           </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="waterBillAmount" class="form-label">Water Bill Amount</label>
+            <input type="number" id="waterBillAmount" class="form-input" formControlName="waterBillAmount"  />
+          </div>
+          <div class="form-group">
+            <label for="maintenance" class="form-label">Maintenance Amount</label>
+            <input type="number" id="maintenance"  class="form-input" formControlName="maintenance"/>
+           </div>
+           <div class="form-group">
+            <label for="interest" class="form-label">Interest</label>
+            <input type="number" id="interest"  class="form-input" formControlName="interest"/>
+           </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tds" class="form-label">TDS</label>
+            <input type="number" id="tds" class="form-input" formControlName="tds"  />
+          </div>
+          <div class="form-group">
+            <label for="total" class="form-label">Total Amount</label>
+            <input type="number" id="total" class="form-input" formControlName="total"  />
+          </div>
+          <div class="form-group">
+            <label for="due" class="form-label">Total Due</label>
+            <input type="number" id="due" class="form-input" formControlName="due"  />
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!isDialogVisible" class="pay">
+        <button (click)="AllBillsPaymentPage()" class="payButton" style="background-color: #28a745;">Confirm Amount</button>
+      </div>
+      <div *ngIf="isDialogVisible" class="pay">
+        <app-razorpay class="payButton" [userDetails]="userDetailsObject" [orderId]="orderID">
+        </app-razorpay>
+      </div>
+    </form>
+  </p-dialog>
+</div>
+
+<!-- manual bill entry -->
+<div class="card flex justify-content-center">
+  <p-dialog header="+ Add Bill" [modal]="true" [(visible)]="showAddBillPopup" [style]="{ width: '40rem' }">
+    <form [formGroup]="AddBillForm">
+      <div class="form-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="Name" class="form-label">Select Customer<span class="text-danger">*</span></label>
+            <select id="Name" class="form-input" formControlName="User"   [(ngModel)]="alloteFilter" (change)="applyFiltersToAddBill()" >
+              <option value="" selected>Select Name</option>
+              <option *ngFor="let name of allAlloteList" [value]="name">{{ name }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="property" class="form-label">Property</label>
+            <select id="property" class="form-input" formControlName="Property">
+              <option *ngFor="let property of propertyList" [value]="property.PROPERTY_CODE">{{ property.PROPERTY_CODE }}</option>
+            </select>                    
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="leaseAmount" class="form-label">Lease Amount</label>
+            <input type="number" id="leaseAmount" class="form-input" formControlName="Rental_lease_amount_permonth" (change)="calculateTotalAddBill()"/>
+          </div>
+          <div class="form-group">
+            <label for="gst" class="form-label">GST</label>
+            <input type="number" id="gst"  class="form-input" formControlName="GST" (change)="calculateTotalAddBill()"/>
+           </div>
+           <div class="form-group">
+            <label for="powerBillAmount" class="form-label">Power Bill Amount</label>
+            <input type="number" id="powerBillAmount"  class="form-input" formControlName="Power_bill" (change)="calculateTotalAddBill()"/>
+           </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="waterBillAmount" class="form-label">Water Bill Amount</label>
+            <input type="number" id="waterBillAmount" class="form-input" formControlName="Water_bill" (change)="calculateTotalAddBill()"  />
+          </div>
+          <div class="form-group">
+            <label for="maintenance" class="form-label">Maintenance Amount</label>
+            <input type="number" id="maintenance"  class="form-input" formControlName="Maintainance_bill" (change)="calculateTotalAddBill()" />
+           </div>
+           <div class="form-group">
+            <label for="interest" class="form-label">Interest</label>
+            <input type="number" id="interest"  class="form-input" formControlName="Rental_interest_percent" (change)="calculateTotalAddBill()"/>
+           </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fileupload" class="form-label">Upload</label>
+            <input type="file" id="fileupload"  class="form-input" (change)="onFileChange($event)" />
+            <small class="input-format-info">Upload file size limit: 10MB</small>
+          </div>
+          <div class="form-group">
+            <label for="tds" class="form-label">TDS</label>
+            <input type="number" id="tds" class="form-input" formControlName="TDS" (change)="calculateTotalAddBill()" />
+          </div>
+          <div class="form-group">
+            <label for="total" class="form-label">Total Amount<span class="text-danger">*</span></label>
+            <input type="number" id="total" class="form-input" formControlName="Total"  />
+          </div>
+          
+        </div>
+      </div>
+      <div *ngIf="!isDialogVisible" class="pay">
+        <button (click)="addBill()" class="payButton" style="background-color: #28a745;">Gnerate Bill</button>
+        <button (click)="onCancel()" class="payButton" style="background-color: #f30a0a;margin-left: 0.5%;">Cancel</button>
+      </div>
+    </form>
+  </p-dialog>
+</div>

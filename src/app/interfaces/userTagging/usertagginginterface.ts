@@ -1,0 +1,24 @@
+export interface usertagging {
+    PROPERTY: any;
+    START_DATE: any;
+    END_DATE: any;
+    USER_ID: any;
+    USER_NAME: any;
+    SL_NO?: number;                          // Corresponds to "S No"
+    User_ID?: string;                       // Corresponds to "User Id"
+    User_Name?: string;                     // Corresponds to "USER_NAME"
+    Property?: string;                      // Corresponds to "PROPERTY"
+    Start_Date?: string;                    // Corresponds to "Start Date"
+    End_Date?: string;                      // Corresponds to "End Date"
+    Rental_Lease?: string;                  // Corresponds to "Rental Lease"
+    Enhancement_Tenure?: number;            // Corresponds to "Enhancement Tenure"
+    Enhancement_Percent?: number;           // Corresponds to "Enhancement%" 
+    GST_Percent?: number;                   // Corresponds to "GST%" 
+    Rental_Interest_Percent?: number;       // Corresponds to "Rental Interest%" 
+    GST_Interest_Percent?: number;          // Corresponds to "GST Interest%"
+    Lease_Deed_Number?: string;             // Corresponds to "Lease Deed Number"
+    Lease_Deed?: string;                    // Corresponds to "Lease Deed"
+    Power_Meter_Number?: string;            // Corresponds to "Power Meter Number"
+    Water_Meter_Number?: string;            // Corresponds to "Water Meter Number"
+    Status?: string;                        // Corresponds to "Status"
+}

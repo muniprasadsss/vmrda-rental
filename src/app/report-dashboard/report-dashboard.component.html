@@ -1,0 +1,42 @@
+<div class="p-grid p-fluid">
+  <div class="p-col-12 p-md-3">
+    <p-dropdown [options]="divisions" [(ngModel)]="selectedDivision" placeholder="Select Division"></p-dropdown>
+  </div>
+  <div class="p-col-12 p-md-3">
+    <input pInputText type="text" [(ngModel)]="selectedProperty" placeholder="Property" />
+  </div>
+  <div class="p-col-12 p-md-3">
+    <input pInputText type="text" [(ngModel)]="selectedTenant" placeholder="Tenant" />
+  </div>
+  <div class="p-col-12 p-md-3">
+    <input type="date" class="p-inputtext" [(ngModel)]="selectedDate" />
+  </div>
+
+  <div class="p-col-12">
+    <button pButton type="button" label="Filter" icon="pi pi-filter" (click)="filterData()"></button>
+    <button pButton type="button" label="Export" icon="pi pi-download" class="p-button-success ml-2" (click)="exportToExcel()"></button>
+  </div>
+
+  <div class="p-col-12">
+    <p-table [value]="filteredData">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Property</th>
+          <th>Tenant</th>
+          <th>Division</th>
+          <th>Due Amount</th>
+          <th>Due Date</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr>
+          <td>{{ row.property }}</td>
+          <td>{{ row.tenant }}</td>
+          <td>{{ row.division }}</td>
+          <td>{{ row.dueAmount | currency:'INR' }}</td>
+          <td>{{ row.dueDate }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

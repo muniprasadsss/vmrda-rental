@@ -1,0 +1,18 @@
+<div class="card">
+    <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)" [scrollable]="true">
+        <p-tabPanel *ngIf="!(user_type === 'COMMISSIONER'  || user_type === 'SECRETARY' )" header="Bills"> </p-tabPanel>
+        <p-tabPanel *ngIf="!(user_type === 'COMMISSIONER'  || user_type === 'SECRETARY' )" header="Receipts"> </p-tabPanel>
+        <p-tabPanel header="Grievance"> </p-tabPanel>
+        <p-tabPanel *ngIf="(user_type === 'RI' || user_type === 'AO' || user_type === 'ADMIN' || user_type === 'CO_ADMIN' || user_type === 'IT-TEAM'|| user_type === 'CAOCC' || user_type === 'ACCOUNTS_TEAM')" header="Issue Notice"> </p-tabPanel>
+        <p-tabPanel *ngIf="(user_type === 'RI' || user_type === 'AO' || user_type === 'ADMIN' || user_type === 'CO_ADMIN' || user_type === 'IT-TEAM' || user_type === 'CAOCC' || user_type === 'ACCOUNTS_TEAM')" header="Track Transactions"> </p-tabPanel>
+        <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Reports"> </p-tabPanel>
+        <p-tabPanel *ngIf="(user_type === 'COMMISSIONER'  || user_type === 'SECRETARY' || user_type === 'ADMIN' || user_type === 'CO_ADMIN' || user_type === 'IT-TEAM' || user_type === 'CAOCC' || user_type === 'ACCOUNTS_TEAM')" header="Department Users"> </p-tabPanel>
+        <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Tenants"> </p-tabPanel>
+        <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Assets"> </p-tabPanel>
+        <p-tabPanel *ngIf="!(user_type === 'USER' )" header="Tenant Tagging"> </p-tabPanel>
+        <p-tabPanel *ngIf="!(user_type === 'USER' || user_type === 'IT-TEAM' || user_type === 'ACCOUNTS_TEAM' )" header="Requests"> </p-tabPanel>
+        <p-tabPanel *ngIf="(user_type === 'AO'  || user_type === 'SECRETARY' || user_type === 'ADMIN' || user_type === 'CO_ADMIN' || user_type === 'CAOCC' || user_type === 'ACCOUNTS_TEAM')" header="Vacant Properties"> </p-tabPanel>
+    </p-tabView>
+</div>
+
+
