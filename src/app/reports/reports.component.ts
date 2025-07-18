@@ -332,25 +332,43 @@ export class ReportsComponent implements OnInit {
 
   private initializeReportsData(): void {
     // Ensure all reports have proper array initialization
-    this.reportsData.forEach((report) => {
-      if (!report.selectedDates) {
-        report.selectedDates = [];
+    try {
+      if (!this.reportsData || !Array.isArray(this.reportsData)) {
+        console.error("reportsData is not properly initialized");
+        return;
       }
-      if (!report.selectedDate) {
-        report.selectedDate = new Date();
-      }
-      if (report.fromDate === undefined) {
-        report.fromDate = null;
-      }
-      if (report.toDate === undefined) {
-        report.toDate = null;
-      }
-    });
-    console.log(
-      "Reports data initialized:",
-      this.reportsData.length,
-      "reports",
-    );
+
+      this.reportsData.forEach((report) => {
+        if (!report) return;
+
+        if (!report.selectedDates || !Array.isArray(report.selectedDates)) {
+          report.selectedDates = [];
+        }
+        if (!report.selectedDate) {
+          report.selectedDate = new Date();
+        }
+        if (report.fromDate === undefined) {
+          report.fromDate = null;
+        }
+        if (report.toDate === undefined) {
+          report.toDate = null;
+        }
+        // Ensure boolean flags are properly set
+        if (typeof report.hasDateFilter !== "boolean") {
+          report.hasDateFilter = true;
+        }
+        if (typeof report.hasDateRangeFilter !== "boolean") {
+          report.hasDateRangeFilter = true;
+        }
+      });
+      console.log(
+        "Reports data initialized:",
+        this.reportsData.length,
+        "reports",
+      );
+    } catch (error) {
+      console.error("Error initializing reports data:", error);
+    }
   }
 
   private setDefaultDateRange(): void {
