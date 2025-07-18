@@ -1,13 +1,93 @@
 .comprehensive-reports-container {
   padding: 1rem;
-  background-color: #fff;
+  background-color: #f8f9fa;
   min-height: 100vh;
   font-family: "Arial", sans-serif;
 }
 
+// Global Filter Styles
+.global-filter-container {
+  margin-bottom: 2rem;
+
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+
+    .filter-label {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .date-controls {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  }
+
+  .filter-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
+  }
+}
+
+// Loading States
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+
+  .loading-spinner {
+    text-align: center;
+
+    p {
+      margin-top: 1rem;
+      color: #6c757d;
+      font-weight: 500;
+    }
+  }
+}
+
+.content-loading {
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
 .reports-header {
   text-align: center;
-
 
   .page-title {
     font-size: 2.5rem;
@@ -92,70 +172,75 @@
     opacity: 0.9;
   }
 
-
   /* DAILY CARD */
-&.current-demand {
+  &.current-demand {
     background: linear-gradient(135deg, #5bbf9d 0%, #4da7a0 100%);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
- 
-&.current-demand:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-}
- 
-/* WEEKLY CARD */
-&.current-revenue {
-    background: linear-gradient(135deg, #4a8fe7 0%, #5b6abf 100%);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
- 
-&.current-revenue:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-}
- 
-/* MONTHLY CARD */
-&.due-title {
-    background: linear-gradient(135deg, #ff7e5f 0%, #f55f7e 100%);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
- 
-&.due-title:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-}
- 
-/* QUARTERLY CARD */
-&.excess-title {
-    background: linear-gradient(135deg, #9d5bbf 0%, #bf5b8f 100%);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
- 
-&.excess-title:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-}
- 
-/* YEARLY CARD */
-&.total-due-title {
-    background: linear-gradient(135deg, #5bbfbf 0%, #5b8fbf 100%);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
- 
-&.total-due-title:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-}
- 
+    transition:
+      transform 0.4s ease,
+      box-shadow 0.4s ease;
+  }
 
+  &.current-demand:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  /* WEEKLY CARD */
+  &.current-revenue {
+    background: linear-gradient(135deg, #4a8fe7 0%, #5b6abf 100%);
+    transition:
+      transform 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  &.current-revenue:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  /* MONTHLY CARD */
+  &.due-title {
+    background: linear-gradient(135deg, #ff7e5f 0%, #f55f7e 100%);
+    transition:
+      transform 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  &.due-title:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  /* QUARTERLY CARD */
+  &.excess-title {
+    background: linear-gradient(135deg, #9d5bbf 0%, #bf5b8f 100%);
+    transition:
+      transform 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  &.excess-title:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  /* YEARLY CARD */
+  &.total-due-title {
+    background: linear-gradient(135deg, #5bbfbf 0%, #5b8fbf 100%);
+    transition:
+      transform 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  &.total-due-title:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
 
   .metric-value {
     font-size: 2rem;
     font-weight: 700;
     margin: 0;
-
-
 
     &.total-due {
       color: #e74c3c;
@@ -628,8 +713,6 @@
     }
   }
 
-
-
   .report-card {
     background: #f5f1f1;
     border-color: #404040;
@@ -644,8 +727,7 @@
   }
 }
 
-
-.bills-receipts{
+.bills-receipts {
   display: flex;
   justify-content: space-around;
 }
