@@ -21,14 +21,33 @@ export class ReportsServiceService {
     return this.http.get<any>(`${this.apiUrl}/reports/demand-vs-collection`);
   }
 
+  getDemandVsCollectionFiltered(filters: any): Observable<any> {
+    let params = this.buildFilterParams(filters);
+    return this.http.get<any>(`${this.apiUrl}/reports/demand-vs-collection`, {
+      params,
+    });
+  }
+
   // Properties Overview APIs
   getPropertiesOverview(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/reports/properties-overview`);
   }
 
+  getPropertiesOverviewFiltered(filters: any): Observable<any> {
+    let params = this.buildFilterParams(filters);
+    return this.http.get<any>(`${this.apiUrl}/reports/properties-overview`, {
+      params,
+    });
+  }
+
   // Bills APIs
   getBillsData(month: number): Observable<any> {
     const params = new HttpParams().set("month", month.toString());
+    return this.http.get<any>(`${this.apiUrl}/reports/bills-data`, { params });
+  }
+
+  getBillsDataFiltered(filters: any): Observable<any> {
+    let params = this.buildFilterParams(filters);
     return this.http.get<any>(`${this.apiUrl}/reports/bills-data`, { params });
   }
 
@@ -40,9 +59,23 @@ export class ReportsServiceService {
     });
   }
 
+  getReceiptsDataFiltered(filters: any): Observable<any> {
+    let params = this.buildFilterParams(filters);
+    return this.http.get<any>(`${this.apiUrl}/reports/receipts-data`, {
+      params,
+    });
+  }
+
   // RI Performance APIs
   getRIPerformanceData(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/reports/ri-performance`);
+  }
+
+  getRIPerformanceDataFiltered(filters: any): Observable<any> {
+    let params = this.buildFilterParams(filters);
+    return this.http.get<any>(`${this.apiUrl}/reports/ri-performance`, {
+      params,
+    });
   }
 
   // Issue Notices APIs
@@ -60,6 +93,13 @@ export class ReportsServiceService {
     if (filters.date) {
       params = params.set("date", filters.date.toISOString().split("T")[0]);
     }
+    return this.http.get<any>(`${this.apiUrl}/reports/issue-notices`, {
+      params,
+    });
+  }
+
+  getIssueNoticesDataFiltered(filters: any): Observable<any> {
+    let params = this.buildFilterParams(filters);
     return this.http.get<any>(`${this.apiUrl}/reports/issue-notices`, {
       params,
     });
@@ -85,6 +125,13 @@ export class ReportsServiceService {
     });
   }
 
+  getGrievanceDataFiltered(filters: any): Observable<any> {
+    let params = this.buildFilterParams(filters);
+    return this.http.get<any>(`${this.apiUrl}/reports/grievance-data`, {
+      params,
+    });
+  }
+
   // Report Generation APIs
   generateReport(reportType: string, selectedDate?: Date): Observable<any> {
     const body: any = { reportType };
@@ -92,6 +139,25 @@ export class ReportsServiceService {
       body.date = selectedDate.toISOString().split("T")[0];
     }
     return this.http.post<any>(`${this.apiUrl}/reports/generate`, body);
+  }
+
+  generateReportWithFilters(
+    reportType: string,
+    filters: any,
+    selectedDate?: Date,
+  ): Observable<any> {
+    const body: any = {
+      reportType,
+      filters: filters,
+      userRole: localStorage.getItem("role"),
+    };
+    if (selectedDate) {
+      body.date = selectedDate.toISOString().split("T")[0];
+    }
+    return this.http.post<any>(
+      `${this.apiUrl}/reports/generate-filtered`,
+      body,
+    );
   }
 
   // Specific Report APIs
@@ -214,5 +280,43 @@ export class ReportsServiceService {
   // Real-time Updates APIs
   getRealtimeMetrics(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/reports/realtime-metrics`);
+  }
+
+  // Helper method to build filter parameters
+  private buildFilterParams(filters: any): HttpParams {
+    let params = new HttpParams();
+
+    if (filters.startDate) {
+      params = params.set(
+        "startDate",
+        filters.startDate.toISOString().split("T")[0],
+      );
+    }
+    if (filters.endDate) {
+      params = params.set(
+        "endDate",
+        filters.endDate.toISOString().split("T")[0],
+      );
+    }
+    if (filters.selectedDivisions && filters.selectedDivisions.length > 0) {
+      params = params.set("divisions", filters.selectedDivisions.join(","));
+    }
+    if (filters.selectedProperties && filters.selectedProperties.length > 0) {
+      params = params.set("properties", filters.selectedProperties.join(","));
+    }
+    if (filters.selectedTenants && filters.selectedTenants.length > 0) {
+      params = params.set("tenants", filters.selectedTenants.join(","));
+    }
+    if (filters.reportType && filters.reportType !== "all") {
+      params = params.set("reportType", filters.reportType);
+    }
+
+    // Add user role for authorization
+    const userRole = localStorage.getItem("role");
+    if (userRole) {
+      params = params.set("userRole", userRole);
+    }
+
+    return params;
   }
 }
