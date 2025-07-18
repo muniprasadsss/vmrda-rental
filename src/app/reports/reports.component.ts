@@ -832,12 +832,40 @@ export class ReportsComponent implements OnInit {
     this.applyGlobalFilters();
   }
 
-  generateReport(reportType: string, selectedDate?: Date): void {
+  generateReport(reportType: string, selectedDate?: Date, report?: any): void {
+    // Determine which date(s) to use for the report
+    let reportDate = selectedDate;
+    let dateRange = null;
+
+    if (report && report.hasDateRangeFilter) {
+      if (report.selectedDates && report.selectedDates.length > 0) {
+        // Use multiselect dates
+        dateRange = {
+          dates: report.selectedDates.map(
+            (d: Date) => d.toISOString().split("T")[0],
+          ),
+          fromDate: report.fromDate
+            ? report.fromDate.toISOString().split("T")[0]
+            : null,
+          toDate: report.toDate
+            ? report.toDate.toISOString().split("T")[0]
+            : null,
+        };
+      } else if (report.fromDate && report.toDate) {
+        // Use from/to date range
+        dateRange = {
+          fromDate: report.fromDate.toISOString().split("T")[0],
+          toDate: report.toDate.toISOString().split("T")[0],
+        };
+      }
+    }
+
     // Use original method for now, later can be updated when backend supports filtering
-    this.reportsService.generateReport(reportType, selectedDate).subscribe({
+    this.reportsService.generateReport(reportType, reportDate).subscribe({
       next: (response) => {
         // Handle report generation response
         console.log("Report generated:", response);
+        console.log("Date range used:", dateRange);
         // Trigger download or open in new tab
         if (response.downloadUrl) {
           window.open(response.downloadUrl, "_blank");
@@ -852,6 +880,69 @@ export class ReportsComponent implements OnInit {
         );
       },
     });
+  }
+
+  // Handle multiselect date changes
+  onMultiSelectDateChange(report: any, selectedDates: Date[]): void {
+    report.selectedDates = selectedDates;
+
+    // Auto-set from and to dates based on selected dates
+    if (selectedDates && selectedDates.length > 0) {
+      const sortedDates = [...selectedDates].sort(
+        (a, b) => a.getTime() - b.getTime(),
+      );
+      report.fromDate = sortedDates[0];
+      report.toDate = sortedDates[sortedDates.length - 1];
+    }
+
+    console.log("Multi-select dates updated for", report.title, ":", {
+      selectedDates: selectedDates,
+      fromDate: report.fromDate,
+      toDate: report.toDate,
+    });
+  }
+
+  // Handle from date change
+  onFromDateChange(report: any, fromDate: Date): void {
+    report.fromDate = fromDate;
+    console.log("From date updated for", report.title, ":", fromDate);
+  }
+
+  // Handle to date change
+  onToDateChange(report: any, toDate: Date): void {
+    report.toDate = toDate;
+    console.log("To date updated for", report.title, ":", toDate);
+  }
+
+  // Validate date range
+  isValidDateRange(report: any): boolean {
+    if (report.hasDateRangeFilter) {
+      if (report.selectedDates && report.selectedDates.length > 0) {
+        return true;
+      }
+      if (report.fromDate && report.toDate) {
+        return report.fromDate <= report.toDate;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  // Get formatted date range text
+  getDateRangeText(report: any): string {
+    if (!report.hasDateRangeFilter) return "";
+
+    if (report.selectedDates && report.selectedDates.length > 0) {
+      return `${report.selectedDates.length} dates selected`;
+    }
+
+    if (report.fromDate && report.toDate) {
+      const fromStr = report.fromDate.toLocaleDateString();
+      const toStr = report.toDate.toLocaleDateString();
+      return `${fromStr} - ${toStr}`;
+    }
+
+    return "No dates selected";
   }
 
   generateExcelReport(): void {
