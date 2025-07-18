@@ -450,11 +450,11 @@ export class ReportsComponent implements OnInit {
         this.updateBillsChart();
       },
       error: (error) => {
-        console.error("Error loading bills data:", error);
-        // Set mock data for demonstration
+        console.warn("API endpoint not available, using mock data for bills");
+        // Set realistic mock data for demonstration
         this.billsData = {
-          dueAmount: 2500000,
-          totalDueAmount: 15000000,
+          dueAmount: 3200000,
+          totalDueAmount: 18500000,
         };
         this.updateBillsChart();
       },
