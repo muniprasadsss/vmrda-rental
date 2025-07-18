@@ -926,8 +926,8 @@ export class ReportsComponent implements OnInit {
     ) {
       try {
         const sortedDates = [...selectedDates]
-          .filter((date) => date instanceof Date && !isNaN(date.getTime()))
-          .sort((a, b) => a.getTime() - b.getTime());
+          .filter((date: any) => date instanceof Date && !isNaN(date.getTime()))
+          .sort((a: Date, b: Date) => a.getTime() - b.getTime());
 
         if (sortedDates.length > 0) {
           report.fromDate = sortedDates[0];
