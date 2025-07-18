@@ -1,42 +1,63 @@
 <div class="comprehensive-reports-container">
-  <div class="reports-header">
-    <h1 class="page-title">Comprehensive Reports Dashboard</h1>
-    <p class="page-subtitle">
-      Real-time analytics and detailed reporting for VMRDA
-    </p>
-  </div>
+
 
   <!-- Demand Vs Collection Section -->
   <div class="section-container">
     <div class="section-header">
-      <h2 class="section-title">Demand Vs Collection</h2>
+      <h3 class="section-title">Demand Vs Collection</h3>
+       <div class="filter-controls">
+      <div class="filter-controls">
+        <p-dropdown
+          [options]="divisionOptions"
+          [(ngModel)]="selectedDivision"
+          placeholder="Select Division"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-dropdown>
+        <p-calendar
+          [(ngModel)]="selectedDate"
+          placeholder="Select Date"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+        >
+        </p-calendar>
+        <p-button
+          label="Apply Filters"
+          (onClick)="applyIssueNoticeFilters()"
+          icon="pi pi-filter"
+        >
+        </p-button>
+      </div>
+
+      </div>
     </div>
     <div class="metrics-grid">
-      <div class="metric-card">
+      <div class="metric-card current-revenue">
         <h3>Current Month Demand</h3>
-        <p class="metric-value">
+        <p class="metric-value ">
           ₹{{ demandVsCollection.currentMonthDemand | number }}
         </p>
       </div>
-      <div class="metric-card">
+      <div class="metric-card current-demand">
         <h3>Current Month Revenue</h3>
         <p class="metric-value">
           ₹{{ demandVsCollection.currentMonthRevenue | number }}
         </p>
       </div>
-      <div class="metric-card">
+      <div class="metric-card excess-title">
         <h3>Excess Amount</h3>
         <p class="metric-value excess">
           ₹{{ demandVsCollection.excessAmount | number }}
         </p>
       </div>
-      <div class="metric-card">
+      <div class="metric-card due-title">
         <h3>Current Month Due</h3>
         <p class="metric-value due">
           ₹{{ demandVsCollection.currentMonthDue | number }}
         </p>
       </div>
-      <div class="metric-card">
+      <div class="metric-card total-due-title">
         <h3>Total Due as of Today</h3>
         <p class="metric-value total-due">
           ₹{{ demandVsCollection.totalDueToday | number }}
@@ -45,11 +66,67 @@
     </div>
   </div>
 
-  <!-- RI Wise Performance Section -->
+  <div class="bills-receipts">
+
+  <!-- Bills Section -->
   <div class="section-container">
-    <div class="section-header">
-      <h2 class="section-title">RI Wise Performance</h2>
+    <!-- <div class="section-header">
+      <h3 class="section-title">Bills Management</h3>
+      <div class="filter-controls">
+        <p-dropdown
+          [options]="monthOptions"
+          [(ngModel)]="selectedMonth"
+          placeholder="Select Month"
+          (onChange)="onMonthFilterChange($event)"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-dropdown>
+      </div>
+    </div> -->
+
+    <div class="chart-container">
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="billsChartOptions"
+        class="chart"
+      >
+      </highcharts-chart>
     </div>
+  </div>
+
+  <!-- Receipts Section -->
+  <div class="section-container">
+    <!-- <div class="section-header">
+      <h3 class="section-title">Receipts Analysis</h3>
+      <div class="filter-controls">
+        <p-dropdown
+          [options]="monthOptions"
+          [(ngModel)]="selectedReceiptMonth"
+          placeholder="Select Month"
+          (onChange)="onReceiptMonthFilterChange($event)"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-dropdown>
+      </div>
+    </div> -->
+
+    <div class="chart-container">
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="receiptsChartOptions"
+        class="chart"
+      >
+      </highcharts-chart>
+    </div>
+  </div>
+
+    <!-- RI Wise Performance Section -->
+  <div class="section-container">
+    <!-- <div class="section-header">
+      <h3 class="section-title">RI Wise Performance</h3>
+    </div> -->
     <div class="chart-container">
       <highcharts-chart
         [Highcharts]="Highcharts"
@@ -60,7 +137,9 @@
     </div>
   </div>
 
-  <!-- Properties Section -->
+  </div>
+
+    <!-- Properties Section -->
   <div class="section-container">
     <div class="section-header">
       <h2 class="section-title">Properties Overview</h2>
@@ -96,125 +175,15 @@
     </div>
   </div>
 
-  <!-- Bills Section -->
-  <div class="section-container">
-    <div class="section-header">
-      <h2 class="section-title">Bills Management</h2>
-      <div class="filter-controls">
-        <p-dropdown
-          [options]="monthOptions"
-          [(ngModel)]="selectedMonth"
-          placeholder="Select Month"
-          (onChange)="onMonthFilterChange($event)"
-          optionLabel="label"
-          optionValue="value"
-        >
-        </p-dropdown>
-      </div>
-    </div>
-    <div class="bills-metrics">
-      <div class="bill-metric">
-        <h4>Due Amount</h4>
-        <p class="amount due-amount">₹{{ billsData.dueAmount | number }}</p>
-      </div>
-      <div class="bill-metric">
-        <h4>Total Due Amount</h4>
-        <p class="amount total-due-amount">
-          ₹{{ billsData.totalDueAmount | number }}
-        </p>
-      </div>
-    </div>
-    <div class="chart-container">
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [options]="billsChartOptions"
-        class="chart"
-      >
-      </highcharts-chart>
-    </div>
-  </div>
+  <div class="bills-receipts">
 
-  <!-- Receipts Section -->
-  <div class="section-container">
-    <div class="section-header">
-      <h2 class="section-title">Receipts Analysis</h2>
-      <div class="filter-controls">
-        <p-dropdown
-          [options]="monthOptions"
-          [(ngModel)]="selectedReceiptMonth"
-          placeholder="Select Month"
-          (onChange)="onReceiptMonthFilterChange($event)"
-          optionLabel="label"
-          optionValue="value"
-        >
-        </p-dropdown>
-      </div>
-    </div>
-    <div class="payment-modes">
-      <div
-        class="payment-mode-card"
-        *ngFor="let mode of receiptsData.paymentModes"
-      >
-        <h4>{{ mode.name }}</h4>
-        <p class="payment-amount">₹{{ mode.amount | number }}</p>
-        <span class="payment-count">{{ mode.count }} transactions</span>
-      </div>
-    </div>
-    <div class="chart-container">
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [options]="receiptsChartOptions"
-        class="chart"
-      >
-      </highcharts-chart>
-    </div>
-  </div>
-
-  <!-- Issue Notices Section -->
+        <!-- Issue Notices Section -->
   <div class="section-container">
     <div class="section-header">
       <h2 class="section-title">Issue Notices</h2>
-      <div class="filter-controls">
-        <p-dropdown
-          [options]="propertyOptions"
-          [(ngModel)]="selectedProperty"
-          placeholder="Select Property"
-          optionLabel="label"
-          optionValue="value"
-        >
-        </p-dropdown>
-        <p-dropdown
-          [options]="tenantOptions"
-          [(ngModel)]="selectedTenant"
-          placeholder="Select Tenant"
-          optionLabel="label"
-          optionValue="value"
-        >
-        </p-dropdown>
-        <p-dropdown
-          [options]="divisionOptions"
-          [(ngModel)]="selectedDivision"
-          placeholder="Select Division"
-          optionLabel="label"
-          optionValue="value"
-        >
-        </p-dropdown>
-        <p-calendar
-          [(ngModel)]="selectedDate"
-          placeholder="Select Date"
-          dateFormat="dd/mm/yy"
-          [showIcon]="true"
-        >
-        </p-calendar>
-        <p-button
-          label="Apply Filters"
-          (onClick)="applyIssueNoticeFilters()"
-          icon="pi pi-filter"
-        >
-        </p-button>
-      </div>
+    
     </div>
-    <div class="chart-container">
+    <div class="chart-container1">
       <highcharts-chart
         [Highcharts]="Highcharts"
         [options]="issueNoticesChartOptions"
@@ -228,47 +197,9 @@
   <div class="section-container">
     <div class="section-header">
       <h2 class="section-title">Grievance Analysis</h2>
-      <div class="filter-controls">
-        <p-dropdown
-          [options]="propertyOptions"
-          [(ngModel)]="selectedGrievanceProperty"
-          placeholder="Select Property"
-          optionLabel="label"
-          optionValue="value"
-        >
-        </p-dropdown>
-        <p-dropdown
-          [options]="tenantOptions"
-          [(ngModel)]="selectedGrievanceTenant"
-          placeholder="Select Tenant"
-          optionLabel="label"
-          optionValue="value"
-        >
-        </p-dropdown>
-        <p-dropdown
-          [options]="divisionOptions"
-          [(ngModel)]="selectedGrievanceDivision"
-          placeholder="Select Division"
-          optionLabel="label"
-          optionValue="value"
-        >
-        </p-dropdown>
-        <p-calendar
-          [(ngModel)]="selectedGrievanceDate"
-          placeholder="Select Date"
-          dateFormat="dd/mm/yy"
-          [showIcon]="true"
-        >
-        </p-calendar>
-        <p-button
-          label="Apply Filters"
-          (onClick)="applyGrievanceFilters()"
-          icon="pi pi-filter"
-        >
-        </p-button>
-      </div>
+     
     </div>
-    <div class="chart-container">
+    <div class="chart-container1">
       <highcharts-chart
         [Highcharts]="Highcharts"
         [options]="grievanceChartOptions"
@@ -277,6 +208,16 @@
       </highcharts-chart>
     </div>
   </div>
+
+  </div>
+
+
+
+
+
+
+
+
 
   <!-- Reports Section -->
   <div class="section-container">
@@ -309,4 +250,5 @@
       </div>
     </div>
   </div>
+  
 </div>

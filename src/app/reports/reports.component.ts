@@ -49,9 +49,14 @@ export class ReportsComponent implements OnInit {
   receiptsData = {
     paymentModes: [
       { name: "Online", amount: 0, count: 0 },
-      { name: "Cash", amount: 0, count: 0 },
-      { name: "Cheque", amount: 0, count: 0 },
       { name: "DD", amount: 0, count: 0 },
+    ],
+  };
+
+  BillsData = {
+    billsCount: [
+      { name: "paid",  count: 250},
+      { name: "Unpaid",  count: 128 },
     ],
   };
 
@@ -277,8 +282,6 @@ export class ReportsComponent implements OnInit {
         this.receiptsData = {
           paymentModes: [
             { name: "Online", amount: 1800000, count: 245 },
-            { name: "Cash", amount: 650000, count: 120 },
-            { name: "Cheque", amount: 1200000, count: 89 },
             { name: "DD", amount: 350000, count: 45 },
           ],
         };
@@ -331,14 +334,14 @@ export class ReportsComponent implements OnInit {
 
     this.billsChartOptions = {
       chart: {
-        type: "pie",
+        type: "line",
       },
       title: {
         text: "Bills Overview",
       },
       series: [
         {
-          type: "pie",
+          type: "line",
           name: "Amount",
           data: [
             { name: "Paid", y: paidAmount },
