@@ -281,8 +281,9 @@ export class ReportsComponent implements OnInit {
         // Set mock data for demonstration
         this.receiptsData = {
           paymentModes: [
-            { name: "Online", amount: 1800000, count: 245 },
-            { name: "DD", amount: 350000, count: 45 },
+            { name: "Online", amount: 180000, count: 180000 },
+            { name: "DD", amount: 350000, count: 350000 },
+            { name: "Total", amount: 530000, count: 530000 },
           ],
         };
         this.updateReceiptsChart();
@@ -337,16 +338,21 @@ export class ReportsComponent implements OnInit {
         type: "line",
       },
       title: {
-        text: "Bills Overview",
+        text: "Issue Notices Trend",
+      },
+      xAxis: {
+        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      },
+      yAxis: {
+        title: {
+          text: "Number of Notices",
+        },
       },
       series: [
         {
           type: "line",
-          name: "Amount",
-          data: [
-            { name: "Paid", y: paidAmount },
-            { name: "Due", y: this.billsData.dueAmount },
-          ],
+          name: "Notices Issued",
+          data: [45, 52, 38, 67, 89, 76],
         },
       ],
     };
