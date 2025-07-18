@@ -3,40 +3,7 @@
   <div class="global-filter-container">
     <p-card header="Global Filters" [style]="{ 'margin-bottom': '2rem' }">
       <div class="filter-grid">
-        <!-- Date Range Filters -->
-        <div class="filter-group">
-          <label class="filter-label">Date Range</label>
-          <div class="date-controls">
-            <p-dropdown
-              [options]="dateRangeOptions"
-              [(ngModel)]="selectedDateRange"
-              placeholder="Quick Select"
-              optionLabel="label"
-              optionValue="value"
-              (onChange)="onDateRangeChange($event)"
-              [style]="{ width: '150px', 'margin-right': '10px' }"
-            >
-            </p-dropdown>
-            <p-calendar
-              [(ngModel)]="globalFilters.startDate"
-              placeholder="Start Date"
-              dateFormat="dd/mm/yy"
-              [showIcon]="true"
-              (onSelect)="onCustomDateChange()"
-              [style]="{ 'margin-right': '10px' }"
-            >
-            </p-calendar>
-            <p-calendar
-              [(ngModel)]="globalFilters.endDate"
-              placeholder="End Date"
-              dateFormat="dd/mm/yy"
-              [showIcon]="true"
-              (onSelect)="onCustomDateChange()"
-              [style]="{ 'margin-right': '10px' }"
-            >
-            </p-calendar>
-          </div>
-        </div>
+       
 
         <!-- Division Filter -->
         <div class="filter-group">
@@ -53,49 +20,23 @@
           </p-multiSelect>
         </div>
 
-        <!-- Property Type Filter -->
+        <!-- Date Range Filters -->
         <div class="filter-group">
-          <label class="filter-label">Property Types</label>
-          <p-multiSelect
-            [options]="propertyOptions"
-            [(ngModel)]="globalFilters.selectedProperties"
-            placeholder="Select Property Types"
-            optionLabel="label"
-            optionValue="value"
-            [showToggleAll]="true"
-            [style]="{ width: '200px' }"
-          >
-          </p-multiSelect>
+          <label class="filter-label">Date Range</label>
+          <div class="date-controls">
+            <p-dropdown [options]="dateRangeOptions" [(ngModel)]="selectedDateRange" placeholder="Quick Select"
+              optionLabel="label" optionValue="value" (onChange)="onDateRangeChange($event)"
+              [style]="{ width: '150px', 'margin-right': '10px' }">
+            </p-dropdown>
+            <p-calendar [(ngModel)]="globalFilters.startDate" placeholder="Start Date" dateFormat="dd/mm/yy" [showIcon]="true"
+              (onSelect)="onCustomDateChange()" [style]="{ 'margin-right': '10px' }">
+            </p-calendar>
+            <p-calendar [(ngModel)]="globalFilters.endDate" placeholder="End Date" dateFormat="dd/mm/yy" [showIcon]="true"
+              (onSelect)="onCustomDateChange()" [style]="{ 'margin-right': '10px' }">
+            </p-calendar>
+          </div>
         </div>
-
-        <!-- Tenant Type Filter -->
-        <div class="filter-group">
-          <label class="filter-label">Tenant Types</label>
-          <p-multiSelect
-            [options]="tenantOptions"
-            [(ngModel)]="globalFilters.selectedTenants"
-            placeholder="Select Tenant Types"
-            optionLabel="label"
-            optionValue="value"
-            [showToggleAll]="true"
-            [style]="{ width: '200px' }"
-          >
-          </p-multiSelect>
-        </div>
-
-        <!-- Report Type Filter -->
-        <div class="filter-group">
-          <label class="filter-label">Report Type</label>
-          <p-dropdown
-            [options]="reportTypeOptions"
-            [(ngModel)]="globalFilters.reportType"
-            placeholder="Select Report Type"
-            optionLabel="label"
-            optionValue="value"
-            [style]="{ width: '200px' }"
-          >
-          </p-dropdown>
-        </div>
+        
       </div>
 
       <!-- Filter Action Buttons -->
