@@ -12,12 +12,12 @@ import { CardModule } from "primeng/card";
 import { DividerModule } from "primeng/divider";
 import { ReportsServiceService } from "../services/reportsService/reports-service.service";
 import { AuthGuardsService } from "../services/authGuards/auth-guards.service";
-import * as XLSX from "xlsx";
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: "app-reports",
   standalone: true,
-  imports: [
+    imports: [
     CommonModule,
     FormsModule,
     HighchartsChartModule,
@@ -63,8 +63,8 @@ export class ReportsComponent implements OnInit {
 
   BillsData = {
     billsCount: [
-      { name: "paid", count: 250 },
-      { name: "Unpaid", count: 128 },
+      { name: "paid",  count: 250},
+      { name: "Unpaid",  count: 128 },
     ],
   };
 
@@ -84,7 +84,7 @@ export class ReportsComponent implements OnInit {
     { label: "December", value: 12 },
   ];
 
-  propertyOptions = [
+    propertyOptions = [
     { label: "Commercial", value: "commercial" },
     { label: "Residential", value: "residential" },
     { label: "Government", value: "government" },
@@ -115,29 +115,29 @@ export class ReportsComponent implements OnInit {
     { label: "Collection Reports", value: "collection" },
   ];
 
-  // Global filter values
+    // Global filter values
   globalFilters = {
     startDate: null as Date | null,
     endDate: null as Date | null,
     selectedDivisions: [] as string[],
     selectedProperties: [] as string[],
     selectedTenants: [] as string[],
-    reportType: "all" as string,
+    reportType: 'all' as string
   };
 
   // Current user role
-  currentUserRole: string = "";
+  currentUserRole: string = '';
 
   // Loading states
   isLoadingData: boolean = false;
 
   // Date range options for quick selection
   dateRangeOptions = [
-    { label: "Last 7 Days", value: 7 },
-    { label: "Last 30 Days", value: 30 },
-    { label: "Last 3 Months", value: 90 },
-    { label: "Last 6 Months", value: 180 },
-    { label: "Last Year", value: 365 },
+    { label: 'Last 7 Days', value: 7 },
+    { label: 'Last 30 Days', value: 30 },
+    { label: 'Last 3 Months', value: 90 },
+    { label: 'Last 6 Months', value: 180 },
+    { label: 'Last Year', value: 365 }
   ];
 
   selectedDateRange: number | null = null;
@@ -149,7 +149,7 @@ export class ReportsComponent implements OnInit {
   issueNoticesChartOptions: Highcharts.Options = {};
   grievanceChartOptions: Highcharts.Options = {};
 
-  // Reports data
+    // Reports data
   reportsData = [
     {
       title: "Due by Properties List",
@@ -163,7 +163,7 @@ export class ReportsComponent implements OnInit {
       fromDate: null as Date | null,
       toDate: null as Date | null,
     },
-    {
+        {
       title: "Due by Tenants List",
       description: "List of tenants with due amounts as on date",
       hasDateFilter: true,
@@ -175,7 +175,7 @@ export class ReportsComponent implements OnInit {
       fromDate: null as Date | null,
       toDate: null as Date | null,
     },
-    {
+        {
       title: "History of Users",
       description: "User activity history as on date",
       hasDateFilter: true,
@@ -187,7 +187,7 @@ export class ReportsComponent implements OnInit {
       fromDate: null as Date | null,
       toDate: null as Date | null,
     },
-    {
+        {
       title: "Cancelled Properties Due List",
       description: "List of cancelled properties with due amounts",
       hasDateFilter: true,
@@ -199,7 +199,7 @@ export class ReportsComponent implements OnInit {
       fromDate: null as Date | null,
       toDate: null as Date | null,
     },
-    {
+        {
       title: "Government Properties Due List",
       description: "List of government properties with due amounts",
       hasDateFilter: true,
@@ -211,7 +211,7 @@ export class ReportsComponent implements OnInit {
       fromDate: null as Date | null,
       toDate: null as Date | null,
     },
-    {
+        {
       title: "Vacant Properties List",
       description: "List of vacant properties as on date",
       hasDateFilter: true,
@@ -223,7 +223,7 @@ export class ReportsComponent implements OnInit {
       fromDate: null as Date | null,
       toDate: null as Date | null,
     },
-    {
+        {
       title: "Issue Notice Report",
       description: "Report of issued notices with custom date",
       hasDateFilter: true,
@@ -235,7 +235,7 @@ export class ReportsComponent implements OnInit {
       fromDate: null as Date | null,
       toDate: null as Date | null,
     },
-    {
+        {
       title: "Rental Collection Report",
       description: "Rental collection report as on date",
       hasDateFilter: true,
@@ -247,7 +247,7 @@ export class ReportsComponent implements OnInit {
       fromDate: null as Date | null,
       toDate: null as Date | null,
     },
-    {
+        {
       title: "GST Report",
       description: "GST report as on date",
       hasDateFilter: true,
@@ -259,7 +259,7 @@ export class ReportsComponent implements OnInit {
       fromDate: null as Date | null,
       toDate: null as Date | null,
     },
-    {
+        {
       title: "TDS Report",
       description: "TDS report as on date",
       hasDateFilter: true,
@@ -273,39 +273,39 @@ export class ReportsComponent implements OnInit {
     },
   ];
 
-  constructor(
+    constructor(
     private route: Router,
     private reportsService: ReportsServiceService,
-    private authService: AuthGuardsService,
+    private authService: AuthGuardsService
   ) {}
 
   // Get filtered division options based on user role
   getFilteredDivisionOptions() {
     // If user is RI, only show their division
-    if (this.currentUserRole === "RI") {
+    if (this.currentUserRole === 'RI') {
       const userDivision = this.getUserDivision();
-      return this.divisionOptions.filter((div) => div.value === userDivision);
+      return this.divisionOptions.filter(div => div.value === userDivision);
     }
     // For AO, SECRETARY, COMMISSIONER, ADMIN show all
     return this.divisionOptions;
   }
 
-  // Get user's division based on their login info
+    // Get user's division based on their login info
   private getUserDivision(): string {
     try {
-      const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
-      return userInfo.division || "ri1"; // Default to ri1 if not specified
+      const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+      return userInfo.division || 'ri1'; // Default to ri1 if not specified
     } catch (error) {
-      console.error("Error parsing user info:", error);
-      return "ri1"; // Fallback default
+      console.error('Error parsing user info:', error);
+      return 'ri1'; // Fallback default
     }
   }
 
-  ngOnInit(): void {
+      ngOnInit(): void {
     try {
       // Get current user role
-      this.currentUserRole = localStorage.getItem("role") || "";
-      console.log("Current user role:", this.currentUserRole);
+      this.currentUserRole = localStorage.getItem('role') || '';
+      console.log('Current user role:', this.currentUserRole);
 
       // Set default date range (last 30 days)
       this.setDefaultDateRange();
@@ -316,14 +316,38 @@ export class ReportsComponent implements OnInit {
       // Initialize charts first
       this.initializeCharts();
 
+            // Ensure all reports have proper initialization
+      this.initializeReportsData();
+
       // Load all data with initial filters
       this.applyGlobalFilters();
     } catch (error) {
-      console.error("Error in ngOnInit:", error);
+      console.error('Error in ngOnInit:', error);
       // Fallback to basic initialization
       this.setDefaultDateRange();
       this.initializeCharts();
+      this.initializeReportsData();
     }
+  }
+
+  private initializeReportsData(): void {
+    // Ensure all reports have proper array initialization
+    this.reportsData.forEach(report => {
+      if (!report.selectedDates) {
+        report.selectedDates = [];
+      }
+      if (!report.selectedDate) {
+        report.selectedDate = new Date();
+      }
+      if (report.fromDate === undefined) {
+        report.fromDate = null;
+      }
+      if (report.toDate === undefined) {
+        report.toDate = null;
+      }
+    });
+    console.log('Reports data initialized:', this.reportsData.length, 'reports');
+  }
   }
 
   private setDefaultDateRange(): void {
@@ -336,22 +360,22 @@ export class ReportsComponent implements OnInit {
     this.selectedDateRange = 30;
   }
 
-  private setDefaultFilters(): void {
+    private setDefaultFilters(): void {
     try {
       // Set default filters based on user role
-      if (this.currentUserRole === "RI") {
+      if (this.currentUserRole === 'RI') {
         const userDivision = this.getUserDivision();
         this.globalFilters.selectedDivisions = [userDivision];
-        console.log("Set default division for RI user:", userDivision);
+        console.log('Set default division for RI user:', userDivision);
       }
     } catch (error) {
-      console.error("Error setting default filters:", error);
+      console.error('Error setting default filters:', error);
       // Use empty arrays as fallback
       this.globalFilters.selectedDivisions = [];
     }
   }
 
-  loadDemandVsCollectionData(): void {
+      loadDemandVsCollectionData(): void {
     // Use original method for now, later can be updated when backend supports filtering
     this.reportsService.getDemandVsCollection().subscribe({
       next: (data) => {
@@ -360,9 +384,9 @@ export class ReportsComponent implements OnInit {
           this.demandVsCollection.currentMonthRevenue -
           this.demandVsCollection.currentMonthDemand;
       },
-      error: (error) => {
+            error: (error) => {
         console.error("Error loading demand vs collection data:", error);
-        console.error("Full error details:", JSON.stringify(error, null, 2));
+        console.error('Full error details:', JSON.stringify(error, null, 2));
         // Set mock data for demonstration
         this.demandVsCollection = {
           currentMonthDemand: 5000000,
@@ -375,7 +399,7 @@ export class ReportsComponent implements OnInit {
     });
   }
 
-  loadPropertiesData(): void {
+      loadPropertiesData(): void {
     // Use original method for now, later can be updated when backend supports filtering
     this.reportsService.getPropertiesOverview().subscribe({
       next: (data) => {
@@ -393,7 +417,7 @@ export class ReportsComponent implements OnInit {
     });
   }
 
-  loadBillsData(): void {
+      loadBillsData(): void {
     // Use original method with current month for now
     const currentMonth = new Date().getMonth() + 1;
     this.reportsService.getBillsData(currentMonth).subscribe({
@@ -413,7 +437,7 @@ export class ReportsComponent implements OnInit {
     });
   }
 
-  loadReceiptsData(): void {
+      loadReceiptsData(): void {
     // Use original method with current month for now
     const currentMonth = new Date().getMonth() + 1;
     this.reportsService.getReceiptsData(currentMonth).subscribe({
@@ -436,7 +460,7 @@ export class ReportsComponent implements OnInit {
     });
   }
 
-  initializeCharts(): void {
+    initializeCharts(): void {
     try {
       this.initializeRIPerformanceChart();
       this.updateBillsChart();
@@ -444,7 +468,7 @@ export class ReportsComponent implements OnInit {
       this.initializeIssueNoticesChart();
       this.initializeGrievanceChart();
     } catch (error) {
-      console.error("Error initializing charts:", error);
+      console.error('Error initializing charts:', error);
       // Initialize with basic empty charts as fallback
       this.initializeFallbackCharts();
     }
@@ -455,35 +479,35 @@ export class ReportsComponent implements OnInit {
     this.riPerformanceChartOptions = {
       chart: { type: "column" },
       title: { text: "RI Wise Performance - Loading..." },
-      series: [{ type: "column", name: "Loading", data: [] }],
+      series: [{ type: "column", name: "Loading", data: [] }]
     };
 
     this.billsChartOptions = {
       chart: { type: "line" },
       title: { text: "Bills Trend - Loading..." },
-      series: [{ type: "line", name: "Loading", data: [] }],
+      series: [{ type: "line", name: "Loading", data: [] }]
     };
 
     this.receiptsChartOptions = {
       chart: { type: "pie" },
       title: { text: "Receipts - Loading..." },
-      series: [{ type: "pie", name: "Loading", data: [] }],
+      series: [{ type: "pie", name: "Loading", data: [] }]
     };
 
     this.issueNoticesChartOptions = {
       chart: { type: "line" },
       title: { text: "Issue Notices - Loading..." },
-      series: [{ type: "line", name: "Loading", data: [] }],
+      series: [{ type: "line", name: "Loading", data: [] }]
     };
 
     this.grievanceChartOptions = {
       chart: { type: "bar" },
       title: { text: "Grievances - Loading..." },
-      series: [{ type: "bar", name: "Loading", data: [] }],
+      series: [{ type: "bar", name: "Loading", data: [] }]
     };
   }
 
-  initializeRIPerformanceChart(): void {
+      initializeRIPerformanceChart(): void {
     // Use original method for now, later can be updated when backend supports filtering
     this.reportsService.getRIPerformanceData().subscribe({
       next: (data) => {
@@ -652,7 +676,7 @@ export class ReportsComponent implements OnInit {
     };
   }
 
-  // Global filter event handlers
+    // Global filter event handlers
   onDateRangeChange(event: any): void {
     const days = event.value;
     if (days) {
@@ -671,9 +695,9 @@ export class ReportsComponent implements OnInit {
     this.selectedDateRange = null;
   }
 
-  applyGlobalFilters(): void {
+    applyGlobalFilters(): void {
     if (!this.globalFilters.startDate || !this.globalFilters.endDate) {
-      console.warn("Date range not selected, using default values");
+      console.warn('Date range not selected, using default values');
       this.setDefaultDateRange();
     }
 
@@ -708,20 +732,20 @@ export class ReportsComponent implements OnInit {
       new Promise((resolve, reject) => {
         this.loadGrievanceData();
         setTimeout(resolve, 100);
-      }),
+      })
     ]).finally(() => {
       this.isLoadingData = false;
-      console.log("All data loading operations completed");
+      console.log('All data loading operations completed');
     });
   }
 
-  loadIssueNoticesData(): void {
+    loadIssueNoticesData(): void {
     // Use original method with basic filters for now
     const basicFilters = {
-      property: "all",
-      tenant: "all",
-      division: "all",
-      date: null,
+      property: 'all',
+      tenant: 'all',
+      division: 'all',
+      date: null
     };
     this.reportsService.getIssueNoticesData(basicFilters).subscribe({
       next: (data) => {
@@ -734,13 +758,13 @@ export class ReportsComponent implements OnInit {
     });
   }
 
-  loadGrievanceData(): void {
+    loadGrievanceData(): void {
     // Use original method with basic filters for now
     const basicFilters = {
-      property: "all",
-      tenant: "all",
-      division: "all",
-      date: null,
+      property: 'all',
+      tenant: 'all',
+      division: 'all',
+      date: null
     };
     this.reportsService.getGrievanceData(basicFilters).subscribe({
       next: (data) => {
@@ -762,14 +786,7 @@ export class ReportsComponent implements OnInit {
         text: "Issue Notices Trend",
       },
       xAxis: {
-        categories: data?.categories || [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-        ],
+        categories: data?.categories || ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
       },
       yAxis: {
         title: {
@@ -795,12 +812,7 @@ export class ReportsComponent implements OnInit {
         text: "Grievance Status Overview",
       },
       xAxis: {
-        categories: data?.categories || [
-          "Pending",
-          "In Progress",
-          "Resolved",
-          "Closed",
-        ],
+        categories: data?.categories || ["Pending", "In Progress", "Resolved", "Closed"],
       },
       yAxis: {
         title: {
@@ -824,7 +836,7 @@ export class ReportsComponent implements OnInit {
       selectedDivisions: [],
       selectedProperties: [],
       selectedTenants: [],
-      reportType: "all",
+      reportType: 'all'
     };
     this.selectedDateRange = null;
     this.setDefaultDateRange();
@@ -832,7 +844,7 @@ export class ReportsComponent implements OnInit {
     this.applyGlobalFilters();
   }
 
-  generateReport(reportType: string, selectedDate?: Date, report?: any): void {
+        generateReport(reportType: string, selectedDate?: Date, report?: any): void {
     // Determine which date(s) to use for the report
     let reportDate = selectedDate;
     let dateRange = null;
@@ -841,21 +853,15 @@ export class ReportsComponent implements OnInit {
       if (report.selectedDates && report.selectedDates.length > 0) {
         // Use multiselect dates
         dateRange = {
-          dates: report.selectedDates.map(
-            (d: Date) => d.toISOString().split("T")[0],
-          ),
-          fromDate: report.fromDate
-            ? report.fromDate.toISOString().split("T")[0]
-            : null,
-          toDate: report.toDate
-            ? report.toDate.toISOString().split("T")[0]
-            : null,
+          dates: report.selectedDates.map((d: Date) => d.toISOString().split('T')[0]),
+          fromDate: report.fromDate ? report.fromDate.toISOString().split('T')[0] : null,
+          toDate: report.toDate ? report.toDate.toISOString().split('T')[0] : null
         };
       } else if (report.fromDate && report.toDate) {
         // Use from/to date range
         dateRange = {
-          fromDate: report.fromDate.toISOString().split("T")[0],
-          toDate: report.toDate.toISOString().split("T")[0],
+          fromDate: report.fromDate.toISOString().split('T')[0],
+          toDate: report.toDate.toISOString().split('T')[0]
         };
       }
     }
@@ -873,24 +879,20 @@ export class ReportsComponent implements OnInit {
       },
       error: (error) => {
         console.error("Error generating report:", error);
-        console.error("Full error details:", JSON.stringify(error, null, 2));
+        console.error('Full error details:', JSON.stringify(error, null, 2));
         // Show user-friendly error message
-        console.warn(
-          "Report generation failed, check if backend endpoint exists",
-        );
+        console.warn('Report generation failed, check if backend endpoint exists');
       },
     });
   }
 
-  // Handle multiselect date changes
+    // Handle multiselect date changes
   onMultiSelectDateChange(report: any, selectedDates: Date[]): void {
     report.selectedDates = selectedDates || [];
 
     // Auto-set from and to dates based on selected dates
     if (selectedDates && selectedDates.length > 0) {
-      const sortedDates = [...selectedDates].sort(
-        (a, b) => a.getTime() - b.getTime(),
-      );
+      const sortedDates = [...selectedDates].sort((a, b) => a.getTime() - b.getTime());
       report.fromDate = sortedDates[0];
       report.toDate = sortedDates[sortedDates.length - 1];
     } else {
@@ -898,14 +900,14 @@ export class ReportsComponent implements OnInit {
       report.toDate = null;
     }
 
-    console.log("Multi-select dates updated for", report.title, ":", {
+    console.log('Multi-select dates updated for', report.title, ':', {
       selectedDates: selectedDates,
       fromDate: report.fromDate,
-      toDate: report.toDate,
+      toDate: report.toDate
     });
   }
 
-  // These methods are kept for future use if from/to date inputs are added back
+    // These methods are kept for future use if from/to date inputs are added back
   // onFromDateChange(report: any, fromDate: Date): void {
   //   report.fromDate = fromDate;
   //   console.log('From date updated for', report.title, ':', fromDate);
@@ -916,7 +918,7 @@ export class ReportsComponent implements OnInit {
   //   console.log('To date updated for', report.title, ':', toDate);
   // }
 
-  // Validate date range
+    // Validate date range
   isValidDateRange(report: any): boolean {
     if (report.hasDateRangeFilter) {
       // Only check if multiselect dates are selected
@@ -929,25 +931,23 @@ export class ReportsComponent implements OnInit {
     return true;
   }
 
-  // Get formatted date range text
+    // Get formatted date range text
   getDateRangeText(report: any): string {
-    if (!report.hasDateRangeFilter) return "";
+    if (!report.hasDateRangeFilter) return '';
 
     if (report.selectedDates && report.selectedDates.length > 0) {
       const count = report.selectedDates.length;
       if (count === 1) {
         return `1 date selected: ${report.selectedDates[0].toLocaleDateString()}`;
       } else {
-        const sortedDates = [...report.selectedDates].sort(
-          (a, b) => a.getTime() - b.getTime(),
-        );
+        const sortedDates = [...report.selectedDates].sort((a, b) => a.getTime() - b.getTime());
         const fromStr = sortedDates[0].toLocaleDateString();
         const toStr = sortedDates[sortedDates.length - 1].toLocaleDateString();
         return `${count} dates selected (${fromStr} to ${toStr})`;
       }
     }
 
-    return "No dates selected";
+    return 'No dates selected';
   }
 
   generateExcelReport(): void {
@@ -959,7 +959,7 @@ export class ReportsComponent implements OnInit {
       receiptsData: this.receiptsData,
       filters: this.globalFilters,
       generatedDate: new Date().toISOString(),
-      userRole: this.currentUserRole,
+      userRole: this.currentUserRole
     };
 
     // Create workbook
@@ -967,66 +967,50 @@ export class ReportsComponent implements OnInit {
 
     // Demand vs Collection sheet
     const demandCollectionData = [
-      ["Metric", "Amount"],
-      ["Current Month Demand", this.demandVsCollection.currentMonthDemand],
-      ["Current Month Revenue", this.demandVsCollection.currentMonthRevenue],
-      ["Excess Amount", this.demandVsCollection.excessAmount],
-      ["Current Month Due", this.demandVsCollection.currentMonthDue],
-      ["Total Due Today", this.demandVsCollection.totalDueToday],
+      ['Metric', 'Amount'],
+      ['Current Month Demand', this.demandVsCollection.currentMonthDemand],
+      ['Current Month Revenue', this.demandVsCollection.currentMonthRevenue],
+      ['Excess Amount', this.demandVsCollection.excessAmount],
+      ['Current Month Due', this.demandVsCollection.currentMonthDue],
+      ['Total Due Today', this.demandVsCollection.totalDueToday]
     ];
     const ws1 = XLSX.utils.aoa_to_sheet(demandCollectionData);
-    XLSX.utils.book_append_sheet(wb, ws1, "Demand vs Collection");
+    XLSX.utils.book_append_sheet(wb, ws1, 'Demand vs Collection');
 
     // Properties data sheet
     const propertiesData = [
-      ["Property Type", "Count"],
-      ["Total Properties", this.propertiesData.total],
-      ["Occupied Properties", this.propertiesData.occupied],
-      ["Vacant Properties", this.propertiesData.vacant],
+      ['Property Type', 'Count'],
+      ['Total Properties', this.propertiesData.total],
+      ['Occupied Properties', this.propertiesData.occupied],
+      ['Vacant Properties', this.propertiesData.vacant]
     ];
     const ws2 = XLSX.utils.aoa_to_sheet(propertiesData);
-    XLSX.utils.book_append_sheet(wb, ws2, "Properties Overview");
+    XLSX.utils.book_append_sheet(wb, ws2, 'Properties Overview');
 
     // Receipts data sheet
-    const receiptsHeader = ["Payment Mode", "Amount", "Count"];
-    const receiptsRows = this.receiptsData.paymentModes.map((mode) => [
-      mode.name,
-      mode.amount,
-      mode.count,
-    ]);
+    const receiptsHeader = ['Payment Mode', 'Amount', 'Count'];
+    const receiptsRows = this.receiptsData.paymentModes.map(mode => [mode.name, mode.amount, mode.count]);
     const receiptsData = [receiptsHeader, ...receiptsRows];
     const ws3 = XLSX.utils.aoa_to_sheet(receiptsData);
-    XLSX.utils.book_append_sheet(wb, ws3, "Receipts Analysis");
+    XLSX.utils.book_append_sheet(wb, ws3, 'Receipts Analysis');
 
     // Filters sheet
     const filtersData = [
-      ["Filter", "Value"],
-      ["Start Date", this.globalFilters.startDate?.toDateString() || "Not Set"],
-      ["End Date", this.globalFilters.endDate?.toDateString() || "Not Set"],
-      [
-        "Selected Divisions",
-        this.globalFilters.selectedDivisions.join(", ") || "All",
-      ],
-      [
-        "Selected Properties",
-        this.globalFilters.selectedProperties.join(", ") || "All",
-      ],
-      [
-        "Selected Tenants",
-        this.globalFilters.selectedTenants.join(", ") || "All",
-      ],
-      ["Report Type", this.globalFilters.reportType],
-      ["Generated By", this.currentUserRole],
-      ["Generated Date", new Date().toLocaleString()],
+      ['Filter', 'Value'],
+      ['Start Date', this.globalFilters.startDate?.toDateString() || 'Not Set'],
+      ['End Date', this.globalFilters.endDate?.toDateString() || 'Not Set'],
+      ['Selected Divisions', this.globalFilters.selectedDivisions.join(', ') || 'All'],
+      ['Selected Properties', this.globalFilters.selectedProperties.join(', ') || 'All'],
+      ['Selected Tenants', this.globalFilters.selectedTenants.join(', ') || 'All'],
+      ['Report Type', this.globalFilters.reportType],
+      ['Generated By', this.currentUserRole],
+      ['Generated Date', new Date().toLocaleString()]
     ];
     const ws4 = XLSX.utils.aoa_to_sheet(filtersData);
-    XLSX.utils.book_append_sheet(wb, ws4, "Report Filters");
+    XLSX.utils.book_append_sheet(wb, ws4, 'Report Filters');
 
     // Generate filename with timestamp
-    const timestamp = new Date()
-      .toISOString()
-      .replace(/[:.]/g, "-")
-      .split("T")[0];
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').split('T')[0];
     const filename = `VMRDA_Reports_${timestamp}.xlsx`;
 
     // Save the file
