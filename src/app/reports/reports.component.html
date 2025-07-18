@@ -3,8 +3,6 @@
   <div class="global-filter-container">
     <p-card header="Global Filters" [style]="{ 'margin-bottom': '2rem' }">
       <div class="filter-grid">
-       
-
         <!-- Division Filter -->
         <div class="filter-group">
           <label class="filter-label">Divisions</label>
@@ -23,58 +21,70 @@
         <!-- Date Range Filters -->
         <div class="filter-group">
           <label class="filter-label">Date Range</label>
-         
-            <p-dropdown [options]="dateRangeOptions" [(ngModel)]="selectedDateRange" placeholder="Quick Select"
-              optionLabel="label" optionValue="value" (onChange)="onDateRangeChange($event)"
-              [style]="{ width: '150px', 'margin-right': '10px' }">
-            </p-dropdown>
-      
+
+          <p-dropdown
+            [options]="dateRangeOptions"
+            [(ngModel)]="selectedDateRange"
+            placeholder="Quick Select"
+            optionLabel="label"
+            optionValue="value"
+            (onChange)="onDateRangeChange($event)"
+            [style]="{ width: '150px', 'margin-right': '10px' }"
+          >
+          </p-dropdown>
         </div>
 
         <div class="filter-group">
           <label class="filter-label">Date Range</label>
-        
-          
-            <p-calendar [(ngModel)]="globalFilters.startDate" placeholder="Start Date" dateFormat="dd/mm/yy" [showIcon]="true"
-              (onSelect)="onCustomDateChange()" [style]="{ 'margin-right': '10px' }">
-            </p-calendar>
-           
+
+          <p-calendar
+            [(ngModel)]="globalFilters.startDate"
+            placeholder="Start Date"
+            dateFormat="dd/mm/yy"
+            [showIcon]="true"
+            (onSelect)="onCustomDateChange()"
+            [style]="{ 'margin-right': '10px' }"
+          >
+          </p-calendar>
         </div>
 
         <div class="filter-group">
           <label class="filter-label">Date Range</label>
-         
-            <p-calendar [(ngModel)]="globalFilters.endDate" placeholder="End Date" dateFormat="dd/mm/yy" [showIcon]="true"
-              (onSelect)="onCustomDateChange()" [style]="{ 'margin-right': '10px' }">
-            </p-calendar>
 
+          <p-calendar
+            [(ngModel)]="globalFilters.endDate"
+            placeholder="End Date"
+            dateFormat="dd/mm/yy"
+            [showIcon]="true"
+            (onSelect)="onCustomDateChange()"
+            [style]="{ 'margin-right': '10px' }"
+          >
+          </p-calendar>
         </div>
 
         <div class="filter-group">
           <p-button
-                    label="Apply Filters"
-                    (onClick)="applyGlobalFilters()"
-                    icon="pi pi-filter"
-                    [loading]="isLoadingData"
-                    severity="primary"
-                    [style]="{ 'margin-right': '10px' }"
-                  >
-                  </p-button>
+            label="Apply Filters"
+            (onClick)="applyGlobalFilters()"
+            icon="pi pi-filter"
+            [loading]="isLoadingData"
+            severity="primary"
+            [style]="{ 'margin-right': '10px' }"
+          >
+          </p-button>
         </div>
 
         <div class="filter-group">
           <p-button
-                    label="Reset Filters"
-                    (onClick)="resetFilters()"
-                    icon="pi pi-refresh"
-                    severity="secondary"
-                    [style]="{ 'margin-right': '10px' }"
-                  >
-                  </p-button>
+            label="Reset Filters"
+            (onClick)="resetFilters()"
+            icon="pi pi-refresh"
+            severity="secondary"
+            [style]="{ 'margin-right': '10px' }"
+          >
+          </p-button>
         </div>
-        
       </div>
-
     </p-card>
   </div>
 
@@ -244,9 +254,65 @@
             <h4>{{ report.title }}</h4>
             <p class="report-description">{{ report.description }}</p>
           </div>
-          <div class="report-controls">
+
+          <!-- Date Range Controls -->
+          <div class="report-date-controls" *ngIf="report.hasDateRangeFilter">
+            <div class="date-range-section">
+              <label class="date-label">Select Multiple Dates:</label>
+              <p-calendar
+                [(ngModel)]="report.selectedDates"
+                placeholder="Select Multiple Dates"
+                dateFormat="dd/mm/yy"
+                [showIcon]="true"
+                [selectionMode]="'multiple'"
+                [showButtonBar]="true"
+                (onSelect)="onMultiSelectDateChange(report, $event)"
+                [style]="{ width: '100%', 'margin-bottom': '10px' }"
+              >
+              </p-calendar>
+
+              <div class="date-range-inputs">
+                <div class="date-input-group">
+                  <label class="date-label">From Date:</label>
+                  <p-calendar
+                    [(ngModel)]="report.fromDate"
+                    placeholder="From Date"
+                    dateFormat="dd/mm/yy"
+                    [showIcon]="true"
+                    (onSelect)="onFromDateChange(report, $event)"
+                    [style]="{ width: '100%' }"
+                  >
+                  </p-calendar>
+                </div>
+
+                <div class="date-input-group">
+                  <label class="date-label">To Date:</label>
+                  <p-calendar
+                    [(ngModel)]="report.toDate"
+                    placeholder="To Date"
+                    dateFormat="dd/mm/yy"
+                    [showIcon]="true"
+                    (onSelect)="onToDateChange(report, $event)"
+                    [style]="{ width: '100%' }"
+                  >
+                  </p-calendar>
+                </div>
+              </div>
+
+              <div class="date-range-info" *ngIf="getDateRangeText(report)">
+                <small class="date-range-display">{{
+                  getDateRangeText(report)
+                }}</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Single Date Control (fallback) -->
+          <div
+            class="report-single-date"
+            *ngIf="report.hasDateFilter && !report.hasDateRangeFilter"
+          >
             <p-calendar
-              *ngIf="report.hasDateFilter"
               [(ngModel)]="report.selectedDate"
               placeholder="Select Date"
               dateFormat="dd/mm/yy"
@@ -254,11 +320,20 @@
               [showButtonBar]="true"
             >
             </p-calendar>
+          </div>
+
+          <!-- Generate Report Button -->
+          <div class="report-controls">
             <p-button
               [label]="report.buttonText"
-              (onClick)="generateReport(report.type, report.selectedDate)"
+              (onClick)="
+                generateReport(report.type, report.selectedDate, report)
+              "
               icon="pi pi-file-export"
               size="small"
+              [disabled]="!isValidDateRange(report)"
+              [severity]="isValidDateRange(report) ? 'primary' : 'secondary'"
+              [style]="{ width: '100%', 'margin-top': '10px' }"
             >
             </p-button>
           </div>
