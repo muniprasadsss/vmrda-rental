@@ -911,25 +911,51 @@ export class ReportsComponent implements OnInit {
 
   // Handle multiselect date changes
   onMultiSelectDateChange(report: any, selectedDates: Date[]): void {
+    if (!report) {
+      console.error("Report object is undefined in onMultiSelectDateChange");
+      return;
+    }
+
     report.selectedDates = selectedDates || [];
 
     // Auto-set from and to dates based on selected dates
-    if (selectedDates && selectedDates.length > 0) {
-      const sortedDates = [...selectedDates].sort(
-        (a, b) => a.getTime() - b.getTime(),
-      );
-      report.fromDate = sortedDates[0];
-      report.toDate = sortedDates[sortedDates.length - 1];
+    if (
+      selectedDates &&
+      Array.isArray(selectedDates) &&
+      selectedDates.length > 0
+    ) {
+      try {
+        const sortedDates = [...selectedDates]
+          .filter((date) => date instanceof Date && !isNaN(date.getTime()))
+          .sort((a, b) => a.getTime() - b.getTime());
+
+        if (sortedDates.length > 0) {
+          report.fromDate = sortedDates[0];
+          report.toDate = sortedDates[sortedDates.length - 1];
+        } else {
+          report.fromDate = null;
+          report.toDate = null;
+        }
+      } catch (error) {
+        console.error("Error processing selected dates:", error);
+        report.fromDate = null;
+        report.toDate = null;
+      }
     } else {
       report.fromDate = null;
       report.toDate = null;
     }
 
-    console.log("Multi-select dates updated for", report.title, ":", {
-      selectedDates: selectedDates,
-      fromDate: report.fromDate,
-      toDate: report.toDate,
-    });
+    console.log(
+      "Multi-select dates updated for",
+      report?.title || "Unknown report",
+      ":",
+      {
+        selectedDates: selectedDates,
+        fromDate: report.fromDate,
+        toDate: report.toDate,
+      },
+    );
   }
 
   // These methods are kept for future use if from/to date inputs are added back
