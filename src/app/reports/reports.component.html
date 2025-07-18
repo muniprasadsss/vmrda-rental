@@ -271,33 +271,7 @@
               >
               </p-calendar>
 
-              <div class="date-range-inputs">
-                <div class="date-input-group">
-                  <label class="date-label">From Date:</label>
-                  <p-calendar
-                    [(ngModel)]="report.fromDate"
-                    placeholder="From Date"
-                    dateFormat="dd/mm/yy"
-                    [showIcon]="true"
-                    (onSelect)="onFromDateChange(report, $event)"
-                    [style]="{ width: '100%' }"
-                  >
-                  </p-calendar>
-                </div>
 
-                <div class="date-input-group">
-                  <label class="date-label">To Date:</label>
-                  <p-calendar
-                    [(ngModel)]="report.toDate"
-                    placeholder="To Date"
-                    dateFormat="dd/mm/yy"
-                    [showIcon]="true"
-                    (onSelect)="onToDateChange(report, $event)"
-                    [style]="{ width: '100%' }"
-                  >
-                  </p-calendar>
-                </div>
-              </div>
 
               <div class="date-range-info" *ngIf="getDateRangeText(report)">
                 <small class="date-range-display">{{
@@ -307,20 +281,7 @@
             </div>
           </div>
 
-          <!-- Single Date Control (fallback) -->
-          <div
-            class="report-single-date"
-            *ngIf="report.hasDateFilter && !report.hasDateRangeFilter"
-          >
-            <p-calendar
-              [(ngModel)]="report.selectedDate"
-              placeholder="Select Date"
-              dateFormat="dd/mm/yy"
-              [showIcon]="true"
-              [showButtonBar]="true"
-            >
-            </p-calendar>
-          </div>
+
 
           <!-- Generate Report Button -->
           <div class="report-controls">
