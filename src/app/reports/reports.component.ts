@@ -298,6 +298,7 @@ export class ReportsComponent implements OnInit {
       },
       error: (error) => {
         console.error("Error loading demand vs collection data:", error);
+        console.error("Full error details:", JSON.stringify(error, null, 2));
         // Set mock data for demonstration
         this.demandVsCollection = {
           currentMonthDemand: 5000000,
@@ -569,23 +570,45 @@ export class ReportsComponent implements OnInit {
 
   applyGlobalFilters(): void {
     if (!this.globalFilters.startDate || !this.globalFilters.endDate) {
-      console.error("Please select both start and end dates");
-      return;
+      console.warn("Date range not selected, using default values");
+      this.setDefaultDateRange();
     }
 
     this.isLoadingData = true;
 
     // Load all data with current filters
-    Promise.all([
-      this.loadDemandVsCollectionData(),
-      this.loadPropertiesData(),
-      this.loadBillsData(),
-      this.loadReceiptsData(),
-      this.initializeRIPerformanceChart(),
-      this.loadIssueNoticesData(),
-      this.loadGrievanceData(),
+    Promise.allSettled([
+      new Promise((resolve, reject) => {
+        this.loadDemandVsCollectionData();
+        setTimeout(resolve, 100); // Give it time to complete
+      }),
+      new Promise((resolve, reject) => {
+        this.loadPropertiesData();
+        setTimeout(resolve, 100);
+      }),
+      new Promise((resolve, reject) => {
+        this.loadBillsData();
+        setTimeout(resolve, 100);
+      }),
+      new Promise((resolve, reject) => {
+        this.loadReceiptsData();
+        setTimeout(resolve, 100);
+      }),
+      new Promise((resolve, reject) => {
+        this.initializeRIPerformanceChart();
+        setTimeout(resolve, 100);
+      }),
+      new Promise((resolve, reject) => {
+        this.loadIssueNoticesData();
+        setTimeout(resolve, 100);
+      }),
+      new Promise((resolve, reject) => {
+        this.loadGrievanceData();
+        setTimeout(resolve, 100);
+      }),
     ]).finally(() => {
       this.isLoadingData = false;
+      console.log("All data loading operations completed");
     });
   }
 
