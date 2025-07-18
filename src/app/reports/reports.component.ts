@@ -7,7 +7,12 @@ import { HighchartsChartModule } from "highcharts-angular";
 import { DropdownModule } from "primeng/dropdown";
 import { CalendarModule } from "primeng/calendar";
 import { ButtonModule } from "primeng/button";
+import { MultiSelectModule } from "primeng/multiselect";
+import { CardModule } from "primeng/card";
+import { DividerModule } from "primeng/divider";
 import { ReportsServiceService } from "../services/reportsService/reports-service.service";
+import { AuthGuardsService } from "../services/authGuards/auth-guards.service";
+import * as XLSX from "xlsx";
 
 @Component({
   selector: "app-reports",
@@ -19,6 +24,9 @@ import { ReportsServiceService } from "../services/reportsService/reports-servic
     DropdownModule,
     CalendarModule,
     ButtonModule,
+    MultiSelectModule,
+    CardModule,
+    DividerModule,
   ],
   templateUrl: "./reports.component.html",
   styleUrl: "./reports.component.scss",
@@ -55,8 +63,8 @@ export class ReportsComponent implements OnInit {
 
   BillsData = {
     billsCount: [
-      { name: "paid",  count: 250},
-      { name: "Unpaid",  count: 128 },
+      { name: "paid", count: 250 },
+      { name: "Unpaid", count: 128 },
     ],
   };
 
@@ -77,37 +85,62 @@ export class ReportsComponent implements OnInit {
   ];
 
   propertyOptions = [
-    { label: "All Properties", value: "all" },
     { label: "Commercial", value: "commercial" },
     { label: "Residential", value: "residential" },
     { label: "Government", value: "government" },
+    { label: "Industrial", value: "industrial" },
+    { label: "Mixed Use", value: "mixed" },
   ];
 
   tenantOptions = [
-    { label: "All Tenants", value: "all" },
     { label: "Individual", value: "individual" },
     { label: "Corporate", value: "corporate" },
     { label: "Government", value: "government" },
+    { label: "Non-Profit", value: "nonprofit" },
   ];
 
   divisionOptions = [
-    { label: "All Divisions", value: "all" },
     { label: "RI-1", value: "ri1" },
     { label: "RI-2", value: "ri2" },
     { label: "RI-3", value: "ri3" },
+    { label: "RI-4", value: "ri4" },
+    { label: "RI-5", value: "ri5" },
   ];
 
-  // Selected filter values
-  selectedMonth: number = new Date().getMonth() + 1;
-  selectedReceiptMonth: number = new Date().getMonth() + 1;
-  selectedProperty: string = "all";
-  selectedTenant: string = "all";
-  selectedDivision: string = "all";
-  selectedDate: Date | null = null;
-  selectedGrievanceProperty: string = "all";
-  selectedGrievanceTenant: string = "all";
-  selectedGrievanceDivision: string = "all";
-  selectedGrievanceDate: Date | null = null;
+  reportTypeOptions = [
+    { label: "All Reports", value: "all" },
+    { label: "Financial Reports", value: "financial" },
+    { label: "Property Reports", value: "property" },
+    { label: "Tenant Reports", value: "tenant" },
+    { label: "Collection Reports", value: "collection" },
+  ];
+
+  // Global filter values
+  globalFilters = {
+    startDate: null as Date | null,
+    endDate: null as Date | null,
+    selectedDivisions: [] as string[],
+    selectedProperties: [] as string[],
+    selectedTenants: [] as string[],
+    reportType: "all" as string,
+  };
+
+  // Current user role
+  currentUserRole: string = "";
+
+  // Loading states
+  isLoadingData: boolean = false;
+
+  // Date range options for quick selection
+  dateRangeOptions = [
+    { label: "Last 7 Days", value: 7 },
+    { label: "Last 30 Days", value: 30 },
+    { label: "Last 3 Months", value: 90 },
+    { label: "Last 6 Months", value: 180 },
+    { label: "Last Year", value: 365 },
+  ];
+
+  selectedDateRange: number | null = null;
 
   // Chart options
   riPerformanceChartOptions: Highcharts.Options = {};
@@ -203,57 +236,102 @@ export class ReportsComponent implements OnInit {
   constructor(
     private route: Router,
     private reportsService: ReportsServiceService,
+    private authService: AuthGuardsService,
   ) {}
 
+  // Get filtered division options based on user role
+  getFilteredDivisionOptions() {
+    // If user is RI, only show their division
+    if (this.currentUserRole === "RI") {
+      const userDivision = this.getUserDivision();
+      return this.divisionOptions.filter((div) => div.value === userDivision);
+    }
+    // For AO, SECRETARY, COMMISSIONER, ADMIN show all
+    return this.divisionOptions;
+  }
+
+  // Get user's division based on their login info
+  private getUserDivision(): string {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+    return userInfo.division || "ri1"; // Default to ri1 if not specified
+  }
+
   ngOnInit(): void {
-    this.loadDemandVsCollectionData();
-    this.loadPropertiesData();
-    this.loadBillsData();
-    this.loadReceiptsData();
-    this.initializeCharts();
+    // Get current user role
+    this.currentUserRole = localStorage.getItem("role") || "";
+
+    // Set default date range (last 30 days)
+    this.setDefaultDateRange();
+
+    // Set default filters based on user role
+    this.setDefaultFilters();
+
+    // Load all data with initial filters
+    this.applyGlobalFilters();
+  }
+
+  private setDefaultDateRange(): void {
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setDate(endDate.getDate() - 30);
+
+    this.globalFilters.startDate = startDate;
+    this.globalFilters.endDate = endDate;
+    this.selectedDateRange = 30;
+  }
+
+  private setDefaultFilters(): void {
+    // Set default filters based on user role
+    if (this.currentUserRole === "RI") {
+      this.globalFilters.selectedDivisions = [this.getUserDivision()];
+    }
   }
 
   loadDemandVsCollectionData(): void {
-    this.reportsService.getDemandVsCollection().subscribe({
-      next: (data) => {
-        this.demandVsCollection = data;
-        this.demandVsCollection.excessAmount =
-          this.demandVsCollection.currentMonthRevenue -
-          this.demandVsCollection.currentMonthDemand;
-      },
-      error: (error) => {
-        console.error("Error loading demand vs collection data:", error);
-        // Set mock data for demonstration
-        this.demandVsCollection = {
-          currentMonthDemand: 5000000,
-          currentMonthRevenue: 4200000,
-          excessAmount: -800000,
-          currentMonthDue: 800000,
-          totalDueToday: 15000000,
-        };
-      },
-    });
+    this.reportsService
+      .getDemandVsCollectionFiltered(this.globalFilters)
+      .subscribe({
+        next: (data) => {
+          this.demandVsCollection = data;
+          this.demandVsCollection.excessAmount =
+            this.demandVsCollection.currentMonthRevenue -
+            this.demandVsCollection.currentMonthDemand;
+        },
+        error: (error) => {
+          console.error("Error loading demand vs collection data:", error);
+          // Set mock data for demonstration
+          this.demandVsCollection = {
+            currentMonthDemand: 5000000,
+            currentMonthRevenue: 4200000,
+            excessAmount: -800000,
+            currentMonthDue: 800000,
+            totalDueToday: 15000000,
+          };
+        },
+      });
   }
 
   loadPropertiesData(): void {
-    this.reportsService.getPropertiesOverview().subscribe({
-      next: (data) => {
-        this.propertiesData = data;
-      },
-      error: (error) => {
-        console.error("Error loading properties data:", error);
-        // Set mock data for demonstration
-        this.propertiesData = {
-          total: 1250,
-          occupied: 980,
-          vacant: 270,
-        };
-      },
-    });
+    this.reportsService
+      .getPropertiesOverviewFiltered(this.globalFilters)
+      .subscribe({
+        next: (data) => {
+          this.propertiesData = data;
+        },
+        error: (error) => {
+          console.error("Error loading properties data:", error);
+          // Set mock data for demonstration
+          this.propertiesData = {
+            total: 1250,
+            occupied: 980,
+            vacant: 270,
+          };
+        },
+      });
   }
 
   loadBillsData(): void {
-    this.reportsService.getBillsData(this.selectedMonth).subscribe({
+    this.reportsService.getBillsDataFiltered(this.globalFilters).subscribe({
       next: (data) => {
         this.billsData = data;
         this.updateBillsChart();
@@ -271,7 +349,7 @@ export class ReportsComponent implements OnInit {
   }
 
   loadReceiptsData(): void {
-    this.reportsService.getReceiptsData(this.selectedReceiptMonth).subscribe({
+    this.reportsService.getReceiptsDataFiltered(this.globalFilters).subscribe({
       next: (data) => {
         this.receiptsData = data;
         this.updateReceiptsChart();
@@ -300,34 +378,72 @@ export class ReportsComponent implements OnInit {
   }
 
   initializeRIPerformanceChart(): void {
-    this.riPerformanceChartOptions = {
-      chart: {
-        type: "column",
-      },
-      title: {
-        text: "RI Wise Demand vs Collection Performance",
-      },
-      xAxis: {
-        categories: ["RI-1", "RI-2", "RI-3"],
-      },
-      yAxis: {
-        title: {
-          text: "Amount (₹)",
+    this.reportsService
+      .getRIPerformanceDataFiltered(this.globalFilters)
+      .subscribe({
+        next: (data) => {
+          this.riPerformanceChartOptions = {
+            chart: {
+              type: "column",
+            },
+            title: {
+              text: "RI Wise Demand vs Collection Performance",
+            },
+            xAxis: {
+              categories: data.categories || ["RI-1", "RI-2", "RI-3"],
+            },
+            yAxis: {
+              title: {
+                text: "Amount (₹)",
+              },
+            },
+            series: [
+              {
+                type: "column",
+                name: "Demand",
+                data: data.demandData || [2000000, 1800000, 1200000],
+              },
+              {
+                type: "column",
+                name: "Collection",
+                data: data.collectionData || [1500000, 1600000, 1100000],
+              },
+            ],
+          };
         },
-      },
-      series: [
-        {
-          type: "column",
-          name: "Demand",
-          data: [2000000, 1800000, 1200000],
+        error: (error) => {
+          console.error("Error loading RI performance data:", error);
+          // Fallback to mock data
+          this.riPerformanceChartOptions = {
+            chart: {
+              type: "column",
+            },
+            title: {
+              text: "RI Wise Demand vs Collection Performance",
+            },
+            xAxis: {
+              categories: ["RI-1", "RI-2", "RI-3"],
+            },
+            yAxis: {
+              title: {
+                text: "Amount (₹)",
+              },
+            },
+            series: [
+              {
+                type: "column",
+                name: "Demand",
+                data: [2000000, 1800000, 1200000],
+              },
+              {
+                type: "column",
+                name: "Collection",
+                data: [1500000, 1600000, 1100000],
+              },
+            ],
+          };
         },
-        {
-          type: "column",
-          name: "Collection",
-          data: [1500000, 1600000, 1100000],
-        },
-      ],
-    };
+      });
   }
 
   updateBillsChart(): void {
@@ -431,53 +547,251 @@ export class ReportsComponent implements OnInit {
     };
   }
 
-  // Filter event handlers
-  onMonthFilterChange(event: any): void {
-    this.selectedMonth = event.value;
-    this.loadBillsData();
+  // Global filter event handlers
+  onDateRangeChange(event: any): void {
+    const days = event.value;
+    if (days) {
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setDate(endDate.getDate() - days);
+
+      this.globalFilters.startDate = startDate;
+      this.globalFilters.endDate = endDate;
+      this.selectedDateRange = days;
+    }
   }
 
-  onReceiptMonthFilterChange(event: any): void {
-    this.selectedReceiptMonth = event.value;
-    this.loadReceiptsData();
+  onCustomDateChange(): void {
+    // Reset quick date range selection when custom dates are used
+    this.selectedDateRange = null;
   }
 
-  applyIssueNoticeFilters(): void {
-    // Apply filters and reload issue notices data
-    console.log("Applying issue notice filters:", {
-      property: this.selectedProperty,
-      tenant: this.selectedTenant,
-      division: this.selectedDivision,
-      date: this.selectedDate,
+  applyGlobalFilters(): void {
+    if (!this.globalFilters.startDate || !this.globalFilters.endDate) {
+      console.error("Please select both start and end dates");
+      return;
+    }
+
+    this.isLoadingData = true;
+
+    // Load all data with current filters
+    Promise.all([
+      this.loadDemandVsCollectionData(),
+      this.loadPropertiesData(),
+      this.loadBillsData(),
+      this.loadReceiptsData(),
+      this.initializeRIPerformanceChart(),
+      this.loadIssueNoticesData(),
+      this.loadGrievanceData(),
+    ]).finally(() => {
+      this.isLoadingData = false;
     });
-    // Call service to reload data with filters
   }
 
-  applyGrievanceFilters(): void {
-    // Apply filters and reload grievance data
-    console.log("Applying grievance filters:", {
-      property: this.selectedGrievanceProperty,
-      tenant: this.selectedGrievanceTenant,
-      division: this.selectedGrievanceDivision,
-      date: this.selectedGrievanceDate,
+  loadIssueNoticesData(): void {
+    this.reportsService
+      .getIssueNoticesDataFiltered(this.globalFilters)
+      .subscribe({
+        next: (data) => {
+          this.updateIssueNoticesChart(data);
+        },
+        error: (error) => {
+          console.error("Error loading issue notices data:", error);
+          this.initializeIssueNoticesChart();
+        },
+      });
+  }
+
+  loadGrievanceData(): void {
+    this.reportsService.getGrievanceDataFiltered(this.globalFilters).subscribe({
+      next: (data) => {
+        this.updateGrievanceChart(data);
+      },
+      error: (error) => {
+        console.error("Error loading grievance data:", error);
+        this.initializeGrievanceChart();
+      },
     });
-    // Call service to reload data with filters
+  }
+
+  updateIssueNoticesChart(data?: any): void {
+    this.issueNoticesChartOptions = {
+      chart: {
+        type: "line",
+      },
+      title: {
+        text: "Issue Notices Trend",
+      },
+      xAxis: {
+        categories: data?.categories || [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+        ],
+      },
+      yAxis: {
+        title: {
+          text: "Number of Notices",
+        },
+      },
+      series: [
+        {
+          type: "line",
+          name: "Notices Issued",
+          data: data?.seriesData || [45, 52, 38, 67, 89, 76],
+        },
+      ],
+    };
+  }
+
+  updateGrievanceChart(data?: any): void {
+    this.grievanceChartOptions = {
+      chart: {
+        type: "bar",
+      },
+      title: {
+        text: "Grievance Status Overview",
+      },
+      xAxis: {
+        categories: data?.categories || [
+          "Pending",
+          "In Progress",
+          "Resolved",
+          "Closed",
+        ],
+      },
+      yAxis: {
+        title: {
+          text: "Count",
+        },
+      },
+      series: [
+        {
+          type: "bar",
+          name: "Grievances",
+          data: data?.seriesData || [25, 45, 78, 156],
+        },
+      ],
+    };
+  }
+
+  resetFilters(): void {
+    this.globalFilters = {
+      startDate: null,
+      endDate: null,
+      selectedDivisions: [],
+      selectedProperties: [],
+      selectedTenants: [],
+      reportType: "all",
+    };
+    this.selectedDateRange = null;
+    this.setDefaultDateRange();
+    this.setDefaultFilters();
+    this.applyGlobalFilters();
   }
 
   generateReport(reportType: string, selectedDate?: Date): void {
-    this.reportsService.generateReport(reportType, selectedDate).subscribe({
-      next: (response) => {
-        // Handle report generation response
-        console.log("Report generated:", response);
-        // Trigger download or open in new tab
-        if (response.downloadUrl) {
-          window.open(response.downloadUrl, "_blank");
-        }
-      },
-      error: (error) => {
-        console.error("Error generating report:", error);
-        // Show user-friendly error message
-      },
-    });
+    this.reportsService
+      .generateReportWithFilters(reportType, this.globalFilters, selectedDate)
+      .subscribe({
+        next: (response) => {
+          // Handle report generation response
+          console.log("Report generated:", response);
+          // Trigger download or open in new tab
+          if (response.downloadUrl) {
+            window.open(response.downloadUrl, "_blank");
+          }
+        },
+        error: (error) => {
+          console.error("Error generating report:", error);
+          // Show user-friendly error message
+        },
+      });
+  }
+
+  generateExcelReport(): void {
+    // Prepare data for Excel export
+    const reportData = {
+      demandVsCollection: this.demandVsCollection,
+      propertiesData: this.propertiesData,
+      billsData: this.billsData,
+      receiptsData: this.receiptsData,
+      filters: this.globalFilters,
+      generatedDate: new Date().toISOString(),
+      userRole: this.currentUserRole,
+    };
+
+    // Create workbook
+    const wb = XLSX.utils.book_new();
+
+    // Demand vs Collection sheet
+    const demandCollectionData = [
+      ["Metric", "Amount"],
+      ["Current Month Demand", this.demandVsCollection.currentMonthDemand],
+      ["Current Month Revenue", this.demandVsCollection.currentMonthRevenue],
+      ["Excess Amount", this.demandVsCollection.excessAmount],
+      ["Current Month Due", this.demandVsCollection.currentMonthDue],
+      ["Total Due Today", this.demandVsCollection.totalDueToday],
+    ];
+    const ws1 = XLSX.utils.aoa_to_sheet(demandCollectionData);
+    XLSX.utils.book_append_sheet(wb, ws1, "Demand vs Collection");
+
+    // Properties data sheet
+    const propertiesData = [
+      ["Property Type", "Count"],
+      ["Total Properties", this.propertiesData.total],
+      ["Occupied Properties", this.propertiesData.occupied],
+      ["Vacant Properties", this.propertiesData.vacant],
+    ];
+    const ws2 = XLSX.utils.aoa_to_sheet(propertiesData);
+    XLSX.utils.book_append_sheet(wb, ws2, "Properties Overview");
+
+    // Receipts data sheet
+    const receiptsHeader = ["Payment Mode", "Amount", "Count"];
+    const receiptsRows = this.receiptsData.paymentModes.map((mode) => [
+      mode.name,
+      mode.amount,
+      mode.count,
+    ]);
+    const receiptsData = [receiptsHeader, ...receiptsRows];
+    const ws3 = XLSX.utils.aoa_to_sheet(receiptsData);
+    XLSX.utils.book_append_sheet(wb, ws3, "Receipts Analysis");
+
+    // Filters sheet
+    const filtersData = [
+      ["Filter", "Value"],
+      ["Start Date", this.globalFilters.startDate?.toDateString() || "Not Set"],
+      ["End Date", this.globalFilters.endDate?.toDateString() || "Not Set"],
+      [
+        "Selected Divisions",
+        this.globalFilters.selectedDivisions.join(", ") || "All",
+      ],
+      [
+        "Selected Properties",
+        this.globalFilters.selectedProperties.join(", ") || "All",
+      ],
+      [
+        "Selected Tenants",
+        this.globalFilters.selectedTenants.join(", ") || "All",
+      ],
+      ["Report Type", this.globalFilters.reportType],
+      ["Generated By", this.currentUserRole],
+      ["Generated Date", new Date().toLocaleString()],
+    ];
+    const ws4 = XLSX.utils.aoa_to_sheet(filtersData);
+    XLSX.utils.book_append_sheet(wb, ws4, "Report Filters");
+
+    // Generate filename with timestamp
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/[:.]/g, "-")
+      .split("T")[0];
+    const filename = `VMRDA_Reports_${timestamp}.xlsx`;
+
+    // Save the file
+    XLSX.writeFile(wb, filename);
   }
 }
