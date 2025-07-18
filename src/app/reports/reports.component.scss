@@ -1,13 +1,271 @@
 .comprehensive-reports-container {
   padding: 1rem;
-  background-color: #fff;
+  background-color: #f8f9fa;
   min-height: 100vh;
   font-family: "Arial", sans-serif;
 }
 
+// Global Filter Styles
+.global-filter-container {
+  margin-bottom: 2rem;
+
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+
+    .filter-label {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .date-controls {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  }
+
+  .filter-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
+  }
+}
+
+// Loading States
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+
+  .loading-spinner {
+    text-align: center;
+
+    p {
+      margin-top: 1rem;
+      color: #6c757d;
+      font-weight: 500;
+    }
+  }
+}
+
+.content-loading {
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+// Demo Data Notification Banner
+.demo-data-banner {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border: 1px solid #2196f3;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(33, 150, 243, 0.1);
+
+  .banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+
+    i {
+      color: #1976d2;
+      font-size: 1.2rem;
+    }
+
+    .banner-text {
+      color: #1565c0;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .banner-content {
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .banner-text {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+// Report Card Styles
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.report-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .report-header {
+    margin-bottom: 1rem;
+
+    h4 {
+      color: #2c3e50;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .report-description {
+      color: #6c757d;
+      font-size: 0.9rem;
+      margin: 0;
+      line-height: 1.4;
+    }
+  }
+}
+
+// Date Range Controls
+.report-date-controls {
+  margin-bottom: 1rem;
+
+  .date-range-section {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1rem;
+    background: #f8f9fa;
+  }
+
+  .date-label {
+    display: block;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .date-range-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .date-input-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .date-range-info {
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    background: #e3f2fd;
+    border-radius: 4px;
+    border-left: 3px solid #2196f3;
+
+    .date-range-display {
+      color: #1976d2;
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+  }
+}
+
+.report-single-date {
+  margin-bottom: 1rem;
+}
+
+.report-controls {
+  margin-top: 1rem;
+}
+
+// Calendar Customization
+:host ::ng-deep {
+  .p-calendar {
+    .p-inputtext {
+      border-radius: 6px;
+      border: 1px solid #ced4da;
+      padding: 0.75rem;
+
+      &:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+    }
+
+    .p-datepicker {
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .p-datepicker-multiple-month .p-datepicker-group {
+      border-right: 1px solid #e9ecef;
+    }
+  }
+
+  .p-button {
+    &.p-button-secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+
+      &:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+      }
+    }
+  }
+}
+
 .reports-header {
   text-align: center;
-
 
   .page-title {
     font-size: 2.5rem;
@@ -92,70 +350,75 @@
     opacity: 0.9;
   }
 
-
   /* DAILY CARD */
-&.current-demand {
+  &.current-demand {
     background: linear-gradient(135deg, #5bbf9d 0%, #4da7a0 100%);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
- 
-&.current-demand:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-}
- 
-/* WEEKLY CARD */
-&.current-revenue {
-    background: linear-gradient(135deg, #4a8fe7 0%, #5b6abf 100%);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
- 
-&.current-revenue:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-}
- 
-/* MONTHLY CARD */
-&.due-title {
-    background: linear-gradient(135deg, #ff7e5f 0%, #f55f7e 100%);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
- 
-&.due-title:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-}
- 
-/* QUARTERLY CARD */
-&.excess-title {
-    background: linear-gradient(135deg, #9d5bbf 0%, #bf5b8f 100%);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
- 
-&.excess-title:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-}
- 
-/* YEARLY CARD */
-&.total-due-title {
-    background: linear-gradient(135deg, #5bbfbf 0%, #5b8fbf 100%);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
- 
-&.total-due-title:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-}
- 
+    transition:
+      transform 0.4s ease,
+      box-shadow 0.4s ease;
+  }
 
+  &.current-demand:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  /* WEEKLY CARD */
+  &.current-revenue {
+    background: linear-gradient(135deg, #4a8fe7 0%, #5b6abf 100%);
+    transition:
+      transform 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  &.current-revenue:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  /* MONTHLY CARD */
+  &.due-title {
+    background: linear-gradient(135deg, #ff7e5f 0%, #f55f7e 100%);
+    transition:
+      transform 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  &.due-title:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  /* QUARTERLY CARD */
+  &.excess-title {
+    background: linear-gradient(135deg, #9d5bbf 0%, #bf5b8f 100%);
+    transition:
+      transform 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  &.excess-title:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  /* YEARLY CARD */
+  &.total-due-title {
+    background: linear-gradient(135deg, #5bbfbf 0%, #5b8fbf 100%);
+    transition:
+      transform 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  &.total-due-title:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
 
   .metric-value {
     font-size: 2rem;
     font-weight: 700;
     margin: 0;
-
-
 
     &.total-due {
       color: #e74c3c;
@@ -628,8 +891,6 @@
     }
   }
 
-
-
   .report-card {
     background: #f5f1f1;
     border-color: #404040;
@@ -644,8 +905,7 @@
   }
 }
 
-
-.bills-receipts{
+.bills-receipts {
   display: flex;
   justify-content: space-around;
 }

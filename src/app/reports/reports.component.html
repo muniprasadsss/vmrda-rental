@@ -1,254 +1,314 @@
 <div class="comprehensive-reports-container">
-
-
-  <!-- Demand Vs Collection Section -->
-  <div class="section-container">
-    <div class="section-header">
-      <h3 class="section-title">Demand Vs Collection</h3>
-       <div class="filter-controls">
-      <div class="filter-controls">
-        <p-dropdown
-          [options]="divisionOptions"
-          [(ngModel)]="selectedDivision"
-          placeholder="Select Division"
-          optionLabel="label"
-          optionValue="value"
-        >
-        </p-dropdown>
-        <p-calendar
-          [(ngModel)]="selectedDate"
-          placeholder="Select Date"
-          dateFormat="dd/mm/yy"
-          [showIcon]="true"
-        >
-        </p-calendar>
-        <p-button
-          label="Apply Filters"
-          (onClick)="applyIssueNoticeFilters()"
-          icon="pi pi-filter"
-        >
-        </p-button>
-      </div>
-
-      </div>
-    </div>
-    <div class="metrics-grid">
-      <div class="metric-card current-revenue">
-        <h3>Current Month Demand</h3>
-        <p class="metric-value ">
-          ₹{{ demandVsCollection.currentMonthDemand | number }}
-        </p>
-      </div>
-      <div class="metric-card current-demand">
-        <h3>Current Month Revenue</h3>
-        <p class="metric-value">
-          ₹{{ demandVsCollection.currentMonthRevenue | number }}
-        </p>
-      </div>
-      <div class="metric-card excess-title">
-        <h3>Excess Amount</h3>
-        <p class="metric-value excess">
-          ₹{{ demandVsCollection.excessAmount | number }}
-        </p>
-      </div>
-      <div class="metric-card due-title">
-        <h3>Current Month Due</h3>
-        <p class="metric-value due">
-          ₹{{ demandVsCollection.currentMonthDue | number }}
-        </p>
-      </div>
-      <div class="metric-card total-due-title">
-        <h3>Total Due as of Today</h3>
-        <p class="metric-value total-due">
-          ₹{{ demandVsCollection.totalDueToday | number }}
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="bills-receipts">
-
-  <!-- Bills Section -->
-  <div class="section-container">
-    <!-- <div class="section-header">
-      <h3 class="section-title">Bills Management</h3>
-      <div class="filter-controls">
-        <p-dropdown
-          [options]="monthOptions"
-          [(ngModel)]="selectedMonth"
-          placeholder="Select Month"
-          (onChange)="onMonthFilterChange($event)"
-          optionLabel="label"
-          optionValue="value"
-        >
-        </p-dropdown>
-      </div>
-    </div> -->
-
-    <div class="chart-container">
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [options]="billsChartOptions"
-        class="chart"
-      >
-      </highcharts-chart>
-    </div>
-  </div>
-
-  <!-- Receipts Section -->
-  <div class="section-container">
-    <!-- <div class="section-header">
-      <h3 class="section-title">Receipts Analysis</h3>
-      <div class="filter-controls">
-        <p-dropdown
-          [options]="monthOptions"
-          [(ngModel)]="selectedReceiptMonth"
-          placeholder="Select Month"
-          (onChange)="onReceiptMonthFilterChange($event)"
-          optionLabel="label"
-          optionValue="value"
-        >
-        </p-dropdown>
-      </div>
-    </div> -->
-
-    <div class="chart-container">
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [options]="receiptsChartOptions"
-        class="chart"
-      >
-      </highcharts-chart>
-    </div>
-  </div>
-
-    <!-- RI Wise Performance Section -->
-  <div class="section-container">
-    <!-- <div class="section-header">
-      <h3 class="section-title">RI Wise Performance</h3>
-    </div> -->
-    <div class="chart-container">
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [options]="riPerformanceChartOptions"
-        class="chart"
-      >
-      </highcharts-chart>
-    </div>
-  </div>
-
-  </div>
-
-    <!-- Properties Section -->
-  <div class="section-container">
-    <div class="section-header">
-      <h2 class="section-title">Properties Overview</h2>
-    </div>
-    <div class="properties-grid">
-      <div class="property-card total">
-        <div class="card-icon">
-          <i class="pi pi-home"></i>
+  <!-- Global Filter Section -->
+  <div class="global-filter-container">
+    <p-card header="Global Filters" [style]="{ 'margin-bottom': '2rem' }">
+      <div class="filter-grid">
+        <!-- Division Filter -->
+        <div class="filter-group">
+          <label class="filter-label">Divisions</label>
+          <p-multiSelect
+            [options]="getFilteredDivisionOptions()"
+            [(ngModel)]="globalFilters.selectedDivisions"
+            placeholder="Select Divisions"
+            optionLabel="label"
+            optionValue="value"
+            [showToggleAll]="currentUserRole !== 'RI'"
+            [style]="{ width: '200px' }"
+          >
+          </p-multiSelect>
         </div>
-        <div class="card-content">
-          <h3>Total Properties</h3>
-          <p class="property-count">{{ propertiesData.total }}</p>
+
+        <!-- Date Range Filters -->
+        <div class="filter-group">
+          <label class="filter-label">Date Range</label>
+
+          <p-dropdown
+            [options]="dateRangeOptions"
+            [(ngModel)]="selectedDateRange"
+            placeholder="Quick Select"
+            optionLabel="label"
+            optionValue="value"
+            (onChange)="onDateRangeChange($event)"
+            [style]="{ width: '150px', 'margin-right': '10px' }"
+          >
+          </p-dropdown>
         </div>
-      </div>
-      <div class="property-card occupied">
-        <div class="card-icon">
-          <i class="pi pi-check-circle"></i>
-        </div>
-        <div class="card-content">
-          <h3>Occupied Properties</h3>
-          <p class="property-count">{{ propertiesData.occupied }}</p>
-        </div>
-      </div>
-      <div class="property-card vacant">
-        <div class="card-icon">
-          <i class="pi pi-times-circle"></i>
-        </div>
-        <div class="card-content">
-          <h3>Vacant Properties</h3>
-          <p class="property-count">{{ propertiesData.vacant }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="bills-receipts">
+        <div class="filter-group">
+          <label class="filter-label">Date Range</label>
 
-        <!-- Issue Notices Section -->
-  <div class="section-container">
-    <div class="section-header">
-      <h2 class="section-title">Issue Notices</h2>
-    
-    </div>
-    <div class="chart-container1">
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [options]="issueNoticesChartOptions"
-        class="chart"
-      >
-      </highcharts-chart>
-    </div>
-  </div>
-
-  <!-- Grievance Section -->
-  <div class="section-container">
-    <div class="section-header">
-      <h2 class="section-title">Grievance Analysis</h2>
-     
-    </div>
-    <div class="chart-container1">
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [options]="grievanceChartOptions"
-        class="chart"
-      >
-      </highcharts-chart>
-    </div>
-  </div>
-
-  </div>
-
-
-
-
-
-
-
-
-
-  <!-- Reports Section -->
-  <div class="section-container">
-    <div class="section-header">
-      <h2 class="section-title">Detailed Reports</h2>
-    </div>
-    <div class="reports-grid">
-      <div class="report-card" *ngFor="let report of reportsData">
-        <div class="report-header">
-          <h4>{{ report.title }}</h4>
-          <p class="report-description">{{ report.description }}</p>
-        </div>
-        <div class="report-controls">
           <p-calendar
-            *ngIf="report.hasDateFilter"
-            [(ngModel)]="report.selectedDate"
-            placeholder="Select Date"
+            [(ngModel)]="globalFilters.startDate"
+            placeholder="Start Date"
             dateFormat="dd/mm/yy"
             [showIcon]="true"
+            (onSelect)="onCustomDateChange()"
+            [style]="{ 'margin-right': '10px' }"
           >
           </p-calendar>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Date Range</label>
+
+          <p-calendar
+            [(ngModel)]="globalFilters.endDate"
+            placeholder="End Date"
+            dateFormat="dd/mm/yy"
+            [showIcon]="true"
+            (onSelect)="onCustomDateChange()"
+            [style]="{ 'margin-right': '10px' }"
+          >
+          </p-calendar>
+        </div>
+
+        <div class="filter-group">
           <p-button
-            [label]="report.buttonText"
-            (onClick)="generateReport(report.type, report.selectedDate)"
-            icon="pi pi-file-export"
-            size="small"
+            label="Apply Filters"
+            (onClick)="applyGlobalFilters()"
+            icon="pi pi-filter"
+            [loading]="isLoadingData"
+            severity="primary"
+            [style]="{ 'margin-right': '10px' }"
+          >
+          </p-button>
+        </div>
+
+        <div class="filter-group">
+          <p-button
+            label="Reset Filters"
+            (onClick)="resetFilters()"
+            icon="pi pi-refresh"
+            severity="secondary"
+            [style]="{ 'margin-right': '10px' }"
           >
           </p-button>
         </div>
       </div>
+    </p-card>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoadingData" class="loading-container">
+    <div class="loading-spinner">
+      <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      <p>Loading reports data...</p>
     </div>
   </div>
-  
+
+  <!-- Demo Data Notification -->
+  <div class="demo-data-banner" *ngIf="isUsingMockData">
+    <div class="banner-content">
+      <i class="pi pi-info-circle"></i>
+      <span class="banner-text">{{ mockDataMessage }}</span>
+    </div>
+  </div>
+
+  <!-- Reports Content -->
+  <div [ngClass]="{ 'content-loading': isLoadingData }">
+    <!-- Demand Vs Collection Section -->
+    <div class="section-container">
+      <div class="section-header">
+        <h3 class="section-title">Demand Vs Collection</h3>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-card current-revenue">
+          <h3>Current Month Demand</h3>
+          <p class="metric-value">
+            ₹{{ demandVsCollection.currentMonthDemand | number }}
+          </p>
+        </div>
+        <div class="metric-card current-demand">
+          <h3>Current Month Revenue</h3>
+          <p class="metric-value">
+            ₹{{ demandVsCollection.currentMonthRevenue | number }}
+          </p>
+        </div>
+        <div class="metric-card excess-title">
+          <h3>Excess Amount</h3>
+          <p class="metric-value excess">
+            ₹{{ demandVsCollection.excessAmount | number }}
+          </p>
+        </div>
+        <div class="metric-card due-title">
+          <h3>Current Month Due</h3>
+          <p class="metric-value due">
+            ₹{{ demandVsCollection.currentMonthDue | number }}
+          </p>
+        </div>
+        <div class="metric-card total-due-title">
+          <h3>Total Due as of Today</h3>
+          <p class="metric-value total-due">
+            ₹{{ demandVsCollection.totalDueToday | number }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bills-receipts">
+      <!-- Bills Section -->
+      <div class="section-container">
+        <div class="chart-container">
+          <highcharts-chart
+            [Highcharts]="Highcharts"
+            [options]="billsChartOptions"
+            class="chart"
+          >
+          </highcharts-chart>
+        </div>
+      </div>
+
+      <!-- Receipts Section -->
+      <div class="section-container">
+        <div class="chart-container">
+          <highcharts-chart
+            [Highcharts]="Highcharts"
+            [options]="receiptsChartOptions"
+            class="chart"
+          >
+          </highcharts-chart>
+        </div>
+      </div>
+
+      <!-- RI Wise Performance Section -->
+      <div class="section-container">
+        <div class="chart-container">
+          <highcharts-chart
+            [Highcharts]="Highcharts"
+            [options]="riPerformanceChartOptions"
+            class="chart"
+          >
+          </highcharts-chart>
+        </div>
+      </div>
+    </div>
+
+    <!-- Properties Section -->
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Properties Overview</h2>
+      </div>
+      <div class="properties-grid">
+        <div class="property-card total">
+          <div class="card-icon">
+            <i class="pi pi-home"></i>
+          </div>
+          <div class="card-content">
+            <h3>Total Properties</h3>
+            <p class="property-count">{{ propertiesData.total }}</p>
+          </div>
+        </div>
+        <div class="property-card occupied">
+          <div class="card-icon">
+            <i class="pi pi-check-circle"></i>
+          </div>
+          <div class="card-content">
+            <h3>Occupied Properties</h3>
+            <p class="property-count">{{ propertiesData.occupied }}</p>
+          </div>
+        </div>
+        <div class="property-card vacant">
+          <div class="card-icon">
+            <i class="pi pi-times-circle"></i>
+          </div>
+          <div class="card-content">
+            <h3>Vacant Properties</h3>
+            <p class="property-count">{{ propertiesData.vacant }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bills-receipts">
+      <!-- Issue Notices Section -->
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">Issue Notices</h2>
+        </div>
+        <div class="chart-container1">
+          <highcharts-chart
+            [Highcharts]="Highcharts"
+            [options]="issueNoticesChartOptions"
+            class="chart"
+          >
+          </highcharts-chart>
+        </div>
+      </div>
+
+      <!-- Grievance Section -->
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">Grievance Analysis</h2>
+        </div>
+        <div class="chart-container1">
+          <highcharts-chart
+            [Highcharts]="Highcharts"
+            [options]="grievanceChartOptions"
+            class="chart"
+          >
+          </highcharts-chart>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reports Section -->
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Detailed Reports</h2>
+      </div>
+      <div class="reports-grid">
+        <div
+          class="report-card"
+          *ngFor="let report of reportsData; trackBy: trackByReportType"
+        >
+          <div class="report-header" *ngIf="report">
+            <h4>{{ report?.title || "Unknown Report" }}</h4>
+            <p class="report-description">
+              {{ report?.description || "No description available" }}
+            </p>
+          </div>
+
+          <!-- Date Range Controls -->
+          <div class="report-date-controls" *ngIf="report.hasDateRangeFilter">
+            <div class="date-range-section">
+              <label class="date-label">Select Multiple Dates:</label>
+              <p-calendar
+                [(ngModel)]="report.selectedDates"
+                placeholder="Select Multiple Dates"
+                dateFormat="dd/mm/yy"
+                [showIcon]="true"
+                [selectionMode]="'multiple'"
+                [showButtonBar]="true"
+                (ngModelChange)="onMultiSelectDateChange(report, $event)"
+                [style]="{ width: '100%', 'margin-bottom': '10px' }"
+              >
+              </p-calendar>
+
+              <div class="date-range-info" *ngIf="getDateRangeText(report)">
+                <small class="date-range-display">{{
+                  getDateRangeText(report)
+                }}</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Generate Report Button -->
+          <div class="report-controls">
+            <p-button
+              [label]="report.buttonText"
+              (onClick)="
+                generateReport(report.type, report.selectedDate, report)
+              "
+              icon="pi pi-file-export"
+              size="small"
+              [disabled]="!isValidDateRange(report)"
+              [severity]="isValidDateRange(report) ? 'primary' : 'secondary'"
+              [style]="{ width: '100%', 'margin-top': '10px' }"
+            >
+            </p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
