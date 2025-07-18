@@ -397,11 +397,50 @@ export class ReportsComponent implements OnInit {
   }
 
   initializeCharts(): void {
-    this.initializeRIPerformanceChart();
-    this.updateBillsChart();
-    this.updateReceiptsChart();
-    this.initializeIssueNoticesChart();
-    this.initializeGrievanceChart();
+    try {
+      this.initializeRIPerformanceChart();
+      this.updateBillsChart();
+      this.updateReceiptsChart();
+      this.initializeIssueNoticesChart();
+      this.initializeGrievanceChart();
+    } catch (error) {
+      console.error("Error initializing charts:", error);
+      // Initialize with basic empty charts as fallback
+      this.initializeFallbackCharts();
+    }
+  }
+
+  private initializeFallbackCharts(): void {
+    // Basic fallback chart configurations
+    this.riPerformanceChartOptions = {
+      chart: { type: "column" },
+      title: { text: "RI Wise Performance - Loading..." },
+      series: [{ type: "column", name: "Loading", data: [] }],
+    };
+
+    this.billsChartOptions = {
+      chart: { type: "line" },
+      title: { text: "Bills Trend - Loading..." },
+      series: [{ type: "line", name: "Loading", data: [] }],
+    };
+
+    this.receiptsChartOptions = {
+      chart: { type: "pie" },
+      title: { text: "Receipts - Loading..." },
+      series: [{ type: "pie", name: "Loading", data: [] }],
+    };
+
+    this.issueNoticesChartOptions = {
+      chart: { type: "line" },
+      title: { text: "Issue Notices - Loading..." },
+      series: [{ type: "line", name: "Loading", data: [] }],
+    };
+
+    this.grievanceChartOptions = {
+      chart: { type: "bar" },
+      title: { text: "Grievances - Loading..." },
+      series: [{ type: "bar", name: "Loading", data: [] }],
+    };
   }
 
   initializeRIPerformanceChart(): void {
