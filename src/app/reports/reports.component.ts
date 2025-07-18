@@ -730,22 +730,25 @@ export class ReportsComponent implements OnInit {
   }
 
   generateReport(reportType: string, selectedDate?: Date): void {
-    this.reportsService
-      .generateReportWithFilters(reportType, this.globalFilters, selectedDate)
-      .subscribe({
-        next: (response) => {
-          // Handle report generation response
-          console.log("Report generated:", response);
-          // Trigger download or open in new tab
-          if (response.downloadUrl) {
-            window.open(response.downloadUrl, "_blank");
-          }
-        },
-        error: (error) => {
-          console.error("Error generating report:", error);
-          // Show user-friendly error message
-        },
-      });
+    // Use original method for now, later can be updated when backend supports filtering
+    this.reportsService.generateReport(reportType, selectedDate).subscribe({
+      next: (response) => {
+        // Handle report generation response
+        console.log("Report generated:", response);
+        // Trigger download or open in new tab
+        if (response.downloadUrl) {
+          window.open(response.downloadUrl, "_blank");
+        }
+      },
+      error: (error) => {
+        console.error("Error generating report:", error);
+        console.error("Full error details:", JSON.stringify(error, null, 2));
+        // Show user-friendly error message
+        console.warn(
+          "Report generation failed, check if backend endpoint exists",
+        );
+      },
+    });
   }
 
   generateExcelReport(): void {
