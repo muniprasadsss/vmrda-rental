@@ -21,24 +21,22 @@ export class ReportsServiceService {
     return this.http.get<any>(`${this.apiUrl}/reports/demand-vs-collection`);
   }
 
-  getDemandVsCollectionFiltered(filters: any): Observable<any> {
-    let params = this.buildFilterParams(filters);
-    return this.http.get<any>(`${this.apiUrl}/reports/demand-vs-collection`, {
-      params,
-    });
-  }
+  // TODO: Implement filtered version when backend is ready
+  // getDemandVsCollectionFiltered(filters: any): Observable<any> {
+  //   let params = this.buildFilterParams(filters);
+  //   return this.http.get<any>(`${this.apiUrl}/reports/demand-vs-collection`, { params });
+  // }
 
   // Properties Overview APIs
   getPropertiesOverview(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/reports/properties-overview`);
   }
 
-  getPropertiesOverviewFiltered(filters: any): Observable<any> {
-    let params = this.buildFilterParams(filters);
-    return this.http.get<any>(`${this.apiUrl}/reports/properties-overview`, {
-      params,
-    });
-  }
+  // TODO: Implement filtered version when backend is ready
+  // getPropertiesOverviewFiltered(filters: any): Observable<any> {
+  //   let params = this.buildFilterParams(filters);
+  //   return this.http.get<any>(`${this.apiUrl}/reports/properties-overview`, { params });
+  // }
 
   // Bills APIs
   getBillsData(month: number): Observable<any> {
@@ -46,10 +44,11 @@ export class ReportsServiceService {
     return this.http.get<any>(`${this.apiUrl}/reports/bills-data`, { params });
   }
 
-  getBillsDataFiltered(filters: any): Observable<any> {
-    let params = this.buildFilterParams(filters);
-    return this.http.get<any>(`${this.apiUrl}/reports/bills-data`, { params });
-  }
+  // TODO: Implement filtered version when backend is ready
+  // getBillsDataFiltered(filters: any): Observable<any> {
+  //   let params = this.buildFilterParams(filters);
+  //   return this.http.get<any>(`${this.apiUrl}/reports/bills-data`, { params });
+  // }
 
   // Receipts APIs
   getReceiptsData(month: number): Observable<any> {
@@ -59,24 +58,22 @@ export class ReportsServiceService {
     });
   }
 
-  getReceiptsDataFiltered(filters: any): Observable<any> {
-    let params = this.buildFilterParams(filters);
-    return this.http.get<any>(`${this.apiUrl}/reports/receipts-data`, {
-      params,
-    });
-  }
+  // TODO: Implement filtered version when backend is ready
+  // getReceiptsDataFiltered(filters: any): Observable<any> {
+  //   let params = this.buildFilterParams(filters);
+  //   return this.http.get<any>(`${this.apiUrl}/reports/receipts-data`, { params });
+  // }
 
   // RI Performance APIs
   getRIPerformanceData(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/reports/ri-performance`);
   }
 
-  getRIPerformanceDataFiltered(filters: any): Observable<any> {
-    let params = this.buildFilterParams(filters);
-    return this.http.get<any>(`${this.apiUrl}/reports/ri-performance`, {
-      params,
-    });
-  }
+  // TODO: Implement filtered version when backend is ready
+  // getRIPerformanceDataFiltered(filters: any): Observable<any> {
+  //   let params = this.buildFilterParams(filters);
+  //   return this.http.get<any>(`${this.apiUrl}/reports/ri-performance`, { params });
+  // }
 
   // Issue Notices APIs
   getIssueNoticesData(filters: any): Observable<any> {
@@ -98,12 +95,11 @@ export class ReportsServiceService {
     });
   }
 
-  getIssueNoticesDataFiltered(filters: any): Observable<any> {
-    let params = this.buildFilterParams(filters);
-    return this.http.get<any>(`${this.apiUrl}/reports/issue-notices`, {
-      params,
-    });
-  }
+  // TODO: Implement filtered version when backend is ready
+  // getIssueNoticesDataFiltered(filters: any): Observable<any> {
+  //   let params = this.buildFilterParams(filters);
+  //   return this.http.get<any>(`${this.apiUrl}/reports/issue-notices`, { params });
+  // }
 
   // Grievance APIs
   getGrievanceData(filters: any): Observable<any> {
@@ -125,12 +121,11 @@ export class ReportsServiceService {
     });
   }
 
-  getGrievanceDataFiltered(filters: any): Observable<any> {
-    let params = this.buildFilterParams(filters);
-    return this.http.get<any>(`${this.apiUrl}/reports/grievance-data`, {
-      params,
-    });
-  }
+  // TODO: Implement filtered version when backend is ready
+  // getGrievanceDataFiltered(filters: any): Observable<any> {
+  //   let params = this.buildFilterParams(filters);
+  //   return this.http.get<any>(`${this.apiUrl}/reports/grievance-data`, { params });
+  // }
 
   // Report Generation APIs
   generateReport(reportType: string, selectedDate?: Date): Observable<any> {
@@ -141,24 +136,18 @@ export class ReportsServiceService {
     return this.http.post<any>(`${this.apiUrl}/reports/generate`, body);
   }
 
-  generateReportWithFilters(
-    reportType: string,
-    filters: any,
-    selectedDate?: Date,
-  ): Observable<any> {
-    const body: any = {
-      reportType,
-      filters: filters,
-      userRole: localStorage.getItem("role"),
-    };
-    if (selectedDate) {
-      body.date = selectedDate.toISOString().split("T")[0];
-    }
-    return this.http.post<any>(
-      `${this.apiUrl}/reports/generate-filtered`,
-      body,
-    );
-  }
+  // TODO: Implement filtered version when backend is ready
+  // generateReportWithFilters(reportType: string, filters: any, selectedDate?: Date): Observable<any> {
+  //   const body: any = {
+  //     reportType,
+  //     filters: filters,
+  //     userRole: localStorage.getItem('role')
+  //   };
+  //   if (selectedDate) {
+  //     body.date = selectedDate.toISOString().split("T")[0];
+  //   }
+  //   return this.http.post<any>(`${this.apiUrl}/reports/generate-filtered`, body);
+  // }
 
   // Specific Report APIs
   getDuePropertiesList(date?: Date): Observable<any> {
