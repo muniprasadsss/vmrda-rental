@@ -23,18 +23,30 @@
         <!-- Date Range Filters -->
         <div class="filter-group">
           <label class="filter-label">Date Range</label>
-          <div class="date-controls">
+         
             <p-dropdown [options]="dateRangeOptions" [(ngModel)]="selectedDateRange" placeholder="Quick Select"
               optionLabel="label" optionValue="value" (onChange)="onDateRangeChange($event)"
               [style]="{ width: '150px', 'margin-right': '10px' }">
             </p-dropdown>
+      
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Date Range</label>
+        
+          
             <p-calendar [(ngModel)]="globalFilters.startDate" placeholder="Start Date" dateFormat="dd/mm/yy" [showIcon]="true"
               (onSelect)="onCustomDateChange()" [style]="{ 'margin-right': '10px' }">
             </p-calendar>
+           
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Date Range</label>
+         
             <p-calendar [(ngModel)]="globalFilters.endDate" placeholder="End Date" dateFormat="dd/mm/yy" [showIcon]="true"
               (onSelect)="onCustomDateChange()" [style]="{ 'margin-right': '10px' }">
             </p-calendar>
-          </div>
+
         </div>
         
       </div>
