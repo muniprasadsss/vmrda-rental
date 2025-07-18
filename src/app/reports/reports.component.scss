@@ -86,6 +86,144 @@
   transition: opacity 0.3s ease;
 }
 
+// Report Card Styles
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.report-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .report-header {
+    margin-bottom: 1rem;
+
+    h4 {
+      color: #2c3e50;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .report-description {
+      color: #6c757d;
+      font-size: 0.9rem;
+      margin: 0;
+      line-height: 1.4;
+    }
+  }
+}
+
+// Date Range Controls
+.report-date-controls {
+  margin-bottom: 1rem;
+
+  .date-range-section {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1rem;
+    background: #f8f9fa;
+  }
+
+  .date-label {
+    display: block;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .date-range-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .date-input-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .date-range-info {
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    background: #e3f2fd;
+    border-radius: 4px;
+    border-left: 3px solid #2196f3;
+
+    .date-range-display {
+      color: #1976d2;
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+  }
+}
+
+.report-single-date {
+  margin-bottom: 1rem;
+}
+
+.report-controls {
+  margin-top: 1rem;
+}
+
+// Calendar Customization
+:host ::ng-deep {
+  .p-calendar {
+    .p-inputtext {
+      border-radius: 6px;
+      border: 1px solid #ced4da;
+      padding: 0.75rem;
+
+      &:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+    }
+
+    .p-datepicker {
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .p-datepicker-multiple-month .p-datepicker-group {
+      border-right: 1px solid #e9ecef;
+    }
+  }
+
+  .p-button {
+    &.p-button-secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+
+      &:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+      }
+    }
+  }
+}
+
 .reports-header {
   text-align: center;
 
