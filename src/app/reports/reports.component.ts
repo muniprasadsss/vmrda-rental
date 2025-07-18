@@ -131,6 +131,11 @@ export class ReportsComponent implements OnInit {
   // Loading states
   isLoadingData: boolean = false;
 
+  // API status
+  isUsingMockData: boolean = true;
+  mockDataMessage: string =
+    "Currently displaying demo data. API endpoints will be available soon.";
+
   // Date range options for quick selection
   dateRangeOptions = [
     { label: "Last 7 Days", value: 7 },
