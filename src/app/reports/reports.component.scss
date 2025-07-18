@@ -86,6 +86,46 @@
   transition: opacity 0.3s ease;
 }
 
+// Demo Data Notification Banner
+.demo-data-banner {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border: 1px solid #2196f3;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(33, 150, 243, 0.1);
+
+  .banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+
+    i {
+      color: #1976d2;
+      font-size: 1.2rem;
+    }
+
+    .banner-text {
+      color: #1565c0;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .banner-content {
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .banner-text {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
 // Report Card Styles
 .reports-grid {
   display: grid;
