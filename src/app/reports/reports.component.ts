@@ -1121,4 +1121,9 @@ export class ReportsComponent implements OnInit {
     // Save the file
     XLSX.writeFile(wb, filename);
   }
+
+  // TrackBy function for ngFor to improve performance and prevent errors
+  trackByReportType(index: number, report: any): string {
+    return report?.type || index.toString();
+  }
 }
