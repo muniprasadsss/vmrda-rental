@@ -781,7 +781,9 @@ export class ReportsComponent implements OnInit {
         this.updateIssueNoticesChart(data);
       },
       error: (error) => {
-        console.error("Error loading issue notices data:", error);
+        console.warn(
+          "API endpoint not available, using mock data for issue notices",
+        );
         this.initializeIssueNoticesChart();
       },
     });
