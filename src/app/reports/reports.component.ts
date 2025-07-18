@@ -288,50 +288,50 @@ export class ReportsComponent implements OnInit {
   }
 
   loadDemandVsCollectionData(): void {
-    this.reportsService
-      .getDemandVsCollectionFiltered(this.globalFilters)
-      .subscribe({
-        next: (data) => {
-          this.demandVsCollection = data;
-          this.demandVsCollection.excessAmount =
-            this.demandVsCollection.currentMonthRevenue -
-            this.demandVsCollection.currentMonthDemand;
-        },
-        error: (error) => {
-          console.error("Error loading demand vs collection data:", error);
-          // Set mock data for demonstration
-          this.demandVsCollection = {
-            currentMonthDemand: 5000000,
-            currentMonthRevenue: 4200000,
-            excessAmount: -800000,
-            currentMonthDue: 800000,
-            totalDueToday: 15000000,
-          };
-        },
-      });
+    // Use original method for now, later can be updated when backend supports filtering
+    this.reportsService.getDemandVsCollection().subscribe({
+      next: (data) => {
+        this.demandVsCollection = data;
+        this.demandVsCollection.excessAmount =
+          this.demandVsCollection.currentMonthRevenue -
+          this.demandVsCollection.currentMonthDemand;
+      },
+      error: (error) => {
+        console.error("Error loading demand vs collection data:", error);
+        // Set mock data for demonstration
+        this.demandVsCollection = {
+          currentMonthDemand: 5000000,
+          currentMonthRevenue: 4200000,
+          excessAmount: -800000,
+          currentMonthDue: 800000,
+          totalDueToday: 15000000,
+        };
+      },
+    });
   }
 
   loadPropertiesData(): void {
-    this.reportsService
-      .getPropertiesOverviewFiltered(this.globalFilters)
-      .subscribe({
-        next: (data) => {
-          this.propertiesData = data;
-        },
-        error: (error) => {
-          console.error("Error loading properties data:", error);
-          // Set mock data for demonstration
-          this.propertiesData = {
-            total: 1250,
-            occupied: 980,
-            vacant: 270,
-          };
-        },
-      });
+    // Use original method for now, later can be updated when backend supports filtering
+    this.reportsService.getPropertiesOverview().subscribe({
+      next: (data) => {
+        this.propertiesData = data;
+      },
+      error: (error) => {
+        console.error("Error loading properties data:", error);
+        // Set mock data for demonstration
+        this.propertiesData = {
+          total: 1250,
+          occupied: 980,
+          vacant: 270,
+        };
+      },
+    });
   }
 
   loadBillsData(): void {
-    this.reportsService.getBillsDataFiltered(this.globalFilters).subscribe({
+    // Use original method with current month for now
+    const currentMonth = new Date().getMonth() + 1;
+    this.reportsService.getBillsData(currentMonth).subscribe({
       next: (data) => {
         this.billsData = data;
         this.updateBillsChart();
@@ -349,7 +349,9 @@ export class ReportsComponent implements OnInit {
   }
 
   loadReceiptsData(): void {
-    this.reportsService.getReceiptsDataFiltered(this.globalFilters).subscribe({
+    // Use original method with current month for now
+    const currentMonth = new Date().getMonth() + 1;
+    this.reportsService.getReceiptsData(currentMonth).subscribe({
       next: (data) => {
         this.receiptsData = data;
         this.updateReceiptsChart();
@@ -378,72 +380,71 @@ export class ReportsComponent implements OnInit {
   }
 
   initializeRIPerformanceChart(): void {
-    this.reportsService
-      .getRIPerformanceDataFiltered(this.globalFilters)
-      .subscribe({
-        next: (data) => {
-          this.riPerformanceChartOptions = {
-            chart: {
-              type: "column",
-            },
+    // Use original method for now, later can be updated when backend supports filtering
+    this.reportsService.getRIPerformanceData().subscribe({
+      next: (data) => {
+        this.riPerformanceChartOptions = {
+          chart: {
+            type: "column",
+          },
+          title: {
+            text: "RI Wise Demand vs Collection Performance",
+          },
+          xAxis: {
+            categories: data.categories || ["RI-1", "RI-2", "RI-3"],
+          },
+          yAxis: {
             title: {
-              text: "RI Wise Demand vs Collection Performance",
+              text: "Amount (₹)",
             },
-            xAxis: {
-              categories: data.categories || ["RI-1", "RI-2", "RI-3"],
-            },
-            yAxis: {
-              title: {
-                text: "Amount (₹)",
-              },
-            },
-            series: [
-              {
-                type: "column",
-                name: "Demand",
-                data: data.demandData || [2000000, 1800000, 1200000],
-              },
-              {
-                type: "column",
-                name: "Collection",
-                data: data.collectionData || [1500000, 1600000, 1100000],
-              },
-            ],
-          };
-        },
-        error: (error) => {
-          console.error("Error loading RI performance data:", error);
-          // Fallback to mock data
-          this.riPerformanceChartOptions = {
-            chart: {
+          },
+          series: [
+            {
               type: "column",
+              name: "Demand",
+              data: data.demandData || [2000000, 1800000, 1200000],
             },
+            {
+              type: "column",
+              name: "Collection",
+              data: data.collectionData || [1500000, 1600000, 1100000],
+            },
+          ],
+        };
+      },
+      error: (error) => {
+        console.error("Error loading RI performance data:", error);
+        // Fallback to mock data
+        this.riPerformanceChartOptions = {
+          chart: {
+            type: "column",
+          },
+          title: {
+            text: "RI Wise Demand vs Collection Performance",
+          },
+          xAxis: {
+            categories: ["RI-1", "RI-2", "RI-3"],
+          },
+          yAxis: {
             title: {
-              text: "RI Wise Demand vs Collection Performance",
+              text: "Amount (₹)",
             },
-            xAxis: {
-              categories: ["RI-1", "RI-2", "RI-3"],
+          },
+          series: [
+            {
+              type: "column",
+              name: "Demand",
+              data: [2000000, 1800000, 1200000],
             },
-            yAxis: {
-              title: {
-                text: "Amount (₹)",
-              },
+            {
+              type: "column",
+              name: "Collection",
+              data: [1500000, 1600000, 1100000],
             },
-            series: [
-              {
-                type: "column",
-                name: "Demand",
-                data: [2000000, 1800000, 1200000],
-              },
-              {
-                type: "column",
-                name: "Collection",
-                data: [1500000, 1600000, 1100000],
-              },
-            ],
-          };
-        },
-      });
+          ],
+        };
+      },
+    });
   }
 
   updateBillsChart(): void {
@@ -589,21 +590,33 @@ export class ReportsComponent implements OnInit {
   }
 
   loadIssueNoticesData(): void {
-    this.reportsService
-      .getIssueNoticesDataFiltered(this.globalFilters)
-      .subscribe({
-        next: (data) => {
-          this.updateIssueNoticesChart(data);
-        },
-        error: (error) => {
-          console.error("Error loading issue notices data:", error);
-          this.initializeIssueNoticesChart();
-        },
-      });
+    // Use original method with basic filters for now
+    const basicFilters = {
+      property: "all",
+      tenant: "all",
+      division: "all",
+      date: null,
+    };
+    this.reportsService.getIssueNoticesData(basicFilters).subscribe({
+      next: (data) => {
+        this.updateIssueNoticesChart(data);
+      },
+      error: (error) => {
+        console.error("Error loading issue notices data:", error);
+        this.initializeIssueNoticesChart();
+      },
+    });
   }
 
   loadGrievanceData(): void {
-    this.reportsService.getGrievanceDataFiltered(this.globalFilters).subscribe({
+    // Use original method with basic filters for now
+    const basicFilters = {
+      property: "all",
+      tenant: "all",
+      division: "all",
+      date: null,
+    };
+    this.reportsService.getGrievanceData(basicFilters).subscribe({
       next: (data) => {
         this.updateGrievanceChart(data);
       },
