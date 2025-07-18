@@ -96,6 +96,14 @@
     </div>
   </div>
 
+  <!-- Demo Data Notification -->
+  <div class="demo-data-banner" *ngIf="isUsingMockData">
+    <div class="banner-content">
+      <i class="pi pi-info-circle"></i>
+      <span class="banner-text">{{ mockDataMessage }}</span>
+    </div>
+  </div>
+
   <!-- Reports Content -->
   <div [ngClass]="{ 'content-loading': isLoadingData }">
     <!-- Demand Vs Collection Section -->
