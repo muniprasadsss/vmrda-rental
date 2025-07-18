@@ -249,10 +249,15 @@
         <h2 class="section-title">Detailed Reports</h2>
       </div>
       <div class="reports-grid">
-        <div class="report-card" *ngFor="let report of reportsData">
-          <div class="report-header">
-            <h4>{{ report.title }}</h4>
-            <p class="report-description">{{ report.description }}</p>
+        <div
+          class="report-card"
+          *ngFor="let report of reportsData; trackBy: trackByReportType"
+        >
+          <div class="report-header" *ngIf="report">
+            <h4>{{ report?.title || "Unknown Report" }}</h4>
+            <p class="report-description">
+              {{ report?.description || "No description available" }}
+            </p>
           </div>
 
           <!-- Date Range Controls -->
