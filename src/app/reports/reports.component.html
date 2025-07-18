@@ -266,12 +266,10 @@
                 [showIcon]="true"
                 [selectionMode]="'multiple'"
                 [showButtonBar]="true"
-                (onSelect)="onMultiSelectDateChange(report, $event)"
+                (ngModelChange)="onMultiSelectDateChange(report, $event)"
                 [style]="{ width: '100%', 'margin-bottom': '10px' }"
               >
               </p-calendar>
-
-
 
               <div class="date-range-info" *ngIf="getDateRangeText(report)">
                 <small class="date-range-display">{{
@@ -280,8 +278,6 @@
               </div>
             </div>
           </div>
-
-
 
           <!-- Generate Report Button -->
           <div class="report-controls">
