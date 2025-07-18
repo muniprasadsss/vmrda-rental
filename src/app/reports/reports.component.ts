@@ -252,22 +252,38 @@ export class ReportsComponent implements OnInit {
 
   // Get user's division based on their login info
   private getUserDivision(): string {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
-    return userInfo.division || "ri1"; // Default to ri1 if not specified
+    try {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+      return userInfo.division || "ri1"; // Default to ri1 if not specified
+    } catch (error) {
+      console.error("Error parsing user info:", error);
+      return "ri1"; // Fallback default
+    }
   }
 
   ngOnInit(): void {
-    // Get current user role
-    this.currentUserRole = localStorage.getItem("role") || "";
+    try {
+      // Get current user role
+      this.currentUserRole = localStorage.getItem("role") || "";
+      console.log("Current user role:", this.currentUserRole);
 
-    // Set default date range (last 30 days)
-    this.setDefaultDateRange();
+      // Set default date range (last 30 days)
+      this.setDefaultDateRange();
 
-    // Set default filters based on user role
-    this.setDefaultFilters();
+      // Set default filters based on user role
+      this.setDefaultFilters();
 
-    // Load all data with initial filters
-    this.applyGlobalFilters();
+      // Initialize charts first
+      this.initializeCharts();
+
+      // Load all data with initial filters
+      this.applyGlobalFilters();
+    } catch (error) {
+      console.error("Error in ngOnInit:", error);
+      // Fallback to basic initialization
+      this.setDefaultDateRange();
+      this.initializeCharts();
+    }
   }
 
   private setDefaultDateRange(): void {
@@ -281,9 +297,17 @@ export class ReportsComponent implements OnInit {
   }
 
   private setDefaultFilters(): void {
-    // Set default filters based on user role
-    if (this.currentUserRole === "RI") {
-      this.globalFilters.selectedDivisions = [this.getUserDivision()];
+    try {
+      // Set default filters based on user role
+      if (this.currentUserRole === "RI") {
+        const userDivision = this.getUserDivision();
+        this.globalFilters.selectedDivisions = [userDivision];
+        console.log("Set default division for RI user:", userDivision);
+      }
+    } catch (error) {
+      console.error("Error setting default filters:", error);
+      // Use empty arrays as fallback
+      this.globalFilters.selectedDivisions = [];
     }
   }
 
