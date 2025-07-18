@@ -984,19 +984,37 @@ export class ReportsComponent implements OnInit {
 
   // Get formatted date range text
   getDateRangeText(report: any): string {
-    if (!report.hasDateRangeFilter) return "";
+    if (!report || !report.hasDateRangeFilter) return "";
 
-    if (report.selectedDates && report.selectedDates.length > 0) {
-      const count = report.selectedDates.length;
-      if (count === 1) {
-        return `1 date selected: ${report.selectedDates[0].toLocaleDateString()}`;
-      } else {
-        const sortedDates = [...report.selectedDates].sort(
-          (a, b) => a.getTime() - b.getTime(),
+    if (
+      report.selectedDates &&
+      Array.isArray(report.selectedDates) &&
+      report.selectedDates.length > 0
+    ) {
+      try {
+        const validDates = report.selectedDates.filter(
+          (date) => date instanceof Date && !isNaN(date.getTime()),
         );
-        const fromStr = sortedDates[0].toLocaleDateString();
-        const toStr = sortedDates[sortedDates.length - 1].toLocaleDateString();
-        return `${count} dates selected (${fromStr} to ${toStr})`;
+
+        if (validDates.length === 0) {
+          return "No valid dates selected";
+        }
+
+        const count = validDates.length;
+        if (count === 1) {
+          return `1 date selected: ${validDates[0].toLocaleDateString()}`;
+        } else {
+          const sortedDates = [...validDates].sort(
+            (a, b) => a.getTime() - b.getTime(),
+          );
+          const fromStr = sortedDates[0].toLocaleDateString();
+          const toStr =
+            sortedDates[sortedDates.length - 1].toLocaleDateString();
+          return `${count} dates selected (${fromStr} to ${toStr})`;
+        }
+      } catch (error) {
+        console.error("Error formatting date range text:", error);
+        return "Error displaying dates";
       }
     }
 
