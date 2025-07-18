@@ -993,7 +993,7 @@ export class ReportsComponent implements OnInit {
     ) {
       try {
         const validDates = report.selectedDates.filter(
-          (date) => date instanceof Date && !isNaN(date.getTime()),
+          (date: any) => date instanceof Date && !isNaN(date.getTime()),
         );
 
         if (validDates.length === 0) {
