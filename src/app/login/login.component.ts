@@ -72,7 +72,7 @@ export class LoginComponent {
       });
     } else {
       this.toasterservice.warning("Please enter valid userID and password");
-      this.isLoginFailed = false; // Set flag to true when login fails
+      this.isLoginFailed = true; // Set flag to true when login fails
     }
   }
 
