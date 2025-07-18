@@ -40,6 +40,7 @@
             </p-calendar>
            
         </div>
+
         <div class="filter-group">
           <label class="filter-label">Date Range</label>
          
@@ -48,37 +49,32 @@
             </p-calendar>
 
         </div>
+
+        <div class="filter-group">
+          <p-button
+                    label="Apply Filters"
+                    (onClick)="applyGlobalFilters()"
+                    icon="pi pi-filter"
+                    [loading]="isLoadingData"
+                    severity="primary"
+                    [style]="{ 'margin-right': '10px' }"
+                  >
+                  </p-button>
+        </div>
+
+        <div class="filter-group">
+          <p-button
+                    label="Reset Filters"
+                    (onClick)="resetFilters()"
+                    icon="pi pi-refresh"
+                    severity="secondary"
+                    [style]="{ 'margin-right': '10px' }"
+                  >
+                  </p-button>
+        </div>
         
       </div>
 
-      <!-- Filter Action Buttons -->
-      <div class="filter-actions">
-        <p-button
-          label="Apply Filters"
-          (onClick)="applyGlobalFilters()"
-          icon="pi pi-filter"
-          [loading]="isLoadingData"
-          severity="primary"
-          [style]="{ 'margin-right': '10px' }"
-        >
-        </p-button>
-        <p-button
-          label="Reset Filters"
-          (onClick)="resetFilters()"
-          icon="pi pi-refresh"
-          severity="secondary"
-          [style]="{ 'margin-right': '10px' }"
-        >
-        </p-button>
-        <p-button
-          label="Export to Excel"
-          (onClick)="generateExcelReport()"
-          icon="pi pi-file-excel"
-          severity="success"
-          [disabled]="isLoadingData"
-        >
-        </p-button>
-      </div>
     </p-card>
   </div>
 
