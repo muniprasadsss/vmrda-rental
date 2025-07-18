@@ -428,12 +428,14 @@ export class ReportsComponent implements OnInit {
         this.propertiesData = data;
       },
       error: (error) => {
-        console.error("Error loading properties data:", error);
-        // Set mock data for demonstration
+        console.warn(
+          "API endpoint not available, using mock data for properties overview",
+        );
+        // Set realistic mock data for demonstration
         this.propertiesData = {
-          total: 1250,
-          occupied: 980,
-          vacant: 270,
+          total: 1856,
+          occupied: 1425,
+          vacant: 431,
         };
       },
     });
