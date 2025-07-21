@@ -235,60 +235,66 @@
       </div>
     </div>
 
-    <!-- Reports Section -->
+        <!-- Reports Section -->
     <div class="section-container">
       <div class="section-header">
-        <h2 class="section-title">Detailed Reports</h2>
+        <h2 class="section-title">Generate Reports</h2>
       </div>
-      <div class="reports-grid">
-        <div
-          class="report-card" *ngFor="let report of reportsData; trackBy: trackByReportType">
-          <div class="report-header" *ngIf="report">
-            <h4>{{ report?.title || "Unknown Report" }}</h4>
-            <p class="report-description">
-              {{ report?.description || "No description available" }}
-            </p>
+
+      <div class="unified-report-card">
+        <div class="report-selection-section">
+          <div class="report-dropdown-container">
+            <label class="report-label">Select Report Type:</label>
+            <p-dropdown
+              [(ngModel)]="selectedReportType"
+              [options]="reportOptions"
+              placeholder="Choose a report type"
+              optionLabel="label"
+              optionValue="value"
+              (onChange)="onReportTypeChange()"
+              [style]="{ width: '100%', 'margin-bottom': '1rem' }"
+            >
+            </p-dropdown>
           </div>
 
-          <!-- Date Range Controls -->
-          <div class="report-date-controls" *ngIf="report.hasDateRangeFilter">
-            <div class="date-range-section">
-              <label class="date-label">Select Multiple Dates:</label>
-              <p-calendar
-                [(ngModel)]="report.selectedDates"
-                placeholder="Select Multiple Dates"
-                dateFormat="dd/mm/yy"
-                [showIcon]="true"
-                [selectionMode]="'multiple'"
-                [showButtonBar]="true"
-                (ngModelChange)="onMultiSelectDateChange(report, $event)"
-                [style]="{ width: '100%', 'margin-bottom': '10px' }"
-              >
-              </p-calendar>
+          <div class="report-description" *ngIf="selectedReportDescription">
+            <p class="description-text">{{ selectedReportDescription }}</p>
+          </div>
+        </div>
 
-              <div class="date-range-info" *ngIf="getDateRangeText(report)">
-                <small class="date-range-display">{{
-                  getDateRangeText(report)
-                }}</small>
-              </div>
+        <!-- Date Range Controls -->
+        <div class="unified-date-controls" *ngIf="selectedReportType">
+          <div class="date-selection-section">
+            <label class="date-label">Select Date(s):</label>
+            <p-calendar
+              [(ngModel)]="selectedReportDates"
+              placeholder="Select Date(s)"
+              dateFormat="dd/mm/yy"
+              [showIcon]="true"
+              [selectionMode]="'multiple'"
+              [showButtonBar]="true"
+              (ngModelChange)="onReportDateChange($event)"
+              [style]="{ width: '100%', 'margin-bottom': '10px' }"
+            >
+            </p-calendar>
+
+            <div class="selected-dates-info" *ngIf="getSelectedDatesText()">
+              <small class="dates-display">{{ getSelectedDatesText() }}</small>
             </div>
           </div>
+        </div>
 
-          <!-- Generate Report Button -->
-          <div class="report-controls">
-            <p-button
-              [label]="report.buttonText"
-              (onClick)="
-                generateReport(report.type, report.selectedDate, report)
-              "
-              icon="pi pi-file-export"
-              size="small"
-              [disabled]="!isValidDateRange(report)"
-              [severity]="isValidDateRange(report) ? 'primary' : 'secondary'"
-              [style]="{ width: '100%', 'margin-top': '10px' }"
-            >
-            </p-button>
-          </div>
+        <!-- Generate Report Button -->
+        <div class="unified-report-controls" *ngIf="selectedReportType">
+          <p-button
+            label="Generate Report"
+            (onClick)="generateSelectedReport()"
+            icon="pi pi-file-export"
+            [disabled]="!isValidReportSelection()"
+            [severity]="isValidReportSelection() ? 'primary' : 'secondary'"
+            [style]="{ width: '100%', 'margin-top': '1rem' }"
+          >
+          </p-button>
         </div>
       </div>
     </div>
