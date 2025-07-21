@@ -246,13 +246,13 @@
           <div class="report-dropdown-container">
             <label class="report-label">Select Report Type:</label>
             <p-dropdown
-              [(ngModel)]="selectedReportType"
               [options]="reportOptions"
+              [(ngModel)]="selectedReportType"
               placeholder="Choose a report type"
               optionLabel="label"
               optionValue="value"
               (onChange)="onReportTypeChange()"
-              [style]="{ width: '100%', 'margin-bottom': '1rem' }"
+              [style]="{ width: '50%' }"
             >
             </p-dropdown>
           </div>

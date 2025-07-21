@@ -107,13 +107,6 @@ export class ReportsComponent implements OnInit {
     { label: "RI-5", value: "ri5" },
   ];
 
-  reportTypeOptions = [
-    { label: "All Reports", value: "all" },
-    { label: "Financial Reports", value: "financial" },
-    { label: "Property Reports", value: "property" },
-    { label: "Tenant Reports", value: "tenant" },
-    { label: "Collection Reports", value: "collection" },
-  ];
 
   // Global filter values
   globalFilters = {
