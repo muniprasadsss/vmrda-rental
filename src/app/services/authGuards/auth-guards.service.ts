@@ -5,7 +5,6 @@ import { BehaviorSubject, interval, Observable, Subscription, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../login/login.service';
 import { userdetails } from '../../interfaces/userdetailsInterfaces/userdetailinterfaces';
-import { JSEncrypt } from 'jsencrypt';
 @Injectable({
   providedIn: 'root',
 })
