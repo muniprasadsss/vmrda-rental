@@ -839,13 +839,30 @@
     }
   }
 
-  .section-container {
+    .section-container {
     padding: 15px;
   }
 
   .section-header {
     .section-title {
       font-size: 1.3rem;
+    }
+  }
+
+  .unified-report-card {
+    padding: 1rem;
+
+    .report-selection-section {
+      margin-bottom: 1rem;
+
+      .report-description {
+        padding: 0.75rem;
+      }
+    }
+
+    .unified-date-controls {
+      padding: 0.75rem;
+      margin-bottom: 1rem;
     }
   }
 
