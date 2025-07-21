@@ -805,8 +805,16 @@
     }
   }
 
-  .reports-grid {
+    .reports-grid {
     grid-template-columns: 1fr;
+  }
+
+  .unified-report-card {
+    padding: 1.5rem;
+
+    .unified-date-controls {
+      padding: 1rem;
+    }
   }
 
   .report-controls {
