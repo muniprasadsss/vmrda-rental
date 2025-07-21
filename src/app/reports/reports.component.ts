@@ -154,7 +154,66 @@ export class ReportsComponent implements OnInit {
   issueNoticesChartOptions: Highcharts.Options = {};
   grievanceChartOptions: Highcharts.Options = {};
 
-  // Reports data
+    // Unified report options for dropdown
+  reportOptions = [
+    {
+      label: "Due by Properties List",
+      value: "due-properties",
+      description: "List of properties with due amounts as on date"
+    },
+    {
+      label: "Due by Tenants List",
+      value: "due-tenants",
+      description: "List of tenants with due amounts as on date"
+    },
+    {
+      label: "History of Users",
+      value: "user-history",
+      description: "User activity history as on date"
+    },
+    {
+      label: "Cancelled Properties Due List",
+      value: "cancelled-properties",
+      description: "List of cancelled properties with due amounts"
+    },
+    {
+      label: "Government Properties Due List",
+      value: "government-properties",
+      description: "List of government properties with due amounts"
+    },
+    {
+      label: "Vacant Properties List",
+      value: "vacant-properties",
+      description: "List of vacant properties as on date"
+    },
+    {
+      label: "Issue Notice Report",
+      value: "issue-notice",
+      description: "Report of issued notices with custom date"
+    },
+    {
+      label: "Rental Collection Report",
+      value: "rental-collection",
+      description: "Rental collection report as on date"
+    },
+    {
+      label: "GST Report",
+      value: "gst-report",
+      description: "GST report as on date"
+    },
+    {
+      label: "TDS Report",
+      value: "tds-report",
+      description: "TDS report as on date"
+    }
+  ];
+
+  // Unified report selection properties
+  selectedReportType: string = '';
+  selectedReportDescription: string = '';
+  selectedReportDates: Date[] = [];
+
+  // Legacy reports data (keeping for backward compatibility)
   reportsData = [
     {
       title: "Due by Properties List",
@@ -1137,6 +1196,68 @@ export class ReportsComponent implements OnInit {
 
     // Save the file
     XLSX.writeFile(wb, filename);
+  }
+
+    // New unified report methods
+  onReportTypeChange(): void {
+    const selectedOption = this.reportOptions.find(option => option.value === this.selectedReportType);
+    this.selectedReportDescription = selectedOption?.description || '';
+    // Clear previously selected dates when changing report type
+    this.selectedReportDates = [];
+  }
+
+  onReportDateChange(selectedDates: Date[]): void {
+    this.selectedReportDates = selectedDates || [];
+  }
+
+  generateSelectedReport(): void {
+    if (!this.selectedReportType || !this.selectedReportDates.length) {
+      console.warn('Report type or dates not selected');
+      return;
+    }
+
+    // Create date range object for the selected report
+    const dateRange = {
+      dates: this.selectedReportDates.map(date => date.toISOString().split('T')[0]),
+      fromDate: this.selectedReportDates.length > 0 ?
+        Math.min(...this.selectedReportDates.map(d => d.getTime())) : null,
+      toDate: this.selectedReportDates.length > 0 ?
+        Math.max(...this.selectedReportDates.map(d => d.getTime())) : null
+    };
+
+    console.log('Generating report:', {
+      type: this.selectedReportType,
+      dateRange: dateRange,
+      selectedDates: this.selectedReportDates
+    });
+
+    // Use the existing generateReport method with the first selected date
+    const primaryDate = this.selectedReportDates[0];
+    this.generateReport(this.selectedReportType, primaryDate, {
+      selectedDates: this.selectedReportDates,
+      hasDateRangeFilter: true,
+      type: this.selectedReportType
+    });
+  }
+
+  isValidReportSelection(): boolean {
+    return !!this.selectedReportType && this.selectedReportDates.length > 0;
+  }
+
+  getSelectedDatesText(): string {
+    if (!this.selectedReportDates || this.selectedReportDates.length === 0) {
+      return 'No dates selected';
+    }
+
+    const count = this.selectedReportDates.length;
+    if (count === 1) {
+      return `1 date selected: ${this.selectedReportDates[0].toLocaleDateString()}`;
+    } else {
+      const sortedDates = [...this.selectedReportDates].sort((a, b) => a.getTime() - b.getTime());
+      const fromStr = sortedDates[0].toLocaleDateString();
+      const toStr = sortedDates[sortedDates.length - 1].toLocaleDateString();
+      return `${count} dates selected (${fromStr} to ${toStr})`;
+    }
   }
 
   // TrackBy function for ngFor to improve performance and prevent errors
