@@ -89,7 +89,7 @@ export class HeaderComponent implements OnInit {
       this.profileForm.patchValue({
         USER_NAME: userDetails.USER_NAME ,
         USER_ID: userDetails.USER_ID ,
-        USER_TYPE: userDetails.user_type ,
+        USER_TYPE: this.authService.user_Role ,
         REVENUE_DIVISION: userDetails.REVENUE_DIVISION ,
         EMAIL_ID: userDetails.EMAIL_ID ,
         MOBILE_NUM: userDetails.MOBILE_NUM ,
