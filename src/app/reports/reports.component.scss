@@ -7,13 +7,13 @@
 
 // Global Filter Styles
 .global-filter-container {
-  margin-bottom: 2rem;
+ 
 
   .filter-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    display: flex;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    align-items: end;
+    justify-content: end;
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
@@ -81,7 +81,7 @@
 }
 
 .content-loading {
-  opacity: 0.6;
+  padding-top: 1rem;
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
