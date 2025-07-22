@@ -246,7 +246,7 @@
           <div class="report-dropdown-container">
             <label class="report-label">Select Report Type:</label>
             <p-dropdown
-              [options]="reportOptions"
+              [options]="reportTypes"
               [(ngModel)]="selectedReportType"
               placeholder="Choose a report type"
               optionLabel="label"
@@ -256,11 +256,6 @@
             >
             </p-dropdown>
           </div>
-
-          <div class="report-description" *ngIf="selectedReportDescription">
-            <p class="description-text">{{ selectedReportDescription }}</p>
-          </div>
-        </div>
 
         <!-- Date Range Controls -->
         <div class="unified-date-controls" *ngIf="selectedReportType">

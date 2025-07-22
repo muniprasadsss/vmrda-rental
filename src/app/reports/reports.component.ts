@@ -148,58 +148,18 @@ export class ReportsComponent implements OnInit {
   grievanceChartOptions: Highcharts.Options = {};
 
     // Unified report options for dropdown
-  reportOptions = [
-    {
-      label: "Due by Properties List",
-      value: "due-properties",
-      description: "List of properties with due amounts as on date"
-    },
-    {
-      label: "Due by Tenants List",
-      value: "due-tenants",
-      description: "List of tenants with due amounts as on date"
-    },
-    {
-      label: "History of Users",
-      value: "user-history",
-      description: "User activity history as on date"
-    },
-    {
-      label: "Cancelled Properties Due List",
-      value: "cancelled-properties",
-      description: "List of cancelled properties with due amounts"
-    },
-    {
-      label: "Government Properties Due List",
-      value: "government-properties",
-      description: "List of government properties with due amounts"
-    },
-    {
-      label: "Vacant Properties List",
-      value: "vacant-properties",
-      description: "List of vacant properties as on date"
-    },
-    {
-      label: "Issue Notice Report",
-      value: "issue-notice",
-      description: "Report of issued notices with custom date"
-    },
-    {
-      label: "Rental Collection Report",
-      value: "rental-collection",
-      description: "Rental collection report as on date"
-    },
-    {
-      label: "GST Report",
-      value: "gst-report",
-      description: "GST report as on date"
-    },
-    {
-      label: "TDS Report",
-      value: "tds-report",
-      description: "TDS report as on date"
-    }
-  ];
+reportTypes = [
+  { label: 'Rental Collection', value: 'rental_collection' },
+  { label: 'Due by Tenant', value: 'due_by_tenant' },
+  { label: 'User History', value: 'user_history' },
+  { label: 'Cancelled Due List', value: 'cancelled_property_due' },
+  { label: 'Govt Property Due', value: 'govt_property_due' },
+  { label: 'Vacant Property', value: 'vacant_property' },
+  { label: 'Notice Report', value: 'notice_report' },
+  { label: 'GST Report', value: 'gst_report' },
+  { label: 'TDS Report', value: 'tds_report' },
+];
+
 
   // Unified report selection properties
   selectedReportType: string = '';
@@ -595,70 +555,58 @@ export class ReportsComponent implements OnInit {
     // Use original method for now, later can be updated when backend supports filtering
     this.reportsService.getRIPerformanceData().subscribe({
       next: (data) => {
-        this.riPerformanceChartOptions = {
-          chart: {
-            type: "column",
-          },
-          title: {
-            text: "RI Wise Demand vs Collection Performance",
-          },
-          xAxis: {
-            categories: data.categories || ["RI-1", "RI-2", "RI-3"],
-          },
-          yAxis: {
-            title: {
-              text: "Amount (₹)",
-            },
-          },
-          series: [
-            {
-              type: "column",
-              name: "Demand",
-              data: data.demandData || [2000000, 1800000, 1200000],
-            },
-            {
-              type: "column",
-              name: "Collection",
-              data: data.collectionData || [1500000, 1600000, 1100000],
-            },
-          ],
-        };
+       this.riPerformanceChart(data)
       },
       error: (error) => {
         console.warn(
           "API endpoint not available, using mock data for RI performance",
         );
         // Fallback to realistic mock data
-        this.riPerformanceChartOptions = {
-          chart: {
-            type: "column",
-          },
-          title: {
-            text: "RI Wise Demand vs Collection Performance",
-          },
-          xAxis: {
-            categories: ["RI-1", "RI-2", "RI-3", "RI-4", "RI-5"],
-          },
-          yAxis: {
-            title: {
-              text: "Amount (₹)",
-            },
-          },
-          series: [
-            {
-              type: "column",
-              name: "Demand",
-              data: [2850000, 2200000, 1850000, 1950000, 1450000],
-            },
-            {
-              type: "column",
-              name: "Collection",
-              data: [2400000, 1950000, 1600000, 1750000, 1300000],
-            },
-          ],
-        };
+        this.riPerformanceChart('');
       },
     });
+  }
+
+  riPerformanceChart(data:any): void{
+    // Validate and use API data if available, else use mock data
+    let categories: string[] = ["RI-1", "RI-2", "RI-3", "RI-4", "RI-5"];
+    let demandData: number[] = [2850000, 2200000, 1850000, 1950000, 1450000];
+    let collectionData: number[] = [2400000, 1950000, 1600000, 1750000, 1300000];
+
+    if (data && typeof data === 'object' && Array.isArray(data.categories) && Array.isArray(data.demand) && Array.isArray(data.collection) && data.demand.length && data.collection.length) {
+      categories = data.categories;
+      demandData = data.demand;
+      collectionData = data.collection;
+    }
+
+    this.riPerformanceChartOptions = {
+      chart: {
+        type: "column",
+      },
+      title: {
+        text: "RI Wise Demand vs Collection Performance",
+      },
+      xAxis: {
+        categories: categories,
+      },
+      yAxis: {
+        title: {
+          text: "Amount (₹)",
+        },
+      },
+      series: [
+        {
+          type: "column",
+          name: "Demand",
+          data: demandData,
+        },
+        {
+          type: "column",
+          name: "Collection",
+          data: collectionData,
+        },
+      ],
+    };
   }
 
   updateBillsChart(): void {
@@ -1193,8 +1141,7 @@ export class ReportsComponent implements OnInit {
 
     // New unified report methods
   onReportTypeChange(): void {
-    const selectedOption = this.reportOptions.find(option => option.value === this.selectedReportType);
-    this.selectedReportDescription = selectedOption?.description || '';
+    const selectedOption = this.reportTypes.find(option => option.value === this.selectedReportType);
     // Clear previously selected dates when changing report type
     this.selectedReportDates = [];
   }
